@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "baseUrl": "src",
     "module": "esnext",
     "moduleResolution": "node",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
-    "esModuleInterop": true,
+    "incremental": true,
 
+    "baseUrl": ".",
+
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": false,
 
@@ -17,6 +19,7 @@
     "noImplicitAny": true,
 
     "strict": true,
+    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
 
     "resolveJsonModule": true,
