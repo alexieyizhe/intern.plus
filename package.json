@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "tugboat",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -30,9 +30,11 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
+    "styled-components": "^4.4.0",
     "typescript": "3.6.4"
   },
   "devDependencies": {
+    "@types/styled-components": "^4.1.19",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "eslint-config-prettier": "^6.4.0",
