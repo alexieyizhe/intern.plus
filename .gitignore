@@ -8,7 +8,7 @@
 
 # production
 /build
-/build-lambda
+/build-server
 
 # macOS generated
 .DS_Store

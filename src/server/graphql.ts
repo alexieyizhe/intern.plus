@@ -255,7 +255,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    test: String
+    ping: String
     companies: [Company!]!
     jobs: [Job!]!
     reviews: [Review!]!
@@ -264,7 +264,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    test: () => "Hello, world!",
+    ping: () => "Hello, world!",
 
     companies: () => testCompanies,
     jobs: () => testJobs,

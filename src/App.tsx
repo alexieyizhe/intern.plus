@@ -1,13 +1,13 @@
 import React from "react";
 import { ApolloProvider } from "@apollo/react-hooks";
 
-import client from "src/graphql/client";
-import Test from "src/components/Test";
+import apolloClient from "src/graphql/client";
+import Ping from "src/components/Ping";
 
 const App: React.FC = () => (
-  <ApolloProvider client={client}>
+  <ApolloProvider client={apolloClient}>
     <div className="App">
-      <Test />
+      <Ping />
     </div>
   </ApolloProvider>
 );
