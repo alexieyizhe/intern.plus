@@ -1,12 +1,13 @@
 import React from "react";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 import client from "src/graphql/client";
+import Test from "src/components/Test";
 
 const App: React.FC = () => (
   <ApolloProvider client={client}>
     <div className="App">
-      <header className="App-header">heya</header>
+      <Test />
     </div>
   </ApolloProvider>
 );

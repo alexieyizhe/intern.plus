@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start:lambda": "netlify-lambda serve src/lambda",
+    "build": "run-p build:**",
+    "build:client": "react-scripts build",
+    "build:lambda": "netlify-lambda build src/lambda",
     "test": "react-scripts test",
     "lint": "eslint --fix src --ext ts,tsx",
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:9000",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -23,14 +27,15 @@
     ]
   },
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.2",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.12",
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "apollo-boost": "^0.4.4",
+    "apollo-server-lambda": "^2.9.6",
     "graphql": "^14.5.8",
     "react": "^16.10.2",
-    "react-apollo": "^3.1.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
     "styled-components": "^4.4.0",
@@ -38,11 +43,14 @@
   },
   "devDependencies": {
     "@types/styled-components": "^4.1.19",
+    "@babel/preset-typescript": "^7.6.0",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
+    "netlify-lambda": "^1.6.3",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2"
   }
 }
