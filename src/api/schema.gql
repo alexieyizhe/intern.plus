@@ -1,3 +1,7 @@
+# NOTE: THIS SCHEMA IS NOT ALWAYS CORRECT.
+#       It is placed here mainly as a quick reference. It may be out of date and should not be used as a source of truth.
+#       The correct source of truth is the GraphQL schema on the server. It can be fetched and converted into types by running `npm run api:generate-types`.
+
 enum PayPeriod {
   HOURLY
   MONTHLY
