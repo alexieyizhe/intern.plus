@@ -1,0 +1,47 @@
+enum PayPeriod {
+  HOURLY
+  MONTHLY
+}
+
+enum Currency {
+  USD
+  CAD
+  EUR
+  OTHER
+}
+
+type Company {
+  name: String!
+  desc: String
+  slug: String!
+  reviews: [Review!]!
+  numReviews: Int!
+  totalReviewScore: Int!
+  avgReviewScore: Float!
+}
+
+type Job {
+  title: String!
+  company: Company!
+  minSalary: Int!
+  maxSalary: Int!
+  avgSalary: Int!
+  reviews: [Review!]!
+  numReviews: Int!
+  totalReviewScore: Int!
+  avgReviewScore: Float!
+}
+
+type Review {
+  company: Company!
+  job: Job!
+  location: String
+  body: String!
+  salary: Int!
+  salaryPeriod: PayPeriod!
+  salaryCurrency: Currency!
+  overallScore: Int!
+  learningMentorshipScore: Int
+  workLifeBalanceScore: Int
+  meaningfulWorkScore: Int
+}
