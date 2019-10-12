@@ -8,14 +8,18 @@
 
 # production
 /build
+/build-server
 
 # macOS generated
 .DS_Store
 
 # misc
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
 npm-debug.log*
+# Local Netlify folder
+.netlify

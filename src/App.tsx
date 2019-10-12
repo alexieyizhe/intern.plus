@@ -1,9 +1,15 @@
 import React from "react";
+import { ApolloProvider } from "@apollo/react-hooks";
+
+import apolloClient from "src/api/client";
+import Ping from "src/components/Ping";
 
 const App: React.FC = () => (
-  <div className="App">
-    <header className="App-header">sup's'</header>
-  </div>
+  <ApolloProvider client={apolloClient}>
+    <div className="App">
+      <Ping />
+    </div>
+  </ApolloProvider>
 );
 
 export default App;

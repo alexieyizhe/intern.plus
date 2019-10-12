@@ -1,14 +1,14 @@
 {
   "name": "tugboat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "api:generate-types": "apollo codegen:generate --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --outputFlat src/types/generated --passthroughCustomScalars --customScalarsPrefix Tugboat && echo 'export default 0;' >> src/types/generated/globalTypes.ts",
     "lint": "eslint --fix src --ext ts,tsx",
-    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
-    "eject": "react-scripts eject"
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
   },
   "browserslist": {
     "production": [
@@ -23,10 +23,13 @@
     ]
   },
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.2",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.12",
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
+    "apollo-boost": "^0.4.4",
+    "graphql": "^14.5.8",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
@@ -35,6 +38,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^4.1.19",
+    "@babel/preset-typescript": "^7.6.0",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "eslint-config-prettier": "^6.4.0",
