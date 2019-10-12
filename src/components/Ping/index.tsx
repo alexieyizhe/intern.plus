@@ -2,11 +2,11 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 
 import { GET_COMPANIES_TEST } from "src/api/queries";
+import { GetCompanies } from "src/types/generated/GetCompanies";
 
 const Ping = () => {
-  const { loading, error, data } = useQuery(GET_COMPANIES_TEST);
+  const { loading, error, data } = useQuery<GetCompanies>(GET_COMPANIES_TEST);
 
-  console.log(data);
   return (
     <>
       <header className="App-header">heya</header>

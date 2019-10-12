@@ -1,6 +1,6 @@
 import ApolloClient from "apollo-boost";
 
-const apiURL = "https://api.8base.com/ck1n1dpxe000201l61fgy5mq8";
+const apiURL = process.env.REACT_APP_DB_GRAPHQL_API_URL;
 
 const apolloClient = new ApolloClient({
   uri: apiURL,
