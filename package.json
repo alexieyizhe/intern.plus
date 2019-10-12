@@ -6,7 +6,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "api:generate-types": "apollo codegen:generate --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --outputFlat src/types/generated --passthroughCustomScalars --customScalarsPrefix Tugboat",
+    "api:generate-types": "apollo codegen:generate --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --outputFlat src/types/generated --passthroughCustomScalars --customScalarsPrefix Tugboat && echo 'export default 0;' >> src/types/generated/globalTypes.ts",
     "lint": "eslint --fix src --ext ts,tsx",
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
   },
