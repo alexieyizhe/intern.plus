@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Text } from "src/components";
+import { Button, Text } from "src/components";
 
 const LandingPage = () => {
   return (
@@ -27,6 +27,22 @@ const LandingPage = () => {
       <Text variant="body" italic as="div">
         Italicized body text
       </Text>
+
+      <div>BUTTON</div>
+      <Button>
+        <Text variant="body">Regular</Text>
+      </Button>
+
+      <Button color="#f8f8f8">
+        <Text variant="body">Colored</Text>
+      </Button>
+
+      <Button disabled>
+        <Text variant="body">Disabled</Text>
+      </Button>
+      <div>LINK</div>
+
+      <div>TEXTINPUT</div>
     </div>
   );
 };

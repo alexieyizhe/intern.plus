@@ -71,10 +71,10 @@ const TEXT_VARIANTS: VariantList = {
  * Base styled component that applies appropriate styles.
  */
 const BaseText = styled.span<ITextProps>`
-  color: ${({ theme, color = "" }) => theme.color[color] || color || "inherit"};
-  font-family: ${({ theme, heading }) =>
+  color: ${({ color = "", theme }) => theme.color[color] || color || "inherit"};
+  font-family: ${({ heading, theme }) =>
     theme.fontFamily[heading ? "heading" : "body"]};
-  font-size: ${({ theme, size = Size.MEDIUM }) =>
+  font-size: ${({ size = Size.MEDIUM, theme }) =>
     theme.fontSize[size] || size}px;
 
   margin: 0;

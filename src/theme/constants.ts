@@ -24,6 +24,12 @@ const constants = {
     heading: "serif",
     body: "sans-serif",
   },
+  boxShadow: {
+    hover: "0px 2px 4px rgba(150, 150, 150, 0.1)",
+  },
+  borderRadius: {
+    button: 10,
+  },
 };
 
 export default constants;
