@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, Button, Link, Text, TextInput } from "src/components";
+import { Card, Button, Link, Search, Text, TextInput } from "src/components";
 
 const LandingPage = () => (
   <div>
@@ -63,6 +63,9 @@ const LandingPage = () => (
     <Card color="greyLight" onClick={() => console.log("clicked card")}>
       sup
     </Card>
+
+    <div>SEARCH</div>
+    <Search onSearchStart={(v: string) => console.log("searching with", v)} />
   </div>
 );
 
