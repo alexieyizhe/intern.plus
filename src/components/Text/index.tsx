@@ -2,9 +2,8 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 
 import { Size } from "src/theme/constants";
-import { IBaseElementProps } from "src/types/BaseElementProps";
 
-export interface ITextProps extends IBaseElementProps {
+export interface ITextProps extends React.ComponentPropsWithoutRef<"span"> {
   /**
    * Props that affect/augment styling of the Text component.
    */

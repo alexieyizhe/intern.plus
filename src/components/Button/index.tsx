@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import { IBaseElementProps } from "src/types/BaseElementProps";
-
-export interface IButtonProps extends IBaseElementProps {
+export interface IButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   color?: string;
-  disabled?: boolean;
 }
 
 export const UnstyledButton = styled.button`

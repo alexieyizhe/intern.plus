@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, Text } from "src/components";
+import { Card, Button, Link, Text } from "src/components";
 
 const LandingPage = () => {
   return (
@@ -40,9 +40,20 @@ const LandingPage = () => {
       <Button disabled>
         <Text variant="body">Disabled</Text>
       </Button>
+
       <div>LINK</div>
+      <Link to="">
+        <Text variant="body" color="burlywood">
+          Here's a link
+        </Text>
+      </Link>
 
       <div>TEXTINPUT</div>
+
+      <div>CARD</div>
+      <Card color="greyLight" onClick={() => console.log("clicked card")}>
+        sup
+      </Card>
     </div>
   );
 };
