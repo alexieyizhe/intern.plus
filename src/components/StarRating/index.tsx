@@ -21,15 +21,25 @@ export interface IStarRatingProps
   readOnly?: boolean;
 }
 
-const Container = styled.div``;
+const Container = styled.span`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Star = styled.span`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
   &:not(.readOnly) {
     cursor: pointer;
   }
 
   & > div {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     pointer-events: none;
   }
 `;

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 
 import {
   Card,
+  CompanyCard,
   Button,
   Link,
   Search,
@@ -9,6 +11,16 @@ import {
   Text,
   TextInput,
 } from "src/components";
+
+const LandingCompanyCard = styled(CompanyCard)`
+  width: 350px;
+  height: 180px;
+`;
+
+const ResultsCompanyCard = styled(CompanyCard)`
+  width: 650px;
+  height: 180px;
+`;
 
 const LandingPage = () => {
   const [numFilledStars, setNumFilledStars] = useState(3);
@@ -89,6 +101,21 @@ const LandingPage = () => {
         maxStars={5}
         filledStars={numFilledStars}
         onClickStar={(i: number) => setNumFilledStars(i + 1)}
+      />
+
+      <div>COMPANYCARD</div>
+      <LandingCompanyCard
+        name="Google"
+        logoSrc="w"
+        avgRating={4.2}
+        numRatings={130}
+      />
+      <ResultsCompanyCard
+        name="Google"
+        logoSrc="w"
+        desc="Google is a multinational corporation that is specialized in internet-related services and products."
+        avgRating={4.2}
+        numRatings={130}
       />
     </div>
   );
