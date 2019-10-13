@@ -1,6 +1,6 @@
 export interface IAction {
   type: ActionType;
-  data: any;
+  data: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export enum ActionType {

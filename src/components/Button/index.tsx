@@ -11,7 +11,7 @@ export const UnstyledButton = styled.button`
 `;
 
 const BaseButton = styled(UnstyledButton)<IButtonProps>`
-  padding: 15px 20px;
+  padding: 10px 15px;
   border-radius: ${({ theme }) => theme.borderRadius.button}px;
 
   background-color: ${({ color = "", theme }) =>

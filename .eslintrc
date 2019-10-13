@@ -23,7 +23,7 @@
     "prettier/prettier": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/interface-name-prefix": { "prefixWithI": "always" },
+    "@typescript-eslint/interface-name-prefix": 0,
     "arrow-body-style": ["error", "as-needed"],
     "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
     "react-hooks/rules-of-hooks": "error",

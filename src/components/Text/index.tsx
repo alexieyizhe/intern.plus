@@ -70,14 +70,15 @@ const TEXT_VARIANTS: VariantList = {
  * Base styled component that applies appropriate styles.
  */
 const BaseText = styled.span<ITextProps>`
+  margin: 0;
+  padding: 0;
+
   color: ${({ color = "", theme }) => theme.color[color] || color || "inherit"};
   font-family: ${({ heading, theme }) =>
     theme.fontFamily[heading ? "heading" : "body"]};
   font-size: ${({ size = Size.MEDIUM, theme }) =>
     theme.fontSize[size] || size}px;
 
-  margin: 0;
-  padding: 0;
 
   ${({ underline }) => underline && `text-decoration: underline;`}
   ${({ bold }) => bold && `font-weight: bold;`}
@@ -95,7 +96,7 @@ const Text: React.FC<ITextProps> = ({
   ...rest
 }) => {
   /**
-   * Calculate the styles that will be applied to the Text component from the providede props.
+   * Calculate the styles that will be applied to the Text component from the provided props.
    * If a variant is supplied, use those styles, and override with other props.
    * Otherwise, only apply styles specified in props.
    * Defaults are specified in `BaseText`.
