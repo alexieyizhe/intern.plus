@@ -6,12 +6,13 @@ import { IBaseElementProps } from "src/types/BaseElementProps";
 
 export interface ITextProps extends IBaseElementProps {
   /**
-   * **Props that affect/augment styling of the Text component.**
+   * Props that affect/augment styling of the Text component.
    */
   color?: string;
-  size?: Size | number;
-  align?: "left" | "right" | "center" | "justify";
   heading?: boolean; // affects font family
+  size?: Size | number;
+
+  align?: "left" | "right" | "center" | "justify";
   underline?: boolean;
   bold?: boolean;
   italic?: boolean;
@@ -37,13 +38,38 @@ interface VariantList {
   [variant: string]: Partial<ITextProps>;
 }
 
-// TODO: define these after mocks are finalized
 const TEXT_VARIANTS: VariantList = {
-  heading: {},
-  subheading: {},
-  body: {},
+  heading1: {
+    heading: true,
+    bold: true,
+    size: Size.XLARGE,
+  },
+  heading2: {
+    heading: true,
+    bold: true,
+    size: Size.LARGE,
+  },
+  heading3: {
+    heading: true,
+    bold: true,
+    size: Size.MEDIUM,
+  },
+  heading4: {
+    heading: true,
+    bold: true,
+    size: Size.SMALL,
+  },
+  subheading: {
+    size: Size.SMALL,
+  },
+  body: {
+    size: Size.SMALL,
+  },
 };
 
+/**
+ * Base styled component that applies appropriate styles.
+ */
 const BaseText = styled.span<ITextProps>`
   color: ${({ theme, color = "" }) => theme.color[color] || color || "inherit"};
   font-family: ${({ theme, heading }) =>
@@ -60,6 +86,9 @@ const BaseText = styled.span<ITextProps>`
   ${({ align }) => align && `text-align: ${align}`};
 `;
 
+/**
+ * **COMPONENT**
+ */
 const Text: React.FC<ITextProps> = ({
   as = "span",
   variant = "",
@@ -78,7 +107,7 @@ const Text: React.FC<ITextProps> = ({
 
     return {
       ...stylesFromVariant,
-      ...rest,
+      ...rest, // override variant if needed
     };
   }, [rest, variant]);
 

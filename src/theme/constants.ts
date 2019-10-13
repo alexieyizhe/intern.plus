@@ -9,18 +9,20 @@ export enum Size {
 const constants = {
   color: {
     black: "#000000",
+    greyDark: "#787878",
+    greyMedium: "#C6C6C6",
+    greyLight: "#F4F4F4",
     white: "#ffffff",
   },
   fontSize: {
-    [Size.XSMALL]: 0,
-    [Size.SMALL]: 0,
-    [Size.MEDIUM]: 0,
-    [Size.LARGE]: 0,
-    [Size.XLARGE]: 0,
+    [Size.SMALL]: 14,
+    [Size.MEDIUM]: 18,
+    [Size.LARGE]: 28,
+    [Size.XLARGE]: 34,
   },
   fontFamily: {
-    heading: "",
-    body: "",
+    heading: "serif",
+    body: "sans-serif",
   },
 };
 

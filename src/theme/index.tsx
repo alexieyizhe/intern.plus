@@ -2,7 +2,7 @@ import mediaQueries from "./mediaQueries";
 import constants from "./constants";
 
 const siteTheme = {
-  constants,
+  ...constants,
   mediaQueries,
 };
 
