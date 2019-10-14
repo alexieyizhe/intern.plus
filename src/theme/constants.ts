@@ -13,6 +13,10 @@ const constants = {
     greyMedium: "#C6C6C6",
     greyLight: "#F4F4F4",
     white: "#ffffff",
+
+    greenDark: "#507561",
+
+    error: "#DD4040",
   },
   fontSize: {
     [Size.SMALL]: 14,
@@ -25,7 +29,7 @@ const constants = {
     body: "sans-serif",
   },
   boxShadow: {
-    hover: "0px 2px 4px rgba(150, 150, 150, 0.1)",
+    hover: "0px 10px 25px rgba(50, 50, 50, 0.1)",
   },
   borderRadius: {
     button: 10,

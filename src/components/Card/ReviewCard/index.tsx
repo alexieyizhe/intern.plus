@@ -6,9 +6,10 @@ import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 
 export interface IReviewCardProps extends ICardProps {
-  title: string;
-  subtitle: string;
-  rating: number;
+  heading: string | null;
+  subheading: string | null;
+  rating: number | null;
+  linkTo: string;
 }
 
 const Container = styled(Card)`
@@ -16,12 +17,19 @@ const Container = styled(Card)`
   grid-template-rows: auto auto 1fr;
   grid-template-columns: 1fr auto;
   grid-template-areas:
-    "title    rating"
-    "subtitle subtitle"
-    "contents contents";
+    "heading    rating"
+    "subheading subheading"
+    "contents   contents";
 
-  & > .title {
-    grid-area: title;
+  cursor: pointer;
+  transition: box-shadow 150ms ease-in;
+  &:hover,
+  &:focus {
+    box-shadow: ${({ theme }) => theme.boxShadow.hover};
+  }
+
+  & > .heading {
+    grid-area: heading;
 
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -32,8 +40,8 @@ const Container = styled(Card)`
     grid-area: rating;
   }
 
-  & > .subtitle {
-    grid-area: subtitle;
+  & > .subheading {
+    grid-area: subheading;
 
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -55,20 +63,28 @@ const Container = styled(Card)`
 `;
 
 const ReviewCard: React.FC<IReviewCardProps> = ({
-  title,
-  subtitle,
+  heading,
+  subheading,
   rating,
+  color,
+  linkTo,
   children,
   ...rest
 }) => (
-  <Container {...rest}>
-    <Text className="title" variant="heading3">
-      {title}
+  <Container
+    color="greyLight"
+    role={"link"}
+    onClick={() => window.open(linkTo, "_self")}
+    tabIndex={0}
+    {...rest}
+  >
+    <Text className="heading" variant="heading3" color={color}>
+      {heading}
     </Text>
-    <Text className="subtitle" variant="heading4">
-      {subtitle}
+    <Text className="subheading" variant="heading4">
+      {subheading}
     </Text>
-    <StarRating maxStars={5} filledStars={rating} readOnly />
+    <StarRating maxStars={5} filledStars={rating || 0} readOnly />
     <div className="contents">{children}</div>
   </Container>
 );

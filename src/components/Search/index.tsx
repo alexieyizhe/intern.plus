@@ -52,9 +52,9 @@ const Search: React.FC<ISearchProps> = ({ onSearchStart, ...rest }) => {
         color="greyLight"
         onChange={inputOnChange}
         onKeyDown={internalOnKeyDown}
-        placeholder="enter"
+        placeholder="Find something"
       />
-      <Button color="#507561" onClick={internalOnSearchStart}>
+      <Button color="greenDark" onClick={internalOnSearchStart}>
         <Text variant="body" color="white">
           Search
         </Text>

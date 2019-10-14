@@ -180,6 +180,7 @@ const LandingPage = () => {
       <LandingCompanyCard
         name="Google"
         logoSrc="w"
+        linkTo=""
         avgRating={4.2}
         numRatings={130}
         color="#FFF3E0"
@@ -190,6 +191,7 @@ const LandingPage = () => {
       <ResultsCompanyCard
         name="Google"
         logoSrc="w"
+        linkTo=""
         desc="Google is a multinational corporation that is specialized in internet-related services and products."
         avgRating={4.2}
         numRatings={130}
@@ -228,9 +230,10 @@ const LandingPage = () => {
       <div>REVIEWCARD</div>
 
       <LandingReviewCard
-        title="Anonymous"
-        subtitle="Feb 29, 2019"
+        heading="Anonymous"
+        subheading="Feb 29, 2019"
         rating={4}
+        linkTo=""
         color="#FFE0FC"
       >
         <Text variant="body">
@@ -247,9 +250,10 @@ const LandingPage = () => {
       <br />
 
       <ResultsReviewCard
-        title="Shopify"
-        subtitle="Software Engineer Intern"
+        heading="Shopify"
+        subheading="Software Engineer Intern"
         rating={4}
+        linkTo=""
         color="#FFE0FC"
       >
         <Text variant="body">

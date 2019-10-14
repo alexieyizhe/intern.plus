@@ -64,6 +64,9 @@ const TEXT_INPUT_VARIANTS: VariantList = {
 };
 
 const BaseTextInput = styled.input<ITextInputProps>`
+  width: 100%;
+  padding: 10px 15px;
+
   color: ${({ textColor = "", theme }) =>
     theme.color[textColor] || textColor || "inherit"};
   font-family: ${({ heading, theme }) =>
@@ -75,7 +78,6 @@ const BaseTextInput = styled.input<ITextInputProps>`
   ${({ bold }) => bold && `font-weight: bold;`}
   ${({ italic }) => italic && `font-style: italic;`}
 
-  padding: 10px 15px;
   border-radius: ${({ theme }) => theme.borderRadius.button}px;
   border: none;
 

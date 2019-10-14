@@ -2,23 +2,35 @@ import React from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
+import { Size } from "src/theme/constants";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
+export const HEADER_HEIGHT = 80;
+
 const Container = styled.header`
-  position: relative;
+  position: fixed;
+  top: 0;
   width: 100%;
-  padding: 0 40px;
+  height: ${HEADER_HEIGHT}px;
+  padding: 0 60px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  z-index: 100;
+  background-color: white;
 
   & > * {
     flex: 1;
     display: flex;
     align-items: center;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    padding: 0 30px;
+  `}
 `;
 
 const Logo = styled.div`
@@ -27,6 +39,19 @@ const Logo = styled.div`
   & > img {
     max-width: 50px;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    justify-content: center;
+    order: 2;
+
+    & > img {
+      max-width: 35px;
+    }
+    
+    & > h2 {
+      font-size: ${theme.fontSize[Size.MEDIUM]}px;
+    }
+  `}
 `;
 
 const NavLinks = styled.nav`
@@ -35,10 +60,35 @@ const NavLinks = styled.nav`
   & > * {
     margin: auto 10px;
   }
+
+  & > .mobileMenu {
+    display: none;
+  }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    order: 3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    & > * {
+      display: none;    
+    }
+
+    & > .mobileMenu {
+      display: inherit;
+    }
+  `}
 `;
 
 const ProfileAvatar = styled.div`
   justify-content: flex-end;
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    justify-content: flex-start;
+    order: 1;
+  `}
 `;
 
 const Footer = () => (
@@ -48,10 +98,14 @@ const Footer = () => (
         src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
         alt="An icon depicting a tugboat"
       />
-      <Text variant="heading2">Tugboat</Text>
+      <Text variant="heading2" as="h2">
+        Tugboat
+      </Text>
     </Logo>
 
     <NavLinks>
+      <AnimatedIcon className="mobileMenu" animationKey="menu" />
+
       <Link to="/">
         <Text variant="subheading">Positions</Text>
       </Link>
@@ -64,7 +118,7 @@ const Footer = () => (
     </NavLinks>
 
     <ProfileAvatar>
-      <AnimatedIcon animationKey="settings" />
+      <AnimatedIcon animationKey="radioButton" />
     </ProfileAvatar>
   </Container>
 );
