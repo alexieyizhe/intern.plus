@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import {
   Card,
   CompanyCard,
+  JobCard,
+  ReviewCard,
   Button,
   Link,
   Search,
@@ -12,14 +14,38 @@ import {
   TextInput,
 } from "src/components";
 
-const LandingCompanyCard = styled(CompanyCard)`
+const landingCardStyles = css`
   width: 350px;
   height: 180px;
 `;
 
-const ResultsCompanyCard = styled(CompanyCard)`
+const resultsCardstyles = css`
   width: 650px;
   height: 180px;
+`;
+
+const LandingCompanyCard = styled(CompanyCard)`
+  ${landingCardStyles}
+`;
+
+const ResultsCompanyCard = styled(CompanyCard)`
+  ${resultsCardstyles}
+`;
+
+const LandingJobCard = styled(JobCard)`
+  ${landingCardStyles}
+`;
+
+const ResultsJobCard = styled(JobCard)`
+  ${resultsCardstyles}
+`;
+
+const LandingReviewCard = styled(ReviewCard)`
+  ${landingCardStyles}
+`;
+
+const ResultsReviewCard = styled(ReviewCard)`
+  ${resultsCardstyles}
 `;
 
 const LandingPage = () => {
@@ -109,14 +135,77 @@ const LandingPage = () => {
         logoSrc="w"
         avgRating={4.2}
         numRatings={130}
+        color="#FFF3E0"
       />
+      <br />
+      <br />
+
       <ResultsCompanyCard
         name="Google"
         logoSrc="w"
         desc="Google is a multinational corporation that is specialized in internet-related services and products."
         avgRating={4.2}
         numRatings={130}
+        color="#FFF3E0"
       />
+
+      <div>JOBCARD</div>
+      <LandingJobCard
+        title="Technical Program Manager Intern - Storefronts Team"
+        subtitle="Seattle, Washington"
+        avgRating={4.2}
+        numRatings={22}
+        minHourlySalary={32}
+        maxHourlySalary={48}
+        salaryCurrency="USD"
+        color="#CAE9ED"
+      />
+      <br />
+      <br />
+      <ResultsJobCard
+        title="Web Developer"
+        subtitle="Waterloo, Ontario"
+        avgRating={4.2}
+        numRatings={1}
+        minHourlySalary={21}
+        maxHourlySalary={21}
+        salaryCurrency="CAD"
+        color="#CAE9ED"
+      />
+
+      <div>REVIEWCARD</div>
+
+      <LandingReviewCard
+        title="Anonymous"
+        subtitle="Feb 29, 2019"
+        rating={4}
+        color="#FFE0FC"
+      >
+        <Text variant="body">
+          A quickly changing company going through a lot of growth. When I was
+          interning, teams were still being figured out, but working at such a
+          company will provide a neat learning experience. A quickly changing
+          company going through a lot of growth. When I was interning, teams
+          were still being figured out, but working at such a company will
+          provide a neat learning experience.
+        </Text>
+      </LandingReviewCard>
+
+      <br />
+      <br />
+
+      <ResultsReviewCard
+        title="Shopify"
+        subtitle="Software Engineer Intern"
+        rating={4}
+        color="#FFE0FC"
+      >
+        <Text variant="body">
+          A quickly changing company going through a lot of growth. When I was
+          interning, teams were still being figured out, but working at such a
+          company will provide a neat learning experience.
+        </Text>
+      </ResultsReviewCard>
     </div>
   );
 };

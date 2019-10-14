@@ -5,7 +5,7 @@ import Card, { ICardProps } from "../RawCard";
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 
-interface ICompanyCardProps extends ICardProps {
+export interface ICompanyCardProps extends ICardProps {
   name: string;
   logoSrc: string;
   desc?: string;
@@ -38,7 +38,7 @@ const Container = styled(Card)`
   & > .ratings {
     grid-area: ratings;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
   }
 `;
 
@@ -48,8 +48,9 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   desc,
   numRatings,
   avgRating,
+  ...rest
 }) => (
-  <Container color="#FFF3E0">
+  <Container {...rest}>
     <Text className="name" variant="heading2">
       {name}
     </Text>
@@ -63,12 +64,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
     )}
 
     <div className="ratings">
-      <StarRating
-        size={16}
-        maxStars={5}
-        filledStars={Math.round(avgRating)}
-        readOnly
-      />
+      <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly />
       <Text variant="body" color="black">
         {avgRating}
       </Text>

@@ -45,7 +45,7 @@ const Star = styled.span`
 `;
 
 const StarRating: React.FC<IStarRatingProps> = ({
-  size,
+  size = 16,
   maxStars,
   filledStars,
   onClickStar,
