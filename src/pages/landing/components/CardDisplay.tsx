@@ -39,6 +39,7 @@ const Display = styled.div`
   align-items: center;
   overflow: scroll;
 
+  position: relative;
   padding: 25px 0;
 `;
 
@@ -51,6 +52,10 @@ const landingCardStyles = css`
   &:first-child {
     margin-left: 0;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    width: 100%;
+  `}
 `;
 
 const DisplayContent = styled.span`
