@@ -1,14 +1,21 @@
 {
   "name": "tugboat",
-  "version": "0.1.1",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:nowatch": "CI=true react-scripts test",
+    "lint": "eslint src --ext ts,tsx",
+    "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
     "api:generate-types": "apollo codegen:generate --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --outputFlat src/types/generated --passthroughCustomScalars --customScalarsPrefix Tugboat && echo 'export default 0;' >> src/types/generated/globalTypes.ts",
-    "lint": "eslint --fix src --ext ts,tsx",
-    "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
+    "version:major": "npm version major --force -m \"Version %s\"",
+    "version:minor": "npm version minor --force -m \"Version %s\"",
+    "version:patch": "npm version patch --force -m \"Version %s\"",
+    "preversion": "npm run test:nowatch && npm run lint",
+    "version": "",
+    "postversion": "git push && git push --tags"
   },
   "browserslist": {
     "production": [
@@ -33,6 +40,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
+    "react-useanimations": "^1.2.10",
     "styled-components": "^4.4.0",
     "typescript": "3.6.4"
   },
