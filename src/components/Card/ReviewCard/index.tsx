@@ -9,6 +9,7 @@ export interface IReviewCardProps extends ICardProps {
   heading: string | null;
   subheading: string | null;
   rating: number | null;
+  linkTo: string;
 }
 
 const Container = styled(Card)`
@@ -19,6 +20,13 @@ const Container = styled(Card)`
     "heading    rating"
     "subheading subheading"
     "contents   contents";
+
+  cursor: pointer;
+  transition: box-shadow 150ms ease-in;
+  &:hover,
+  &:focus {
+    box-shadow: ${({ theme }) => theme.boxShadow.hover};
+  }
 
   & > .heading {
     grid-area: heading;
@@ -58,11 +66,18 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
   heading,
   subheading,
   rating,
-  children,
   color,
+  linkTo,
+  children,
   ...rest
 }) => (
-  <Container {...rest} color="greyLight">
+  <Container
+    color="greyLight"
+    role={"link"}
+    onClick={() => window.open(linkTo, "_self")}
+    tabIndex={0}
+    {...rest}
+  >
     <Text className="heading" variant="heading3" color={color}>
       {heading}
     </Text>

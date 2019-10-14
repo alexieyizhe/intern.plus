@@ -29,7 +29,7 @@ const constants = {
     body: "sans-serif",
   },
   boxShadow: {
-    hover: "0px 2px 4px rgba(150, 150, 150, 0.1)",
+    hover: "0px 10px 25px rgba(50, 50, 50, 0.1)",
   },
   borderRadius: {
     button: 10,

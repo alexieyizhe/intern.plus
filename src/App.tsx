@@ -21,7 +21,7 @@ const App: React.FC = () => (
 
           <PageHeader />
           <Switch>
-            <Route path={RouteName.LANDING}>
+            <Route exact path={RouteName.LANDING}>
               <LandingPage />
             </Route>
             <Route path={RouteName.FIND}>
@@ -29,7 +29,7 @@ const App: React.FC = () => (
             </Route>
 
             {/* TODO: remove this */}
-            <Route path={"/playground"}>
+            <Route exact path={"/playground"}>
               <PlaygroundPage />
             </Route>
           </Switch>

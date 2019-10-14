@@ -24,6 +24,7 @@ export interface GetReviews_sTAGINGReviewsList_items_job {
 
 export interface GetReviews_sTAGINGReviewsList_items {
   __typename: "STAGINGReview";
+  id: string | null;
   company: GetReviews_sTAGINGReviewsList_items_company | null;
   job: GetReviews_sTAGINGReviewsList_items_job | null;
   /**

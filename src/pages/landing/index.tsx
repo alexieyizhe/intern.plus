@@ -25,6 +25,7 @@ const Container = styled.div`
   width: 100%;
 
   margin: auto;
+  margin-top: ${HEADER_HEIGHT}px;
   padding: 10px 100px;
 
   ${({ theme }) => theme.mediaQueries.tablet`

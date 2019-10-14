@@ -20,6 +20,7 @@ export const GET_REVIEWS_LANDING = gql`
   query GetReviews {
     sTAGINGReviewsList(first: 5) {
       items {
+        id
         company {
           name
         }

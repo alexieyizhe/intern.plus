@@ -12,6 +12,7 @@ import {
 import { GetCompanies_sTAGINGCompaniesList_items } from "src/types/generated/GetCompanies";
 import { GetReviews_sTAGINGReviewsList_items } from "src/types/generated/GetReviews";
 import pageCopy from "../copy";
+import { RouteName } from "src/utils/routes";
 
 export interface ICardDisplayProps
   extends React.ComponentPropsWithoutRef<"div"> {
@@ -96,6 +97,7 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
           cardInfo.__typename === "STAGINGCompany" ? (
             <CompanyCard
               name={cardInfo.name}
+              linkTo={`${RouteName.COMPANIES}/${cardInfo.slug}`}
               numRatings={cardInfo.reviews && cardInfo.reviews.count}
               avgRating={cardInfo.avgReviewScore}
               color="#C0DBC0"
@@ -104,6 +106,7 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
             <ReviewCard
               heading={cardInfo.company && cardInfo.company.name}
               subheading={cardInfo.job && cardInfo.job.title}
+              linkTo={`${RouteName.REVIEWS}/${cardInfo.id}`}
               rating={cardInfo.overallScore}
               color="#5E8E3E"
             >

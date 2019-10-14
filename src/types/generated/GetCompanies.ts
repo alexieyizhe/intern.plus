@@ -25,6 +25,10 @@ export interface GetCompanies_sTAGINGCompaniesList_items {
    */
   desc: string | null;
   /**
+   * Unique slug for a company.
+   */
+  slug: string | null;
+  /**
    * Reviews for a company.
    */
   reviews: GetCompanies_sTAGINGCompaniesList_items_reviews | null;

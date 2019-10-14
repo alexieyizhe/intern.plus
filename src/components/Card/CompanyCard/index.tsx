@@ -11,6 +11,7 @@ export interface ICompanyCardProps extends ICardProps {
   desc?: string | null;
   numRatings: number | null;
   avgRating: number | null;
+  linkTo: string;
 }
 
 const Container = styled(Card)`
@@ -22,6 +23,13 @@ const Container = styled(Card)`
     "name    logo"
     "desc    logo"
     "ratings logo";
+
+  cursor: pointer;
+  transition: box-shadow 150ms ease-in;
+  &:hover,
+  &:focus {
+    box-shadow: ${({ theme }) => theme.boxShadow.hover};
+  }
 
   & > .name {
     grid-area: name;
@@ -48,9 +56,15 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   desc,
   numRatings,
   avgRating,
+  linkTo,
   ...rest
 }) => (
-  <Container {...rest}>
+  <Container
+    role={"link"}
+    onClick={() => window.open(linkTo, "_self")}
+    tabIndex={0}
+    {...rest}
+  >
     <Text className="name" variant="heading2">
       {name}
     </Text>
