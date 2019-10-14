@@ -54,6 +54,7 @@ const landingCardStyles = css`
 
 const DisplayContent = styled.span`
   margin: 50px auto;
+  text-align: center;
 `;
 
 const CompanyCard = styled(BaseCompanyCard)`

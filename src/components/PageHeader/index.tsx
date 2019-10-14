@@ -6,10 +6,11 @@ import { Size } from "src/theme/constants";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
-export const HEADER_HEIGHT = 100;
+export const HEADER_HEIGHT = 80;
 
 const Container = styled.header`
-  position: relative;
+  position: fixed;
+  top: 0;
   width: 100%;
   height: ${HEADER_HEIGHT}px;
   padding: 0 60px;
@@ -17,6 +18,9 @@ const Container = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  z-index: 100;
+  background-color: white;
 
   & > * {
     flex: 1;
@@ -37,6 +41,9 @@ const Logo = styled.div`
   }
 
   ${({ theme }) => theme.mediaQueries.largeMobile`
+    justify-content: center;
+    order: 2;
+
     & > img {
       max-width: 35px;
     }
@@ -54,13 +61,34 @@ const NavLinks = styled.nav`
     margin: auto 10px;
   }
 
-  ${({ theme }) => theme.mediaQueries.xlMobile`
+  & > .mobileMenu {
     display: none;
+  }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    order: 3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    & > * {
+      display: none;    
+    }
+
+    & > .mobileMenu {
+      display: inherit;
+    }
   `}
 `;
 
 const ProfileAvatar = styled.div`
   justify-content: flex-end;
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    justify-content: flex-start;
+    order: 1;
+  `}
 `;
 
 const Footer = () => (
@@ -76,6 +104,8 @@ const Footer = () => (
     </Logo>
 
     <NavLinks>
+      <AnimatedIcon className="mobileMenu" animationKey="menu" />
+
       <Link to="/">
         <Text variant="subheading">Positions</Text>
       </Link>
@@ -88,7 +118,7 @@ const Footer = () => (
     </NavLinks>
 
     <ProfileAvatar>
-      <AnimatedIcon animationKey="settings" />
+      <AnimatedIcon animationKey="radioButton" />
     </ProfileAvatar>
   </Container>
 );
