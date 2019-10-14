@@ -1,6 +1,6 @@
 # Tugboat
 
-chugga chugga choo choo
+tugga tugga choo choo
 
 ### Mocks
 

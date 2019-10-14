@@ -98,9 +98,11 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
         </DisplayContent>
       )}
       {cards &&
-        cards.map(cardInfo =>
+        cards.map((cardInfo, i) =>
+          // TODO: refactor this type guard
           cardInfo.__typename === "STAGINGCompany" ? (
             <CompanyCard
+              key={cardInfo.slug || i}
               name={cardInfo.name}
               linkTo={`${RouteName.COMPANIES}/${cardInfo.slug}`}
               numRatings={cardInfo.reviews && cardInfo.reviews.count}
@@ -109,6 +111,7 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
             />
           ) : (
             <ReviewCard
+              key={cardInfo.id || i}
               heading={cardInfo.company && cardInfo.company.name}
               subheading={cardInfo.job && cardInfo.job.title}
               linkTo={`${RouteName.REVIEWS}/${cardInfo.id}`}

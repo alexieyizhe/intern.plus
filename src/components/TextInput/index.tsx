@@ -65,7 +65,7 @@ const TEXT_INPUT_VARIANTS: VariantList = {
 
 const BaseTextInput = styled.input<ITextInputProps>`
   width: 100%;
-  padding: 10px 15px;
+  padding: 15px 20px;
 
   color: ${({ textColor = "", theme }) =>
     theme.color[textColor] || textColor || "inherit"};

@@ -11,6 +11,7 @@ import { RouteName } from "src/utils/routes";
 import { PageHeader, PageFooter } from "src/components";
 import PlaygroundPage from "src/pages/playground";
 import LandingPage from "src/pages/landing";
+import SearchPage from "src/pages/search";
 
 const App: React.FC = () => (
   <ApolloProvider client={apolloClient}>
@@ -25,7 +26,7 @@ const App: React.FC = () => (
               <LandingPage />
             </Route>
             <Route path={RouteName.FIND}>
-              <PlaygroundPage />
+              <SearchPage />
             </Route>
 
             {/* TODO: remove this */}

@@ -210,6 +210,7 @@ const LandingPage = () => {
         maxHourlySalary={48}
         salaryCurrency="USD"
         color="#CAE9ED"
+        linkTo=""
       />
 
       <br />
@@ -223,6 +224,7 @@ const LandingPage = () => {
         maxHourlySalary={21}
         salaryCurrency="CAD"
         color="#CAE9ED"
+        linkTo=""
       />
 
       <br />

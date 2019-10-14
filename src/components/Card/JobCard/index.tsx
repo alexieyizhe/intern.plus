@@ -13,6 +13,7 @@ export interface IJobCardProps extends ICardProps {
   minHourlySalary: number;
   maxHourlySalary: number;
   salaryCurrency: string;
+  linkTo: string;
 }
 
 const Container = styled(Card)`

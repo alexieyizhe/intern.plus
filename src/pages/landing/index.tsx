@@ -9,32 +9,16 @@ import { Size } from "src/theme/constants";
 import pageCopy from "./copy";
 
 import {
-  HEADER_HEIGHT,
-  FOOTER_HEIGHT,
   Card,
+  PageContainer as BasePageContainer,
   Search,
   Text,
   Button,
 } from "src/components";
 import CardDisplay from "./components/CardDisplay";
 
-const Container = styled.div`
-  position: relative;
-  min-height: calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px);
+const PageContainer = styled(BasePageContainer)`
   max-width: 1300px;
-  width: 100%;
-
-  margin: auto;
-  margin-top: ${HEADER_HEIGHT}px;
-  padding: 10px 100px;
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-   padding: 10px 80px;
-  `}
-
-  ${({ theme }) => theme.mediaQueries.largeMobile`
-   padding: 10px 40px;
-  `}
 `;
 
 const TitleCard = styled(Card)`
@@ -130,7 +114,7 @@ const LandingPage = () => {
   } = useQuery<GetReviews>(GET_REVIEWS_LANDING);
 
   return (
-    <Container>
+    <PageContainer>
       <TitleCard>
         <TitleCardLeft>
           <div>
@@ -171,7 +155,7 @@ const LandingPage = () => {
         error={reviewsError !== undefined}
         cards={reviewsData && reviewsData.sTAGINGReviewsList.items}
       />
-    </Container>
+    </PageContainer>
   );
 };
 
