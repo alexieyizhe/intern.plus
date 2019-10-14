@@ -5,10 +5,13 @@ import { default as AnimatedIcon } from "react-useanimations";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
+export const HEADER_HEIGHT = 100;
+
 const Container = styled.header`
   position: relative;
   width: 100%;
-  padding: 0 40px;
+  height: ${HEADER_HEIGHT}px;
+  padding: 0 60px;
 
   display: flex;
   align-items: center;

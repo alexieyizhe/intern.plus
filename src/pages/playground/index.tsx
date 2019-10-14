@@ -228,8 +228,8 @@ const LandingPage = () => {
       <div>REVIEWCARD</div>
 
       <LandingReviewCard
-        title="Anonymous"
-        subtitle="Feb 29, 2019"
+        heading="Anonymous"
+        subheading="Feb 29, 2019"
         rating={4}
         color="#FFE0FC"
       >
@@ -247,8 +247,8 @@ const LandingPage = () => {
       <br />
 
       <ResultsReviewCard
-        title="Shopify"
-        subtitle="Software Engineer Intern"
+        heading="Shopify"
+        subheading="Software Engineer Intern"
         rating={4}
         color="#FFE0FC"
       >

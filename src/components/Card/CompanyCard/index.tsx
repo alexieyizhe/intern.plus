@@ -6,11 +6,11 @@ import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 
 export interface ICompanyCardProps extends ICardProps {
-  name: string;
-  logoSrc: string;
-  desc?: string;
-  numRatings: number;
-  avgRating: number;
+  name: string | null;
+  logoSrc?: string | null;
+  desc?: string | null;
+  numRatings: number | null;
+  avgRating: number | null;
 }
 
 const Container = styled(Card)`
@@ -64,7 +64,11 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
     )}
 
     <div className="ratings">
-      <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly />
+      <StarRating
+        maxStars={5}
+        filledStars={Math.round(avgRating || 0)}
+        readOnly
+      />
       <Text variant="body" color="black">
         {avgRating}
       </Text>

@@ -4,9 +4,12 @@ import styled from "styled-components";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
+export const FOOTER_HEIGHT = 140;
+
 const Container = styled.footer`
   position: relative;
   width: 100%;
+  height: ${FOOTER_HEIGHT}px;
 
   display: flex;
   flex-direction: column;
