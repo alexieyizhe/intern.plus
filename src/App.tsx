@@ -7,14 +7,14 @@ import apolloClient from "src/api/client";
 import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 
-import LandingPage from "src/pages/landing";
+import PlaygroundPage from "src/pages/playground";
 
 const App: React.FC = () => (
   <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={siteTheme}>
       <div className="App">
         <GlobalStyles />
-        <LandingPage />
+        <PlaygroundPage />
       </div>
     </ThemeProvider>
   </ApolloProvider>

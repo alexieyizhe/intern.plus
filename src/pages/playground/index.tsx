@@ -77,6 +77,10 @@ const LandingPage = () => {
         Italicized body text
       </Text>
 
+      <br />
+      <br />
+      <br />
+      <br />
       <div>BUTTON</div>
       <Button>
         <Text variant="body">Regular</Text>
@@ -92,6 +96,10 @@ const LandingPage = () => {
         <Text variant="body">Disabled</Text>
       </Button>
 
+      <br />
+      <br />
+      <br />
+      <br />
       <div>LINK</div>
       <Link to="">
         <Text variant="body" color="burlywood">
@@ -99,37 +107,74 @@ const LandingPage = () => {
         </Text>
       </Link>
 
+      <br />
+      <br />
+      <br />
+      <br />
       <div>TEXTINPUT</div>
       <TextInput color="greyLight" variant="body" />
+      <br />
+      <br />
+
       <TextInput color="greyLight" placeholder="Some placeholder text" />
-      <TextInput color="greyLight" disabled />
+      <br />
+      <br />
+
+      <TextInput color="greyLight" disabled placeholder="Disabled" />
+      <br />
+      <br />
+
       <TextInput
         color="greyLight"
         variant="heading2"
         placeholder="BIG heading2 input"
       />
 
+      <br />
+      <br />
+      <br />
+      <br />
+      <div>SEARCH</div>
+      <Search onSearchStart={(v: string) => console.log("searching with", v)} />
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <div>STAR RATING</div>
+
+      <div>
+        changeable{" "}
+        <StarRating
+          size={20}
+          maxStars={8}
+          filledStars={numFilledStars}
+          onClickStar={(i: number) => setNumFilledStars(i + 1)}
+        />
+      </div>
+
+      <div>
+        read-only large{" "}
+        <StarRating
+          readOnly
+          size={26}
+          maxStars={5}
+          filledStars={numFilledStars}
+          onClickStar={(i: number) => setNumFilledStars(i + 1)}
+        />
+      </div>
+
+      <br />
+      <br />
+      <br />
+      <br />
       <div>CARD</div>
       <Card color="greyLight" onClick={() => console.log("clicked card")}>
         sup
       </Card>
 
-      <div>SEARCH</div>
-      <Search onSearchStart={(v: string) => console.log("searching with", v)} />
-
-      <StarRating
-        size={20}
-        maxStars={5}
-        filledStars={numFilledStars}
-        onClickStar={(i: number) => setNumFilledStars(i + 1)}
-      />
-      <StarRating
-        readOnly
-        size={20}
-        maxStars={5}
-        filledStars={numFilledStars}
-        onClickStar={(i: number) => setNumFilledStars(i + 1)}
-      />
+      <br />
+      <br />
 
       <div>COMPANYCARD</div>
       <LandingCompanyCard
@@ -151,6 +196,8 @@ const LandingPage = () => {
         color="#FFF3E0"
       />
 
+      <br />
+      <br />
       <div>JOBCARD</div>
       <LandingJobCard
         title="Technical Program Manager Intern - Storefronts Team"
@@ -162,6 +209,7 @@ const LandingPage = () => {
         salaryCurrency="USD"
         color="#CAE9ED"
       />
+
       <br />
       <br />
       <ResultsJobCard
@@ -175,6 +223,8 @@ const LandingPage = () => {
         color="#CAE9ED"
       />
 
+      <br />
+      <br />
       <div>REVIEWCARD</div>
 
       <LandingReviewCard
@@ -209,6 +259,10 @@ const LandingPage = () => {
         </Text>
       </ResultsReviewCard>
 
+      <br />
+      <br />
+      <br />
+      <br />
       <div>HEADER and FOOTER</div>
       <PageHeader />
 
