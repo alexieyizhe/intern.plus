@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
+import { Size } from "src/theme/constants";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
@@ -22,6 +23,10 @@ const Container = styled.header`
     display: flex;
     align-items: center;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    padding: 0 30px;
+  `}
 `;
 
 const Logo = styled.div`
@@ -30,6 +35,16 @@ const Logo = styled.div`
   & > img {
     max-width: 50px;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    & > img {
+      max-width: 35px;
+    }
+    
+    & > h2 {
+      font-size: ${theme.fontSize[Size.MEDIUM]}px;
+    }
+  `}
 `;
 
 const NavLinks = styled.nav`
@@ -38,6 +53,10 @@ const NavLinks = styled.nav`
   & > * {
     margin: auto 10px;
   }
+
+  ${({ theme }) => theme.mediaQueries.xlMobile`
+    display: none;
+  `}
 `;
 
 const ProfileAvatar = styled.div`
@@ -51,7 +70,9 @@ const Footer = () => (
         src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
         alt="An icon depicting a tugboat"
       />
-      <Text variant="heading2">Tugboat</Text>
+      <Text variant="heading2" as="h2">
+        Tugboat
+      </Text>
     </Logo>
 
     <NavLinks>
