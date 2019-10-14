@@ -4,6 +4,7 @@ const pageCopy = {
   splashCard: {
     heading: "Great internships are priceless.",
     subheading: "Tugboat helps guide your search for one.",
+    searchButtonText: "Browse reviews",
     splashImg: {
       src:
         "https://media.gettyimages.com/vectors/cargo-ship-and-harbour-flat-design-vector-id1176279865?s=2048x2048",

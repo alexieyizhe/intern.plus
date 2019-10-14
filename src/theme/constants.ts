@@ -14,6 +14,8 @@ const constants = {
     greyLight: "#F4F4F4",
     white: "#ffffff",
 
+    greenDark: "#507561",
+
     error: "#DD4040",
   },
   fontSize: {

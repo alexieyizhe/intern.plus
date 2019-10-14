@@ -5,14 +5,16 @@ import { useQuery } from "@apollo/react-hooks";
 import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
 import { GetCompanies } from "src/types/generated/GetCompanies";
 import { GetReviews } from "src/types/generated/GetReviews";
+import { Size } from "src/theme/constants";
 import pageCopy from "./copy";
 
 import {
+  HEADER_HEIGHT,
+  FOOTER_HEIGHT,
   Card,
   Search,
   Text,
-  HEADER_HEIGHT,
-  FOOTER_HEIGHT,
+  Button,
 } from "src/components";
 import CardDisplay from "./components/CardDisplay";
 
@@ -24,49 +26,93 @@ const Container = styled.div`
 
   margin: auto;
   padding: 10px 100px;
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+   padding: 10px 80px;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+   padding: 10px 40px;
+  `}
 `;
 
-const MainDisplayContainer = styled(Card)`
+const TitleCard = styled(Card)`
   position: relative;
   width: 100%;
   height: 400px;
   padding: 0;
+
+  display: flex;
+  justify-content: space-between;
+
+  background-color: wheat;
   overflow: hidden;
 
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  grid-template-columns: 30% 50%;
-  grid-column-gap: 20%;
-  grid-template-areas:
-    "heading    image"
-    "subheading image"
-    "search     image";
+  ${({ theme }) => theme.mediaQueries.xlMobile`
+    height: 500px;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  `}
+`;
 
-  & > .heading {
-    grid-area: heading;
-    padding-top: 50px;
-    padding-left: 60px;
+const TitleCardLeft = styled.div`
+  width: 35%;
+  padding: 50px 60px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  & h1 {
+    margin-bottom: 10px;
   }
 
-  & > .subheading {
-    grid-area: subheading;
-    padding-top: 5px;
-    padding-left: 60px;
-  }
+  ${({ theme }) => theme.mediaQueries.medium`
+    width: 45%;
+    padding: 35px 45px;
+  `}
 
-  & > .search {
-    grid-area: search;
-    align-self: flex-end;
-    padding-left: 60px;
-    padding-bottom: 50px;
-  }
+  ${({ theme }) => theme.mediaQueries.tablet`
+    padding: 30px 35px;
+  `}
 
-  & > .image {
-    grid-area: image;
-    justify-self: flex-end;
-    align-self: center;
-    max-width: 100%;
-  }
+  ${({ theme }) => theme.mediaQueries.xlMobile`
+    width: 100%;
+    height: 45%;
+    padding: 20px 30px;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    & h1 {
+      font-size: ${theme.fontSize[Size.LARGE]}px;
+    }
+  `}
+`;
+
+const TitleCardRight = styled.div`
+  width: 50%;
+
+  background: url(${pageCopy.splashCard.splashImg.src});
+  background-size: cover;
+
+  ${({ theme }) => theme.mediaQueries.xlMobile`
+    width: 100%;
+    height: 55%;
+  `}
+`;
+
+const SearchInput = styled(Search)`
+  ${({ theme }) => theme.mediaQueries.tablet`
+    display: none;
+  `}
+`;
+
+const SearchButton = styled(Button)`
+  display: none;
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    display: inherit;
+  `}
 `;
 
 const LandingPage = () => {
@@ -84,20 +130,29 @@ const LandingPage = () => {
 
   return (
     <Container>
-      <MainDisplayContainer color="wheat">
-        <Text className="heading" variant="heading1">
-          {pageCopy.splashCard.heading}
-        </Text>
-        <Text className="subheading" variant="heading3" color="greyDark">
-          {pageCopy.splashCard.subheading}
-        </Text>
-        <Search className="search" onSearchStart={() => {}} />
-        <img
-          className="image"
-          src={pageCopy.splashCard.splashImg.src}
-          alt={pageCopy.splashCard.splashImg.alt}
-        />
-      </MainDisplayContainer>
+      <TitleCard>
+        <TitleCardLeft>
+          <div>
+            <Text variant="heading1" as="h1">
+              {pageCopy.splashCard.heading}
+            </Text>
+            <Text variant="heading3" color="greyDark" as="div">
+              {pageCopy.splashCard.subheading}
+            </Text>
+          </div>
+          <div>
+            <SearchInput onSearchStart={() => {}} />
+            <SearchButton onClick={() => {}} color="greenDark">
+              <Text variant="subheading" color="white">
+                {pageCopy.splashCard.searchButtonText}
+              </Text>
+            </SearchButton>
+          </div>
+        </TitleCardLeft>
+
+        <TitleCardRight />
+      </TitleCard>
+
       <CardDisplay
         heading={pageCopy.sections.topCompanies.heading}
         subLinkText={pageCopy.sections.topCompanies.subLink.text}
@@ -106,6 +161,7 @@ const LandingPage = () => {
         error={companiesError !== undefined}
         cards={companiesData && companiesData.sTAGINGCompaniesList.items}
       />
+
       <CardDisplay
         heading={pageCopy.sections.recentlyReviewed.heading}
         subLinkText={pageCopy.sections.recentlyReviewed.subLink.text}

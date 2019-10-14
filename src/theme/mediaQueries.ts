@@ -47,7 +47,7 @@ export const deviceBreakpoints = {
   medium: 1024,
   tablet: 768,
   xlMobile: 620,
-  largeMobile: 425,
+  largeMobile: 520,
   mobile: 375,
   smallMobile: 320,
 };
