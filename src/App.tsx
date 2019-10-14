@@ -9,7 +9,7 @@ import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/utils/routes";
 
 import { PageHeader, PageFooter } from "src/components";
-import PlaygroundPage from "src/pages/playground";
+// import PlaygroundPage from "src/pages/playground";
 import LandingPage from "src/pages/landing";
 import SearchPage from "src/pages/search";
 
@@ -30,9 +30,9 @@ const App: React.FC = () => (
             </Route>
 
             {/* TODO: remove this */}
-            <Route exact path={"/playground"}>
+            {/* <Route exact path={"/playground"}>
               <PlaygroundPage />
-            </Route>
+            </Route> */}
           </Switch>
           <PageFooter />
         </div>

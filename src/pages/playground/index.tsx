@@ -135,7 +135,11 @@ const LandingPage = () => {
       <br />
       <br />
       <div>SEARCH</div>
-      <Search onSearchStart={(v: string) => console.log("searching with", v)} />
+      <Search
+        value="some search value "
+        onChange={() => {}}
+        onSearchStart={() => console.log("searching with")}
+      />
 
       <br />
       <br />

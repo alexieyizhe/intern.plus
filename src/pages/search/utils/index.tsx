@@ -1,3 +1,8 @@
+import React from "react";
+
+import { Text } from "src/components";
+import pageCopy from "../copy";
+
 export interface IReviewJobResult {
   name: string; // company name
   id: string;
@@ -58,3 +63,20 @@ export const resultIsCompany = (
 
 export const resultIsJob = (result: SearchResult): result is IJobResult =>
   "location" in result && "salaryCurrency" in result;
+
+export const getHeadingMarkup = (query: string, queryParams?: string[]) => {
+  if (query) {
+    if (!queryParams) {
+      return (
+        <>
+          <Text variant="heading1" color="greyDark">
+            {pageCopy.searchingHeadingPrefix}
+          </Text>
+          <Text variant="heading1">{query}</Text>
+        </>
+      );
+    }
+  }
+
+  return <Text variant="heading1">{pageCopy.defaultHeading}</Text>;
+};

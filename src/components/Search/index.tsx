@@ -7,7 +7,9 @@ import Text from "src/components/Text";
 import TextInput from "src/components/TextInput";
 
 export interface ISearchProps extends IComboProps {
-  onSearchStart: (value: string) => void;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchStart: () => void;
 }
 
 const Container = styled(Combo)`
@@ -21,40 +23,30 @@ const Container = styled(Combo)`
   }
 `;
 
-// TODO: eventually will need to make this a controlled component to do validation, clear field, etc
 // TODO: add custom text to display as placeholder, search button text
-const Search: React.FC<ISearchProps> = ({ onSearchStart, ...rest }) => {
-  const [inputContents, setInputContents] = useState("");
-
-  const internalOnSearchStart = useCallback(
-    () => onSearchStart(inputContents),
-    [inputContents, onSearchStart]
-  );
-
+const Search: React.FC<ISearchProps> = ({
+  value,
+  onChange,
+  onSearchStart,
+  ...rest
+}) => {
   const internalOnKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.keyCode === 13) internalOnSearchStart();
+      if (e.keyCode === 13) onSearchStart();
     },
-    [internalOnSearchStart]
-  );
-
-  const inputOnChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInputContents(e.target.value);
-      console.log(e, e.target.value);
-    },
-    []
+    [onSearchStart]
   );
 
   return (
     <Container {...rest}>
       <TextInput
         color="greyLight"
-        onChange={inputOnChange}
+        value={value}
+        onChange={onChange}
         onKeyDown={internalOnKeyDown}
         placeholder="Find something"
       />
-      <Button color="greenDark" onClick={internalOnSearchStart}>
+      <Button color="greenDark" onClick={onSearchStart}>
         <Text variant="body" color="white">
           Search
         </Text>

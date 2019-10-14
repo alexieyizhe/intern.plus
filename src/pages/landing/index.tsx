@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
 import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
 import { GetCompanies } from "src/types/generated/GetCompanies";
 import { GetReviews } from "src/types/generated/GetReviews";
 import { Size } from "src/theme/constants";
+import { SEARCH_VALUE_QUERY_PARAM_KEY } from "src/pages/search";
 import pageCopy from "./copy";
 
 import {
@@ -16,6 +18,7 @@ import {
   Button,
 } from "src/components";
 import CardDisplay from "./components/CardDisplay";
+import { RouteName } from "src/utils/routes";
 
 const PageContainer = styled(BasePageContainer)`
   max-width: 1300px;
@@ -113,6 +116,22 @@ const LandingPage = () => {
     data: reviewsData,
   } = useQuery<GetReviews>(GET_REVIEWS_LANDING);
 
+  const [searchStarted, setSearchStarted] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+  const searchOnChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setSearchVal(e.target.value),
+    []
+  );
+  const searchOnStart = useCallback(() => setSearchStarted(true), []);
+
+  if (searchStarted) {
+    return (
+      <Redirect
+        to={`${RouteName.FIND}?${SEARCH_VALUE_QUERY_PARAM_KEY}=${searchVal}`}
+      />
+    );
+  }
+
   return (
     <PageContainer>
       <TitleCard>
@@ -126,7 +145,11 @@ const LandingPage = () => {
             </Text>
           </div>
           <div>
-            <SearchInput onSearchStart={() => {}} />
+            <SearchInput
+              value={searchVal}
+              onChange={searchOnChange}
+              onSearchStart={searchOnStart}
+            />
             <SearchButton onClick={() => {}} color="greenDark">
               <Text variant="subheading" color="white">
                 {pageCopy.splashCard.searchButtonText}
