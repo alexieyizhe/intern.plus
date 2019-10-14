@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import styled from "styled-components";
-import UseAnimations from "react-useanimations";
+import { default as AnimatedIcon } from "react-useanimations";
 
 export interface IStarRatingProps
   extends React.ComponentPropsWithoutRef<"div"> {
@@ -89,7 +89,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
           onMouseEnter={internalOnMouseHover(i, true)}
           onMouseLeave={internalOnMouseHover(i, false)}
         >
-          <UseAnimations animationKey="star" size={size} autoplay={filled} />
+          <AnimatedIcon animationKey="star" size={size} autoplay={filled} />
         </Star>
       ))}
     </Container>

@@ -8,6 +8,8 @@ import {
   ReviewCard,
   Button,
   Link,
+  PageFooter,
+  PageHeader,
   Search,
   StarRating,
   Text,
@@ -206,6 +208,13 @@ const LandingPage = () => {
           company will provide a neat learning experience.
         </Text>
       </ResultsReviewCard>
+
+      <div>HEADER and FOOTER</div>
+      <PageHeader />
+
+      <br />
+      <br />
+      <PageFooter />
     </div>
   );
 };

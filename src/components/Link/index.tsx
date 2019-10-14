@@ -7,6 +7,7 @@ export interface ILinkProps extends React.ComponentPropsWithoutRef<"a"> {
 }
 
 export const UnstyledLink = styled.a`
+  color: inherit;
   text-decoration: none;
 `;
 
