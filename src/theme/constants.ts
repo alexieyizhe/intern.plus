@@ -13,6 +13,8 @@ const constants = {
     greyMedium: "#C6C6C6",
     greyLight: "#F4F4F4",
     white: "#ffffff",
+
+    error: "#DD4040",
   },
   fontSize: {
     [Size.SMALL]: 14,

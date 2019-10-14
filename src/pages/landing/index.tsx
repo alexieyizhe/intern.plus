@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 
-import pageCopy from "./copy";
 import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
 import { GetCompanies } from "src/types/generated/GetCompanies";
 import { GetReviews } from "src/types/generated/GetReviews";
+import pageCopy from "./copy";
 
 import {
   Card,
@@ -70,13 +70,17 @@ const MainDisplayContainer = styled(Card)`
 `;
 
 const LandingPage = () => {
-  const { loading: companiesLoading, data: companiesData } = useQuery<
-    GetCompanies
-  >(GET_COMPANIES_LANDING);
+  const {
+    loading: companiesLoading,
+    error: companiesError,
+    data: companiesData,
+  } = useQuery<GetCompanies>(GET_COMPANIES_LANDING);
 
-  const { loading: reviewsLoading, data: reviewsData } = useQuery<GetReviews>(
-    GET_REVIEWS_LANDING
-  );
+  const {
+    loading: reviewsLoading,
+    error: reviewsError,
+    data: reviewsData,
+  } = useQuery<GetReviews>(GET_REVIEWS_LANDING);
 
   return (
     <Container>
@@ -96,12 +100,18 @@ const LandingPage = () => {
       </MainDisplayContainer>
       <CardDisplay
         heading={pageCopy.sections.topCompanies.heading}
+        subLinkText={pageCopy.sections.topCompanies.subLink.text}
+        subLinkTo={pageCopy.sections.topCompanies.subLink.to}
         loading={companiesLoading}
+        error={companiesError !== undefined}
         cards={companiesData && companiesData.sTAGINGCompaniesList.items}
       />
       <CardDisplay
         heading={pageCopy.sections.recentlyReviewed.heading}
+        subLinkText={pageCopy.sections.recentlyReviewed.subLink.text}
+        subLinkTo={pageCopy.sections.recentlyReviewed.subLink.to}
         loading={reviewsLoading}
+        error={reviewsError !== undefined}
         cards={reviewsData && reviewsData.sTAGINGReviewsList.items}
       />
     </Container>

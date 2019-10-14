@@ -6,15 +6,20 @@ import { default as AnimatedIcon } from "react-useanimations";
 import {
   CompanyCard as BaseCompanyCard,
   ReviewCard as BaseReviewCard,
+  Link,
   Text,
 } from "src/components";
 import { GetCompanies_sTAGINGCompaniesList_items } from "src/types/generated/GetCompanies";
 import { GetReviews_sTAGINGReviewsList_items } from "src/types/generated/GetReviews";
+import pageCopy from "../copy";
 
 export interface ICardDisplayProps
   extends React.ComponentPropsWithoutRef<"div"> {
   heading: string;
+  subLinkText?: string;
+  subLinkTo?: string;
   loading: boolean;
+  error: boolean;
   cards?: (
     | GetCompanies_sTAGINGCompaniesList_items
     | GetReviews_sTAGINGReviewsList_items)[];
@@ -47,7 +52,7 @@ const landingCardStyles = css`
   }
 `;
 
-const LoadingSpinner = styled(AnimatedIcon)`
+const DisplayContent = styled.span`
   margin: 50px auto;
 `;
 
@@ -59,16 +64,32 @@ const ReviewCard = styled(BaseReviewCard)`
   ${landingCardStyles}
 `;
 
+const SubLink = styled(Link)`
+  margin-left: auto;
+`;
+
 const LandingPage: React.FC<ICardDisplayProps> = ({
   heading,
   loading,
+  error,
+  subLinkText,
+  subLinkTo,
   cards,
   ...rest
 }) => (
   <Container {...rest}>
     <Text variant="heading2">{heading}</Text>
     <Display>
-      {loading && <LoadingSpinner animationKey="loading" />}
+      {(loading || error) && (
+        <DisplayContent>
+          {loading && <AnimatedIcon animationKey="loading" />}
+          {error && (
+            <Text variant="subheading" color="error">
+              {pageCopy.errorText}
+            </Text>
+          )}
+        </DisplayContent>
+      )}
       {cards &&
         cards.map(cardInfo =>
           cardInfo.__typename === "STAGINGCompany" ? (
@@ -90,6 +111,11 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
           )
         )}
     </Display>
+    {subLinkTo && (
+      <SubLink to={subLinkTo}>
+        <Text variant="subheading">{subLinkText}</Text>
+      </SubLink>
+    )}
   </Container>
 );
 

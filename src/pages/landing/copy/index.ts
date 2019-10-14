@@ -1,3 +1,5 @@
+import { RouteName } from "src/utils/routes";
+
 const pageCopy = {
   splashCard: {
     heading: "Great internships are priceless.",
@@ -11,11 +13,20 @@ const pageCopy = {
   sections: {
     topCompanies: {
       heading: "Top companies",
+      subLink: {
+        text: "See more companies",
+        to: `${RouteName.FIND}/companies`,
+      },
     },
     recentlyReviewed: {
       heading: "Recently reviewed",
+      subLink: {
+        text: "See more reviews",
+        to: `${RouteName.FIND}/reviews`,
+      },
     },
   },
+  errorText: "An error has occurred. Please try again.",
 };
 
 export default pageCopy;
