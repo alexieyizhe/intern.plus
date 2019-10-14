@@ -5,6 +5,6 @@ export interface IAction {
 
 export enum ActionType {
   RESET,
-  ACTIVATE_EASTER_EGG,
+  TOGGLE_EASTER_EGG,
   TOGGLE_DARK_MODE,
 }

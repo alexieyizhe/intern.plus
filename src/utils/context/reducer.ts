@@ -7,10 +7,16 @@ export interface IReducerDispatch {
 
 export const reducer: IReducerDispatch = (state, action) => {
   switch (action.type) {
-    case ActionType.ACTIVATE_EASTER_EGG:
+    case ActionType.TOGGLE_EASTER_EGG:
       return {
         ...state,
         easterEggActive: !state.easterEggActive,
+      };
+
+    case ActionType.TOGGLE_DARK_MODE:
+      return {
+        ...state,
+        darkModeActive: !state.darkModeActive,
       };
 
     case ActionType.RESET:
