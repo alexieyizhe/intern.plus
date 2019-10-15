@@ -31,6 +31,7 @@ const buildJobList = (
     color: "#FFEBEE",
   }));
 
+// TODO: style this
 const CompanyDetails = styled.div``;
 
 const CompanyDisplay = () => {

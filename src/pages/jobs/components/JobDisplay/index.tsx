@@ -22,12 +22,13 @@ const buildReviewList = (
   itemList.map(item => ({
     id: item.id || "",
     name: item.author || "",
-    date: item.updatedAt || item.createdAt || "0",
+    date: (item.updatedAt || item.createdAt || "0").toString(),
     rating: item.overallScore || 0,
     contents: item.body || "",
     color: "#D97474",
   }));
 
+// TODO: style this
 const JobDetails = styled.div``;
 
 const JobDisplay = () => {

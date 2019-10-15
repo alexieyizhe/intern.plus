@@ -18,8 +18,8 @@ export interface GetJob_sTAGINGJob_reviews_items {
   __typename: "STAGINGReview";
   id: string | null;
   author: string | null;
-  createdAt: TugboatDateTime | null;
-  updatedAt: TugboatDateTime | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
   /**
    * Contents of a review.
    */
