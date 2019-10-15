@@ -11,7 +11,8 @@ import {
   resultIsReviewUser,
 } from "src/types/searchResults";
 
-import { Text, ReviewCard, CompanyCard, JobCard } from "src/components";
+import Text from "src/components/Text";
+import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
 
 /*******************************************************************
  *                             **Types**                           *

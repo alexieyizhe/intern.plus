@@ -10,7 +10,12 @@ import {
   GetJob_sTAGINGJob_reviews_items,
 } from "src/types/generated/GetJob";
 import { IReviewUserResult } from "src/types/searchResults";
-import { PageContainer, ResultsDisplay, SearchHandler } from "src/components";
+import {
+  Card,
+  PageContainer,
+  ResultsDisplay,
+  SearchHandler,
+} from "src/components";
 
 /**
  * Creates a friendly list of job results from fetched data.
@@ -28,8 +33,12 @@ const buildReviewList = (
     color: "#D97474",
   }));
 
-// TODO: style this
-const JobDetails = styled.div``;
+const JobDetails = styled(Card)`
+  position: relative;
+  width: 120%;
+  height: 400px;
+  left: -10%;
+`;
 
 const JobDisplay = () => {
   /**

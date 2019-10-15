@@ -71,10 +71,6 @@ const PageContainer = styled(BasePageContainer)`
   & > * {
     margin-bottom: 15px;
   }
-
-  & > .search-input {
-    width: 100%;
-  }
 `;
 
 const HeadingContainer = styled.div`

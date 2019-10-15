@@ -10,7 +10,9 @@ import {
   GetCompany_sTAGINGCompany_jobs_items,
 } from "src/types/generated/GetCompany";
 import { IJobResult } from "src/types/searchResults";
-import { PageContainer, ResultsDisplay, SearchHandler } from "src/components";
+
+import { PageContainer, ResultsDisplay } from "src/components";
+import CompanyPageCard from "src/pages/companies/components/CompanyPageCard";
 
 /**
  * Creates a friendly list of job results from fetched data.
@@ -31,9 +33,6 @@ const buildJobList = (
     color: "#FFEBEE",
   }));
 
-// TODO: style this
-const CompanyDetails = styled.div``;
-
 const CompanyDisplay = () => {
   /**
    * Fetch the company with the corresponding slug. Store
@@ -43,6 +42,7 @@ const CompanyDisplay = () => {
   const { loading, error, data } = useQuery<GetCompany>(GET_COMPANY, {
     variables: { slug: companySlug },
   });
+  console.log(data && data.sTAGINGCompany);
   const jobs = useMemo(
     () =>
       data && data.sTAGINGCompany && data.sTAGINGCompany.jobs
@@ -76,10 +76,12 @@ const CompanyDisplay = () => {
 
   return (
     <PageContainer>
-      <CompanyDetails>
-        details and search
-        <SearchHandler onNewSearchVal={onNewSearchVal} />
-      </CompanyDetails>
+      <CompanyPageCard
+        loading={loading}
+        error={error !== undefined}
+        companyInfo={data && data.sTAGINGCompany}
+        onNewSearchVal={onNewSearchVal}
+      />
       <ResultsDisplay
         searched
         loading={loading}

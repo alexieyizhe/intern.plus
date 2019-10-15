@@ -13,6 +13,9 @@ export interface ISearchProps extends IComboProps {
 }
 
 const Container = styled(Combo)`
+  position: relative;
+  width: 100%;
+
   & > *:first-child {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;

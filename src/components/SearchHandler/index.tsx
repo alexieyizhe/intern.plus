@@ -3,9 +3,10 @@ import { debounce } from "debounce";
 
 import { useQueryParam } from "src/utils/hooks/useQueryParam";
 
-import { Search } from "src/components";
+import Search from "src/components/Search";
 
-interface ISearchHandlerProps {
+export interface ISearchHandlerProps
+  extends React.ComponentPropsWithoutRef<"div"> {
   onNewSearchVal: (val: string) => void;
 }
 
@@ -46,6 +47,7 @@ const SearchHandler: React.FC<ISearchHandlerProps> = ({
       value={searchVal}
       onChange={searchOnChange}
       onSearchStart={() => onNewSearchVal(searchVal)}
+      {...rest}
     />
   );
 };
