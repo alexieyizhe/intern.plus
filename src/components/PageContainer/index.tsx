@@ -18,7 +18,7 @@ const PageContainer = styled.div`
   `}
 
   ${({ theme }) => theme.mediaQueries.largeMobile`
-    padding: 10px 40px;
+    padding: 10px 30px;
   `}
 `;
 
