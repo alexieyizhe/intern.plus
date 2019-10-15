@@ -58,7 +58,7 @@ const landingCardStyles = css`
   `}
 `;
 
-const DisplayContent = styled.span`
+const MiscContentContainer = styled.span`
   margin: 50px auto;
   text-align: center;
 `;
@@ -88,14 +88,14 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
     <Text variant="heading2">{heading}</Text>
     <Display>
       {(loading || error) && (
-        <DisplayContent>
+        <MiscContentContainer>
           {loading && <AnimatedIcon animationKey="loading" />}
           {error && (
             <Text variant="subheading" color="error">
               {pageCopy.errorText}
             </Text>
           )}
-        </DisplayContent>
+        </MiscContentContainer>
       )}
       {cards &&
         cards.map((cardInfo, i) =>

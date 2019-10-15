@@ -1,7 +1,5 @@
-import React from "react";
-
-import { Text } from "src/components";
-import pageCopy from "../copy";
+/* eslint-disable @typescript-eslint/camelcase */
+import { GetCompaniesSearch_sTAGINGCompaniesList_items } from "src/types/generated/GetCompaniesSearch";
 
 export interface IReviewJobResult {
   name: string; // company name
@@ -64,19 +62,15 @@ export const resultIsCompany = (
 export const resultIsJob = (result: SearchResult): result is IJobResult =>
   "location" in result && "salaryCurrency" in result;
 
-export const getHeadingMarkup = (query: string, queryParams?: string[]) => {
-  if (query) {
-    if (!queryParams) {
-      return (
-        <>
-          <Text variant="heading1" color="greyDark">
-            {pageCopy.searchingHeadingPrefix}
-          </Text>
-          <Text variant="heading1">{query}</Text>
-        </>
-      );
-    }
-  }
-
-  return <Text variant="heading1">{pageCopy.defaultHeading}</Text>;
-};
+export const buildSearchResults = (
+  itemList: GetCompaniesSearch_sTAGINGCompaniesList_items[]
+): SearchResult[] =>
+  itemList.map(item => ({
+    name: item.name || "",
+    slug: item.slug || "",
+    desc: item.desc || "",
+    logoSrc: "" || "",
+    avgRating: item.avgReviewScore || 0,
+    numRatings: item.reviews ? item.reviews.count : 0,
+    color: "#FFF3E0",
+  }));
