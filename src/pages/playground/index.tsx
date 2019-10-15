@@ -1,3 +1,7 @@
+/**
+ * A playground for testing various components and code.
+ * Not pretty or well-documented, so venture forth at your own risk.
+ */
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 

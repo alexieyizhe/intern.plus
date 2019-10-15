@@ -110,6 +110,10 @@ const SearchButton = styled(Button)`
  *                           **Component**                         *
  *******************************************************************/
 const LandingPage = () => {
+  /**
+   * Fetch companies and reviews that are displayed on the
+   * landing page.
+   */
   const {
     loading: companiesLoading,
     error: companiesError,
@@ -122,6 +126,11 @@ const LandingPage = () => {
     data: reviewsData,
   } = useQuery<GetReviews>(GET_REVIEWS_LANDING);
 
+  /**
+   * Tracks the value a user is searching for. If a search is
+   * being attempted, redirect to the search page with the
+   * query provided by the user pre-filled in.
+   */
   const [searchStarted, setSearchStarted] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const searchOnChange = useCallback(

@@ -10,15 +10,19 @@ import { GetReview } from "src/types/generated/GetReview";
 
 import { Card, Text, StarRating, UnstyledButton } from "src/components";
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this review.";
 const AUTHOR_SUFFIX = "mentioned the following...";
 
 /**
- * make the returned data less annoying to work with
+ * Create a friendly object holding details of a review
+ * to make it less annoying to work with
  * @param data result of api call to get a review by id
  */
-const cleanUpDetails = (data?: GetReview) =>
+const buildReviewDetails = (data?: GetReview) =>
   data && data.sTAGINGReview
     ? {
         // TODO: really need to standardize names
@@ -38,6 +42,9 @@ const cleanUpDetails = (data?: GetReview) =>
       }
     : null;
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Background = styled.div`
   position: fixed;
   top: 0;
@@ -102,6 +109,9 @@ const CloseButton = styled(UnstyledButton)`
   border-radius: 50%;
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const ReviewModal = () => {
   /**
    * If there is no background (usually when user navigates directly
@@ -112,7 +122,7 @@ const ReviewModal = () => {
   const history = useHistory();
   const onExit = useCallback(
     (e: React.MouseEvent) => {
-      e.stopPropagation();
+      e.stopPropagation(); // prevent default browser back behaviour
       history.goBack();
     },
     [history]
@@ -143,7 +153,7 @@ const ReviewModal = () => {
   const { loading, error, data } = useQuery<GetReview>(GET_REVIEW, {
     variables: { id: reviewId },
   });
-  const review = useMemo(() => cleanUpDetails(data), [data]);
+  const review = useMemo(() => buildReviewDetails(data), [data]);
 
   return (
     <>

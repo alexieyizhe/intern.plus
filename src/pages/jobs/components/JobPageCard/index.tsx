@@ -12,17 +12,30 @@ import {
   StarRating,
 } from "src/components";
 
+/*******************************************************************
+ *                            **Types**                           *
+ *******************************************************************/
 export interface IJobPageCardProps extends ISearchHandlerProps {
   loading: boolean;
   error: boolean;
   jobInfo?: GetJob_sTAGINGJob | null;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this position.";
 const NO_REVIEW_COUNT_TEXT = "based on reviews";
 const NO_COMPANY_TEXT = "Unknown company";
 
+/**
+ * Creates the markup for displaying the correct state of
+ * the job details, whether still loading, etc.
+ * @param loading whether job details are still loading
+ * @param error whether fetching job details resulted in error
+ * @param info data holding details about the job
+ */
 const getDetailsMarkup = (
   loading: boolean,
   error: boolean,
@@ -82,6 +95,9 @@ const getDetailsMarkup = (
   );
 };
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled(Card)`
   position: relative;
   width: 100%;
@@ -129,7 +145,9 @@ const DetailsContainer = styled.div`
     align-items: flex-end;
   }
 `;
-
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const JobPageCard: React.FC<IJobPageCardProps> = ({
   loading,
   error,

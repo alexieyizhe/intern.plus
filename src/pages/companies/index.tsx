@@ -4,14 +4,19 @@ import {
   Route,
   Redirect,
   useRouteMatch,
-  match,
+  match as Match,
 } from "react-router-dom";
 
 import { RouteName } from "src/utils/routes";
 import CompanyDisplay from "./components/CompanyDisplay";
 
+/**
+ * Page router will either:
+ *  - redirect to search with a filter of only companies
+ *  - display a company and its jobs
+ */
 const CompaniesPage = () => {
-  const match = useRouteMatch() as match;
+  const match = useRouteMatch() as Match;
 
   return (
     <>

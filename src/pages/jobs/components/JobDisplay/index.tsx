@@ -13,9 +13,13 @@ import { IReviewUserResult } from "src/types/searchResults";
 import { PageContainer, ResultsDisplay } from "src/components";
 import JobPageCard from "src/pages/jobs/components/JobPageCard";
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 /**
- * Creates a friendly list of job results from fetched data.
- * @param itemList list of job result items
+ * Creates a friendly list of review results from fetched data.
+ * This is used for displaying reviews for a given job
+ * @param itemList list of review items
  */
 const buildReviewList = (
   itemList: GetJob_sTAGINGJob_reviews_items[]
@@ -29,6 +33,9 @@ const buildReviewList = (
     color: "#FFEBEE",
   }));
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const JobDisplay = () => {
   /**
    * Fetch the job with the corresponding id. Store

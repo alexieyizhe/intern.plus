@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React, { useMemo, useState, useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
@@ -12,15 +12,28 @@ import {
   StarRating,
 } from "src/components";
 
+/*******************************************************************
+ *                            **Types**                           *
+ *******************************************************************/
 export interface ICompanyPageCardProps extends ISearchHandlerProps {
   loading: boolean;
   error: boolean;
   companyInfo?: GetCompany_sTAGINGCompany | null;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const ERROR_OCCURRED_TEXT = "An error occurred while getting company details.";
 const NO_REVIEW_COUNT_TEXT = "based on reviews";
 
+/**
+ * Creates the markup for displaying the correct state of
+ * the company details, whether still loading, etc.
+ * @param loading whether company details are still loading
+ * @param error whether fetching company details resulted in error
+ * @param info data holding details about the company
+ */
 const getDetailsMarkup = (
   loading: boolean,
   error: boolean,
@@ -70,6 +83,9 @@ const getDetailsMarkup = (
   );
 };
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled(Card)`
   position: relative;
   width: 100%;
@@ -115,6 +131,9 @@ const Logo = styled.img`
   max-width: 30%;
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const CompanyPageCard: React.FC<ICompanyPageCardProps> = ({
   loading,
   error,

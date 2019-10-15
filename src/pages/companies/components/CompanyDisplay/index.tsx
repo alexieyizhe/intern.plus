@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo, useState, useCallback } from "react";
-import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
@@ -14,8 +13,12 @@ import { IJobResult } from "src/types/searchResults";
 import { PageContainer, ResultsDisplay } from "src/components";
 import CompanyPageCard from "src/pages/companies/components/CompanyPageCard";
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 /**
  * Creates a friendly list of job results from fetched data.
+ * This is used for displaying jobs at a given company.
  * @param itemList list of job result items
  */
 const buildJobList = (
@@ -33,6 +36,9 @@ const buildJobList = (
     color: "#FFEBEE",
   }));
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const CompanyDisplay = () => {
   /**
    * Fetch the company with the corresponding slug. Store
