@@ -13,6 +13,9 @@ import { PageHeader, PageFooter } from "src/components";
 import LandingPage from "src/pages/landing";
 import SearchPage from "src/pages/search";
 
+import CompaniesPage from "src/pages/companies";
+import JobsPage from "src/pages/jobs";
+
 const App: React.FC = () => (
   <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={siteTheme}>
@@ -21,19 +24,25 @@ const App: React.FC = () => (
           <GlobalStyles />
 
           <PageHeader />
+
           <Switch>
             <Route exact path={RouteName.LANDING}>
               <LandingPage />
             </Route>
+
             <Route path={RouteName.FIND}>
               <SearchPage />
             </Route>
 
-            {/* TODO: remove this */}
-            {/* <Route exact path={"/playground"}>
-              <PlaygroundPage />
-            </Route> */}
+            <Route path={RouteName.COMPANIES}>
+              <CompaniesPage />
+            </Route>
+
+            <Route path={RouteName.JOBS}>
+              <JobsPage />
+            </Route>
           </Switch>
+
           <PageFooter />
         </div>
       </Router>
