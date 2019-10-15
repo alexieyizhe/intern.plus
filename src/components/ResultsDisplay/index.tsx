@@ -108,7 +108,9 @@ const getResultCardMarkup = (result: SearchResult) => {
         subheading={result.role}
         rating={result.rating}
         linkTo={`${RouteName.REVIEWS}/${result.id}`}
-      />
+      >
+        <Text variant="body">{result.contents}</Text>
+      </ResultsReviewCard>
     );
   } else if (resultIsReviewUser(result)) {
     return (
@@ -118,7 +120,9 @@ const getResultCardMarkup = (result: SearchResult) => {
         subheading={result.date}
         rating={result.rating}
         linkTo={`${RouteName.REVIEWS}/${result.id}`}
-      />
+      >
+        <Text variant="body">{result.contents}</Text>
+      </ResultsReviewCard>
     );
   }
 

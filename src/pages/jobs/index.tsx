@@ -8,23 +8,23 @@ import {
 } from "react-router-dom";
 
 import { RouteName } from "src/utils/routes";
-import { PageContainer } from "src/components";
+import JobDisplay from "./components/JobDisplay";
 
 const JobsPage = () => {
   const match = useRouteMatch() as match;
 
   return (
-    <PageContainer>
+    <>
       <Switch>
         <Route path={`${match.path}/:jobId`}>
-          <div>some job</div>
+          <JobDisplay />
         </Route>
 
         <Route path={match.path}>
           <Redirect to={`${RouteName.FIND}${RouteName.JOBS}`} />
         </Route>
       </Switch>
-    </PageContainer>
+    </>
   );
 };
 

@@ -1,21 +1,17 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo, useState, useCallback } from "react";
-import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
-import { GET_COMPANY } from "src/api/queries";
+import { GET_JOB } from "src/api/queries";
 import {
   GetJob,
   GetJob_sTAGINGJob_reviews_items,
 } from "src/types/generated/GetJob";
 import { IReviewUserResult } from "src/types/searchResults";
-import {
-  Card,
-  PageContainer,
-  ResultsDisplay,
-  SearchHandler,
-} from "src/components";
+
+import { PageContainer, ResultsDisplay } from "src/components";
+import JobPageCard from "src/pages/jobs/components/JobPageCard";
 
 /**
  * Creates a friendly list of job results from fetched data.
@@ -27,28 +23,22 @@ const buildReviewList = (
   itemList.map(item => ({
     id: item.id || "",
     name: item.author || "",
-    date: (item.updatedAt || item.createdAt || "0").toString(),
+    date: (item.createdAt || item.updatedAt || "").toString(),
     rating: item.overallScore || 0,
     contents: item.body || "",
-    color: "#D97474",
+    color: "#FFEBEE",
   }));
 
-const JobDetails = styled(Card)`
-  position: relative;
-  width: 120%;
-  height: 400px;
-  left: -10%;
-`;
-
-const JobDisplay = () => {
+const CompanyDisplay = () => {
   /**
    * Fetch the company with the corresponding slug. Store
    * the job results for use in searching.
    */
-  const { companySlug } = useParams();
-  const { loading, error, data } = useQuery<GetJob>(GET_COMPANY, {
-    variables: { slug: companySlug },
+  const { jobId } = useParams();
+  const { loading, error, data } = useQuery<GetJob>(GET_JOB, {
+    variables: { id: jobId },
   });
+
   const reviews = useMemo(
     () =>
       data && data.sTAGINGJob && data.sTAGINGJob.reviews
@@ -59,7 +49,7 @@ const JobDisplay = () => {
 
   /**
    * Track the last searched value. This is useful for only filtering results after
-   * a set amount of time after user has stopped typing. Then filter jobs
+   * a set amount of time after user has stopped typing. Then filter reviews
    * by the searched value whenever last search value changes.
    */
   const [lastSearchedVal, setLastSearchedVal] = useState("");
@@ -75,15 +65,17 @@ const JobDisplay = () => {
           review.date.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
           review.contents.toLowerCase().includes(lastSearchedVal.toLowerCase())
       ),
-    [lastSearchedVal, reviews]
+    [reviews, lastSearchedVal]
   );
 
   return (
     <PageContainer>
-      <JobDetails>
-        details and search
-        <SearchHandler onNewSearchVal={onNewSearchVal} />
-      </JobDetails>
+      <JobPageCard
+        loading={loading}
+        error={error !== undefined}
+        jobInfo={data && data.sTAGINGJob}
+        onNewSearchVal={onNewSearchVal}
+      />
       <ResultsDisplay
         searched
         loading={loading}
@@ -94,4 +86,4 @@ const JobDisplay = () => {
   );
 };
 
-export default JobDisplay;
+export default CompanyDisplay;
