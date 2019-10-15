@@ -3,7 +3,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
-import { GET_COMPANY } from "src/api/queries";
+import { GET_COMPANY_DETAILS } from "src/api/queries/company";
 import {
   GetCompany,
   GetCompany_sTAGINGCompany_jobs_items,
@@ -45,7 +45,7 @@ const CompanyDisplay = () => {
    * the job results for use in searching.
    */
   const { companySlug } = useParams();
-  const { loading, error, data } = useQuery<GetCompany>(GET_COMPANY, {
+  const { loading, error, data } = useQuery<GetCompany>(GET_COMPANY_DETAILS, {
     variables: { slug: companySlug },
   });
 

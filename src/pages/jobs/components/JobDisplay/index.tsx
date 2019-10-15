@@ -3,7 +3,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
-import { GET_JOB } from "src/api/queries";
+import { GET_JOB_DETAILS } from "src/api/queries/job";
 import {
   GetJob,
   GetJob_sTAGINGJob_reviews_items,
@@ -42,7 +42,7 @@ const JobDisplay = () => {
    * the reviews for this job for use in searching.
    */
   const { jobId } = useParams();
-  const { loading, error, data } = useQuery<GetJob>(GET_JOB, {
+  const { loading, error, data } = useQuery<GetJob>(GET_JOB_DETAILS, {
     variables: { id: jobId },
   });
 

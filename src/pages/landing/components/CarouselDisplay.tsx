@@ -84,7 +84,7 @@ const SubLink = styled(Link)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const LandingPage: React.FC<ICardDisplayProps> = ({
+const CarouselDisplay: React.FC<ICardDisplayProps> = ({
   heading,
   loading,
   error,
@@ -140,4 +140,4 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
   </Container>
 );
 
-export default LandingPage;
+export default CarouselDisplay;

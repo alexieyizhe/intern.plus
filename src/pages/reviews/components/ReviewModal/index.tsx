@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { default as AnimatedIcon } from "react-useanimations";
 
 import { RouteName } from "src/utils/routes";
-import { GET_REVIEW } from "src/api/queries";
+import { GET_REVIEW_DETAILS } from "src/api/queries/review";
 import { GetReview } from "src/types/generated/GetReview";
 
 import { Card, Text, StarRating, UnstyledButton } from "src/components";
@@ -150,7 +150,7 @@ const ReviewModal = () => {
    * to something that's easier to work with.
    */
   const { reviewId } = useParams();
-  const { loading, error, data } = useQuery<GetReview>(GET_REVIEW, {
+  const { loading, error, data } = useQuery<GetReview>(GET_REVIEW_DETAILS, {
     variables: { id: reviewId },
   });
   const review = useMemo(() => buildReviewDetails(data), [data]);

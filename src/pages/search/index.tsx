@@ -3,7 +3,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 
-import { GET_COMPANIES_SEARCH } from "src/api/queries";
+import { GET_ALL_SEARCH } from "src/api/queries/all";
 import {
   GetCompaniesSearch,
   GetCompaniesSearch_sTAGINGCompaniesList_items,
@@ -125,7 +125,7 @@ const SearchPage: React.FC = () => {
    * call is not made excessively.
    */
   const { loading, error, data } = useQuery<GetCompaniesSearch>(
-    GET_COMPANIES_SEARCH,
+    GET_ALL_SEARCH,
     {
       variables: {
         query: lastSearchedVal,

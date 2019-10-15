@@ -15,6 +15,7 @@ export interface ICompanyCardProps extends ICardProps {
   linkTo: string;
 }
 
+// TODO: factor out hover styles into its own css`` variable for reuse
 const Container = styled(Card)`
   display: inline-grid;
   grid-template-rows: auto 1fr auto;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
-import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
+import { GET_COMPANIES_REVIEWS_LANDING } from "src/api/queries/all";
 import { GetCompanies } from "src/types/generated/GetCompanies";
 import { GetReviews } from "src/types/generated/GetReviews";
 import { Size } from "src/theme/constants";
@@ -18,7 +18,9 @@ import {
   Text,
   Button,
 } from "src/components";
-import CardDisplay from "./components/CardDisplay";
+import CardDisplay from "./components/CarouselDisplay";
+
+const;
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -114,17 +116,9 @@ const LandingPage = () => {
    * Fetch companies and reviews that are displayed on the
    * landing page.
    */
-  const {
-    loading: companiesLoading,
-    error: companiesError,
-    data: companiesData,
-  } = useQuery<GetCompanies>(GET_COMPANIES_LANDING);
-
-  const {
-    loading: reviewsLoading,
-    error: reviewsError,
-    data: reviewsData,
-  } = useQuery<GetReviews>(GET_REVIEWS_LANDING);
+  const { loading, error, data } = useQuery<GetCompanies>(
+    GET_COMPANIES_REVIEWS_LANDING
+  );
 
   /**
    * Tracks the value a user is searching for. If a search is
@@ -180,8 +174,8 @@ const LandingPage = () => {
         heading={pageCopy.sections.topCompanies.heading}
         subLinkText={pageCopy.sections.topCompanies.subLink.text}
         subLinkTo={pageCopy.sections.topCompanies.subLink.to}
-        loading={companiesLoading}
-        error={companiesError !== undefined}
+        loading={loading}
+        error={error !== undefined}
         cards={companiesData && companiesData.sTAGINGCompaniesList.items}
       />
 
@@ -189,8 +183,8 @@ const LandingPage = () => {
         heading={pageCopy.sections.recentlyReviewed.heading}
         subLinkText={pageCopy.sections.recentlyReviewed.subLink.text}
         subLinkTo={pageCopy.sections.recentlyReviewed.subLink.to}
-        loading={reviewsLoading}
-        error={reviewsError !== undefined}
+        loading={loading}
+        error={error !== undefined}
         cards={reviewsData && reviewsData.sTAGINGReviewsList.items}
       />
     </PageContainer>
