@@ -120,16 +120,18 @@ const ReviewModal = () => {
   useEffect(() => {
     const noBackgroundPageSet = !(location.state && location.state.background);
     if (noBackgroundPageSet) {
-      const locationWithDefaultLandingBackground = {
+      const defaultBackgroundPage = {
+        pathname: RouteName.LANDING,
+      };
+      const newLocation = {
         ...location,
         state: {
-          background: {
-            pathname: RouteName.LANDING,
-          },
+          background: defaultBackgroundPage,
         },
       };
 
-      history.replace(locationWithDefaultLandingBackground);
+      history.replace(defaultBackgroundPage);
+      history.push(newLocation);
     }
   }, []); // eslint-disable-line
 

@@ -42,7 +42,7 @@ const CompanyDisplay = () => {
   const { loading, error, data } = useQuery<GetCompany>(GET_COMPANY, {
     variables: { slug: companySlug },
   });
-  console.log(data && data.sTAGINGCompany);
+
   const jobs = useMemo(
     () =>
       data && data.sTAGINGCompany && data.sTAGINGCompany.jobs

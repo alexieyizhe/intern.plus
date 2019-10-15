@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -58,39 +59,47 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   avgRating,
   linkTo,
   ...rest
-}) => (
-  <Container
-    role={"link"}
-    onClick={() => window.open(linkTo, "_self")}
-    tabIndex={0}
-    {...rest}
-  >
-    <Text className="name" variant="heading2">
-      {name}
-    </Text>
+}) => {
+  const [clicked, setClicked] = useState(false);
 
-    <Text className="logo">logo</Text>
+  if (clicked) {
+    return <Redirect push to={linkTo} />;
+  }
 
-    {desc && (
-      <Text className="desc" variant="subheading">
-        {desc}
+  return (
+    <Container
+      role="link"
+      onClick={() => setClicked(true)}
+      tabIndex={0}
+      {...rest}
+    >
+      <Text className="name" variant="heading2">
+        {name}
       </Text>
-    )}
 
-    <div className="ratings">
-      <StarRating
-        maxStars={5}
-        filledStars={Math.round(avgRating || 0)}
-        readOnly
-      />
-      <Text variant="body" color="black">
-        {avgRating}
-      </Text>
-      <Text variant="body" color="greyDark">
-        ({numRatings})
-      </Text>
-    </div>
-  </Container>
-);
+      <Text className="logo">logo</Text>
+
+      {desc && (
+        <Text className="desc" variant="subheading">
+          {desc}
+        </Text>
+      )}
+
+      <div className="ratings">
+        <StarRating
+          maxStars={5}
+          filledStars={Math.round(avgRating || 0)}
+          readOnly
+        />
+        <Text variant="body" color="black">
+          {avgRating}
+        </Text>
+        <Text variant="body" color="greyDark">
+          ({numRatings})
+        </Text>
+      </div>
+    </Container>
+  );
+};
 
 export default CompanyCard;
