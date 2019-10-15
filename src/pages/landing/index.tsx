@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
 import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
-import { SEARCH_VALUE_QUERY_PARAM_KEY } from "src/pages/search";
+import { SEARCH_VALUE_QUERY_PARAM_KEY } from "src/pages/search/components/SearchHandler";
 import { GetCompanies } from "src/types/generated/GetCompanies";
 import { GetReviews } from "src/types/generated/GetReviews";
 import { Size } from "src/theme/constants";

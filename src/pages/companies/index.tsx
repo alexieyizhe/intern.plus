@@ -1,6 +1,14 @@
 import React from "react";
-import { Switch, Route, useRouteMatch, match } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  Redirect,
+  useRouteMatch,
+  match,
+} from "react-router-dom";
+
 import { PageContainer } from "src/components";
+import { RouteName } from "src/utils/routes";
 
 const CompaniesPage = () => {
   const match = useRouteMatch() as match;
@@ -13,7 +21,7 @@ const CompaniesPage = () => {
         </Route>
 
         <Route path={match.path}>
-          <div>bunch of companies</div>
+          <Redirect to={`${RouteName.FIND}${RouteName.COMPANIES}`} />
         </Route>
       </Switch>
     </PageContainer>
