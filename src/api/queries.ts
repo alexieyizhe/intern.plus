@@ -82,12 +82,37 @@ export const GET_JOB = gql`
           updatedAt
           body
           overallScore
+          tags
         }
       }
       avgReviewScore
       avgWorkLifeBalanceScore
       avgMeaningfulWorkScore
       avgLearningMentorshipScore
+    }
+  }
+`;
+
+export const GET_REVIEW = gql`
+  query GetReview($id: ID) {
+    sTAGINGReview(id: $id) {
+      author
+      body
+      job {
+        title
+        location
+      }
+      company {
+        name
+      }
+      salary
+      salaryPeriod
+      salaryCurrency
+      overallScore
+      learningMentorshipScore
+      meaningfulWorkScore
+      workLifeBalanceScore
+      tags
     }
   }
 `;

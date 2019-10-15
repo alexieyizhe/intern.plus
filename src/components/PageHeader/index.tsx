@@ -5,6 +5,7 @@ import { default as AnimatedIcon } from "react-useanimations";
 import { Size } from "src/theme/constants";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
+import { RouteName } from "src/utils/routes";
 
 export const HEADER_HEIGHT = 80;
 
@@ -36,7 +37,11 @@ const Container = styled.header`
 const Logo = styled.div`
   justify-content: flex-start;
 
-  & > img {
+  & a {
+    text-decoration: none;
+  }
+
+  & img {
     max-width: 50px;
   }
 
@@ -44,11 +49,11 @@ const Logo = styled.div`
     justify-content: center;
     order: 2;
 
-    & > img {
+    & img {
       max-width: 35px;
     }
     
-    & > h2 {
+    & h2 {
       font-size: ${theme.fontSize[Size.MEDIUM]}px;
     }
   `}
@@ -94,25 +99,30 @@ const ProfileAvatar = styled.div`
 const Footer = () => (
   <Container>
     <Logo>
-      <img
-        src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
-        alt="An icon depicting a tugboat"
-      />
-      <Text variant="heading2" as="h2">
-        Tugboat
-      </Text>
+      <Link to={RouteName.LANDING}>
+        <img
+          src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
+          alt="An icon depicting a tugboat"
+        />
+      </Link>
+
+      <Link to={RouteName.LANDING}>
+        <Text variant="heading2" as="h2">
+          Tugboat
+        </Text>
+      </Link>
     </Logo>
 
     <NavLinks>
       <AnimatedIcon className="mobileMenu" animationKey="menu" />
 
-      <Link to="/">
+      <Link to={RouteName.JOBS}>
         <Text variant="subheading">Positions</Text>
       </Link>
-      <Link to="/">
+      <Link to={RouteName.COMPANIES}>
         <Text variant="subheading">Companies</Text>
       </Link>
-      <Link to="/">
+      <Link to={RouteName.REVIEWS}>
         <Text variant="subheading">Reviews</Text>
       </Link>
     </NavLinks>

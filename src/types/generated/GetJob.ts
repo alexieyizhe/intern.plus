@@ -28,6 +28,10 @@ export interface GetJob_sTAGINGJob_reviews_items {
    * Overall score of the job in a review.
    */
   overallScore: number | null;
+  /**
+   * Tags to provide additional information for a review.
+   */
+  tags: (string | null)[] | null;
 }
 
 export interface GetJob_sTAGINGJob_reviews {

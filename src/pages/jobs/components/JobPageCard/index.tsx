@@ -45,6 +45,7 @@ const getDetailsMarkup = (
           <StarRating
             maxStars={5}
             filledStars={Math.round(info.avgReviewScore || 0)}
+            readOnly
           />
           <Text variant="subheading" as="div">
             {info.reviews

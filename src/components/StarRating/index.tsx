@@ -50,6 +50,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
   filledStars,
   onClickStar,
   readOnly,
+  children,
   ...rest
 }) => {
   const [hoverStars, setHoverStars] = useState<number | false>(false);
@@ -92,6 +93,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
           <AnimatedIcon animationKey="star" size={size} autoplay={filled} />
         </Star>
       ))}
+      {children}
     </Container>
   );
 };

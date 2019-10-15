@@ -29,10 +29,10 @@ const buildReviewList = (
     color: "#FFEBEE",
   }));
 
-const CompanyDisplay = () => {
+const JobDisplay = () => {
   /**
-   * Fetch the company with the corresponding slug. Store
-   * the job results for use in searching.
+   * Fetch the job with the corresponding id. Store
+   * the reviews for this job for use in searching.
    */
   const { jobId } = useParams();
   const { loading, error, data } = useQuery<GetJob>(GET_JOB, {
@@ -86,4 +86,4 @@ const CompanyDisplay = () => {
   );
 };
 
-export default CompanyDisplay;
+export default JobDisplay;
