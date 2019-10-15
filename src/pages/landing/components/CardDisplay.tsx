@@ -99,7 +99,7 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
       )}
       {cards &&
         cards.map((cardInfo, i) =>
-          // TODO: refactor this type guard
+          // TODO: refactor this type guard into something like ResultsDisplay
           cardInfo.__typename === "STAGINGCompany" ? (
             <CompanyCard
               key={cardInfo.slug || i}

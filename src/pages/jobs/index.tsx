@@ -8,7 +8,7 @@ const JobsPage = () => {
   return (
     <PageContainer>
       <Switch>
-        <Route path={`${match.path}/:companySlug`}>
+        <Route path={`${match.path}/:jobId`}>
           <div>some job</div>
         </Route>
 

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Redirect, useLocation } from "react-router-dom";
 
 import Card, { ICardProps } from "../RawCard";
 import StarRating from "src/components/StarRating";
@@ -70,23 +71,41 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
   linkTo,
   children,
   ...rest
-}) => (
-  <Container
-    color="greyLight"
-    role={"link"}
-    onClick={() => window.open(linkTo, "_self")}
-    tabIndex={0}
-    {...rest}
-  >
-    <Text className="heading" variant="heading3" color={color}>
-      {heading}
-    </Text>
-    <Text className="subheading" variant="heading4">
-      {subheading}
-    </Text>
-    <StarRating maxStars={5} filledStars={rating || 0} readOnly />
-    <div className="contents">{children}</div>
-  </Container>
-);
+}) => {
+  const location = useLocation();
+  const [clicked, setClicked] = useState(false);
+
+  if (clicked) {
+    return (
+      <Redirect
+        to={{
+          pathname: linkTo,
+          state: {
+            background: location,
+          },
+        }}
+      />
+    );
+  }
+
+  return (
+    <Container
+      color="greyLight"
+      role="link"
+      onClick={() => setClicked(true)}
+      tabIndex={0}
+      {...rest}
+    >
+      <Text className="heading" variant="heading3" color={color}>
+        {heading}
+      </Text>
+      <Text className="subheading" variant="heading4">
+        {subheading}
+      </Text>
+      <StarRating maxStars={5} filledStars={rating || 0} readOnly />
+      <div className="contents">{children}</div>
+    </Container>
+  );
+};
 
 export default ReviewCard;
