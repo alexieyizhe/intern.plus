@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 
 import Card, { ICardProps } from "../RawCard";
 import StarRating from "src/components/StarRating";
@@ -24,6 +25,13 @@ const Container = styled(Card)`
     "title    title"
     "subtitle subtitle"
     "ratings  salary";
+
+  cursor: pointer;
+  transition: box-shadow 150ms ease-in;
+  &:hover,
+  &:focus {
+    box-shadow: ${({ theme }) => theme.boxShadow.hover};
+  }
 
   & > .title {
     grid-area: title;
@@ -66,35 +74,47 @@ const JobCard: React.FC<IJobCardProps> = ({
   minHourlySalary,
   maxHourlySalary,
   salaryCurrency,
+  linkTo,
   ...rest
-}) => (
-  <Container {...rest}>
-    <Text className="title" variant="heading3">
-      {title}
-    </Text>
-    <Text className="subtitle" variant="heading4">
-      {subtitle}
-    </Text>
+}) => {
+  const [clicked, setClicked] = useState(false);
 
-    <div className="ratings">
-      <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly />
-      <Text variant="body" color="black">
-        {avgRating}
-      </Text>
-      <Text variant="body" color="greyDark">
-        ({numRatings})
-      </Text>
-    </div>
+  if (clicked) return <Redirect push to={linkTo} />;
 
-    <div className="salary">
-      <Text variant="heading2">
-        {minHourlySalary === maxHourlySalary
-          ? minHourlySalary
-          : `${minHourlySalary} - ${maxHourlySalary}`}
+  return (
+    <Container
+      role="link"
+      tabIndex={0}
+      onClick={() => setClicked(true)}
+      {...rest}
+    >
+      <Text className="title" variant="heading3">
+        {title}
       </Text>
-      <Text variant="heading3">{`${salaryCurrency}/hr`}</Text>
-    </div>
-  </Container>
-);
+      <Text className="subtitle" variant="heading4">
+        {subtitle}
+      </Text>
+
+      <div className="ratings">
+        <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly />
+        <Text variant="body" color="black">
+          {avgRating}
+        </Text>
+        <Text variant="body" color="greyDark">
+          ({numRatings})
+        </Text>
+      </div>
+
+      <div className="salary">
+        <Text variant="heading2">
+          {minHourlySalary === maxHourlySalary
+            ? minHourlySalary
+            : `${minHourlySalary} - ${maxHourlySalary}`}
+        </Text>
+        <Text variant="heading3">{`${salaryCurrency}/hr`}</Text>
+      </div>
+    </Container>
+  );
+};
 
 export default JobCard;

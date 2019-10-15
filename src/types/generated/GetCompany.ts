@@ -14,6 +14,55 @@ export interface GetCompany_sTAGINGCompany_reviews {
   count: number;
 }
 
+export interface GetCompany_sTAGINGCompany_jobs_items_reviews {
+  __typename: "STAGINGReviewListResponse";
+  /**
+   * List items count
+   */
+  count: number;
+}
+
+export interface GetCompany_sTAGINGCompany_jobs_items {
+  __typename: "STAGINGJob";
+  id: string | null;
+  /**
+   * Title of a job.
+   */
+  title: string | null;
+  /**
+   * Location of a job.
+   */
+  location: string | null;
+  /**
+   * Minimum reported salary of a job, measured in cents/hour.
+   */
+  minSalary: number | null;
+  /**
+   * Maximum reported salary for a job, measured in cents/hour.
+   */
+  maxSalary: number | null;
+  /**
+   * Currency of min, max, and avg salary.
+   */
+  salaryCurrency: string | null;
+  /**
+   * Reviews for a job.
+   */
+  reviews: GetCompany_sTAGINGCompany_jobs_items_reviews | null;
+  /**
+   * Average of all reviews for a job.
+   */
+  avgReviewScore: number | null;
+}
+
+export interface GetCompany_sTAGINGCompany_jobs {
+  __typename: "STAGINGJobListResponse";
+  /**
+   * List items
+   */
+  items: GetCompany_sTAGINGCompany_jobs_items[];
+}
+
 export interface GetCompany_sTAGINGCompany {
   __typename: "STAGINGCompany";
   /**
@@ -29,13 +78,10 @@ export interface GetCompany_sTAGINGCompany {
    */
   reviews: GetCompany_sTAGINGCompany_reviews | null;
   /**
-   * Number of reviews for a company.
-   */
-  numReviews: number | null;
-  /**
    * Average score of all reviews of a company.
    */
   avgReviewScore: number | null;
+  jobs: GetCompany_sTAGINGCompany_jobs | null;
 }
 
 export interface GetCompany {
@@ -43,5 +89,5 @@ export interface GetCompany {
 }
 
 export interface GetCompanyVariables {
-  companyId?: string | null;
+  slug?: string | null;
 }

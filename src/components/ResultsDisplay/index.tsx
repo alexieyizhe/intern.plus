@@ -9,10 +9,10 @@ import {
   resultIsCompany,
   resultIsReviewJob,
   resultIsReviewUser,
-} from "../utils";
-import pageCopy from "../copy";
+} from "src/types/searchResults";
 
-import { Text, ReviewCard, CompanyCard, JobCard } from "src/components";
+import Text from "src/components/Text";
+import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -28,6 +28,10 @@ export interface IResultsDisplayProps
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
+const NO_RESULTS_TEXT = "No results were found.";
+const ERROR_OCCURRED_TEXT = "An error occurred while searching.";
+const START_SEARCH_TEXT =
+  "There's nothing here. Type something to get started!";
 /**
  * Determines the mood of the planet illustration
  * that should be displayed in situations when normal
@@ -52,7 +56,7 @@ const getMiscContent = (
     mood = "blissful";
     markup = (
       <Text variant="subheading" as="div">
-        {pageCopy.startSearchText}
+        {START_SEARCH_TEXT}
       </Text>
     );
   } else if (loading) {
@@ -62,14 +66,14 @@ const getMiscContent = (
     mood = "ko";
     markup = (
       <Text variant="subheading" color="error" as="div">
-        {pageCopy.errorOccurredText}
+        {ERROR_OCCURRED_TEXT}
       </Text>
     );
   } else if (noResults) {
     mood = "sad";
     markup = (
       <Text variant="subheading" as="div">
-        {pageCopy.noResultsText}
+        {NO_RESULTS_TEXT}
       </Text>
     );
   }
@@ -104,7 +108,9 @@ const getResultCardMarkup = (result: SearchResult) => {
         subheading={result.role}
         rating={result.rating}
         linkTo={`${RouteName.REVIEWS}/${result.id}`}
-      />
+      >
+        <Text variant="body">{result.contents}</Text>
+      </ResultsReviewCard>
     );
   } else if (resultIsReviewUser(result)) {
     return (
@@ -114,7 +120,9 @@ const getResultCardMarkup = (result: SearchResult) => {
         subheading={result.date}
         rating={result.rating}
         linkTo={`${RouteName.REVIEWS}/${result.id}`}
-      />
+      >
+        <Text variant="body">{result.contents}</Text>
+      </ResultsReviewCard>
     );
   }
 
@@ -187,6 +195,8 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
     () => !searched || loading || error || !searchResults.length,
     [error, loading, searchResults.length, searched]
   );
+  // TODO: should loading indicator be displayed whenever user stops typing to show waiting and not just
+  //       have a period of time where nothing happens before search activates?
 
   const [planetMood, setPlanetMood] = useState<KawaiiMood>("blissful");
   const [miscMarkup, setMiscMarkup] = useState(<></>);

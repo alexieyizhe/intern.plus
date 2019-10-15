@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { GetCompaniesSearch_sTAGINGCompaniesList_items } from "src/types/generated/GetCompaniesSearch";
-
 export interface IReviewJobResult {
   name: string; // company name
   id: string;
@@ -61,16 +58,3 @@ export const resultIsCompany = (
 
 export const resultIsJob = (result: SearchResult): result is IJobResult =>
   "location" in result && "salaryCurrency" in result;
-
-export const buildSearchResults = (
-  itemList: GetCompaniesSearch_sTAGINGCompaniesList_items[]
-): SearchResult[] =>
-  itemList.map(item => ({
-    name: item.name || "",
-    slug: item.slug || "",
-    desc: item.desc || "",
-    logoSrc: "" || "",
-    avgRating: item.avgReviewScore || 0,
-    numRatings: item.reviews ? item.reviews.count : 0,
-    color: "#FFF3E0",
-  }));

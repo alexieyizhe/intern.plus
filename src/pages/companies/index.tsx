@@ -1,22 +1,35 @@
 import React from "react";
-import { Switch, Route, useRouteMatch, match } from "react-router-dom";
-import { PageContainer } from "src/components";
+import {
+  Switch,
+  Route,
+  Redirect,
+  useRouteMatch,
+  match as Match,
+} from "react-router-dom";
 
+import { RouteName } from "src/utils/routes";
+import CompanyDisplay from "./components/CompanyDisplay";
+
+/**
+ * Page router will either:
+ *  - redirect to search with a filter of only companies
+ *  - display a company and its jobs
+ */
 const CompaniesPage = () => {
-  const match = useRouteMatch() as match;
+  const match = useRouteMatch() as Match;
 
   return (
-    <PageContainer>
+    <>
       <Switch>
         <Route path={`${match.path}/:companySlug`}>
-          <div>some company</div>
+          <CompanyDisplay />
         </Route>
 
         <Route path={match.path}>
-          <div>bunch of companies</div>
+          <Redirect to={`${RouteName.FIND}${RouteName.COMPANIES}`} />
         </Route>
       </Switch>
-    </PageContainer>
+    </>
   );
 };
 

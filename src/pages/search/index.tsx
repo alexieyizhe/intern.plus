@@ -1,33 +1,45 @@
-import React, {
-  useState,
-  useCallback,
-  useMemo,
-  useRef,
-  useEffect,
-} from "react";
+/* eslint-disable @typescript-eslint/camelcase */
+import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
-import { debounce } from "debounce";
 
 import { GET_COMPANIES_SEARCH } from "src/api/queries";
-import { GetCompaniesSearch } from "src/types/generated/GetCompaniesSearch";
-import { Size } from "src/theme/constants";
+import {
+  GetCompaniesSearch,
+  GetCompaniesSearch_sTAGINGCompaniesList_items,
+} from "src/types/generated/GetCompaniesSearch";
+import { SearchResult } from "src/types/searchResults";
 import { useQueryParam } from "src/utils/hooks/useQueryParam";
-import { buildSearchResults } from "./utils";
+import { Size } from "src/theme/constants";
 import pageCopy from "./copy";
 
 import {
+  SEARCH_VALUE_QUERY_PARAM_KEY,
   PageContainer as BasePageContainer,
-  Search,
+  SearchHandler,
+  ResultsDisplay,
   Text,
 } from "src/components";
-import ResultsDisplay from "./components/ResultsDisplay";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-export const SEARCH_VALUE_QUERY_PARAM_KEY = "q";
-
+/**
+ * Creates a friendly list of job results from fetched data.
+ * @param itemList list of job result items
+ */
+const buildSearchResults = (
+  itemList: GetCompaniesSearch_sTAGINGCompaniesList_items[]
+): SearchResult[] =>
+  itemList.map(item => ({
+    name: item.name || "",
+    slug: item.slug || "",
+    desc: item.desc || "",
+    logoSrc: "" || "",
+    avgRating: item.avgReviewScore || 0,
+    numRatings: item.reviews ? item.reviews.count : 0,
+    color: "#FFF3E0",
+  }));
 /**
  * Creates the markup for the page heading, which will be different
  * based on if a search query exists, whether user is browsing, etc
@@ -58,10 +70,6 @@ const getHeadingMarkup = (query: string, queryFilters?: string[]) => {
 const PageContainer = styled(BasePageContainer)`
   & > * {
     margin-bottom: 15px;
-  }
-
-  & > .search-input {
-    width: 100%;
   }
 `;
 
@@ -96,21 +104,9 @@ const QueryHeadingText = styled(Text)`
  *******************************************************************/
 const SearchPage: React.FC = () => {
   /**
-   * Grab the query if it is provided in a query parameter
+   * Grab the query if it is provided in a query parameter.
    */
   const defaultQueryVal = useQueryParam(SEARCH_VALUE_QUERY_PARAM_KEY) as string; // search query to start with
-
-  /**
-   * Track the current value in the search box.
-   */
-  const [searchVal, setSearchVal] = useState(defaultQueryVal || "");
-  const searchOnChange = useCallback(
-    // TODO: debounce this
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchVal(e.target.value);
-    },
-    []
-  );
 
   /**
    * Track the last searched value. This is useful for only calling the API after
@@ -118,19 +114,15 @@ const SearchPage: React.FC = () => {
    * the header.
    */
   const [lastSearchedVal, setLastSearchedVal] = useState(defaultQueryVal); // whether the user has searched 1 or more times
-  // track debounce with ref (see https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
-  const debouncedLastSearchUpdater = useRef(
-    debounce((val: string) => setLastSearchedVal(val), 1500)
+  const onNewSearchVal = useCallback(
+    (newVal: string) => setLastSearchedVal(newVal),
+    []
   );
-  useEffect(() => {
-    if (searchVal) {
-      debouncedLastSearchUpdater.current(searchVal);
-    }
-  }, [searchVal]);
 
   /**
    * Every time the search query is updated, update the search results.
-   * We debounce the onChange call, so this API call is not made excessively.
+   * We debounce the onChange call in search handler, so that this API
+   * call is not made excessively.
    */
   const { loading, error, data } = useQuery<GetCompaniesSearch>(
     GET_COMPANIES_SEARCH,
@@ -143,14 +135,6 @@ const SearchPage: React.FC = () => {
   );
 
   /**
-   * Build the markup for the heading. The heading changes based on
-   * if you've searched before, if there are filters affecting search, browsing, etc
-   */
-  const headingMarkup = useMemo(() => getHeadingMarkup(lastSearchedVal), [
-    lastSearchedVal,
-  ]);
-
-  /**
    * Build the list of results based on fetched items.
    * This simply serves to make the data easier to manipulate and work with.
    */
@@ -159,16 +143,19 @@ const SearchPage: React.FC = () => {
     [data]
   );
 
+  /**
+   * Build the markup for the heading. The heading changes based on
+   * if you've searched before, if there are filters affecting search, browsing, etc
+   */
+  const headingMarkup = useMemo(() => getHeadingMarkup(lastSearchedVal), [
+    lastSearchedVal,
+  ]);
+
   return (
     <PageContainer>
       <HeadingContainer>{headingMarkup}</HeadingContainer>
 
-      <Search
-        className="search-input"
-        value={searchVal}
-        onChange={searchOnChange}
-        onSearchStart={() => setLastSearchedVal(searchVal)}
-      />
+      <SearchHandler onNewSearchVal={onNewSearchVal} />
 
       <ResultsDisplay
         searched={lastSearchedVal !== null}

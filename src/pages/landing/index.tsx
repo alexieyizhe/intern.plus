@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
 import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
-import { SEARCH_VALUE_QUERY_PARAM_KEY } from "src/pages/search";
 import { GetCompanies } from "src/types/generated/GetCompanies";
 import { GetReviews } from "src/types/generated/GetReviews";
 import { Size } from "src/theme/constants";
@@ -12,6 +11,7 @@ import { RouteName } from "src/utils/routes";
 import pageCopy from "./copy";
 
 import {
+  SEARCH_VALUE_QUERY_PARAM_KEY,
   Card,
   PageContainer as BasePageContainer,
   Search,
@@ -110,6 +110,10 @@ const SearchButton = styled(Button)`
  *                           **Component**                         *
  *******************************************************************/
 const LandingPage = () => {
+  /**
+   * Fetch companies and reviews that are displayed on the
+   * landing page.
+   */
   const {
     loading: companiesLoading,
     error: companiesError,
@@ -122,6 +126,11 @@ const LandingPage = () => {
     data: reviewsData,
   } = useQuery<GetReviews>(GET_REVIEWS_LANDING);
 
+  /**
+   * Tracks the value a user is searching for. If a search is
+   * being attempted, redirect to the search page with the
+   * query provided by the user pre-filled in.
+   */
   const [searchStarted, setSearchStarted] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const searchOnChange = useCallback(

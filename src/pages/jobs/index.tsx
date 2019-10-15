@@ -1,22 +1,35 @@
 import React from "react";
-import { Switch, Route, useRouteMatch, match } from "react-router-dom";
-import { PageContainer } from "src/components";
+import {
+  Switch,
+  Route,
+  Redirect,
+  useRouteMatch,
+  match as Match,
+} from "react-router-dom";
 
+import { RouteName } from "src/utils/routes";
+import JobDisplay from "./components/JobDisplay";
+
+/**
+ * Page router will either:
+ *  - redirect to search with a filter of only jobs
+ *  - display a job and its reviews
+ */
 const JobsPage = () => {
-  const match = useRouteMatch() as match;
+  const match = useRouteMatch() as Match;
 
   return (
-    <PageContainer>
+    <>
       <Switch>
         <Route path={`${match.path}/:jobId`}>
-          <div>some job</div>
+          <JobDisplay />
         </Route>
 
         <Route path={match.path}>
-          <div>bunch of jobs</div>
+          <Redirect to={`${RouteName.FIND}${RouteName.JOBS}`} />
         </Route>
       </Switch>
-    </PageContainer>
+    </>
   );
 };
 

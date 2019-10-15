@@ -83,6 +83,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
   if (clicked) {
     return (
       <Redirect
+        push
         to={{
           pathname: linkTo,
           state: {
