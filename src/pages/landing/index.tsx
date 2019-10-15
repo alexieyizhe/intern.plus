@@ -4,10 +4,11 @@ import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
 import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
+import { SEARCH_VALUE_QUERY_PARAM_KEY } from "src/pages/search";
 import { GetCompanies } from "src/types/generated/GetCompanies";
 import { GetReviews } from "src/types/generated/GetReviews";
 import { Size } from "src/theme/constants";
-import { SEARCH_VALUE_QUERY_PARAM_KEY } from "src/pages/search";
+import { RouteName } from "src/utils/routes";
 import pageCopy from "./copy";
 
 import {
@@ -18,8 +19,10 @@ import {
   Button,
 } from "src/components";
 import CardDisplay from "./components/CardDisplay";
-import { RouteName } from "src/utils/routes";
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const PageContainer = styled(BasePageContainer)`
   max-width: 1300px;
 `;
@@ -103,6 +106,9 @@ const SearchButton = styled(Button)`
   `}
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const LandingPage = () => {
   const {
     loading: companiesLoading,

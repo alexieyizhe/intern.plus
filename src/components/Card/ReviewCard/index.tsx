@@ -75,6 +75,11 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
   const location = useLocation();
   const [clicked, setClicked] = useState(false);
 
+  /**
+   * Go to review page while setting state
+   * so that the current page now becomes the
+   * background for the review modal.
+   */
   if (clicked) {
     return (
       <Redirect

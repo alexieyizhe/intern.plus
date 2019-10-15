@@ -14,6 +14,9 @@ import { GetReviews_sTAGINGReviewsList_items } from "src/types/generated/GetRevi
 import pageCopy from "../copy";
 import { RouteName } from "src/utils/routes";
 
+/*******************************************************************
+ *                             **Types**                           *
+ *******************************************************************/
 export interface ICardDisplayProps
   extends React.ComponentPropsWithoutRef<"div"> {
   heading: string;
@@ -26,6 +29,9 @@ export interface ICardDisplayProps
     | GetReviews_sTAGINGReviewsList_items)[];
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.section`
   display: flex;
   flex-direction: column;
@@ -75,6 +81,9 @@ const SubLink = styled(Link)`
   margin-left: auto;
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const LandingPage: React.FC<ICardDisplayProps> = ({
   heading,
   loading,
