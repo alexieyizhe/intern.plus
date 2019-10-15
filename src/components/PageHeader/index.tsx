@@ -40,7 +40,7 @@ const Logo = styled.div`
     max-width: 50px;
   }
 
-  ${({ theme }) => theme.mediaQueries.largeMobile`
+  ${({ theme }) => theme.mediaQueries.tablet`
     justify-content: center;
     order: 2;
 
@@ -65,7 +65,7 @@ const NavLinks = styled.nav`
     display: none;
   }
 
-  ${({ theme }) => theme.mediaQueries.largeMobile`
+  ${({ theme }) => theme.mediaQueries.tablet`
     order: 3;
 
     display: flex;
@@ -85,7 +85,7 @@ const NavLinks = styled.nav`
 const ProfileAvatar = styled.div`
   justify-content: flex-end;
 
-  ${({ theme }) => theme.mediaQueries.largeMobile`
+  ${({ theme }) => theme.mediaQueries.tablet`
     justify-content: flex-start;
     order: 1;
   `}

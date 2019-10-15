@@ -9,11 +9,12 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { debounce } from "debounce";
 
-import { useQueryParam } from "src/utils/hooks/useQueryParam";
 import { GET_COMPANIES_SEARCH } from "src/api/queries";
 import { GetCompaniesSearch } from "src/types/generated/GetCompaniesSearch";
-import pageCopy from "./copy";
+import { Size } from "src/theme/constants";
+import { useQueryParam } from "src/utils/hooks/useQueryParam";
 import { buildSearchResults } from "./utils";
+import pageCopy from "./copy";
 
 import {
   PageContainer as BasePageContainer,
@@ -38,7 +39,7 @@ const getHeadingMarkup = (query: string, queryFilters?: string[]) => {
     if (!queryFilters) {
       return (
         <>
-          <Text variant="heading1" color="greyDark" as="div">
+          <Text variant="heading1" color="greyDark">
             {pageCopy.searchingHeadingPrefix}
           </Text>
           &nbsp;
@@ -69,6 +70,16 @@ const HeadingContainer = styled.div`
   align-items: center;
 
   margin-bottom: 15px;
+
+  ${({ theme }) => theme.mediaQueries.tablet`    
+    & > * {
+      font-size: ${theme.fontSize[Size.LARGE]}px;
+    }
+  `}
+
+  ${({ theme }) => theme.mediaQueries.mobile`    
+    text-align: center;
+  `}
 `;
 
 const QueryHeadingText = styled(Text)`
