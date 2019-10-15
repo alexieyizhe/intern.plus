@@ -7,8 +7,9 @@ import {
   match,
 } from "react-router-dom";
 
-import { PageContainer } from "src/components";
 import { RouteName } from "src/utils/routes";
+import { PageContainer } from "src/components";
+import CompanyDisplay from "./components/CompanyDisplay";
 
 const CompaniesPage = () => {
   const match = useRouteMatch() as match;
@@ -17,7 +18,7 @@ const CompaniesPage = () => {
     <PageContainer>
       <Switch>
         <Route path={`${match.path}/:companySlug`}>
-          <div>some company</div>
+          <CompanyDisplay />
         </Route>
 
         <Route path={match.path}>

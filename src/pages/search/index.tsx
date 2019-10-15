@@ -1,23 +1,45 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 
 import { GET_COMPANIES_SEARCH } from "src/api/queries";
-import { GetCompaniesSearch } from "src/types/generated/GetCompaniesSearch";
-import { Size } from "src/theme/constants";
+import {
+  GetCompaniesSearch,
+  GetCompaniesSearch_sTAGINGCompaniesList_items,
+} from "src/types/generated/GetCompaniesSearch";
+import { SearchResult } from "src/types/searchResults";
 import { useQueryParam } from "src/utils/hooks/useQueryParam";
-import { buildSearchResults } from "./utils";
+import { Size } from "src/theme/constants";
 import pageCopy from "./copy";
 
-import { PageContainer as BasePageContainer, Text } from "src/components";
-import SearchHandler, {
+import {
   SEARCH_VALUE_QUERY_PARAM_KEY,
-} from "./components/SearchHandler";
-import ResultsDisplay from "./components/ResultsDisplay";
+  PageContainer as BasePageContainer,
+  SearchHandler,
+  ResultsDisplay,
+  Text,
+} from "src/components";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
+/**
+ * Creates a friendly list of job results from fetched data.
+ * @param itemList list of job result items
+ */
+const buildSearchResults = (
+  itemList: GetCompaniesSearch_sTAGINGCompaniesList_items[]
+): SearchResult[] =>
+  itemList.map(item => ({
+    name: item.name || "",
+    slug: item.slug || "",
+    desc: item.desc || "",
+    logoSrc: "" || "",
+    avgRating: item.avgReviewScore || 0,
+    numRatings: item.reviews ? item.reviews.count : 0,
+    color: "#FFF3E0",
+  }));
 /**
  * Creates the markup for the page heading, which will be different
  * based on if a search query exists, whether user is browsing, etc
