@@ -135,7 +135,11 @@ const LandingPage = () => {
       <br />
       <br />
       <div>SEARCH</div>
-      <Search onSearchStart={(v: string) => console.log("searching with", v)} />
+      <Search
+        value="some search value "
+        onChange={() => {}}
+        onSearchStart={() => console.log("searching with")}
+      />
 
       <br />
       <br />
@@ -210,6 +214,7 @@ const LandingPage = () => {
         maxHourlySalary={48}
         salaryCurrency="USD"
         color="#CAE9ED"
+        linkTo=""
       />
 
       <br />
@@ -223,6 +228,7 @@ const LandingPage = () => {
         maxHourlySalary={21}
         salaryCurrency="CAD"
         color="#CAE9ED"
+        linkTo=""
       />
 
       <br />

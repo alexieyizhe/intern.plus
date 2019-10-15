@@ -1,6 +1,6 @@
 {
   "name": "tugboat",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -36,9 +36,12 @@
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "apollo-boost": "^0.4.4",
+    "debounce": "^1.2.0",
     "graphql": "^14.5.8",
+    "query-string": "^6.8.3",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-kawaii": "^0.14.4",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-useanimations": "^1.2.10",
@@ -47,6 +50,8 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.6.0",
+    "@types/debounce": "^1.2.0",
+    "@types/react-kawaii": "^0.11.0",
     "@types/react-router-dom": "^5.1.0",
     "@types/styled-components": "^4.1.19",
     "@typescript-eslint/eslint-plugin": "^2.3.3",

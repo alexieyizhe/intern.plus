@@ -1,40 +1,30 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
 import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
+import { SEARCH_VALUE_QUERY_PARAM_KEY } from "src/pages/search";
 import { GetCompanies } from "src/types/generated/GetCompanies";
 import { GetReviews } from "src/types/generated/GetReviews";
 import { Size } from "src/theme/constants";
+import { RouteName } from "src/utils/routes";
 import pageCopy from "./copy";
 
 import {
-  HEADER_HEIGHT,
-  FOOTER_HEIGHT,
   Card,
+  PageContainer as BasePageContainer,
   Search,
   Text,
   Button,
 } from "src/components";
 import CardDisplay from "./components/CardDisplay";
 
-const Container = styled.div`
-  position: relative;
-  min-height: calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px);
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
+const PageContainer = styled(BasePageContainer)`
   max-width: 1300px;
-  width: 100%;
-
-  margin: auto;
-  margin-top: ${HEADER_HEIGHT}px;
-  padding: 10px 100px;
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-   padding: 10px 80px;
-  `}
-
-  ${({ theme }) => theme.mediaQueries.largeMobile`
-   padding: 10px 40px;
-  `}
 `;
 
 const TitleCard = styled(Card)`
@@ -116,6 +106,9 @@ const SearchButton = styled(Button)`
   `}
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const LandingPage = () => {
   const {
     loading: companiesLoading,
@@ -129,8 +122,24 @@ const LandingPage = () => {
     data: reviewsData,
   } = useQuery<GetReviews>(GET_REVIEWS_LANDING);
 
+  const [searchStarted, setSearchStarted] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+  const searchOnChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setSearchVal(e.target.value),
+    []
+  );
+  const searchOnStart = useCallback(() => setSearchStarted(true), []);
+
+  if (searchStarted) {
+    return (
+      <Redirect
+        to={`${RouteName.FIND}?${SEARCH_VALUE_QUERY_PARAM_KEY}=${searchVal}`}
+      />
+    );
+  }
+
   return (
-    <Container>
+    <PageContainer>
       <TitleCard>
         <TitleCardLeft>
           <div>
@@ -142,7 +151,11 @@ const LandingPage = () => {
             </Text>
           </div>
           <div>
-            <SearchInput onSearchStart={() => {}} />
+            <SearchInput
+              value={searchVal}
+              onChange={searchOnChange}
+              onSearchStart={searchOnStart}
+            />
             <SearchButton onClick={() => {}} color="greenDark">
               <Text variant="subheading" color="white">
                 {pageCopy.splashCard.searchButtonText}
@@ -171,7 +184,7 @@ const LandingPage = () => {
         error={reviewsError !== undefined}
         cards={reviewsData && reviewsData.sTAGINGReviewsList.items}
       />
-    </Container>
+    </PageContainer>
   );
 };
 

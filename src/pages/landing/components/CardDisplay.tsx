@@ -14,6 +14,9 @@ import { GetReviews_sTAGINGReviewsList_items } from "src/types/generated/GetRevi
 import pageCopy from "../copy";
 import { RouteName } from "src/utils/routes";
 
+/*******************************************************************
+ *                             **Types**                           *
+ *******************************************************************/
 export interface ICardDisplayProps
   extends React.ComponentPropsWithoutRef<"div"> {
   heading: string;
@@ -26,6 +29,9 @@ export interface ICardDisplayProps
     | GetReviews_sTAGINGReviewsList_items)[];
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.section`
   display: flex;
   flex-direction: column;
@@ -58,7 +64,7 @@ const landingCardStyles = css`
   `}
 `;
 
-const DisplayContent = styled.span`
+const MiscContentContainer = styled.span`
   margin: 50px auto;
   text-align: center;
 `;
@@ -75,6 +81,9 @@ const SubLink = styled(Link)`
   margin-left: auto;
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const LandingPage: React.FC<ICardDisplayProps> = ({
   heading,
   loading,
@@ -88,19 +97,21 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
     <Text variant="heading2">{heading}</Text>
     <Display>
       {(loading || error) && (
-        <DisplayContent>
+        <MiscContentContainer>
           {loading && <AnimatedIcon animationKey="loading" />}
           {error && (
             <Text variant="subheading" color="error">
               {pageCopy.errorText}
             </Text>
           )}
-        </DisplayContent>
+        </MiscContentContainer>
       )}
       {cards &&
-        cards.map(cardInfo =>
+        cards.map((cardInfo, i) =>
+          // TODO: refactor this type guard into something like ResultsDisplay
           cardInfo.__typename === "STAGINGCompany" ? (
             <CompanyCard
+              key={cardInfo.slug || i}
               name={cardInfo.name}
               linkTo={`${RouteName.COMPANIES}/${cardInfo.slug}`}
               numRatings={cardInfo.reviews && cardInfo.reviews.count}
@@ -109,6 +120,7 @@ const LandingPage: React.FC<ICardDisplayProps> = ({
             />
           ) : (
             <ReviewCard
+              key={cardInfo.id || i}
               heading={cardInfo.company && cardInfo.company.name}
               subheading={cardInfo.job && cardInfo.job.title}
               linkTo={`${RouteName.REVIEWS}/${cardInfo.id}`}

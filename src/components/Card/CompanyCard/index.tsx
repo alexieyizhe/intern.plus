@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import Card, { ICardProps } from "../RawCard";
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
+import Card, { ICardProps } from "../RawCard";
 
 export interface ICompanyCardProps extends ICardProps {
   name: string | null;

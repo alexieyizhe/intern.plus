@@ -10,6 +10,9 @@ export * from "./Combo";
 export { default as Link } from "./Link";
 export * from "./Link";
 
+export { default as PageContainer } from "./PageContainer";
+export * from "./PageContainer";
+
 export { default as PageFooter } from "./PageFooter";
 export * from "./PageFooter";
 
