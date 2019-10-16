@@ -9,7 +9,7 @@ export const GET_REVIEW_DETAILS = gql`
       tags
       job {
         name
-        location
+        jobLocation
       }
       company {
         name

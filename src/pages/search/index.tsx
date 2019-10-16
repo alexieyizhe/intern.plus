@@ -235,11 +235,11 @@ const SearchPage: React.FC = () => {
   );
 
   const onNewSearchVal = useCallback((newVal: string) => {
-    setLastSearchedVal(newVal);
     // reset pagination
     setPage(1);
     setSearchResults([]);
     setReachedEnd(false);
+    setLastSearchedVal(newVal);
   }, []);
 
   return (

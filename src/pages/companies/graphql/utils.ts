@@ -26,7 +26,7 @@ export const buildCompanyJobCardsList = (
   jobList.map(job => ({
     id: job.id || "",
     name: job.name || "",
-    location: job.location || "",
+    location: job.jobLocation || "",
     minHourlySalary: job.minHourlySalary || 0,
     maxHourlySalary: job.maxHourlySalary || 0,
     salaryCurrency: job.salaryCurrency || "CAD",

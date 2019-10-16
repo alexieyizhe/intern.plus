@@ -46,7 +46,12 @@ const getDetailsMarkup = (
         <Text variant="heading1" as="div">
           {details.name}
         </Text>
-        <Text className="subheading" variant="heading3" as="div">
+        <Text
+          className="subheading"
+          variant="heading3"
+          as="div"
+          color="greyDark"
+        >
           {`${details.companyName} | ${details.location}`}
         </Text>
 

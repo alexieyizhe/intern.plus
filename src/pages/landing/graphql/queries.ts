@@ -13,7 +13,7 @@ export const GET_COMPANIES_REVIEWS_LANDING = gql`
       }
     }
 
-    reviewsList(sort: { createdAt: ASC }, first: 5) {
+    reviewsList(sort: { createdAt: DESC }, first: 5) {
       items {
         ...ReviewResultJob
       }

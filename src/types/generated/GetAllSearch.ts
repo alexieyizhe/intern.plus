@@ -62,10 +62,7 @@ export interface GetAllSearch_jobsList_items {
    * Title of a job.
    */
   name: string | null;
-  /**
-   * Location of a job.
-   */
-  location: string | null;
+  jobLocation: string | null;
   /**
    * Average of all reviews for a job.
    */
