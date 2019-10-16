@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
+import { useLocation, useHistory } from "react-router-dom";
 
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
@@ -50,8 +51,12 @@ const Container = styled.header<{ mobileMenuOpen: boolean }>`
   }
 
   &.scrolled::after,
-  &.scrolled::after {
+  &.mobileMenuOpen::after {
     opacity: 1;
+  }
+
+  &.mobileMenuOpen ~ .add-review-modal > div {
+    top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
   }
 
   ${({ theme, mobileMenuOpen }) => theme.mediaQueries.tablet`
@@ -170,10 +175,25 @@ const Header = () => {
     []
   );
 
+  const location = useLocation();
+  const history = useHistory();
+  const onClickAddReview = useCallback(
+    () =>
+      history.push({
+        pathname: RouteName.ADD,
+        state: {
+          background: location,
+        },
+      }),
+    [history, location]
+  );
+
   return (
     <Container
       mobileMenuOpen={mobileMenuOpen}
-      className={scrollY > 0 || mobileMenuOpen ? "scrolled" : ""}
+      className={`${scrollY > 0 ? "scrolled" : ""} ${
+        mobileMenuOpen ? "mobileMenuOpen" : ""
+      }`}
     >
       <Logo to={RouteName.LANDING}>
         <img src={LogoBlack} alt="An icon depicting a tugboat" />
@@ -208,6 +228,8 @@ const Header = () => {
       <ProfileAvatar>
         <img
           src={IconEdit}
+          onClick={onClickAddReview}
+          role="button"
           alt="A pencil icon, to be clicked to write a new review"
         />
       </ProfileAvatar>

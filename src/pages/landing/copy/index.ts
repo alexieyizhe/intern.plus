@@ -1,4 +1,5 @@
 import { RouteName } from "src/utils/routes";
+import { LandingDockImg } from "src/assets";
 
 const pageCopy = {
   splashCard: {
@@ -6,8 +7,7 @@ const pageCopy = {
     subheading: "Tugboat helps guide your search for one.",
     searchButtonText: "Browse reviews",
     splashImg: {
-      src:
-        "https://media.gettyimages.com/vectors/cargo-ship-and-harbour-flat-design-vector-id1176279865?s=2048x2048",
+      src: LandingDockImg,
       alt: "An illustration of a harbour with containers being unloaded.",
     },
   },

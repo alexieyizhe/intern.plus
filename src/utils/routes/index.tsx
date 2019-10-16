@@ -4,4 +4,5 @@ export enum RouteName {
   COMPANIES = "/companies",
   JOBS = "/positions",
   REVIEWS = "/reviews",
+  ADD = "/add",
 }

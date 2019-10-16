@@ -22,6 +22,7 @@ import ReviewsPage from "src/pages/reviews";
 import NotFoundPage from "src/pages/404";
 
 import ReviewModal from "src/pages/reviews/components/ReviewModal";
+import AddReviewModal from "src/pages/add-review";
 
 const AppSwitch: React.FC = () => {
   const location = useLocation();
@@ -62,9 +63,13 @@ const AppSwitch: React.FC = () => {
         </Route>
       </Switch>
 
-      {/* Modal for reviews to sit on top of other pages */}
+      {/* Modal for reviews and add-review to sit on top of other pages */}
       <Route path={`${RouteName.REVIEWS}/:reviewId`}>
         <ReviewModal />
+      </Route>
+
+      <Route path={`${RouteName.ADD}`}>
+        <AddReviewModal />
       </Route>
     </>
   );
