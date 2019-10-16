@@ -34,6 +34,7 @@ const Link: React.FC<ILinkProps> = ({ newTab, to, children, ...rest }) => {
       to={to}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : ""}
+      tabIndex={0}
       {...rest}
     >
       {children}
@@ -43,6 +44,7 @@ const Link: React.FC<ILinkProps> = ({ newTab, to, children, ...rest }) => {
       href={to}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : ""}
+      tabIndex={0}
       {...rest}
     >
       {children}

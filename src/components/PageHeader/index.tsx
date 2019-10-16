@@ -36,14 +36,12 @@ const Container = styled.header`
   `}
 `;
 
-const Logo = styled.div`
+const Logo = styled(Link)`
   justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
 
-  & a {
-    text-decoration: none;
-  }
-
-  & img {
+  & > img {
     max-width: 40px;
     margin-right: 10px;
   }
@@ -52,11 +50,11 @@ const Logo = styled.div`
     justify-content: center;
     order: 2;
 
-    & img {
+    & > img {
       max-width: 30px;
     }
     
-    & h2 {
+    & > h2 {
       font-size: ${theme.fontSize[Size.MEDIUM]}px;
     }
   `}
@@ -120,20 +118,14 @@ const Header = () => {
     []
   );
 
-  console.log(mobileMenuOpen);
-
   return (
     <Container>
-      <Logo>
-        <Link to={RouteName.LANDING}>
-          <img src={LogoBlack} alt="An icon depicting a tugboat" />
-        </Link>
+      <Logo to={RouteName.LANDING}>
+        <img src={LogoBlack} alt="An icon depicting a tugboat" />
 
-        <Link to={RouteName.LANDING}>
-          <Text variant="heading2" as="h2">
-            Tugboat
-          </Text>
-        </Link>
+        <Text variant="heading2" as="h2">
+          Tugboat
+        </Text>
       </Logo>
 
       <NavLinks>
