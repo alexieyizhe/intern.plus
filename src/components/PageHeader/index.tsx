@@ -2,16 +2,18 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
-import { LogoBlack } from "src/assets";
-
 import { Size } from "src/theme/constants";
+import { RouteName } from "src/utils/routes";
+import useWindowScrollPos from "src/utils/hooks/useWindowScrollPos";
+import { LogoBlack, IconEdit } from "src/assets";
+
 import Link from "src/components/Link";
 import Text from "src/components/Text";
-import { RouteName } from "src/utils/routes";
 
-export const HEADER_HEIGHT = 80;
+export const MOBILE_MENU_HEIGHT = 110;
+export const HEADER_HEIGHT = 70;
 
-const Container = styled.header`
+const Container = styled.header<{ mobileMenuOpen: boolean }>`
   position: fixed;
   top: 0;
   width: 100%;
@@ -31,8 +33,41 @@ const Container = styled.header`
     align-items: center;
   }
 
-  ${({ theme }) => theme.mediaQueries.largeMobile`
-    padding: 0 30px;
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: calc(100% + 60px); /* TODO: make this better */
+    height: 100%;
+    top: 0;
+    left: -60px;
+
+    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    box-shadow: ${({ theme }) => theme.boxShadow.hover};
+
+    transition: opacity 150ms ease-in;
+    opacity: 0;
+  }
+
+  &.scrolled::after,
+  &.scrolled::after {
+    opacity: 1;
+  }
+
+  ${({ theme, mobileMenuOpen }) => theme.mediaQueries.tablet`
+    top: 0;
+    height: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT}px;
+    transition: transform 200ms ease-out;
+    transform: translateY(${mobileMenuOpen ? "0" : `-${MOBILE_MENU_HEIGHT}px`});
+    padding: 25px 30px;
+
+    align-items: flex-end;
+
+    &::after {
+      width: calc(100% + 30px);
+      left: -30px;
+      height: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT}px;
+    }
   `}
 `;
 
@@ -65,8 +100,12 @@ const NavLinks = styled.nav`
   justify-content: center;
   align-items: center;
 
-  & > * {
-    margin: auto 10px;
+  & > .links {
+    display: flex;
+
+    & > * {
+      margin: auto 10px;
+    }
   }
 
   & > .mobileMenu {
@@ -78,12 +117,22 @@ const NavLinks = styled.nav`
     order: 3;
 
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
     align-items: flex-end;
+
+
+    & > .links {
+      margin: auto 0 10px auto;
+      flex-direction: column;
+      align-items: flex-end;
+
+      position: absolute;
+      bottom: 100%;
+    }
 
     & > .mobileMenu {
       display: inherit;
-      margin-left: auto; 
+      margin: auto 0 auto auto;
     }
   `}
 `;
@@ -92,17 +141,18 @@ const AnimatedLink = styled(Link)<{ mobileShow: boolean }>`
   ${({ theme, mobileShow }) => theme.mediaQueries.tablet`
     transition: all 150ms ease-out;
     opacity: ${mobileShow ? 1 : 0};
-    max-width: ${mobileShow ? "100px" : 0};
-
-    & > span {
-      display: inline-block;
-      max-width: ${mobileShow ? "100px" : 0};
-    }
+    transform: translateY(${mobileShow ? "0" : "-10px"});
+    padding-bottom: 10px;
   `}
 `;
 
 const ProfileAvatar = styled.div`
   justify-content: flex-end;
+
+  & img {
+    cursor: pointer;
+    max-width: 25px;
+  }
 
   ${({ theme }) => theme.mediaQueries.tablet`
     justify-content: flex-start;
@@ -111,6 +161,8 @@ const ProfileAvatar = styled.div`
 `;
 
 const Header = () => {
+  const [, scrollY] = useWindowScrollPos();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenuOpen = useCallback(
@@ -119,7 +171,10 @@ const Header = () => {
   );
 
   return (
-    <Container>
+    <Container
+      mobileMenuOpen={mobileMenuOpen}
+      className={scrollY > 0 || mobileMenuOpen ? "scrolled" : ""}
+    >
       <Logo to={RouteName.LANDING}>
         <img src={LogoBlack} alt="An icon depicting a tugboat" />
 
@@ -133,19 +188,28 @@ const Header = () => {
           <AnimatedIcon animationKey="menu" />
         </span>
 
-        <AnimatedLink to={RouteName.JOBS} bare mobileShow={mobileMenuOpen}>
-          <Text size={16}>Positions</Text>
-        </AnimatedLink>
-        <AnimatedLink to={RouteName.COMPANIES} bare mobileShow={mobileMenuOpen}>
-          <Text size={16}>Companies</Text>
-        </AnimatedLink>
-        <AnimatedLink to={RouteName.REVIEWS} bare mobileShow={mobileMenuOpen}>
-          <Text size={16}>Reviews</Text>
-        </AnimatedLink>
+        <span className="links">
+          <AnimatedLink to={RouteName.JOBS} bare mobileShow={mobileMenuOpen}>
+            <Text size={16}>Positions</Text>
+          </AnimatedLink>
+          <AnimatedLink
+            to={RouteName.COMPANIES}
+            bare
+            mobileShow={mobileMenuOpen}
+          >
+            <Text size={16}>Companies</Text>
+          </AnimatedLink>
+          <AnimatedLink to={RouteName.REVIEWS} bare mobileShow={mobileMenuOpen}>
+            <Text size={16}>Reviews</Text>
+          </AnimatedLink>
+        </span>
       </NavLinks>
 
       <ProfileAvatar>
-        <AnimatedIcon animationKey="radioButton" />
+        <img
+          src={IconEdit}
+          alt="A pencil icon, to be clicked to write a new review"
+        />
       </ProfileAvatar>
     </Container>
   );
