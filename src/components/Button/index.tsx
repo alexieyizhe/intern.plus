@@ -11,6 +11,7 @@ export const UnstyledButton = styled.button`
 `;
 
 const BaseButton = styled(UnstyledButton)<IButtonProps>`
+  position: relative;
   padding: 15px 20px;
   border-radius: ${({ theme }) => theme.borderRadius.button}px;
 
@@ -18,10 +19,25 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
     theme.color[color] || color || "inherit"};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 
-  transition: box-shadow 150ms ease-out;
-  &:hover:not(:disabled),
-  &:focus:not(:disabled) {
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+
+    border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
+
+    transition: opacity 150ms ease-in;
+    opacity: 0;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    opacity: 1;
   }
 `;
 

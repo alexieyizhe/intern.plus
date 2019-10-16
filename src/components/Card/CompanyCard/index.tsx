@@ -17,6 +17,7 @@ export interface ICompanyCardProps extends ICardProps {
 
 // TODO: factor out hover styles into its own css`` variable for reuse
 const Container = styled(Card)`
+  position: relative;
   display: inline-grid;
   grid-template-rows: auto 1fr auto;
   grid-template-columns: 1fr 80px;
@@ -27,10 +28,23 @@ const Container = styled(Card)`
     "ratings logo";
 
   cursor: pointer;
-  transition: box-shadow 150ms ease-in;
-  &:hover,
-  &:focus {
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+
+    border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
+
+    transition: opacity 150ms ease-in;
+    opacity: 0;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    opacity: 1;
   }
 
   & > .name {
