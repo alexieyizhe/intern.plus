@@ -15,6 +15,10 @@ const Container = styled.footer`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  & > .subheading {
+    margin: 10px auto 5px auto;
+  }
 `;
 
 const Logo = styled.img`
@@ -27,7 +31,7 @@ const Footer = () => (
       src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
       alt="An icon depicting a tugboat"
     />
-    <Text variant="subheading">
+    <Text className="subheading" variant="subheading">
       Made with{" "}
       <span role="img" aria-label="sparkles">
         ✨
@@ -36,7 +40,17 @@ const Footer = () => (
     </Text>
     <Link newTab to="https://github.com/alexieyizhe/tugboat" color="" bare>
       <Text variant="body" color="greyMedium">
-        Source Code
+        source code
+      </Text>
+    </Link>
+    <Link
+      newTab
+      to="https://github.com/alexieyizhe/tugboat/issues/new?assignee=alexieyizhe&labels=bug&title=Issue:%20ISSUE_TITLE&body=Describe%20the%20problem%20you%27re%20having!"
+      color=""
+      bare
+    >
+      <Text variant="body" color="greyMedium">
+        report an issue
       </Text>
     </Link>
   </Container>
