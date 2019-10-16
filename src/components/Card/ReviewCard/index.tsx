@@ -14,6 +14,7 @@ export interface IReviewCardProps extends ICardProps {
 }
 
 const Container = styled(Card)`
+  position: relative;
   display: inline-grid;
   grid-template-rows: auto auto 1fr;
   grid-template-columns: 1fr auto;
@@ -23,10 +24,23 @@ const Container = styled(Card)`
     "contents   contents";
 
   cursor: pointer;
-  transition: box-shadow 150ms ease-in;
-  &:hover,
-  &:focus {
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+
+    border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
+
+    transition: opacity 150ms ease-in;
+    opacity: 0;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    opacity: 1;
   }
 
   & > .heading {

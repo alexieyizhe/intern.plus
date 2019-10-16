@@ -28,6 +28,7 @@ export interface GetCompaniesSearch_companiesList_items {
    * Description of a company.
    */
   desc: string | null;
+  logoSrc: string | null;
   /**
    * Average score of all reviews of a company.
    */
@@ -52,4 +53,5 @@ export interface GetCompaniesSearch {
 
 export interface GetCompaniesSearchVariables {
   query?: string | null;
+  skip?: number | null;
 }

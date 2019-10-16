@@ -28,6 +28,7 @@ export interface CompanyResult {
    * Description of a company.
    */
   desc: string | null;
+  logoSrc: string | null;
   /**
    * Average score of all reviews of a company.
    */

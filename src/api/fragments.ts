@@ -5,6 +5,7 @@ export const companyResultFragment = gql`
     slug
     name
     desc
+    logoSrc
     avgRating
     reviews {
       count

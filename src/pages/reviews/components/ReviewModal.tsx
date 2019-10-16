@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { default as AnimatedIcon } from "react-useanimations";
+import { Helmet } from "react-helmet";
 
 import { RouteName } from "src/utils/routes";
 import { IReviewDetails } from "src/types";
@@ -248,6 +249,9 @@ const ReviewModal = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Review{review ? ` | ${review.jobName}` : ""}</title>
+      </Helmet>
       <Background onClick={onExit}>
         <Container color="greyLight">
           {getDetailsMarkup(loading, error !== undefined, review)}

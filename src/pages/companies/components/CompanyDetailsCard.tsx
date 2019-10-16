@@ -60,7 +60,7 @@ const getDetailsMarkup = (
         </div>
 
         {/* // TODO: logo */}
-        <Logo src={""} />
+        <Logo src={details.logoSrc} alt={`Logo of ${details.name}`} />
       </>
     );
   }

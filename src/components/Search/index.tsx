@@ -16,13 +16,14 @@ const Container = styled(Combo)`
   position: relative;
   width: 100%;
 
-  & > *:first-child {
+  & > input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
   & > button {
-    transform: translateX(-${({ theme }) => theme.borderRadius.button}px);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 `;
 

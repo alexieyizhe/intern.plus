@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import copy from "./copy";
+
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
@@ -15,28 +17,34 @@ const Container = styled.footer`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  & > .subheading {
+    margin: 10px auto 5px auto;
+  }
 `;
 
 const Logo = styled.img`
-  max-width: 50px;
+  max-width: 55px;
 `;
 
 const Footer = () => (
   <Container>
-    <Logo
-      src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
-      alt="An icon depicting a tugboat"
-    />
-    <Text variant="subheading">
-      Made with{" "}
+    <Logo src={copy.logo.src} alt={copy.logo.alt} />
+    <Text className="subheading" variant="subheading">
+      Built with{" "}
       <span role="img" aria-label="sparkles">
         ✨
       </span>
       by Alex Xie
     </Text>
-    <Link newTab to="https://github.com/alexieyizhe/tugboat" color="">
+    <Link newTab to={copy.sourceCode.to} color="" bare>
       <Text variant="body" color="greyMedium">
-        Source Code
+        {copy.sourceCode.label}
+      </Text>
+    </Link>
+    <Link newTab to={copy.reportIssue.to} color="" bare>
+      <Text variant="body" color="greyMedium">
+        {copy.reportIssue.label}
       </Text>
     </Link>
   </Container>

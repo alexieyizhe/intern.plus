@@ -112,7 +112,7 @@ export const GET_REVIEWS_SEARCH = gql`
       first: 10
     ) {
       items {
-        id
+        ...ReviewResultJob
       }
     }
   }

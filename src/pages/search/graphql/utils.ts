@@ -24,7 +24,7 @@ export const buildCompanyCard = (
   desc: item.desc || "",
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
-  logoSrc: "",
+  logoSrc: item.logoSrc || "",
   color: getPastelColor(),
 });
 

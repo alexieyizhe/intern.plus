@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
+
+import { LogoBlack } from "src/assets";
 
 import { Size } from "src/theme/constants";
 import Link from "src/components/Link";
@@ -42,7 +44,8 @@ const Logo = styled.div`
   }
 
   & img {
-    max-width: 50px;
+    max-width: 40px;
+    margin-right: 10px;
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
@@ -50,7 +53,7 @@ const Logo = styled.div`
     order: 2;
 
     & img {
-      max-width: 35px;
+      max-width: 30px;
     }
     
     & h2 {
@@ -60,7 +63,9 @@ const Logo = styled.div`
 `;
 
 const NavLinks = styled.nav`
+  position: relative;
   justify-content: center;
+  align-items: center;
 
   & > * {
     margin: auto 10px;
@@ -68,21 +73,32 @@ const NavLinks = styled.nav`
 
   & > .mobileMenu {
     display: none;
+    cursor: pointer;
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
     order: 3;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     align-items: flex-end;
-
-    & > * {
-      display: none;    
-    }
 
     & > .mobileMenu {
       display: inherit;
+      margin-left: auto; 
+    }
+  `}
+`;
+
+const AnimatedLink = styled(Link)<{ mobileShow: boolean }>`
+  ${({ theme, mobileShow }) => theme.mediaQueries.tablet`
+    transition: all 150ms ease-out;
+    opacity: ${mobileShow ? 1 : 0};
+    max-width: ${mobileShow ? "100px" : 0};
+
+    & > span {
+      display: inline-block;
+      max-width: ${mobileShow ? "100px" : 0};
     }
   `}
 `;
@@ -96,41 +112,51 @@ const ProfileAvatar = styled.div`
   `}
 `;
 
-const Footer = () => (
-  <Container>
-    <Logo>
-      <Link to={RouteName.LANDING}>
-        <img
-          src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
-          alt="An icon depicting a tugboat"
-        />
-      </Link>
+const Header = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-      <Link to={RouteName.LANDING}>
-        <Text variant="heading2" as="h2">
-          Tugboat
-        </Text>
-      </Link>
-    </Logo>
+  const toggleMobileMenuOpen = useCallback(
+    () => setMobileMenuOpen(prevOpen => !prevOpen),
+    []
+  );
 
-    <NavLinks>
-      <AnimatedIcon className="mobileMenu" animationKey="menu" />
+  console.log(mobileMenuOpen);
 
-      <Link to={RouteName.JOBS}>
-        <Text variant="subheading">Positions</Text>
-      </Link>
-      <Link to={RouteName.COMPANIES}>
-        <Text variant="subheading">Companies</Text>
-      </Link>
-      <Link to={RouteName.REVIEWS}>
-        <Text variant="subheading">Reviews</Text>
-      </Link>
-    </NavLinks>
+  return (
+    <Container>
+      <Logo>
+        <Link to={RouteName.LANDING}>
+          <img src={LogoBlack} alt="An icon depicting a tugboat" />
+        </Link>
 
-    <ProfileAvatar>
-      <AnimatedIcon animationKey="radioButton" />
-    </ProfileAvatar>
-  </Container>
-);
+        <Link to={RouteName.LANDING}>
+          <Text variant="heading2" as="h2">
+            Tugboat
+          </Text>
+        </Link>
+      </Logo>
 
-export default Footer;
+      <NavLinks>
+        <span className="mobileMenu" onClick={toggleMobileMenuOpen}>
+          <AnimatedIcon animationKey="menu" />
+        </span>
+
+        <AnimatedLink to={RouteName.JOBS} bare mobileShow={mobileMenuOpen}>
+          <Text variant="subheading">Positions</Text>
+        </AnimatedLink>
+        <AnimatedLink to={RouteName.COMPANIES} bare mobileShow={mobileMenuOpen}>
+          <Text variant="subheading">Companies</Text>
+        </AnimatedLink>
+        <AnimatedLink to={RouteName.REVIEWS} bare mobileShow={mobileMenuOpen}>
+          <Text variant="subheading">Reviews</Text>
+        </AnimatedLink>
+      </NavLinks>
+
+      <ProfileAvatar>
+        <AnimatedIcon animationKey="radioButton" />
+      </ProfileAvatar>
+    </Container>
+  );
+};
+
+export default Header;

@@ -13,6 +13,7 @@ export const GET_REVIEW_DETAILS = gql`
       }
       company {
         name
+        logoSrc
       }
       salary
       salaryPeriod

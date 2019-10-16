@@ -16,7 +16,7 @@ export const buildCompanyDetails = (
   desc: company.desc || undefined,
   numRatings: company.reviews ? company.reviews.count : 0,
   avgRating: company.avgRating || 0,
-  logoSrc: "",
+  logoSrc: company.logoSrc || "",
   color: getPastelColor(),
 });
 

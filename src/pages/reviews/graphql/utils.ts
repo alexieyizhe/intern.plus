@@ -21,6 +21,6 @@ export const buildReviewDetails = (
   salary: review.salary || 0,
   salaryCurrency: review.salaryCurrency || "",
   salaryPeriod: review.salaryPeriod || "",
-  logoSrc: "",
+  logoSrc: review.company ? review.company.logoSrc || "" : "",
   color: getDarkColor(),
 });
