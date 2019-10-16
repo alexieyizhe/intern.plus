@@ -13,6 +13,7 @@ export const GET_ALL_SEARCH = gql`
       filter: {
         OR: [{ name: { contains: $query } }, { desc: { contains: $query } }]
       }
+      first: 10
     ) {
       items {
         ...CompanyResult
@@ -27,6 +28,7 @@ export const GET_ALL_SEARCH = gql`
           { location: { contains: $query } }
         ]
       }
+      first: 10
     ) {
       items {
         ...JobResult
@@ -43,6 +45,7 @@ export const GET_ALL_SEARCH = gql`
           { author: { contains: $query } }
         ]
       }
+      first: 10
     ) {
       items {
         ...ReviewResultJob
@@ -56,11 +59,13 @@ export const GET_ALL_SEARCH = gql`
 `;
 
 export const GET_COMPANIES_SEARCH = gql`
-  query GetCompaniesSearch($query: String) {
+  query GetCompaniesSearch($query: String, $skip: Int) {
     companiesList(
       filter: {
         OR: [{ name: { contains: $query }, desc: { contains: $query } }]
       }
+      skip: $skip
+      first: 10
     ) {
       items {
         ...CompanyResult
@@ -81,6 +86,7 @@ export const GET_JOBS_SEARCH = gql`
           { location: { contains: $query } }
         ]
       }
+      first: 10
     ) {
       items {
         ...JobResult
@@ -103,6 +109,7 @@ export const GET_REVIEWS_SEARCH = gql`
           { author: { contains: $query } }
         ]
       }
+      first: 10
     ) {
       items {
         id

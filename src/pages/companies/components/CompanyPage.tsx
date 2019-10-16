@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useCallback } from "react";
+import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
@@ -13,8 +14,11 @@ import { PageContainer, ResultsDisplay } from "src/components";
 import CompanyDetailsCard from "./CompanyDetailsCard";
 
 /*******************************************************************
- *                  **Utility functions/constants**                *
+ *                             **Styles**                          *
  *******************************************************************/
+const CompanyPageContainer = styled(PageContainer)`
+  overflow: hidden;
+`;
 
 /*******************************************************************
  *                           **Component**                         *
@@ -70,7 +74,7 @@ const CompanyPage = () => {
   );
 
   return (
-    <PageContainer>
+    <CompanyPageContainer>
       <CompanyDetailsCard
         loading={loading}
         error={error !== undefined}
@@ -84,7 +88,7 @@ const CompanyPage = () => {
         error={error !== undefined}
         searchResults={filteredJobs}
       />
-    </PageContainer>
+    </CompanyPageContainer>
   );
 };
 
