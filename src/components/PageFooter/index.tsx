@@ -34,7 +34,7 @@ const Footer = () => (
       </span>
       by Alex Xie
     </Text>
-    <Link newTab to="https://github.com/alexieyizhe/tugboat" color="">
+    <Link newTab to="https://github.com/alexieyizhe/tugboat" color="" bare>
       <Text variant="body" color="greyMedium">
         Source Code
       </Text>

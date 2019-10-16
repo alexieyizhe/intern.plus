@@ -5,14 +5,17 @@ import { Link as RouterLink } from "react-router-dom";
 export interface ILinkProps extends React.ComponentPropsWithoutRef<"a"> {
   newTab?: boolean;
   to: string;
+  bare?: boolean;
 }
 
-const baseLinkStyles = css`
+const baseLinkStyles = css<{ bare?: boolean }>`
   color: inherit;
+
+  text-decoration: ${({ bare }) => (bare ? "none" : "underline")};
 
   &:hover:not(:disabled),
   &:focus:not(:disabled) {
-    text-decoration: none;
+    text-decoration: ${({ bare }) => (bare ? "underline" : "none")};
   }
 `;
 export const BaseLink = styled.a`
