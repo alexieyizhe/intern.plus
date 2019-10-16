@@ -2,6 +2,8 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
+import { LogoBlack } from "src/assets";
+
 import { Size } from "src/theme/constants";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
@@ -42,7 +44,8 @@ const Logo = styled.div`
   }
 
   & img {
-    max-width: 50px;
+    max-width: 40px;
+    margin-right: 10px;
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
@@ -50,7 +53,7 @@ const Logo = styled.div`
     order: 2;
 
     & img {
-      max-width: 35px;
+      max-width: 30px;
     }
     
     & h2 {
@@ -123,10 +126,7 @@ const Header = () => {
     <Container>
       <Logo>
         <Link to={RouteName.LANDING}>
-          <img
-            src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
-            alt="An icon depicting a tugboat"
-          />
+          <img src={LogoBlack} alt="An icon depicting a tugboat" />
         </Link>
 
         <Link to={RouteName.LANDING}>

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import copy from "./copy";
+
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
@@ -22,35 +24,27 @@ const Container = styled.footer`
 `;
 
 const Logo = styled.img`
-  max-width: 50px;
+  max-width: 55px;
 `;
 
 const Footer = () => (
   <Container>
-    <Logo
-      src="https://cdn0.iconfinder.com/data/icons/travel-and-destination-1/64/port-boat-ship-tugboat-nautical-sailing-512.png"
-      alt="An icon depicting a tugboat"
-    />
+    <Logo src={copy.logo.src} alt={copy.logo.alt} />
     <Text className="subheading" variant="subheading">
-      Made with{" "}
+      Built with{" "}
       <span role="img" aria-label="sparkles">
         ✨
       </span>
       by Alex Xie
     </Text>
-    <Link newTab to="https://github.com/alexieyizhe/tugboat" color="" bare>
+    <Link newTab to={copy.sourceCode.to} color="" bare>
       <Text variant="body" color="greyMedium">
-        source code
+        {copy.sourceCode.label}
       </Text>
     </Link>
-    <Link
-      newTab
-      to="https://github.com/alexieyizhe/tugboat/issues/new?assignee=alexieyizhe&labels=bug&title=Issue:%20ISSUE_TITLE&body=Describe%20the%20problem%20you%27re%20having!"
-      color=""
-      bare
-    >
+    <Link newTab to={copy.reportIssue.to} color="" bare>
       <Text variant="body" color="greyMedium">
-        report an issue
+        {copy.reportIssue.label}
       </Text>
     </Link>
   </Container>
