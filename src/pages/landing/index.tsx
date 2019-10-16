@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
@@ -112,6 +112,7 @@ const SearchButton = styled(Button)`
  *                           **Component**                         *
  *******************************************************************/
 const LandingPage = () => {
+  const history = useHistory();
   /**
    * Fetch companies and reviews that are displayed on the
    * landing page.
@@ -170,7 +171,10 @@ const LandingPage = () => {
                 onChange={searchOnChange}
                 onSearchStart={searchOnStart}
               />
-              <SearchButton onClick={() => {}} color="greenDark">
+              <SearchButton
+                onClick={() => history.push(RouteName.FIND)}
+                color="greenDark"
+              >
                 <Text variant="subheading" color="white">
                   {pageCopy.splashCard.searchButtonText}
                 </Text>

@@ -139,6 +139,12 @@ const EndText = styled(Text)<{ show: boolean }>`
   margin: 10px auto;
 `;
 
+const SearchPageHandler = styled(SearchHandler)`
+  top: 10px;
+
+  z-index: 150;
+`;
+
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
@@ -250,7 +256,7 @@ const SearchPage: React.FC = () => {
       <PageContainer>
         <HeadingContainer>{headingMarkup}</HeadingContainer>
 
-        <SearchHandler onNewSearchVal={onNewSearchVal} />
+        <SearchPageHandler onNewSearchVal={onNewSearchVal} />
 
         <ResultsDisplay
           searched={lastSearchedVal !== undefined}
