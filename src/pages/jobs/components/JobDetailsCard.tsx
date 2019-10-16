@@ -43,22 +43,59 @@ const getDetailsMarkup = (
   } else if (details) {
     return (
       <>
-        <div className="details">
+        <DetailsContainer>
           <Text variant="heading1" as="div">
             {details.name}
           </Text>
-          <Text variant="heading3" as="div">
+          <Text className="subheading" variant="heading3" as="div">
             {`${details.companyName} | ${details.location}`}
           </Text>
           <StarRating
+            className="rating"
             maxStars={5}
             filledStars={Math.round(details.avgRating)}
             readOnly
-          />
-          <Text variant="subheading" as="div">
-            {`${details.numRatings} reviews`}
+          >
+            <Text variant="body" className="ratingText" color="black">
+              {details.avgRating.toFixed(1)}
+            </Text>
+          </StarRating>
+          <StarRating
+            className="rating"
+            maxStars={5}
+            filledStars={Math.round(details.avgLearningMentorshipRating)}
+            readOnly
+          >
+            <Text variant="body" className="ratingText" color="black">
+              {details.avgLearningMentorshipRating.toFixed(1)}
+            </Text>
+          </StarRating>
+          <StarRating
+            className="rating"
+            maxStars={5}
+            filledStars={Math.round(details.avgMeaningfulWorkRating)}
+            readOnly
+          >
+            <Text variant="body" className="ratingText" color="black">
+              {details.avgMeaningfulWorkRating.toFixed(1)}
+            </Text>
+          </StarRating>
+          <StarRating
+            className="rating"
+            maxStars={5}
+            filledStars={Math.round(details.avgWorkLifeBalanceRating)}
+            readOnly
+          >
+            <Text variant="body" className="ratingText" color="black">
+              {details.avgWorkLifeBalanceRating.toFixed(1)}
+            </Text>
+          </StarRating>
+          <Text variant="subheading" as="div" color="greyDark">
+            {`${details.numRatings} ${
+              details.numRatings === 1 ? "review" : "reviews"
+            }`}
           </Text>
-        </div>
+        </DetailsContainer>
 
         <div className="salary">
           <Text variant="heading2" as="div">
@@ -96,6 +133,7 @@ const Container = styled(Card)`
   width: 100%;
   height: 400px;
   margin-bottom: 40px;
+  padding: 40px 60px;
 
   display: flex;
   flex-direction: column;
@@ -114,7 +152,7 @@ const Container = styled(Card)`
   `}
 `;
 
-const DetailsContainer = styled.div`
+const MiscContentContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -133,15 +171,29 @@ const DetailsContainer = styled.div`
     padding: 50px 0;
   }
 
-  & > .details {
-    max-width: 60%;
-  }
-
   & > .salary {
     display: flex;
+    margin-top: auto;
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
+  }
+`;
+
+const DetailsContainer = styled.div`
+  max-width: 55%;
+
+  & > .subheading {
+    margin: 6px auto 35px auto;
+  }
+
+  & .rating {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  & .ratingText {
+    padding: 0 3px;
   }
 `;
 /*******************************************************************
@@ -154,9 +206,9 @@ const JobPageCard: React.FC<IJobPageCardProps> = ({
   onNewSearchVal,
 }) => (
   <Container>
-    <DetailsContainer>
+    <MiscContentContainer>
       {getDetailsMarkup(loading, error, jobInfo)}
-    </DetailsContainer>
+    </MiscContentContainer>
 
     <SearchHandler onNewSearchVal={onNewSearchVal} />
   </Container>

@@ -16,7 +16,7 @@ const constants = {
 
     greenDark: "#507561",
 
-    error: "#DD4040",
+    error: "#ff6166",
   },
   fontSize: {
     [Size.SMALL]: 14,

@@ -224,7 +224,7 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
 
   return (
     <Container {...rest}>
-      <MiscContentContainer show={page === 1 || searchResults.length === 0}>
+      <MiscContentContainer show={page === 1 && searchResults.length === 0}>
         <Planet size={200} mood={planetMood} color="#DDDDDD" />
       </MiscContentContainer>
 

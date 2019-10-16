@@ -42,24 +42,30 @@ const getDetailsMarkup = (
   } else if (details) {
     return (
       <>
-        <div className="details">
+        <DetailsContainer>
           <Text variant="heading1" as="div">
             {details.name}
           </Text>
-          <Text variant="subheading" as="div">
+          <Text className="subheading" variant="subheading" as="div">
             {details.desc}
           </Text>
           <StarRating
+            className="rating"
             maxStars={5}
             filledStars={Math.round(details.avgRating)}
             readOnly
-          />
-          <Text variant="subheading" as="div">
-            {`${details.numRatings} reviews`}
+          >
+            <Text variant="body" className="ratingText" color="black">
+              {details.avgRating.toFixed(1)}
+            </Text>
+          </StarRating>
+          <Text variant="subheading" as="div" color="greyDark">
+            {`${details.numRatings} ${
+              details.numRatings === 1 ? "review" : "reviews"
+            }`}
           </Text>
-        </div>
+        </DetailsContainer>
 
-        {/* // TODO: logo */}
         <Logo src={details.logoSrc} alt={`Logo of ${details.name}`} />
       </>
     );
@@ -68,8 +74,8 @@ const getDetailsMarkup = (
   // error === true or something has gone horribly wrong
   return (
     <Text
-      variant="subheading"
       className="error"
+      variant="subheading"
       color="error"
       as="div"
       align="center"
@@ -87,6 +93,7 @@ const Container = styled(Card)`
   width: 100%;
   height: 400px;
   margin-bottom: 40px;
+  padding: 40px 60px;
 
   display: flex;
   flex-direction: column;
@@ -105,7 +112,7 @@ const Container = styled(Card)`
   `}
 `;
 
-const DetailsContainer = styled.div`
+const MiscContentContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -123,9 +130,22 @@ const DetailsContainer = styled.div`
     align-self: center;
     padding: 50px 0;
   }
+`;
 
-  & > .details {
-    max-width: 60%;
+const DetailsContainer = styled.div`
+  max-width: 55%;
+
+  & > .subheading {
+    margin: 15px auto;
+  }
+
+  & .rating {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  & .ratingText {
+    padding: 0 3px;
   }
 `;
 
@@ -143,9 +163,9 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   onNewSearchVal,
 }) => (
   <Container>
-    <DetailsContainer>
+    <MiscContentContainer>
       {getDetailsMarkup(loading, error, companyDetails)}
-    </DetailsContainer>
+    </MiscContentContainer>
     <SearchHandler onNewSearchVal={onNewSearchVal} />
   </Container>
 );

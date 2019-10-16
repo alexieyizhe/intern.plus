@@ -42,10 +42,9 @@ const getDetailsMarkup = (
             <Text variant="heading1" as="div">
               {details.jobName}
             </Text>
-            <Text
-              variant="heading3"
-              as="div"
-            >{`${details.companyName} | ${details.location}`}</Text>
+            <Text variant="heading3" as="div" color="greyDark">
+              {`${details.companyName} | ${details.location}`}
+            </Text>
           </div>
           <LogoImg
             src={details.logoSrc}
@@ -66,28 +65,36 @@ const getDetailsMarkup = (
               filledStars={details.overallRating}
               readOnly
             >
-              overall
+              <Text variant="body" className="ratingText" color="greyDark">
+                Overall
+              </Text>
             </ReviewRating>
             <ReviewRating
               maxStars={5}
               filledStars={details.meaningfulWorkRating}
               readOnly
             >
-              meaningful
+              <Text variant="body" className="ratingText" color="greyDark">
+                Meaningful work
+              </Text>
             </ReviewRating>
             <ReviewRating
               maxStars={5}
               filledStars={details.workLifeBalanceRating}
               readOnly
             >
-              worklifeblaance
+              <Text variant="body" className="ratingText" color="greyDark">
+                Work life balance
+              </Text>
             </ReviewRating>
             <ReviewRating
               maxStars={5}
               filledStars={details.learningMentorshipRating}
               readOnly
             >
-              mentorship
+              <Text variant="body" className="ratingText" color="greyDark">
+                Learning &amp; mentorship
+              </Text>
             </ReviewRating>
           </div>
           <div>
@@ -141,6 +148,7 @@ const Background = styled.div`
 const Container = styled(Card)`
   position: relative;
   max-width: 900px;
+  padding: 40px 60px;
 
   display: flex;
   flex-direction: column;
@@ -175,11 +183,16 @@ const LogoImg = styled.img`
 `;
 
 const ReviewRating = styled(StarRating)`
-  display: block;
+  display: flex;
+  justify-content: flex-start;
+
+  & > .ratingText {
+    padding: 0 3px;
+  }
 `;
 
 const ReviewPrefixContainer = styled.div`
-  margin-top: 50px;
+  margin: 50px auto 10px 0;
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -191,7 +204,7 @@ const CloseButton = styled(UnstyledButton)`
 
   cursor: pointer;
 
-  background-color: black;
+  background-color: ${({ theme }) => theme.color.error};
   border-radius: 50%;
 `;
 

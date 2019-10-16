@@ -11,7 +11,7 @@ export default {
   },
   reportIssue: {
     to:
-      "https://github.com/alexieyizhe/tugboat/issues/new?assignee=alexieyizhe&labels=bug&title=Issue:%20ISSUE_TITLE&body=Describe%20the%20problem%20you%27re%20having!",
+      "https://github.com/alexieyizhe/tugboat/issues/new?assignee=alexieyizhe&labels=bug&title=%20Something's%20wrong&body=Describe%20the%20problem%20you%27re%20having!",
     label: "report an issue",
   },
 };
