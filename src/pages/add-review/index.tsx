@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useLocation, useHistory } from "react-router-dom";
 
 import { RouteName } from "src/utils/routes";
-import { Card, Text, TextInput, HEADER_HEIGHT } from "src/components";
+import { Card, HEADER_HEIGHT } from "src/components";
 import ReviewCreator from "./components/ReviewCreator";
 
 /*******************************************************************

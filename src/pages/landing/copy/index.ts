@@ -5,7 +5,7 @@ const pageCopy = {
   splashCard: {
     heading: "Great internships are priceless.",
     subheading: "Tugboat helps guide your search for one.",
-    searchButtonText: "Browse reviews",
+    searchButtonText: "Browse",
     splashImg: {
       src: LandingDockImg,
       alt: "An illustration of a harbour with containers being unloaded.",

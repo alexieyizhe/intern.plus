@@ -222,6 +222,7 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
     setMiscMarkup(markup);
   }, [error, loading, searchResults.length, searched]);
 
+  console.log(page, searchResults, searchResults.length);
   return (
     <Container {...rest}>
       <MiscContentContainer show={page === 1 && searchResults.length === 0}>
@@ -230,7 +231,7 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
 
       {searchResults.map(getResultCardMarkup)}
       <MiscContentContainer show={showMisc}>{miscMarkup}</MiscContentContainer>
-      <Waypoint onEnter={onResultsEndReached} />
+      {searchResults.length > 0 && <Waypoint onEnter={onResultsEndReached} />}
     </Container>
   );
 };
