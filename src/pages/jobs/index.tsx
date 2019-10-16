@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import { RouteName } from "src/utils/routes";
-import JobDisplay from "./components/JobDisplay";
+import JobPage from "./components/JobPage";
 
 /**
  * Page router will either:
@@ -22,7 +22,7 @@ const JobsPage = () => {
     <>
       <Switch>
         <Route path={`${match.path}/:jobId`}>
-          <JobDisplay />
+          <JobPage />
         </Route>
 
         <Route path={match.path}>

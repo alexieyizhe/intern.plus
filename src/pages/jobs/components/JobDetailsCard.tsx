@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
-import { GetJob_sTAGINGJob } from "src/types/generated/GetJob";
 import {
   ISearchHandlerProps,
   Card,
@@ -11,6 +9,7 @@ import {
   SearchHandler,
   StarRating,
 } from "src/components";
+import { IJobDetails } from "src/types";
 
 /*******************************************************************
  *                            **Types**                           *
@@ -18,7 +17,7 @@ import {
 export interface IJobPageCardProps extends ISearchHandlerProps {
   loading: boolean;
   error: boolean;
-  jobInfo?: GetJob_sTAGINGJob | null;
+  jobInfo?: IJobDetails;
 }
 
 /*******************************************************************
@@ -26,62 +25,56 @@ export interface IJobPageCardProps extends ISearchHandlerProps {
  *******************************************************************/
 const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this position.";
-const NO_REVIEW_COUNT_TEXT = "based on reviews";
-const NO_COMPANY_TEXT = "Unknown company";
 
 /**
  * Creates the markup for displaying the correct state of
  * the job details, whether still loading, etc.
  * @param loading whether job details are still loading
  * @param error whether fetching job details resulted in error
- * @param info data holding details about the job
+ * @param details data holding details about the job
  */
 const getDetailsMarkup = (
   loading: boolean,
   error: boolean,
-  info?: GetJob_sTAGINGJob | null
+  details?: IJobDetails
 ) => {
   if (loading) {
     return <AnimatedIcon className="loading" animationKey="loading" />;
-  } else if (info) {
+  } else if (details) {
     return (
       <>
         <div className="details">
           <Text variant="heading1" as="div">
-            {info.title}
+            {details.name}
           </Text>
           <Text variant="heading3" as="div">
-            {`${info.company ? info.company.name : NO_COMPANY_TEXT} | ${
-              info.location
-            }`}
+            {`${details.companyName} | ${details.location}`}
           </Text>
           <StarRating
             maxStars={5}
-            filledStars={Math.round(info.avgReviewScore || 0)}
+            filledStars={Math.round(details.avgRating)}
             readOnly
           />
           <Text variant="subheading" as="div">
-            {info.reviews
-              ? `${info.reviews.count} reviews`
-              : NO_REVIEW_COUNT_TEXT}
+            {`${details.numRatings} reviews`}
           </Text>
         </div>
 
         <div className="salary">
           <Text variant="heading2" as="div">
-            {info.minSalary === info.maxSalary
-              ? info.minSalary
-              : `${info.minSalary} - ${info.maxSalary}`}
+            {details.minHourlySalary === details.maxHourlySalary
+              ? details.minHourlySalary
+              : `${details.minHourlySalary} - ${details.maxHourlySalary}`}
           </Text>
           <Text variant="heading3" as="div">
-            {`${info.salaryCurrency}/hr`}
+            {`${details.salaryCurrency}/hr`}
           </Text>
         </div>
       </>
     );
   }
 
-  // error === true
+  // error === true or something has gone horribly wrong
   return (
     <Text
       variant="subheading"
@@ -113,6 +106,12 @@ const Container = styled(Card)`
   & input {
     background-color: white;
   }
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    width: 300%;
+    left: -100%;
+    padding: 40px 100%;
+  `}
 `;
 
 const DetailsContainer = styled.div`

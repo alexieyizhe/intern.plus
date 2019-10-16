@@ -1,11 +1,12 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
-import { GET_COMPANIES_LANDING, GET_REVIEWS_LANDING } from "src/api/queries";
-import { GetCompanies } from "src/types/generated/GetCompanies";
-import { GetReviews } from "src/types/generated/GetReviews";
+import { GetCompaniesReviewsLanding } from "src/types/generated/GetCompaniesReviewsLanding";
+import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
+import { buildCompanyReviewCardsList } from "./graphql/utils";
+
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
 import pageCopy from "./copy";
@@ -18,7 +19,7 @@ import {
   Text,
   Button,
 } from "src/components";
-import CardDisplay from "./components/CardDisplay";
+import CardDisplay from "./components/CarouselDisplay";
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -114,17 +115,14 @@ const LandingPage = () => {
    * Fetch companies and reviews that are displayed on the
    * landing page.
    */
-  const {
-    loading: companiesLoading,
-    error: companiesError,
-    data: companiesData,
-  } = useQuery<GetCompanies>(GET_COMPANIES_LANDING);
+  const { loading, error, data } = useQuery<GetCompaniesReviewsLanding>(
+    GET_COMPANIES_REVIEWS_LANDING
+  );
 
-  const {
-    loading: reviewsLoading,
-    error: reviewsError,
-    data: reviewsData,
-  } = useQuery<GetReviews>(GET_REVIEWS_LANDING);
+  const { companyCards, reviewCards } = useMemo(
+    () => buildCompanyReviewCardsList(data),
+    [data]
+  );
 
   /**
    * Tracks the value a user is searching for. If a search is
@@ -142,7 +140,9 @@ const LandingPage = () => {
   if (searchStarted) {
     return (
       <Redirect
-        to={`${RouteName.FIND}?${SEARCH_VALUE_QUERY_PARAM_KEY}=${searchVal}`}
+        to={`${RouteName.FIND}${
+          searchVal ? `?${SEARCH_VALUE_QUERY_PARAM_KEY}=${searchVal}` : ""
+        }`}
       />
     );
   }
@@ -180,18 +180,18 @@ const LandingPage = () => {
         heading={pageCopy.sections.topCompanies.heading}
         subLinkText={pageCopy.sections.topCompanies.subLink.text}
         subLinkTo={pageCopy.sections.topCompanies.subLink.to}
-        loading={companiesLoading}
-        error={companiesError !== undefined}
-        cards={companiesData && companiesData.sTAGINGCompaniesList.items}
+        loading={loading}
+        error={error !== undefined}
+        cards={companyCards}
       />
 
       <CardDisplay
         heading={pageCopy.sections.recentlyReviewed.heading}
         subLinkText={pageCopy.sections.recentlyReviewed.subLink.text}
         subLinkTo={pageCopy.sections.recentlyReviewed.subLink.to}
-        loading={reviewsLoading}
-        error={reviewsError !== undefined}
-        cards={reviewsData && reviewsData.sTAGINGReviewsList.items}
+        loading={loading}
+        error={error !== undefined}
+        cards={reviewCards}
       />
     </PageContainer>
   );

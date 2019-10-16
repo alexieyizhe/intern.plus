@@ -6,16 +6,20 @@
 // GraphQL query operation: GetCompaniesSearch
 // ====================================================
 
-export interface GetCompaniesSearch_sTAGINGCompaniesList_items_reviews {
-  __typename: "STAGINGReviewListResponse";
+export interface GetCompaniesSearch_companiesList_items_reviews {
+  __typename: "ReviewListResponse";
   /**
    * List items count
    */
   count: number;
 }
 
-export interface GetCompaniesSearch_sTAGINGCompaniesList_items {
-  __typename: "STAGINGCompany";
+export interface GetCompaniesSearch_companiesList_items {
+  __typename: "Company";
+  /**
+   * Unique slug for a company.
+   */
+  slug: string | null;
   /**
    * Name of a company.
    */
@@ -25,29 +29,25 @@ export interface GetCompaniesSearch_sTAGINGCompaniesList_items {
    */
   desc: string | null;
   /**
-   * Unique slug for a company.
+   * Average score of all reviews of a company.
    */
-  slug: string | null;
+  avgRating: number | null;
   /**
    * Reviews for a company.
    */
-  reviews: GetCompaniesSearch_sTAGINGCompaniesList_items_reviews | null;
-  /**
-   * Average score of all reviews of a company.
-   */
-  avgReviewScore: number | null;
+  reviews: GetCompaniesSearch_companiesList_items_reviews | null;
 }
 
-export interface GetCompaniesSearch_sTAGINGCompaniesList {
-  __typename: "STAGINGCompanyListResponse";
+export interface GetCompaniesSearch_companiesList {
+  __typename: "CompanyListResponse";
   /**
    * List items
    */
-  items: GetCompaniesSearch_sTAGINGCompaniesList_items[];
+  items: GetCompaniesSearch_companiesList_items[];
 }
 
 export interface GetCompaniesSearch {
-  sTAGINGCompaniesList: GetCompaniesSearch_sTAGINGCompaniesList;
+  companiesList: GetCompaniesSearch_companiesList;
 }
 
 export interface GetCompaniesSearchVariables {

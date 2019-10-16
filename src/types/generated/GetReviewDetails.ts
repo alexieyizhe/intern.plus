@@ -3,38 +3,42 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetReview
+// GraphQL query operation: GetReviewDetails
 // ====================================================
 
-export interface GetReview_sTAGINGReview_job {
-  __typename: "STAGINGJob";
+export interface GetReviewDetails_review_job {
+  __typename: "Job";
   /**
    * Title of a job.
    */
-  title: string | null;
+  name: string | null;
   /**
    * Location of a job.
    */
   location: string | null;
 }
 
-export interface GetReview_sTAGINGReview_company {
-  __typename: "STAGINGCompany";
+export interface GetReviewDetails_review_company {
+  __typename: "Company";
   /**
    * Name of a company.
    */
   name: string | null;
 }
 
-export interface GetReview_sTAGINGReview {
-  __typename: "STAGINGReview";
+export interface GetReviewDetails_review {
+  __typename: "Review";
   author: string | null;
   /**
    * Contents of a review.
    */
   body: string | null;
-  job: GetReview_sTAGINGReview_job | null;
-  company: GetReview_sTAGINGReview_company | null;
+  /**
+   * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
+   */
+  tags: string | null;
+  job: GetReviewDetails_review_job | null;
+  company: GetReviewDetails_review_company | null;
   /**
    * Salary of the job in a review, measured in cents.
    */
@@ -50,29 +54,25 @@ export interface GetReview_sTAGINGReview {
   /**
    * Overall score of the job in a review.
    */
-  overallScore: number | null;
+  overallRating: number | null;
   /**
    * How much learning/mentorship the job in a review provided.
    */
-  learningMentorshipScore: number | null;
+  learningMentorshipRating: number | null;
   /**
    * How meaningful work was at the job in a review.
    */
-  meaningfulWorkScore: number | null;
+  meaningfulWorkRating: number | null;
   /**
    * How good work-life balance was at the job in a review.
    */
-  workLifeBalanceScore: number | null;
-  /**
-   * Tags to provide additional information for a review.
-   */
-  tags: (string | null)[] | null;
+  workLifeBalanceRating: number | null;
 }
 
-export interface GetReview {
-  sTAGINGReview: GetReview_sTAGINGReview | null;
+export interface GetReviewDetails {
+  review: GetReviewDetails_review | null;
 }
 
-export interface GetReviewVariables {
+export interface GetReviewDetailsVariables {
   id?: string | null;
 }

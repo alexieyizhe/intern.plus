@@ -13,6 +13,8 @@ const PageContainer = styled.div`
   margin-top: ${HEADER_HEIGHT}px;
   padding: 10px 100px;
 
+  overflow: hidden;
+
   ${({ theme }) => theme.mediaQueries.tablet`
     padding: 10px 80px;
   `}

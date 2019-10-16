@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetCompanies
+// GraphQL fragment: CompanyResult
 // ====================================================
 
-export interface GetCompanies_companiesList_items_reviews {
+export interface CompanyResult_reviews {
   __typename: "ReviewListResponse";
   /**
    * List items count
@@ -14,7 +14,7 @@ export interface GetCompanies_companiesList_items_reviews {
   count: number;
 }
 
-export interface GetCompanies_companiesList_items {
+export interface CompanyResult {
   __typename: "Company";
   /**
    * Unique slug for a company.
@@ -35,17 +35,5 @@ export interface GetCompanies_companiesList_items {
   /**
    * Reviews for a company.
    */
-  reviews: GetCompanies_companiesList_items_reviews | null;
-}
-
-export interface GetCompanies_companiesList {
-  __typename: "CompanyListResponse";
-  /**
-   * List items
-   */
-  items: GetCompanies_companiesList_items[];
-}
-
-export interface GetCompanies {
-  companiesList: GetCompanies_companiesList;
+  reviews: CompanyResult_reviews | null;
 }

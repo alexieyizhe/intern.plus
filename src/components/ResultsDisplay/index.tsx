@@ -5,11 +5,12 @@ import { default as AnimatedIcon } from "react-useanimations";
 
 import { RouteName } from "src/utils/routes";
 import {
-  SearchResult,
-  resultIsCompany,
-  resultIsReviewJob,
-  resultIsReviewUser,
-} from "src/types/searchResults";
+  IGenericCardItem,
+  isCompanyCardItem,
+  isJobCardItem,
+  isReviewJobCardItem,
+  isReviewUserCardItem,
+} from "src/types";
 
 import Text from "src/components/Text";
 import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
@@ -22,7 +23,7 @@ export interface IResultsDisplayProps
   searched: boolean; // has already searched once or more times
   loading: boolean;
   error: boolean;
-  searchResults: SearchResult[];
+  searchResults: IGenericCardItem[];
 }
 
 /*******************************************************************
@@ -86,8 +87,8 @@ const getMiscContent = (
  * the data in the search result.
  * @param result object containing item data for a specific search result
  */
-const getResultCardMarkup = (result: SearchResult) => {
-  if (resultIsCompany(result)) {
+const getResultCardMarkup = (result: IGenericCardItem) => {
+  if (isCompanyCardItem(result)) {
     return (
       <ResultsCompanyCard
         key={result.slug}
@@ -96,51 +97,54 @@ const getResultCardMarkup = (result: SearchResult) => {
         desc={result.desc}
         numRatings={result.numRatings}
         avgRating={result.avgRating}
-        linkTo={`${RouteName.COMPANIES}/${result.slug}`}
         color={result.color}
+        linkTo={`${RouteName.COMPANIES}/${result.slug}`}
       />
     );
-  } else if (resultIsReviewJob(result)) {
+  } else if (isJobCardItem(result)) {
+    return (
+      <ResultsJobCard
+        key={result.id}
+        title={result.name}
+        subtitle={result.location}
+        numRatings={result.numRatings}
+        avgRating={result.avgRating}
+        minHourlySalary={result.minHourlySalary}
+        maxHourlySalary={result.maxHourlySalary}
+        salaryCurrency={result.salaryCurrency}
+        color={result.color}
+        linkTo={`${RouteName.JOBS}/${result.id}`}
+      />
+    );
+  } else if (isReviewJobCardItem(result)) {
     return (
       <ResultsReviewCard
         key={result.id}
-        heading={result.name}
-        subheading={result.role}
+        heading={result.companyName}
+        subheading={result.jobName}
         rating={result.rating}
+        color={result.color}
         linkTo={`${RouteName.REVIEWS}/${result.id}`}
       >
-        <Text variant="body">{result.contents}</Text>
+        <Text variant="body">{result.body}</Text>
       </ResultsReviewCard>
     );
-  } else if (resultIsReviewUser(result)) {
+  } else if (isReviewUserCardItem(result)) {
     return (
       <ResultsReviewCard
         key={result.id}
-        heading={result.name}
+        heading={result.authorName}
         subheading={result.date}
-        rating={result.rating}
+        rating={result.overallRating}
+        color={result.color}
         linkTo={`${RouteName.REVIEWS}/${result.id}`}
       >
-        <Text variant="body">{result.contents}</Text>
+        <Text variant="body">{result.body}</Text>
       </ResultsReviewCard>
     );
   }
 
-  // resultIsJob === true
-  return (
-    <ResultsJobCard
-      key={result.id}
-      title={result.role}
-      subtitle={result.location}
-      numRatings={result.numRatings}
-      avgRating={result.avgRating}
-      minHourlySalary={result.minHourlySalary}
-      maxHourlySalary={result.maxHourlySalary}
-      salaryCurrency={result.salaryCurrency}
-      color={result.color}
-      linkTo={`${RouteName.JOBS}/${result.id}`}
-    />
-  );
+  return undefined; // should never happen
 };
 
 /*******************************************************************
@@ -150,6 +154,10 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  & > * {
+    margin: 10px auto;
+  }
 `;
 
 const MiscContentContainer = styled.div<{ show?: boolean }>`
@@ -170,6 +178,10 @@ const MiscContentContainer = styled.div<{ show?: boolean }>`
 const resultsCardStyles = css`
   width: 650px;
   height: 180px;
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    width: 100%;
+  `}
 `;
 const ResultsCompanyCard = styled(CompanyCard)`
   ${resultsCardStyles}
@@ -218,6 +230,7 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
         <Planet size={200} mood={planetMood} color="#DDDDDD" />
         {miscMarkup}
       </MiscContentContainer>
+
       {!showMisc && searchResults.map(getResultCardMarkup)}
     </Container>
   );

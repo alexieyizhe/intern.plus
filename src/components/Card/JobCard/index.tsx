@@ -75,6 +75,7 @@ const JobCard: React.FC<IJobCardProps> = ({
   maxHourlySalary,
   salaryCurrency,
   linkTo,
+  color,
   ...rest
 }) => {
   const [clicked, setClicked] = useState(false);
@@ -83,12 +84,13 @@ const JobCard: React.FC<IJobCardProps> = ({
 
   return (
     <Container
+      color="greyLight"
       role="link"
       tabIndex={0}
       onClick={() => setClicked(true)}
       {...rest}
     >
-      <Text className="title" variant="heading3">
+      <Text className="title" variant="heading3" color={color}>
         {title}
       </Text>
       <Text className="subtitle" variant="heading4">

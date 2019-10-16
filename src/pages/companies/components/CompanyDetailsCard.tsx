@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
-import { GetCompany_sTAGINGCompany } from "src/types/generated/GetCompany";
 import {
   ISearchHandlerProps,
   Card,
@@ -11,55 +9,53 @@ import {
   SearchHandler,
   StarRating,
 } from "src/components";
+import { ICompanyDetails } from "src/types";
 
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
-export interface ICompanyPageCardProps extends ISearchHandlerProps {
+export interface ICompanyDetailsCardProps extends ISearchHandlerProps {
   loading: boolean;
   error: boolean;
-  companyInfo?: GetCompany_sTAGINGCompany | null;
+  companyDetails?: ICompanyDetails;
 }
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const ERROR_OCCURRED_TEXT = "An error occurred while getting company details.";
-const NO_REVIEW_COUNT_TEXT = "based on reviews";
 
 /**
  * Creates the markup for displaying the correct state of
  * the company details, whether still loading, etc.
  * @param loading whether company details are still loading
  * @param error whether fetching company details resulted in error
- * @param info data holding details about the company
+ * @param details data holding details about the company
  */
 const getDetailsMarkup = (
   loading: boolean,
   error: boolean,
-  info?: GetCompany_sTAGINGCompany | null
+  details?: ICompanyDetails
 ) => {
   if (loading) {
     return <AnimatedIcon className="loading" animationKey="loading" />;
-  } else if (info) {
+  } else if (details) {
     return (
       <>
         <div className="details">
           <Text variant="heading1" as="div">
-            {info.name}
+            {details.name}
           </Text>
           <Text variant="subheading" as="div">
-            {info.desc}
+            {details.desc}
           </Text>
           <StarRating
             maxStars={5}
-            filledStars={Math.round(info.avgReviewScore || 0)}
+            filledStars={Math.round(details.avgRating)}
             readOnly
           />
           <Text variant="subheading" as="div">
-            {info.reviews
-              ? `${info.reviews.count} reviews`
-              : NO_REVIEW_COUNT_TEXT}
+            {`${details.numRatings} reviews`}
           </Text>
         </div>
 
@@ -69,7 +65,7 @@ const getDetailsMarkup = (
     );
   }
 
-  // error === true
+  // error === true or something has gone horribly wrong
   return (
     <Text
       variant="subheading"
@@ -101,6 +97,12 @@ const Container = styled(Card)`
   & input {
     background-color: white;
   }
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    width: 300%;
+    left: -100%;
+    padding: 40px 100%;
+  `}
 `;
 
 const DetailsContainer = styled.div`
@@ -134,18 +136,18 @@ const Logo = styled.img`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const CompanyPageCard: React.FC<ICompanyPageCardProps> = ({
+const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   loading,
   error,
-  companyInfo,
+  companyDetails,
   onNewSearchVal,
 }) => (
   <Container>
     <DetailsContainer>
-      {getDetailsMarkup(loading, error, companyInfo)}
+      {getDetailsMarkup(loading, error, companyDetails)}
     </DetailsContainer>
     <SearchHandler onNewSearchVal={onNewSearchVal} />
   </Container>
 );
 
-export default CompanyPageCard;
+export default CompanyDetailsCard;

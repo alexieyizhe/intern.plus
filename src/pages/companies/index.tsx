@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import { RouteName } from "src/utils/routes";
-import CompanyDisplay from "./components/CompanyDisplay";
+import CompanyPage from "./components/CompanyPage";
 
 /**
  * Page router will either:
@@ -22,7 +22,7 @@ const CompaniesPage = () => {
     <>
       <Switch>
         <Route path={`${match.path}/:companySlug`}>
-          <CompanyDisplay />
+          <CompanyPage />
         </Route>
 
         <Route path={match.path}>

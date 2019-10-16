@@ -8,13 +8,14 @@ import Card, { ICardProps } from "../RawCard";
 
 export interface ICompanyCardProps extends ICardProps {
   name: string | null;
-  logoSrc?: string | null;
   desc?: string | null;
+  logoSrc?: string | null;
   numRatings: number | null;
   avgRating: number | null;
   linkTo: string;
 }
 
+// TODO: factor out hover styles into its own css`` variable for reuse
 const Container = styled(Card)`
   display: inline-grid;
   grid-template-rows: auto 1fr auto;
@@ -38,6 +39,7 @@ const Container = styled(Card)`
 
   & > .logo {
     grid-area: logo;
+    margin-left: auto;
   }
 
   & > .desc {
