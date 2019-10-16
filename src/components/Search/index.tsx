@@ -51,6 +51,7 @@ const Search: React.FC<ISearchProps> = ({
     <Container {...rest}>
       <TextInput
         color="greyLight"
+        variant="body"
         value={value}
         onChange={onChange}
         onKeyDown={internalOnKeyDown}

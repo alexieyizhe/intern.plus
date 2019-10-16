@@ -21,6 +21,7 @@ const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this review.";
 const AUTHOR_SUFFIX = "mentioned the following...";
 
+// TODO: REFACTOR
 /**
  * Creates the markup for displaying the correct state of
  * the review details, whether still loading, etc.
