@@ -46,6 +46,7 @@ const Footer = () => (
       src={copy.logo.src}
       alt={copy.logo.alt}
       role="button"
+      tabIndex={0}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
     />
     <Text className="subheading" variant="subheading">

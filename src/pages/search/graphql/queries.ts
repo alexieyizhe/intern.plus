@@ -25,7 +25,7 @@ export const GET_ALL_SEARCH = gql`
         OR: [
           { name: { contains: $query } }
           { company: { name: { contains: $query } } }
-          { location: { contains: $query } }
+          { jobLocation: { contains: $query } }
         ]
       }
       first: 10
@@ -83,7 +83,7 @@ export const GET_JOBS_SEARCH = gql`
         OR: [
           { name: { contains: $query } }
           { company: { name: { contains: $query } } }
-          { location: { contains: $query } }
+          { jobLocation: { contains: $query } }
         ]
       }
       first: 10

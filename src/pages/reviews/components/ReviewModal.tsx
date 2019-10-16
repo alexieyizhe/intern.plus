@@ -100,13 +100,8 @@ const getDetailsMarkup = (
             </ReviewRating>
           </div>
           <SalaryInfo>
-            <Text variant="heading2" as="div">
-              {details.salary}
-            </Text>
-            <Text
-              variant="heading3"
-              as="div"
-            >{`${details.salaryCurrency}/${details.salaryPeriod}`}</Text>
+            <Text variant="heading2">{details.salary}</Text>
+            <Text variant="heading3">{`${details.salaryCurrency}/${details.salaryPeriod}`}</Text>
           </SalaryInfo>
         </FlexRowContainer>
         <Text className="reviewBody" variant="body">
@@ -207,8 +202,12 @@ const ReviewRating = styled(StarRating)`
 `;
 
 const SalaryInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
   ${({ theme }) => theme.mediaQueries.tablet`
-    display: flex;
+    flex-direction: row;
     margin-top: 10px;
     
     & > * {
@@ -228,8 +227,8 @@ const ReviewPrefixContainer = styled.div`
 
 const CloseButton = styled(UnstyledButton)`
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   top: -10px;
   right: -10px;
 
@@ -237,6 +236,13 @@ const CloseButton = styled(UnstyledButton)`
 
   background-color: ${({ theme }) => theme.color.error};
   border-radius: 50%;
+
+  transition: transform 150ms ease-out;
+  transform: scale(0.9);
+  &:hover,
+  &:focus {
+    transform: scale(1);
+  }
 `;
 
 /*******************************************************************
@@ -286,6 +292,7 @@ const ReviewModal = () => {
       variables: { id: reviewId },
     }
   );
+
   const review = useMemo(
     () => (data && data.review ? buildReviewDetails(data.review) : undefined),
     [data]
@@ -307,7 +314,7 @@ const ReviewModal = () => {
       <Background onClick={onExit}>
         <Container color="greyLight" onClick={cardOnClick}>
           {getDetailsMarkup(loading, error !== undefined, review)}
-          <CloseButton onClick={onExit} />
+          <CloseButton onClick={onExit} tabIndex={1} />
         </Container>
       </Background>
     </>

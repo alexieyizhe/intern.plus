@@ -11,8 +11,8 @@ export const buildReviewDetails = (
 ): IReviewDetails => ({
   jobName: review.job ? review.job.name || "" : "",
   companyName: review.company ? review.company.name || "" : "",
-  location: review.job ? review.job.location || "" : "",
-  author: review.author || "",
+  location: review.job ? review.job.jobLocation || "" : "",
+  author: review.author || "Anonymous",
   body: review.body || "",
   overallRating: review.overallRating || 0,
   meaningfulWorkRating: review.meaningfulWorkRating || 0,

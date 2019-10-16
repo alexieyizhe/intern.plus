@@ -52,10 +52,7 @@ export interface GetJobDetails_job {
    * Title of a job.
    */
   name: string | null;
-  /**
-   * Location of a job.
-   */
-  location: string | null;
+  jobLocation: string | null;
   /**
    * Company that a job has been reviewed for.
    */

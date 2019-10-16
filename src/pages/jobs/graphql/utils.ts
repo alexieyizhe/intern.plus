@@ -19,7 +19,7 @@ const timeAgo = new TimeAgo("en-US");
 export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   name: job.name || "",
   companyName: job.company ? job.company.name || "" : "",
-  location: job.location || undefined,
+  location: job.jobLocation || undefined,
   numRatings: job.reviews ? job.reviews.count : 0,
   avgRating: job.avgRating || 0,
   avgLearningMentorshipRating: job.avgLearningMentorshipRating || 0,
@@ -36,7 +36,7 @@ export const buildJobReviewsCardList = (
 ): IReviewUserCardItem[] =>
   reviewList.map(review => ({
     id: review.id || "",
-    authorName: review.author || "",
+    authorName: review.author || "Anonymous",
     date: timeAgo.format(new Date(review.updatedAt || review.createdAt || "")),
     overallRating: review.overallRating || 0,
     body: review.body || "",
