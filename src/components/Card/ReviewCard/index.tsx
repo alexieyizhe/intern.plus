@@ -57,6 +57,7 @@ const Container = styled(Card)`
 
   & > .subheading {
     grid-area: subheading;
+    padding-top: 8px;
 
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -115,7 +116,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
       <Text className="heading" variant="heading3" color={color}>
         {heading}
       </Text>
-      <Text className="subheading" variant="heading4">
+      <Text className="subheading" variant="heading4" color="greyDark">
         {subheading}
       </Text>
       <StarRating maxStars={5} filledStars={rating || 0} readOnly />

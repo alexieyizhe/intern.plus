@@ -122,7 +122,7 @@ const landingCardStyles = css`
   width: 350px;
   height: 180px;
   flex-shrink: 0;
-  margin-left: 20px;
+  margin-left: 22px;
 
   &:first-child {
     margin-left: 0;

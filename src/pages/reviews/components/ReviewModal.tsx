@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { default as AnimatedIcon } from "react-useanimations";
 import { Helmet } from "react-helmet";
 
+import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
 import { IReviewDetails } from "src/types";
 import { GetReviewDetails } from "src/types/generated/GetReviewDetails";
@@ -42,10 +43,9 @@ const getDetailsMarkup = (
             <Text variant="heading1" as="div">
               {details.jobName}
             </Text>
-            <Text
-              variant="heading3"
-              as="div"
-            >{`${details.companyName} | ${details.location}`}</Text>
+            <Text variant="heading3" as="div" color="greyDark">
+              {`${details.companyName} | ${details.location}`}
+            </Text>
           </div>
           <LogoImg
             src={details.logoSrc}
@@ -59,6 +59,7 @@ const getDetailsMarkup = (
             {AUTHOR_SUFFIX}
           </Text>
         </ReviewPrefixContainer>
+
         <FlexRowContainer className="miscInfo">
           <div>
             <ReviewRating
@@ -66,31 +67,39 @@ const getDetailsMarkup = (
               filledStars={details.overallRating}
               readOnly
             >
-              overall
+              <Text variant="body" className="ratingText" color="greyDark">
+                Overall
+              </Text>
             </ReviewRating>
             <ReviewRating
               maxStars={5}
               filledStars={details.meaningfulWorkRating}
               readOnly
             >
-              meaningful
+              <Text variant="body" className="ratingText" color="greyDark">
+                Meaningful work
+              </Text>
             </ReviewRating>
             <ReviewRating
               maxStars={5}
               filledStars={details.workLifeBalanceRating}
               readOnly
             >
-              worklifeblaance
+              <Text variant="body" className="ratingText" color="greyDark">
+                Work life balance
+              </Text>
             </ReviewRating>
             <ReviewRating
               maxStars={5}
               filledStars={details.learningMentorshipRating}
               readOnly
             >
-              mentorship
+              <Text variant="body" className="ratingText" color="greyDark">
+                Learning &amp; mentorship
+              </Text>
             </ReviewRating>
           </div>
-          <div>
+          <SalaryInfo>
             <Text variant="heading2" as="div">
               {details.salary}
             </Text>
@@ -98,10 +107,11 @@ const getDetailsMarkup = (
               variant="heading3"
               as="div"
             >{`${details.salaryCurrency}/${details.salaryPeriod}`}</Text>
-          </div>
+          </SalaryInfo>
         </FlexRowContainer>
         <Text className="reviewBody" variant="body">
           {details.body}
+          {/* TODO: is there a way to render new lines without dangerouslySetInnerHTML? don't want to be exposed to XSS */}
         </Text>
       </>
     );
@@ -138,15 +148,18 @@ const Background = styled.div`
   background-color: rgba(40, 40, 40, 0.5);
 `;
 
+// TODO: i don't like the overflow scroll on the review body. too small area to read
 const Container = styled(Card)`
   position: relative;
+  max-height: 85vh;
   max-width: 900px;
+  padding: 40px 60px;
+
+  z-index: 201;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  z-index: 201;
 
   & > .loading,
   & > .error {
@@ -155,12 +168,22 @@ const Container = styled(Card)`
 
   & > .reviewBody {
     margin-top: 20px;
+    overflow: scroll;
   }
+
+  ${({ theme }) => theme.mediaQueries.medium`
+    max-width: 80%;
+  `}
 
   ${({ theme }) => theme.mediaQueries.tablet`
     & > .miscInfo {
       flex-direction: column;
     }
+  `}
+
+  ${({ theme }) => theme.mediaQueries.xlMobile`
+    max-width: 90%;
+    padding: 35px 40px;
   `}
 `;
 
@@ -175,11 +198,32 @@ const LogoImg = styled.img`
 `;
 
 const ReviewRating = styled(StarRating)`
-  display: block;
+  display: flex;
+  justify-content: flex-start;
+
+  & > .ratingText {
+    padding: 0 3px;
+  }
+`;
+
+const SalaryInfo = styled.div`
+  ${({ theme }) => theme.mediaQueries.tablet`
+    display: flex;
+    margin-top: 10px;
+    
+    & > * {
+      font-size: ${theme.fontSize[Size.SMALL]}px;
+
+      &:first-child::after {
+        white-space: pre;
+        content: " ";
+      }
+    }
+  `}
 `;
 
 const ReviewPrefixContainer = styled.div`
-  margin-top: 50px;
+  margin: 50px auto 10px 0;
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -191,7 +235,7 @@ const CloseButton = styled(UnstyledButton)`
 
   cursor: pointer;
 
-  background-color: black;
+  background-color: ${({ theme }) => theme.color.error};
   border-radius: 50%;
 `;
 
@@ -247,13 +291,21 @@ const ReviewModal = () => {
     [data]
   );
 
+  /**
+   * Stop clicks on card bubbling up to background and closing the modal.
+   */
+  const cardOnClick = useCallback(
+    (e: React.MouseEvent) => e.stopPropagation(),
+    []
+  );
+
   return (
     <>
       <Helmet>
         <title>Review{review ? ` | ${review.jobName}` : ""}</title>
       </Helmet>
       <Background onClick={onExit}>
-        <Container color="greyLight">
+        <Container color="greyLight" onClick={cardOnClick}>
           {getDetailsMarkup(loading, error !== undefined, review)}
           <CloseButton onClick={onExit} />
         </Container>

@@ -15,6 +15,8 @@ export interface ISearchHandlerProps
 const StickySearch = styled(Search)`
   position: sticky;
   top: ${HEADER_HEIGHT + 10}px;
+
+  z-index: 50;
 `;
 
 export const SEARCH_VALUE_QUERY_PARAM_KEY = "q";

@@ -7,13 +7,38 @@ import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
 
 export interface ICompanyCardProps extends ICardProps {
-  name: string | null;
-  desc?: string | null;
-  logoSrc?: string | null;
-  numRatings: number | null;
-  avgRating: number | null;
+  name: string;
+  desc?: string;
+  logoSrc?: string;
+  numRatings: number;
+  avgRating: number;
   linkTo: string;
 }
+
+const NO_RATINGS_TEXT = "No ratings yet";
+
+const getRatingMarkup = (numRatings: number, avgRating: number) => {
+  if (numRatings === 0) {
+    return (
+      <>
+        <Text variant="body" color="greyDark">
+          {NO_RATINGS_TEXT}
+        </Text>
+      </>
+    );
+  }
+
+  return (
+    <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly>
+      <Text variant="body" className="avgRating" color="black">
+        {avgRating.toFixed(1)}
+      </Text>
+      <Text variant="body" color="greyDark">
+        ({numRatings})
+      </Text>
+    </StarRating>
+  );
+};
 
 // TODO: factor out hover styles into its own css`` variable for reuse
 const Container = styled(Card)`
@@ -65,6 +90,10 @@ const Container = styled(Card)`
     grid-area: ratings;
     display: flex;
     align-items: flex-end;
+
+    & .avgRating {
+      padding: 0 3px;
+    }
   }
 `;
 
@@ -104,19 +133,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
         </Text>
       )}
 
-      <div className="ratings">
-        <StarRating
-          maxStars={5}
-          filledStars={Math.round(avgRating || 0)}
-          readOnly
-        />
-        <Text variant="body" color="black">
-          {avgRating}
-        </Text>
-        <Text variant="body" color="greyDark">
-          ({numRatings})
-        </Text>
-      </div>
+      <div className="ratings">{getRatingMarkup(numRatings, avgRating)} </div>
     </Container>
   );
 };

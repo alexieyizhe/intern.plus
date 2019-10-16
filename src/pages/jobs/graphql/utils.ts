@@ -1,10 +1,17 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 import { IJobDetails, IReviewUserCardItem } from "src/types";
 import {
   GetJobDetails_job,
   GetJobDetails_job_reviews_items,
 } from "src/types/generated/GetJobDetails";
 import { getPastelColor, getDarkColor } from "src/utils/getColor";
+
+TimeAgo.addLocale(en);
+
+// Create relative date/time formatter.
+const timeAgo = new TimeAgo("en-US");
 
 /**
  * TODO: documentation
@@ -30,7 +37,7 @@ export const buildJobReviewsCardList = (
   reviewList.map(review => ({
     id: review.id || "",
     authorName: review.author || "",
-    date: review.updatedAt || review.createdAt || "",
+    date: timeAgo.format(new Date(review.updatedAt || review.createdAt || "")),
     overallRating: review.overallRating || 0,
     body: review.body || "",
     tags: review.tags || "",
