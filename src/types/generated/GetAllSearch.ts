@@ -122,6 +122,10 @@ export interface GetAllSearch_reviewsList_items {
    * Contents of a review.
    */
   body: string | null;
+  /**
+   * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
+   */
+  tags: string | null;
   company: GetAllSearch_reviewsList_items_company | null;
   job: GetAllSearch_reviewsList_items_job | null;
 }

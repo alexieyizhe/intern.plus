@@ -17,9 +17,13 @@ export interface GetReviewsWithUserInfo_reviewsList_items {
    * Contents of a review.
    */
   body: string | null;
+  /**
+   * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
+   */
+  tags: string | null;
   author: string | null;
-  createdAt: TugboatDateTime | null;
-  updatedAt: TugboatDateTime | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
 export interface GetReviewsWithUserInfo_reviewsList {

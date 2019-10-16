@@ -3,35 +3,16 @@ import React, { useMemo, useState, useCallback } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
-import { GET_JOB_DETAILS } from "src/api/queries/job";
-import {
-  GetJob,
-  GetJob_sTAGINGJob_reviews_items,
-} from "src/types/generated/GetJob";
-import { IReviewUserResult } from "src/types/searchResults";
+import { GetJobDetails } from "src/types/generated/GetJobDetails";
+import { GET_JOB_DETAILS } from "../graphql/queries";
+import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
 import { PageContainer, ResultsDisplay } from "src/components";
-import JobPageCard from "src/pages/jobs/components/JobPageCard";
+import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-/**
- * Creates a friendly list of review results from fetched data.
- * This is used for displaying reviews for a given job
- * @param itemList list of review items
- */
-const buildReviewList = (
-  itemList: GetJob_sTAGINGJob_reviews_items[]
-): IReviewUserResult[] =>
-  itemList.map(item => ({
-    id: item.id || "",
-    name: item.author || "",
-    date: (item.createdAt || item.updatedAt || "").toString(),
-    rating: item.overallScore || 0,
-    contents: item.body || "",
-    color: "#FFEBEE",
-  }));
 
 /*******************************************************************
  *                           **Component**                         *
@@ -42,14 +23,19 @@ const JobDisplay = () => {
    * the reviews for this job for use in searching.
    */
   const { jobId } = useParams();
-  const { loading, error, data } = useQuery<GetJob>(GET_JOB_DETAILS, {
+  const { loading, error, data } = useQuery<GetJobDetails>(GET_JOB_DETAILS, {
     variables: { id: jobId },
   });
 
+  const jobDetails = useMemo(
+    () => (data && data.job ? buildJobDetails(data.job) : undefined),
+    [data]
+  );
+
   const reviews = useMemo(
     () =>
-      data && data.sTAGINGJob && data.sTAGINGJob.reviews
-        ? buildReviewList(data.sTAGINGJob.reviews.items)
+      data && data.job && data.job.reviews
+        ? buildJobReviewsCardList(data.job.reviews.items)
         : [],
     [data]
   );
@@ -68,19 +54,22 @@ const JobDisplay = () => {
     () =>
       reviews.filter(
         review =>
-          review.name.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
+          review.authorName
+            .toLowerCase()
+            .includes(lastSearchedVal.toLowerCase()) ||
           review.date.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
-          review.contents.toLowerCase().includes(lastSearchedVal.toLowerCase())
+          review.body.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
+          review.tags.toLowerCase().includes(lastSearchedVal.toLowerCase())
       ),
     [reviews, lastSearchedVal]
   );
 
   return (
     <PageContainer>
-      <JobPageCard
+      <JobDetailsCard
         loading={loading}
         error={error !== undefined}
-        jobInfo={data && data.sTAGINGJob}
+        jobInfo={jobDetails}
         onNewSearchVal={onNewSearchVal}
       />
       <ResultsDisplay

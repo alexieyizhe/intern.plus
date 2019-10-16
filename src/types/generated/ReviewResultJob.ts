@@ -33,6 +33,10 @@ export interface ReviewResultJob {
    * Contents of a review.
    */
   body: string | null;
+  /**
+   * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
+   */
+  tags: string | null;
   company: ReviewResultJob_company | null;
   job: ReviewResultJob_job | null;
 }

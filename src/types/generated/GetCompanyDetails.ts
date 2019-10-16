@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetCompanyPage
+// GraphQL query operation: GetCompanyDetails
 // ====================================================
 
-export interface GetCompanyPage_company_jobs_items_reviews {
+export interface GetCompanyDetails_company_jobs_items_reviews {
   __typename: "ReviewListResponse";
   /**
    * List items count
@@ -14,7 +14,7 @@ export interface GetCompanyPage_company_jobs_items_reviews {
   count: number;
 }
 
-export interface GetCompanyPage_company_jobs_items {
+export interface GetCompanyDetails_company_jobs_items {
   __typename: "Job";
   id: string | null;
   /**
@@ -32,7 +32,7 @@ export interface GetCompanyPage_company_jobs_items {
   /**
    * Reviews for a job.
    */
-  reviews: GetCompanyPage_company_jobs_items_reviews | null;
+  reviews: GetCompanyDetails_company_jobs_items_reviews | null;
   /**
    * Minimum reported salary of a job, measured in cents/hour.
    */
@@ -47,15 +47,15 @@ export interface GetCompanyPage_company_jobs_items {
   salaryCurrency: string | null;
 }
 
-export interface GetCompanyPage_company_jobs {
+export interface GetCompanyDetails_company_jobs {
   __typename: "JobListResponse";
   /**
    * List items
    */
-  items: GetCompanyPage_company_jobs_items[];
+  items: GetCompanyDetails_company_jobs_items[];
 }
 
-export interface GetCompanyPage_company_reviews {
+export interface GetCompanyDetails_company_reviews {
   __typename: "ReviewListResponse";
   /**
    * List items count
@@ -63,7 +63,7 @@ export interface GetCompanyPage_company_reviews {
   count: number;
 }
 
-export interface GetCompanyPage_company {
+export interface GetCompanyDetails_company {
   __typename: "Company";
   /**
    * Name of a company.
@@ -73,21 +73,21 @@ export interface GetCompanyPage_company {
    * Description of a company.
    */
   desc: string | null;
-  jobs: GetCompanyPage_company_jobs | null;
+  jobs: GetCompanyDetails_company_jobs | null;
   /**
    * Reviews for a company.
    */
-  reviews: GetCompanyPage_company_reviews | null;
+  reviews: GetCompanyDetails_company_reviews | null;
   /**
    * Average score of all reviews of a company.
    */
   avgRating: number | null;
 }
 
-export interface GetCompanyPage {
-  company: GetCompanyPage_company | null;
+export interface GetCompanyDetails {
+  company: GetCompanyDetails_company | null;
 }
 
-export interface GetCompanyPageVariables {
+export interface GetCompanyDetailsVariables {
   slug?: string | null;
 }

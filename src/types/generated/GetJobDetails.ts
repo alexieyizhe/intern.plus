@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetJob
+// GraphQL query operation: GetJobDetails
 // ====================================================
 
-export interface GetJob_job_company {
+export interface GetJobDetails_job_company {
   __typename: "Company";
   /**
    * Name of a company.
@@ -14,7 +14,7 @@ export interface GetJob_job_company {
   name: string | null;
 }
 
-export interface GetJob_job_reviews_items {
+export interface GetJobDetails_job_reviews_items {
   __typename: "Review";
   id: string | null;
   /**
@@ -25,12 +25,16 @@ export interface GetJob_job_reviews_items {
    * Contents of a review.
    */
   body: string | null;
+  /**
+   * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
+   */
+  tags: string | null;
   author: string | null;
-  createdAt: TugboatDateTime | null;
-  updatedAt: TugboatDateTime | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
-export interface GetJob_job_reviews {
+export interface GetJobDetails_job_reviews {
   __typename: "ReviewListResponse";
   /**
    * List items count
@@ -39,10 +43,10 @@ export interface GetJob_job_reviews {
   /**
    * List items
    */
-  items: GetJob_job_reviews_items[];
+  items: GetJobDetails_job_reviews_items[];
 }
 
-export interface GetJob_job {
+export interface GetJobDetails_job {
   __typename: "Job";
   /**
    * Title of a job.
@@ -55,7 +59,7 @@ export interface GetJob_job {
   /**
    * Company that a job has been reviewed for.
    */
-  company: GetJob_job_company | null;
+  company: GetJobDetails_job_company | null;
   /**
    * Minimum reported salary of a job, measured in cents/hour.
    */
@@ -71,7 +75,7 @@ export interface GetJob_job {
   /**
    * Reviews for a job.
    */
-  reviews: GetJob_job_reviews | null;
+  reviews: GetJobDetails_job_reviews | null;
   /**
    * Average of all reviews for a job.
    */
@@ -81,10 +85,10 @@ export interface GetJob_job {
   avgWorkLifeBalanceRating: number | null;
 }
 
-export interface GetJob {
-  job: GetJob_job | null;
+export interface GetJobDetails {
+  job: GetJobDetails_job | null;
 }
 
-export interface GetJobVariables {
+export interface GetJobDetailsVariables {
   id?: string | null;
 }

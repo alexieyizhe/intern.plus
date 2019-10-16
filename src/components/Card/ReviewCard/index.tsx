@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
-import { Redirect, useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import Card, { ICardProps } from "../RawCard";
 import StarRating from "src/components/StarRating";
@@ -72,33 +72,29 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
   children,
   ...rest
 }) => {
-  const location = useLocation();
-  const [clicked, setClicked] = useState(false);
-
   /**
    * Go to review page while setting state
    * so that the current page now becomes the
    * background for the review modal.
    */
-  if (clicked) {
-    return (
-      <Redirect
-        push
-        to={{
-          pathname: linkTo,
-          state: {
-            background: location,
-          },
-        }}
-      />
-    );
-  }
+  const location = useLocation();
+  const history = useHistory();
+  const onClickOpenModal = useCallback(
+    () =>
+      history.push({
+        pathname: linkTo,
+        state: {
+          background: location,
+        },
+      }),
+    [history, linkTo, location]
+  );
 
   return (
     <Container
       color="greyLight"
       role="link"
-      onClick={() => setClicked(true)}
+      onClick={onClickOpenModal}
       tabIndex={0}
       {...rest}
     >

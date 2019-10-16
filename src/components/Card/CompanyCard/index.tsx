@@ -8,8 +8,8 @@ import Card, { ICardProps } from "../RawCard";
 
 export interface ICompanyCardProps extends ICardProps {
   name: string | null;
-  logoSrc?: string | null;
   desc?: string | null;
+  logoSrc?: string | null;
   numRatings: number | null;
   avgRating: number | null;
   linkTo: string;
@@ -39,6 +39,7 @@ const Container = styled(Card)`
 
   & > .logo {
     grid-area: logo;
+    margin-left: auto;
   }
 
   & > .desc {

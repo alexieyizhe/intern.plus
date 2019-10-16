@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetReview
+// GraphQL query operation: GetReviewDetails
 // ====================================================
 
-export interface GetReview_review_job {
+export interface GetReviewDetails_review_job {
   __typename: "Job";
   /**
    * Title of a job.
@@ -18,7 +18,7 @@ export interface GetReview_review_job {
   location: string | null;
 }
 
-export interface GetReview_review_company {
+export interface GetReviewDetails_review_company {
   __typename: "Company";
   /**
    * Name of a company.
@@ -26,7 +26,7 @@ export interface GetReview_review_company {
   name: string | null;
 }
 
-export interface GetReview_review {
+export interface GetReviewDetails_review {
   __typename: "Review";
   author: string | null;
   /**
@@ -37,8 +37,8 @@ export interface GetReview_review {
    * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
    */
   tags: string | null;
-  job: GetReview_review_job | null;
-  company: GetReview_review_company | null;
+  job: GetReviewDetails_review_job | null;
+  company: GetReviewDetails_review_company | null;
   /**
    * Salary of the job in a review, measured in cents.
    */
@@ -69,10 +69,10 @@ export interface GetReview_review {
   workLifeBalanceRating: number | null;
 }
 
-export interface GetReview {
-  review: GetReview_review | null;
+export interface GetReviewDetails {
+  review: GetReviewDetails_review | null;
 }
 
-export interface GetReviewVariables {
+export interface GetReviewDetailsVariables {
   id?: string | null;
 }

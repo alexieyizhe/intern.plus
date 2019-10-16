@@ -1,58 +1,47 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo, useState, useCallback } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
-import { GET_COMPANY_DETAILS } from "src/api/queries/company";
+import { GetCompanyDetails } from "src/types/generated/GetCompanyDetails";
+import { GET_COMPANY_DETAILS } from "../graphql/queries";
 import {
-  GetCompany,
-  GetCompany_sTAGINGCompany_jobs_items,
-} from "src/types/generated/GetCompany";
-import { IJobResult } from "src/types/searchResults";
+  buildCompanyDetails,
+  buildCompanyJobCardsList,
+} from "../graphql/utils";
 
 import { PageContainer, ResultsDisplay } from "src/components";
-import CompanyPageCard from "src/pages/companies/components/CompanyPageCard";
+import CompanyDetailsCard from "./CompanyDetailsCard";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-/**
- * Creates a friendly list of job results from fetched data.
- * This is used for displaying jobs at a given company.
- * @param itemList list of job result items
- */
-const buildJobList = (
-  itemList: GetCompany_sTAGINGCompany_jobs_items[]
-): IJobResult[] =>
-  itemList.map(item => ({
-    id: item.id || "",
-    role: item.title || "",
-    location: item.location || "",
-    avgRating: item.avgReviewScore || 0,
-    numRatings: (item.reviews && item.reviews.count) || 0,
-    minHourlySalary: item.minSalary || 0,
-    maxHourlySalary: item.maxSalary || 0,
-    salaryCurrency: item.salaryCurrency || "CAD",
-    color: "#FFEBEE",
-  }));
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const CompanyDisplay = () => {
+const CompanyPage = () => {
   /**
    * Fetch the company with the corresponding slug. Store
    * the job results for use in searching.
    */
   const { companySlug } = useParams();
-  const { loading, error, data } = useQuery<GetCompany>(GET_COMPANY_DETAILS, {
-    variables: { slug: companySlug },
-  });
+  const { loading, error, data } = useQuery<GetCompanyDetails>(
+    GET_COMPANY_DETAILS,
+    {
+      variables: { slug: companySlug },
+    }
+  );
+
+  const companyDetails = useMemo(
+    () =>
+      data && data.company ? buildCompanyDetails(data.company) : undefined,
+    [data]
+  );
 
   const jobs = useMemo(
     () =>
-      data && data.sTAGINGCompany && data.sTAGINGCompany.jobs
-        ? buildJobList(data.sTAGINGCompany.jobs.items)
+      data && data.company && data.company.jobs
+        ? buildCompanyJobCardsList(data.company.jobs.items)
         : [],
     [data]
   );
@@ -71,7 +60,7 @@ const CompanyDisplay = () => {
     () =>
       jobs.filter(
         job =>
-          job.role.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
+          job.name.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
           job.location.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
           job.salaryCurrency
             .toLowerCase()
@@ -82,12 +71,13 @@ const CompanyDisplay = () => {
 
   return (
     <PageContainer>
-      <CompanyPageCard
+      <CompanyDetailsCard
         loading={loading}
         error={error !== undefined}
-        companyInfo={data && data.sTAGINGCompany}
+        companyDetails={companyDetails}
         onNewSearchVal={onNewSearchVal}
       />
+
       <ResultsDisplay
         searched
         loading={loading}
@@ -98,4 +88,4 @@ const CompanyDisplay = () => {
   );
 };
 
-export default CompanyDisplay;
+export default CompanyPage;

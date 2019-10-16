@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import React from "react";
+import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
-import {
-  CompanyCard as BaseCompanyCard,
-  ReviewCard as BaseReviewCard,
-  Link,
-  Text,
-} from "src/components";
-import { GetCompanies_sTAGINGCompaniesList_items } from "src/types/generated/GetCompanies";
-import { GetReviews_sTAGINGReviewsList_items } from "src/types/generated/GetReviews";
-import pageCopy from "../copy";
 import { RouteName } from "src/utils/routes";
+import {
+  IGenericCardItem,
+  isCompanyCardItem,
+  isJobCardItem,
+  isReviewJobCardItem,
+  isReviewUserCardItem,
+} from "src/types";
+import pageCopy from "../copy";
+
+import { CompanyCard, ReviewCard, Link, Text } from "src/components";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -24,10 +25,74 @@ export interface ICardDisplayProps
   subLinkTo?: string;
   loading: boolean;
   error: boolean;
-  cards?: (
-    | GetCompanies_sTAGINGCompaniesList_items
-    | GetReviews_sTAGINGReviewsList_items)[];
+  cards: IGenericCardItem[];
 }
+
+/**
+ * Creates the markup for a single carousel card, based on
+ * the data in the search result.
+ * @param card object containing item data for a specific search result
+ */
+const getCardMarkup = (card: IGenericCardItem) => {
+  if (isCompanyCardItem(card)) {
+    return (
+      <CarouselCompanyCard
+        key={card.slug}
+        name={card.name}
+        logoSrc={card.logoSrc}
+        numRatings={card.numRatings}
+        avgRating={card.avgRating}
+        color={card.color}
+        linkTo={`${RouteName.COMPANIES}/${card.slug}`}
+      />
+    );
+  } else if (isJobCardItem(card)) {
+    return undefined; // this doesnt appear on landing page so not needed (for now)
+    // return (
+    //   <ResultsJobCard
+    //     key={card.id}
+    //     title={card.name}
+    //     subtitle={card.location}
+    //     numRatings={card.numRatings}
+    //     avgRating={card.avgRating}
+    //     minHourlySalary={card.minHourlySalary}
+    //     maxHourlySalary={card.maxHourlySalary}
+    //     salaryCurrency={card.salaryCurrency}
+    //     color={card.color}
+    //     linkTo={`${RouteName.JOBS}/${card.id}`}
+    //   />
+    // );
+  } else if (isReviewJobCardItem(card)) {
+    return (
+      <CarouselReviewCard
+        key={card.id}
+        heading={card.companyName}
+        subheading={card.jobName}
+        rating={card.rating}
+        color={card.color}
+        linkTo={`${RouteName.REVIEWS}/${card.id}`}
+      >
+        <Text variant="body">{card.body}</Text>
+      </CarouselReviewCard>
+    );
+  } else if (isReviewUserCardItem(card)) {
+    return (
+      <CarouselReviewCard
+        key={card.id}
+        heading={card.authorName}
+        subheading={card.date}
+        rating={card.overallRating}
+        color={card.color}
+        linkTo={`${RouteName.REVIEWS}/${card.id}`}
+      >
+        <Text variant="body">{card.body}</Text>
+      </CarouselReviewCard>
+    );
+  }
+
+  console.log("end");
+  return undefined; // should never happen
+};
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -49,6 +114,11 @@ const Display = styled.div`
   padding: 25px 0;
 `;
 
+const MiscContentContainer = styled.span`
+  margin: 50px auto;
+  text-align: center;
+`;
+
 const landingCardStyles = css`
   width: 350px;
   height: 180px;
@@ -64,16 +134,11 @@ const landingCardStyles = css`
   `}
 `;
 
-const MiscContentContainer = styled.span`
-  margin: 50px auto;
-  text-align: center;
-`;
-
-const CompanyCard = styled(BaseCompanyCard)`
+const CarouselCompanyCard = styled(CompanyCard)`
   ${landingCardStyles}
 `;
 
-const ReviewCard = styled(BaseReviewCard)`
+const CarouselReviewCard = styled(ReviewCard)`
   ${landingCardStyles}
 `;
 
@@ -92,52 +157,40 @@ const CarouselDisplay: React.FC<ICardDisplayProps> = ({
   subLinkTo,
   cards,
   ...rest
-}) => (
-  <Container {...rest}>
-    <Text variant="heading2">{heading}</Text>
-    <Display>
-      {(loading || error) && (
-        <MiscContentContainer>
-          {loading && <AnimatedIcon animationKey="loading" />}
-          {error && (
-            <Text variant="subheading" color="error">
-              {pageCopy.errorText}
-            </Text>
-          )}
-        </MiscContentContainer>
-      )}
-      {cards &&
-        cards.map((cardInfo, i) =>
-          // TODO: refactor this type guard into something like ResultsDisplay
-          cardInfo.__typename === "STAGINGCompany" ? (
-            <CompanyCard
-              key={cardInfo.slug || i}
-              name={cardInfo.name}
-              linkTo={`${RouteName.COMPANIES}/${cardInfo.slug}`}
-              numRatings={cardInfo.reviews && cardInfo.reviews.count}
-              avgRating={cardInfo.avgReviewScore}
-              color="#C0DBC0"
-            />
-          ) : (
-            <ReviewCard
-              key={cardInfo.id || i}
-              heading={cardInfo.company && cardInfo.company.name}
-              subheading={cardInfo.job && cardInfo.job.title}
-              linkTo={`${RouteName.REVIEWS}/${cardInfo.id}`}
-              rating={cardInfo.overallScore}
-              color="#5E8E3E"
-            >
-              <Text variant="body">{cardInfo.body}</Text>
-            </ReviewCard>
-          )
+}) => {
+  const showMisc = useMemo(() => loading || error || !cards.length, [
+    cards,
+    error,
+    loading,
+  ]);
+
+  console.log(loading, error, cards);
+
+  return (
+    <Container {...rest}>
+      <Text variant="heading2">{heading}</Text>
+      <Display>
+        {showMisc ? (
+          <MiscContentContainer>
+            {loading && <AnimatedIcon animationKey="loading" />}
+            {error && (
+              <Text variant="subheading" color="error">
+                {pageCopy.errorText}
+              </Text>
+            )}
+          </MiscContentContainer>
+        ) : (
+          cards.map(getCardMarkup)
         )}
-    </Display>
-    {subLinkTo && (
-      <SubLink to={subLinkTo}>
-        <Text variant="subheading">{subLinkText}</Text>
-      </SubLink>
-    )}
-  </Container>
-);
+      </Display>
+
+      {subLinkTo && (
+        <SubLink to={subLinkTo}>
+          <Text variant="subheading">{subLinkText}</Text>
+        </SubLink>
+      )}
+    </Container>
+  );
+};
 
 export default CarouselDisplay;
