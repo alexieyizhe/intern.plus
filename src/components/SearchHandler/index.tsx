@@ -35,7 +35,6 @@ const SearchHandler: React.FC<ISearchHandlerProps> = ({
    */
   const [searchVal, setSearchVal] = useState(defaultQueryVal || "");
   const searchOnChange = useCallback(
-    // TODO: debounce this
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchVal(e.target.value);
     },

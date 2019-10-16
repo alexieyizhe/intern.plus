@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { HEADER_HEIGHT } from "src/components/PageHeader";
 import { FOOTER_HEIGHT } from "src/components/PageFooter";
 
-const PageContainer = styled.div`
+const PageContainer = styled.main`
   position: relative;
   min-height: calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px);
   max-width: 1000px;

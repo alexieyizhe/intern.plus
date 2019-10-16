@@ -40,7 +40,7 @@ const getDetailsMarkup = (
       <>
         <FlexRowContainer>
           <div>
-            <Text variant="heading1" as="div">
+            <Text variant="heading1" as="h1">
               {details.jobName}
             </Text>
             <Text variant="heading3" as="div" color="greyDark">
@@ -132,30 +132,29 @@ const getDetailsMarkup = (
 const Background = styled.div`
   position: fixed;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  z-index: 200;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
 
+  z-index: 200;
   background-color: rgba(40, 40, 40, 0.5);
+  overscroll-behavior: contain;
+  overflow-y: scroll;
 `;
 
-// TODO: i don't like the overflow scroll on the review body. too small area to read
 const Container = styled(Card)`
   position: relative;
-  max-height: 85vh;
-  max-width: 900px;
+  max-width: 700px;
   padding: 40px 60px;
-
-  z-index: 201;
+  margin: auto;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  z-index: 201;
 
   & > .loading,
   & > .error {
@@ -164,7 +163,10 @@ const Container = styled(Card)`
 
   & > .reviewBody {
     margin-top: 20px;
-    overflow: scroll;
+  }
+
+  & img {
+    margin-left: 20px;
   }
 
   ${({ theme }) => theme.mediaQueries.medium`
@@ -178,8 +180,13 @@ const Container = styled(Card)`
   `}
 
   ${({ theme }) => theme.mediaQueries.xlMobile`
+    top: 5%;
     max-width: 90%;
     padding: 35px 40px;
+
+    & h1 {
+      font-size: ${theme.fontSize[Size.LARGE]}px;
+    }
   `}
 `;
 

@@ -42,6 +42,7 @@ const getTitleMarkup = (query?: string, typeFilter?: string) => {
 
   return "Tugboat | Search";
 };
+
 /**
  * Creates the markup for the page heading, which will be different
  * based on if a search query exists, whether user is browsing, etc

@@ -14,6 +14,7 @@ import Text from "src/components/Text";
 export const MOBILE_MENU_HEIGHT = 110;
 export const HEADER_HEIGHT = 70;
 
+// TODO: REFACTOR
 const Container = styled.header<{ mobileMenuOpen: boolean }>`
   position: fixed;
   top: 0;
@@ -38,7 +39,7 @@ const Container = styled.header<{ mobileMenuOpen: boolean }>`
     content: "";
     position: absolute;
     z-index: -1;
-    width: calc(100% + 60px); /* TODO: make this better */
+    width: calc(100% + 60px);
     height: 100%;
     top: 0;
     left: -60px;
