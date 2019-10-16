@@ -2,6 +2,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { GetCompanyDetails } from "src/types/generated/GetCompanyDetails";
 import { GET_COMPANY_DETAILS } from "../graphql/queries";
@@ -74,21 +75,28 @@ const CompanyPage = () => {
   );
 
   return (
-    <CompanyPageContainer>
-      <CompanyDetailsCard
-        loading={loading}
-        error={error !== undefined}
-        companyDetails={companyDetails}
-        onNewSearchVal={onNewSearchVal}
-      />
+    <>
+      <Helmet>
+        <title>
+          Tugboat{companyDetails ? ` | ${companyDetails.name}` : ""}
+        </title>
+      </Helmet>
+      <CompanyPageContainer>
+        <CompanyDetailsCard
+          loading={loading}
+          error={error !== undefined}
+          companyDetails={companyDetails}
+          onNewSearchVal={onNewSearchVal}
+        />
 
-      <ResultsDisplay
-        searched
-        loading={loading}
-        error={error !== undefined}
-        searchResults={filteredJobs}
-      />
-    </CompanyPageContainer>
+        <ResultsDisplay
+          searched
+          loading={loading}
+          error={error !== undefined}
+          searchResults={filteredJobs}
+        />
+      </CompanyPageContainer>
+    </>
   );
 };
 

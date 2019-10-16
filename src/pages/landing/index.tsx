@@ -2,6 +2,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
+import { Helmet } from "react-helmet";
 
 import { GetCompaniesReviewsLanding } from "src/types/generated/GetCompaniesReviewsLanding";
 import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
@@ -148,52 +149,57 @@ const LandingPage = () => {
   }
 
   return (
-    <PageContainer>
-      <TitleCard>
-        <TitleCardLeft>
-          <div>
-            <Text variant="heading1" as="h1">
-              {pageCopy.splashCard.heading}
-            </Text>
-            <Text variant="heading3" color="greyDark" as="div">
-              {pageCopy.splashCard.subheading}
-            </Text>
-          </div>
-          <div>
-            <SearchInput
-              value={searchVal}
-              onChange={searchOnChange}
-              onSearchStart={searchOnStart}
-            />
-            <SearchButton onClick={() => {}} color="greenDark">
-              <Text variant="subheading" color="white">
-                {pageCopy.splashCard.searchButtonText}
+    <>
+      <Helmet>
+        <title>Tugboat</title>
+      </Helmet>
+      <PageContainer>
+        <TitleCard>
+          <TitleCardLeft>
+            <div>
+              <Text variant="heading1" as="h1">
+                {pageCopy.splashCard.heading}
               </Text>
-            </SearchButton>
-          </div>
-        </TitleCardLeft>
+              <Text variant="heading3" color="greyDark" as="div">
+                {pageCopy.splashCard.subheading}
+              </Text>
+            </div>
+            <div>
+              <SearchInput
+                value={searchVal}
+                onChange={searchOnChange}
+                onSearchStart={searchOnStart}
+              />
+              <SearchButton onClick={() => {}} color="greenDark">
+                <Text variant="subheading" color="white">
+                  {pageCopy.splashCard.searchButtonText}
+                </Text>
+              </SearchButton>
+            </div>
+          </TitleCardLeft>
 
-        <TitleCardRight />
-      </TitleCard>
+          <TitleCardRight />
+        </TitleCard>
 
-      <CardDisplay
-        heading={pageCopy.sections.topCompanies.heading}
-        subLinkText={pageCopy.sections.topCompanies.subLink.text}
-        subLinkTo={pageCopy.sections.topCompanies.subLink.to}
-        loading={loading}
-        error={error !== undefined}
-        cards={companyCards}
-      />
+        <CardDisplay
+          heading={pageCopy.sections.topCompanies.heading}
+          subLinkText={pageCopy.sections.topCompanies.subLink.text}
+          subLinkTo={pageCopy.sections.topCompanies.subLink.to}
+          loading={loading}
+          error={error !== undefined}
+          cards={companyCards}
+        />
 
-      <CardDisplay
-        heading={pageCopy.sections.recentlyReviewed.heading}
-        subLinkText={pageCopy.sections.recentlyReviewed.subLink.text}
-        subLinkTo={pageCopy.sections.recentlyReviewed.subLink.to}
-        loading={loading}
-        error={error !== undefined}
-        cards={reviewCards}
-      />
-    </PageContainer>
+        <CardDisplay
+          heading={pageCopy.sections.recentlyReviewed.heading}
+          subLinkText={pageCopy.sections.recentlyReviewed.subLink.text}
+          subLinkTo={pageCopy.sections.recentlyReviewed.subLink.to}
+          loading={loading}
+          error={error !== undefined}
+          cards={reviewCards}
+        />
+      </PageContainer>
+    </>
   );
 };
 

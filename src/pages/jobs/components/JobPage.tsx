@@ -3,6 +3,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { GetJobDetails } from "src/types/generated/GetJobDetails";
 import { GET_JOB_DETAILS } from "../graphql/queries";
@@ -69,20 +70,25 @@ const JobDisplay = () => {
   );
 
   return (
-    <JobPageContainer>
-      <JobDetailsCard
-        loading={loading}
-        error={error !== undefined}
-        jobInfo={jobDetails}
-        onNewSearchVal={onNewSearchVal}
-      />
-      <ResultsDisplay
-        searched
-        loading={loading}
-        error={error !== undefined}
-        searchResults={filteredReviews}
-      />
-    </JobPageContainer>
+    <>
+      <Helmet>
+        <title>Tugboat{jobDetails ? ` | ${jobDetails.name}` : ""}</title>
+      </Helmet>
+      <JobPageContainer>
+        <JobDetailsCard
+          loading={loading}
+          error={error !== undefined}
+          jobInfo={jobDetails}
+          onNewSearchVal={onNewSearchVal}
+        />
+        <ResultsDisplay
+          searched
+          loading={loading}
+          error={error !== undefined}
+          searchResults={filteredReviews}
+        />
+      </JobPageContainer>
+    </>
   );
 };
 

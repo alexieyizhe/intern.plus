@@ -3,6 +3,7 @@ import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useRouteMatch, useLocation, match as Match } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { GetAllSearch } from "src/types/generated/GetAllSearch";
 import {
@@ -29,6 +30,18 @@ import {
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
+/**
+ * Creates markup for the title in the tab bar.
+ */
+const getTitleMarkup = (query?: string, typeFilter?: string) => {
+  if (typeFilter) {
+    return `Tugboat | ${typeFilter[0].toUpperCase()}${typeFilter.slice(1)}`;
+  } else if (query) {
+    return `Search | ${query}`;
+  }
+
+  return "Tugboat | Search";
+};
 /**
  * Creates the markup for the page heading, which will be different
  * based on if a search query exists, whether user is browsing, etc
@@ -230,29 +243,34 @@ const SearchPage: React.FC = () => {
   }, []);
 
   return (
-    <PageContainer>
-      <HeadingContainer>{headingMarkup}</HeadingContainer>
+    <>
+      <Helmet>
+        <title>{getTitleMarkup(lastSearchedVal, typeFilter)}</title>
+      </Helmet>
+      <PageContainer>
+        <HeadingContainer>{headingMarkup}</HeadingContainer>
 
-      <SearchHandler onNewSearchVal={onNewSearchVal} />
+        <SearchHandler onNewSearchVal={onNewSearchVal} />
 
-      <ResultsDisplay
-        searched={lastSearchedVal !== undefined}
-        loading={loading}
-        error={error !== undefined}
-        page={page}
-        searchResults={searchResults}
-        onResultsEndReached={fetchNextBatch}
-      />
+        <ResultsDisplay
+          searched={lastSearchedVal !== undefined}
+          loading={loading}
+          error={error !== undefined}
+          page={page}
+          searchResults={searchResults}
+          onResultsEndReached={fetchNextBatch}
+        />
 
-      <EndText
-        variant="subheading"
-        align="center"
-        color="greyMedium"
-        show={searchResults.length > 0 && reachedEnd}
-      >
-        {pageCopy.reachedEnd}
-      </EndText>
-    </PageContainer>
+        <EndText
+          variant="subheading"
+          align="center"
+          color="greyMedium"
+          show={searchResults.length > 0 && reachedEnd}
+        >
+          {pageCopy.reachedEnd}
+        </EndText>
+      </PageContainer>
+    </>
   );
 };
 
