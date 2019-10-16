@@ -1,14 +1,21 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { debounce } from "debounce";
+import styled from "styled-components";
 
 import { useQueryParam } from "src/utils/hooks/useQueryParam";
 
 import Search from "src/components/Search";
+import { HEADER_HEIGHT } from "src/components/PageHeader";
 
 export interface ISearchHandlerProps
   extends React.ComponentPropsWithoutRef<"div"> {
   onNewSearchVal: (val: string) => void;
 }
+
+const StickySearch = styled(Search)`
+  position: sticky;
+  top: ${HEADER_HEIGHT + 10}px;
+`;
 
 export const SEARCH_VALUE_QUERY_PARAM_KEY = "q";
 
@@ -42,7 +49,7 @@ const SearchHandler: React.FC<ISearchHandlerProps> = ({
   }, [searchVal]);
 
   return (
-    <Search
+    <StickySearch
       className="search-input"
       value={searchVal}
       onChange={searchOnChange}

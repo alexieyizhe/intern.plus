@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo, useState, useCallback } from "react";
+import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 
@@ -11,8 +12,11 @@ import { PageContainer, ResultsDisplay } from "src/components";
 import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
- *                  **Utility functions/constants**                *
+ *                           **Component**                         *
  *******************************************************************/
+const JobPageContainer = styled(PageContainer)`
+  overflow: hidden;
+`;
 
 /*******************************************************************
  *                           **Component**                         *
@@ -65,7 +69,7 @@ const JobDisplay = () => {
   );
 
   return (
-    <PageContainer>
+    <JobPageContainer>
       <JobDetailsCard
         loading={loading}
         error={error !== undefined}
@@ -78,7 +82,7 @@ const JobDisplay = () => {
         error={error !== undefined}
         searchResults={filteredReviews}
       />
-    </PageContainer>
+    </JobPageContainer>
   );
 };
 

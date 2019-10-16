@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import styled, { css } from "styled-components";
 import { Planet, KawaiiMood } from "react-kawaii";
 import { default as AnimatedIcon } from "react-useanimations";
+import { Waypoint } from "react-waypoint";
 
 import { RouteName } from "src/utils/routes";
 import {
@@ -23,7 +24,9 @@ export interface IResultsDisplayProps
   searched: boolean; // has already searched once or more times
   loading: boolean;
   error: boolean;
+  page?: number;
   searchResults: IGenericCardItem[];
+  onResultsEndReached?: () => void;
 }
 
 /*******************************************************************
@@ -162,17 +165,10 @@ const Container = styled.section`
 
 const MiscContentContainer = styled.div<{ show?: boolean }>`
   display: ${({ show }) => (show ? "flex" : "none")};
-  flex-direction: column;
   align-items: center;
   text-align: center;
 
-  height: 400px;
-  width: 200px;
-  padding: 50px 0;
-
-  & > *:nth-child(2) {
-    margin-top: 15px;
-  }
+  margin-bottom: 15px;
 `;
 
 const resultsCardStyles = css`
@@ -200,7 +196,9 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
   searched,
   loading,
   error,
+  page,
   searchResults,
+  onResultsEndReached,
   ...rest
 }) => {
   const showMisc = useMemo(
@@ -226,12 +224,13 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
 
   return (
     <Container {...rest}>
-      <MiscContentContainer show={showMisc}>
+      <MiscContentContainer show={page === 1 || searchResults.length === 0}>
         <Planet size={200} mood={planetMood} color="#DDDDDD" />
-        {miscMarkup}
       </MiscContentContainer>
 
-      {!showMisc && searchResults.map(getResultCardMarkup)}
+      {searchResults.map(getResultCardMarkup)}
+      <MiscContentContainer show={showMisc}>{miscMarkup}</MiscContentContainer>
+      <Waypoint onEnter={onResultsEndReached} />
     </Container>
   );
 };

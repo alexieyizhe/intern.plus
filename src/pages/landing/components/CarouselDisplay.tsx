@@ -90,7 +90,6 @@ const getCardMarkup = (card: IGenericCardItem) => {
     );
   }
 
-  console.log("end");
   return undefined; // should never happen
 };
 
@@ -163,8 +162,6 @@ const CarouselDisplay: React.FC<ICardDisplayProps> = ({
     error,
     loading,
   ]);
-
-  console.log(loading, error, cards);
 
   return (
     <Container {...rest}>

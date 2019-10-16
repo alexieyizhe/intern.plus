@@ -45,6 +45,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-useanimations": "^1.2.10",
+    "react-waypoint": "^9.0.2",
     "styled-components": "^4.4.0",
     "typescript": "3.6.4"
   },

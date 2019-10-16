@@ -7,13 +7,13 @@ import {
 
 export const GET_COMPANIES_REVIEWS_LANDING = gql`
   query GetCompaniesReviewsLanding {
-    companiesList(sort: { avgRating: ASC }) {
+    companiesList(sort: { avgRating: DESC }, first: 5) {
       items {
         ...CompanyResult
       }
     }
 
-    reviewsList(sort: { createdAt: ASC }) {
+    reviewsList(sort: { createdAt: ASC }, first: 5) {
       items {
         ...ReviewResultJob
       }
