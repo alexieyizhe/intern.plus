@@ -19,7 +19,7 @@ export interface ICompanyCardProps extends ICardProps {
 const Container = styled(Card)`
   display: inline-grid;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 50px;
+  grid-template-columns: 1fr 80px;
   grid-column-gap: 30px;
   grid-template-areas:
     "name    logo"
@@ -40,6 +40,7 @@ const Container = styled(Card)`
   & > .logo {
     grid-area: logo;
     margin-left: auto;
+    max-width: 100%;
   }
 
   & > .desc {
@@ -79,7 +80,9 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
         {name}
       </Text>
 
-      <Text className="logo">logo</Text>
+      {logoSrc && (
+        <img className="logo" src={logoSrc} alt={`Logo of ${name}`} />
+      )}
 
       {desc && (
         <Text className="desc" variant="subheading">

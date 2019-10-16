@@ -73,6 +73,7 @@ export interface GetCompanyDetails_company {
    * Description of a company.
    */
   desc: string | null;
+  logoSrc: string | null;
   jobs: GetCompanyDetails_company_jobs | null;
   /**
    * Reviews for a company.

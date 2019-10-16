@@ -24,6 +24,7 @@ export interface GetReviewDetails_review_company {
    * Name of a company.
    */
   name: string | null;
+  logoSrc: string | null;
 }
 
 export interface GetReviewDetails_review {

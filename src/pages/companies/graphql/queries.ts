@@ -7,6 +7,7 @@ export const GET_COMPANY_DETAILS = gql`
     company(slug: $slug) {
       name
       desc
+      logoSrc
       jobs {
         items {
           ...JobResult

@@ -130,6 +130,7 @@ const EndText = styled(Text)<{ show: boolean }>`
  *                           **Component**                         *
  *******************************************************************/
 const SearchPage: React.FC = () => {
+  // TODO: this code here needs some good ol refactorin, son
   const { isExact } = useRouteMatch() as Match;
   const location = useLocation();
   const typeFilter = useMemo(() => {
