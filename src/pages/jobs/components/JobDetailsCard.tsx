@@ -42,72 +42,75 @@ const getDetailsMarkup = (
     return <AnimatedIcon className="loading" animationKey="loading" />;
   } else if (details) {
     return (
-      <>
-        <DetailsContainer>
-          <Text variant="heading1" as="div">
-            {details.name}
-          </Text>
-          <Text className="subheading" variant="heading3" as="div">
-            {`${details.companyName} | ${details.location}`}
-          </Text>
-          <StarRating
-            className="rating"
-            maxStars={5}
-            filledStars={Math.round(details.avgRating)}
-            readOnly
-          >
-            <Text variant="body" className="ratingText" color="black">
-              {details.avgRating.toFixed(1)}
-            </Text>
-          </StarRating>
-          <StarRating
-            className="rating"
-            maxStars={5}
-            filledStars={Math.round(details.avgLearningMentorshipRating)}
-            readOnly
-          >
-            <Text variant="body" className="ratingText" color="black">
-              {details.avgLearningMentorshipRating.toFixed(1)}
-            </Text>
-          </StarRating>
-          <StarRating
-            className="rating"
-            maxStars={5}
-            filledStars={Math.round(details.avgMeaningfulWorkRating)}
-            readOnly
-          >
-            <Text variant="body" className="ratingText" color="black">
-              {details.avgMeaningfulWorkRating.toFixed(1)}
-            </Text>
-          </StarRating>
-          <StarRating
-            className="rating"
-            maxStars={5}
-            filledStars={Math.round(details.avgWorkLifeBalanceRating)}
-            readOnly
-          >
-            <Text variant="body" className="ratingText" color="black">
-              {details.avgWorkLifeBalanceRating.toFixed(1)}
-            </Text>
-          </StarRating>
-          <Text variant="subheading" as="div" color="greyDark">
-            {`${details.numRatings} ${
-              details.numRatings === 1 ? "review" : "reviews"
-            }`}
-          </Text>
-        </DetailsContainer>
+      <DetailsContainer>
+        <Text variant="heading1" as="div">
+          {details.name}
+        </Text>
+        <Text className="subheading" variant="heading3" as="div">
+          {`${details.companyName} | ${details.location}`}
+        </Text>
 
-        <div className="salary">
-          <Text variant="heading2" as="div">
-            {details.minHourlySalary === details.maxHourlySalary
-              ? details.minHourlySalary
-              : `${details.minHourlySalary} - ${details.maxHourlySalary}`}
-          </Text>
-          <Text variant="heading3" as="div">
-            {`${details.salaryCurrency}/hr`}
-          </Text>
-        </div>
-      </>
+        <MiscDetails>
+          <div>
+            <StarRating
+              className="rating"
+              maxStars={5}
+              filledStars={Math.round(details.avgRating)}
+              readOnly
+            >
+              <Text variant="body" className="ratingText" color="black">
+                {details.avgRating.toFixed(1)}
+              </Text>
+            </StarRating>
+            <StarRating
+              className="rating"
+              maxStars={5}
+              filledStars={Math.round(details.avgLearningMentorshipRating)}
+              readOnly
+            >
+              <Text variant="body" className="ratingText" color="black">
+                {details.avgLearningMentorshipRating.toFixed(1)}
+              </Text>
+            </StarRating>
+            <StarRating
+              className="rating"
+              maxStars={5}
+              filledStars={Math.round(details.avgMeaningfulWorkRating)}
+              readOnly
+            >
+              <Text variant="body" className="ratingText" color="black">
+                {details.avgMeaningfulWorkRating.toFixed(1)}
+              </Text>
+            </StarRating>
+            <StarRating
+              className="rating"
+              maxStars={5}
+              filledStars={Math.round(details.avgWorkLifeBalanceRating)}
+              readOnly
+            >
+              <Text variant="body" className="ratingText" color="black">
+                {details.avgWorkLifeBalanceRating.toFixed(1)}
+              </Text>
+            </StarRating>
+            <Text variant="subheading" as="div" color="greyDark">
+              {`${details.numRatings} ${
+                details.numRatings === 1 ? "review" : "reviews"
+              }`}
+            </Text>
+          </div>
+
+          <div className="salary">
+            <Text variant="heading2" as="div">
+              {details.minHourlySalary === details.maxHourlySalary
+                ? details.minHourlySalary
+                : `${details.minHourlySalary} - ${details.maxHourlySalary}`}
+            </Text>
+            <Text variant="heading3" as="div">
+              {`${details.salaryCurrency}/hr`}
+            </Text>
+          </div>
+        </MiscDetails>
+      </DetailsContainer>
     );
   }
 
@@ -170,6 +173,28 @@ const MiscContentContainer = styled.div`
     align-self: center;
     padding: 50px 0;
   }
+`;
+
+const DetailsContainer = styled.div`
+  width: 100%;
+
+  & > .subheading {
+    margin: 6px auto 35px auto;
+  }
+`;
+
+const MiscDetails = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  & .rating {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  & .ratingText {
+    padding: 0 3px;
+  }
 
   & > .salary {
     display: flex;
@@ -180,22 +205,6 @@ const MiscContentContainer = styled.div`
   }
 `;
 
-const DetailsContainer = styled.div`
-  max-width: 55%;
-
-  & > .subheading {
-    margin: 6px auto 35px auto;
-  }
-
-  & .rating {
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  & .ratingText {
-    padding: 0 3px;
-  }
-`;
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/

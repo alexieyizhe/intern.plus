@@ -142,13 +142,13 @@ const Header = () => {
         </span>
 
         <AnimatedLink to={RouteName.JOBS} bare mobileShow={mobileMenuOpen}>
-          <Text variant="subheading">Positions</Text>
+          <Text size={16}>Positions</Text>
         </AnimatedLink>
         <AnimatedLink to={RouteName.COMPANIES} bare mobileShow={mobileMenuOpen}>
-          <Text variant="subheading">Companies</Text>
+          <Text size={16}>Companies</Text>
         </AnimatedLink>
         <AnimatedLink to={RouteName.REVIEWS} bare mobileShow={mobileMenuOpen}>
-          <Text variant="subheading">Reviews</Text>
+          <Text size={16}>Reviews</Text>
         </AnimatedLink>
       </NavLinks>
 
