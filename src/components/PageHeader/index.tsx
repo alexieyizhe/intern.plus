@@ -55,8 +55,14 @@ const Container = styled.header<{ mobileMenuOpen: boolean }>`
     opacity: 1;
   }
 
-  &.mobileMenuOpen ~ .add-review-modal > div {
-    top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
+  &.mobileMenuOpen {
+    & ~ .add-review-modal > div {
+      top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
+    }
+
+    & ~ div search-input {
+      top: ${MOBILE_MENU_HEIGHT + 12}px;
+    }
   }
 
   ${({ theme, mobileMenuOpen }) => theme.mediaQueries.tablet`

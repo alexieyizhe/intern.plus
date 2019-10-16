@@ -42,7 +42,7 @@ const Search: React.FC<ISearchProps> = ({
   );
 
   return (
-    <Container {...rest}>
+    <Container className="search-input" {...rest}>
       <TextInput
         color="greyLight"
         value={value}
