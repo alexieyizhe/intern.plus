@@ -19,6 +19,8 @@ import SearchPage from "src/pages/search";
 import CompaniesPage from "src/pages/companies";
 import JobsPage from "src/pages/jobs";
 import ReviewsPage from "src/pages/reviews";
+import NotFoundPage from "src/pages/404";
+
 import ReviewModal from "src/pages/reviews/components/ReviewModal";
 
 const AppSwitch: React.FC = () => {
@@ -52,6 +54,11 @@ const AppSwitch: React.FC = () => {
 
         <Route exact path={RouteName.REVIEWS}>
           <ReviewsPage />
+        </Route>
+
+        {/* Render 404 if no other routes match */}
+        <Route>
+          <NotFoundPage />
         </Route>
       </Switch>
 
