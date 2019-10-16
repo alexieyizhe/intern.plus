@@ -52,7 +52,6 @@ const SearchHandler: React.FC<ISearchHandlerProps> = ({
 
   return (
     <StickySearch
-      className="search-input"
       value={searchVal}
       onChange={searchOnChange}
       onSearchStart={() => onNewSearchVal(searchVal)}
