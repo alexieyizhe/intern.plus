@@ -71,7 +71,7 @@ const getHeadingMarkup = (
           <Text variant="heading1" color="greyDark">
             {pageCopy.typeFilterHeadingPrefix}
           </Text>
-          &nbsp;
+          &nbsp;&nbsp;
           <QueryHeadingText variant="heading1">
             {queryFilters.type}
           </QueryHeadingText>

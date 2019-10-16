@@ -5,7 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
-import useWindowScrollPos from "src/utils/hooks/useWindowScrollPos";
+import useScrollPos from "src/utils/hooks/useWindowScrollPos";
 import { LogoBlack, IconEdit } from "src/assets";
 
 import Link from "src/components/Link";
@@ -166,7 +166,7 @@ const ProfileAvatar = styled.div`
 `;
 
 const Header = () => {
-  const [, scrollY] = useWindowScrollPos();
+  const [, scrollY] = useScrollPos();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -237,4 +237,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

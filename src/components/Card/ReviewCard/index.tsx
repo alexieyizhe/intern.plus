@@ -2,9 +2,10 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import { useLocation, useHistory } from "react-router-dom";
 
-import Card, { ICardProps } from "../RawCard";
+import { hoverStyles } from "src/theme/snippets";
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
+import Card, { ICardProps } from "../RawCard";
 
 export interface IReviewCardProps extends ICardProps {
   heading: string | null;
@@ -23,25 +24,7 @@ const Container = styled(Card)`
     "subheading subheading"
     "contents   contents";
 
-  cursor: pointer;
-  &::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
-    box-shadow: ${({ theme }) => theme.boxShadow.hover};
-
-    transition: opacity 150ms ease-in;
-    opacity: 0;
-  }
-
-  &:hover::after,
-  &:focus::after {
-    opacity: 1;
-  }
+  ${hoverStyles}
 
   & > .heading {
     grid-area: heading;

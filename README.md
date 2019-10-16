@@ -13,4 +13,4 @@ tugga tugga choo choo
 
 Check it out [here](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/Tugboat)!
 
-or see the [timelapse of the mocks!](https://youtu.be/PBu5lJ9wbv4)!
+or see the [timelapse of the mocks](https://youtu.be/qe5OSFoVCmA)!
