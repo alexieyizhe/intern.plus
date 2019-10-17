@@ -5,7 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
-import useWindowScrollPos from "src/utils/hooks/useWindowScrollPos";
+import useScrollPos from "src/utils/hooks/useWindowScrollPos";
 import { LogoBlack, IconEdit } from "src/assets";
 
 import Link from "src/components/Link";
@@ -14,6 +14,7 @@ import Text from "src/components/Text";
 export const MOBILE_MENU_HEIGHT = 110;
 export const HEADER_HEIGHT = 70;
 
+// TODO: REFACTOR
 const Container = styled.header<{ mobileMenuOpen: boolean }>`
   position: fixed;
   top: 0;
@@ -38,7 +39,7 @@ const Container = styled.header<{ mobileMenuOpen: boolean }>`
     content: "";
     position: absolute;
     z-index: -1;
-    width: calc(100% + 60px); /* TODO: make this better */
+    width: calc(100% + 60px);
     height: 100%;
     top: 0;
     left: -60px;
@@ -55,14 +56,8 @@ const Container = styled.header<{ mobileMenuOpen: boolean }>`
     opacity: 1;
   }
 
-  &.mobileMenuOpen {
-    & ~ .add-review-modal > div {
-      top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
-    }
-
-    & ~ div search-input {
-      top: ${MOBILE_MENU_HEIGHT + 12}px;
-    }
+  &.mobileMenuOpen ~ .add-review-modal > div {
+    top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
   }
 
   ${({ theme, mobileMenuOpen }) => theme.mediaQueries.tablet`
@@ -172,7 +167,7 @@ const ProfileAvatar = styled.div`
 `;
 
 const Header = () => {
-  const [, scrollY] = useWindowScrollPos();
+  const [, scrollY] = useScrollPos();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -243,4 +238,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

@@ -3,6 +3,9 @@ import styled from "styled-components";
 
 import { Size } from "src/theme/constants";
 
+/*******************************************************************
+ *                             **Types**                           *
+ *******************************************************************/
 export interface ITextProps extends React.ComponentPropsWithoutRef<"span"> {
   /**
    * Props that affect/augment styling of the Text component.
@@ -29,15 +32,18 @@ export interface ITextProps extends React.ComponentPropsWithoutRef<"span"> {
   variant?: string;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 /**
  * Predefined variants for the Text component. Ensures consistency across multiple
  * parts of the site using the same style (i.e. different pages using the same heading).
  */
-interface VariantList {
+export interface VariantList {
   [variant: string]: Partial<ITextProps>;
 }
 
-const TEXT_VARIANTS: VariantList = {
+export const TEXT_VARIANTS: VariantList = {
   heading1: {
     heading: true,
     bold: true,
@@ -66,6 +72,9 @@ const TEXT_VARIANTS: VariantList = {
   },
 };
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 /**
  * Base styled component that applies appropriate styles.
  */
@@ -86,9 +95,9 @@ const BaseText = styled.span<ITextProps>`
   ${({ align }) => align && `text-align: ${align}`};
 `;
 
-/**
- * **COMPONENT**
- */
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Text: React.FC<ITextProps> = ({
   as = "span",
   variant = "",

@@ -6,6 +6,10 @@ export enum Size {
   XLARGE = "xlarge",
 }
 
+export interface VariantList<T> {
+  [variant: string]: Partial<T>;
+}
+
 const constants = {
   color: {
     black: "#000000",

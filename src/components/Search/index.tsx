@@ -1,20 +1,25 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-import Combo, { IComboProps } from "src/components/Combo";
 import Button from "src/components/Button";
 import Text from "src/components/Text";
 import TextInput from "src/components/TextInput";
 
-export interface ISearchProps extends IComboProps {
+export interface ISearchProps extends React.ComponentPropsWithoutRef<"div"> {
+  placeholder?: string;
+  buttonText?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearchStart: () => void;
 }
 
-const Container = styled(Combo)`
+const Container = styled.div`
   position: relative;
   width: 100%;
+
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
 
   & > input {
     border-top-right-radius: 0;
@@ -27,8 +32,9 @@ const Container = styled(Combo)`
   }
 `;
 
-// TODO: add custom text to display as placeholder, search button text
 const Search: React.FC<ISearchProps> = ({
+  placeholder = "Find something",
+  buttonText = "Search",
   value,
   onChange,
   onSearchStart,
@@ -42,17 +48,18 @@ const Search: React.FC<ISearchProps> = ({
   );
 
   return (
-    <Container className="search-input" {...rest}>
+    <Container {...rest}>
       <TextInput
         color="greyLight"
+        variant="body"
         value={value}
         onChange={onChange}
         onKeyDown={internalOnKeyDown}
-        placeholder="Find something"
+        placeholder={placeholder}
       />
       <Button color="greenDark" onClick={onSearchStart}>
         <Text variant="body" color="white">
-          Search
+          {buttonText}
         </Text>
       </Button>
     </Container>

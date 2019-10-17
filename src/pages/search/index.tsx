@@ -27,6 +27,7 @@ import {
   Text,
 } from "src/components";
 
+// TODO: this code here needs some good ol refactorin, son
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
@@ -42,6 +43,7 @@ const getTitleMarkup = (query?: string, typeFilter?: string) => {
 
   return "Tugboat | Search";
 };
+
 /**
  * Creates the markup for the page heading, which will be different
  * based on if a search query exists, whether user is browsing, etc
@@ -71,7 +73,7 @@ const getHeadingMarkup = (
           <Text variant="heading1" color="greyDark">
             {pageCopy.typeFilterHeadingPrefix}
           </Text>
-          &nbsp;
+          &nbsp;&nbsp;
           <QueryHeadingText variant="heading1">
             {queryFilters.type}
           </QueryHeadingText>
@@ -149,7 +151,6 @@ const SearchPageHandler = styled(SearchHandler)`
  *                           **Component**                         *
  *******************************************************************/
 const SearchPage: React.FC = () => {
-  // TODO: this code here needs some good ol refactorin, son
   const { isExact } = useRouteMatch() as Match;
   const location = useLocation();
   const typeFilter = useMemo(() => {

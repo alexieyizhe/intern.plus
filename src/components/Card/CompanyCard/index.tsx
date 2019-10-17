@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 
+import { hoverStyles } from "src/theme/snippets";
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
@@ -40,7 +41,6 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
   );
 };
 
-// TODO: factor out hover styles into its own css`` variable for reuse
 const Container = styled(Card)`
   position: relative;
   display: inline-grid;
@@ -52,25 +52,7 @@ const Container = styled(Card)`
     "desc    logo"
     "ratings logo";
 
-  cursor: pointer;
-  &::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
-    box-shadow: ${({ theme }) => theme.boxShadow.hover};
-
-    transition: opacity 150ms ease-in;
-    opacity: 0;
-  }
-
-  &:hover::after,
-  &:focus::after {
-    opacity: 1;
-  }
+  ${hoverStyles}
 
   & > .name {
     grid-area: name;

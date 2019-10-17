@@ -222,7 +222,6 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
     setMiscMarkup(markup);
   }, [error, loading, searchResults.length, searched]);
 
-  console.log(page, searchResults, searchResults.length);
   return (
     <Container {...rest}>
       <MiscContentContainer show={page === 1 && searchResults.length === 0}>

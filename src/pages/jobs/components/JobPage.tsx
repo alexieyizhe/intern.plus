@@ -45,8 +45,6 @@ const JobDisplay = () => {
     [data]
   );
 
-  console.log({ data, reviews });
-
   /**
    * Track the last searched value. This is useful for only filtering results after
    * a set amount of time after user has stopped typing. Then filter reviews

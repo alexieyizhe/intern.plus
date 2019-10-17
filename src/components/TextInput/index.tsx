@@ -1,8 +1,12 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import { Size } from "src/theme/constants";
+import { Size, VariantList } from "src/theme/constants";
+import { TEXT_VARIANTS } from "src/components/Text";
 
+/*******************************************************************
+ *                             **Types**                           *
+ *******************************************************************/
 export interface ITextInputProps
   extends React.ComponentPropsWithoutRef<"input"> {
   /**
@@ -25,44 +29,27 @@ export interface ITextInputProps
   variant?: string;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 /**
  * Predefined variants for the TextInput component. Ensures consistency across multiple
  * parts of the site using the same style (i.e. different pages using the same input styles).
  */
-interface VariantList {
-  [variant: string]: Partial<ITextInputProps>;
-}
+const TEXT_INPUT_VARIANTS: VariantList<ITextInputProps> = Object.keys(
+  TEXT_VARIANTS
+).reduce(
+  (acc, key) => {
+    acc[key].textSize = acc[key].size;
+    delete acc.size;
+    return acc;
+  },
+  { ...TEXT_VARIANTS } as VariantList<ITextInputProps>
+);
 
-// TODO: find a way to have single source of truth for both Text and TextInput variants
-const TEXT_INPUT_VARIANTS: VariantList = {
-  heading1: {
-    heading: true,
-    bold: true,
-    textSize: Size.XLARGE,
-  },
-  heading2: {
-    heading: true,
-    bold: true,
-    textSize: Size.LARGE,
-  },
-  heading3: {
-    heading: true,
-    bold: true,
-    textSize: Size.MEDIUM,
-  },
-  heading4: {
-    heading: true,
-    bold: true,
-    textSize: Size.SMALL,
-  },
-  subheading: {
-    textSize: Size.SMALL,
-  },
-  body: {
-    textSize: Size.SMALL,
-  },
-};
-
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const BaseTextInput = styled.input<ITextInputProps>`
   width: 100%;
   padding: 15px 20px;
@@ -87,9 +74,12 @@ const BaseTextInput = styled.input<ITextInputProps>`
     disabled || readOnly ? "not-allowed" : "text"};
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const TextInput: React.FC<ITextInputProps> = ({ variant = "", ...rest }) => {
   /**
-   * Calculate the styles that will be applied to the Text component from the providede props.
+   * Calculate the styles that will be applied to the Text component from the provided props.
    * If a variant is supplied, use those styles, and override with other props.
    * Otherwise, only apply styles specified in props.
    * Defaults are specified in `BaseText`.
@@ -97,7 +87,7 @@ const TextInput: React.FC<ITextInputProps> = ({ variant = "", ...rest }) => {
   const propsToApply = useMemo(() => {
     const stylesFromVariant =
       variant in TEXT_INPUT_VARIANTS ? TEXT_INPUT_VARIANTS[variant] : {};
-
+    console.log(stylesFromVariant);
     return {
       ...stylesFromVariant,
       ...rest, // override variant if needed
