@@ -10,6 +10,7 @@ import { buildCompanyReviewCardsList } from "./graphql/utils";
 
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
+import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import pageCopy from "./copy";
 
 import {
@@ -124,6 +125,8 @@ const SearchButton = styled(Button)`
  *                           **Component**                         *
  *******************************************************************/
 const LandingPage = () => {
+  useScrollTopOnMount();
+
   const history = useHistory();
   /**
    * Fetch companies and reviews that are displayed on the
