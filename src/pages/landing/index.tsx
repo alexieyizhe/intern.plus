@@ -42,9 +42,17 @@ const TitleCard = styled(Card)`
   overflow: hidden;
 
   ${({ theme }) => theme.mediaQueries.xlMobile`
-    height: 500px;
+    height: 540px;
     flex-direction: column-reverse;
     justify-content: flex-end;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    height: 515px;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.smallMobile`
+    height: 550px;
   `}
 `;
 
@@ -79,6 +87,10 @@ const TitleCardLeft = styled.div`
     & h1 {
       font-size: ${theme.fontSize[Size.LARGE]}px;
     }
+  `}
+
+  ${({ theme }) => theme.mediaQueries.smallMobile`
+    height: 50%;
   `}
 `;
 

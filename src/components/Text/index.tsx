@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import { Size } from "src/theme/constants";
+import { Size, VariantList } from "src/theme/constants";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -16,7 +16,7 @@ export interface ITextProps extends React.ComponentPropsWithoutRef<"span"> {
 
   align?: "left" | "right" | "center" | "justify";
   underline?: boolean;
-  bold?: boolean;
+  bold?: boolean | number; // font weight
   italic?: boolean;
 
   /**
@@ -39,11 +39,7 @@ export interface ITextProps extends React.ComponentPropsWithoutRef<"span"> {
  * Predefined variants for the Text component. Ensures consistency across multiple
  * parts of the site using the same style (i.e. different pages using the same heading).
  */
-export interface VariantList {
-  [variant: string]: Partial<ITextProps>;
-}
-
-export const TEXT_VARIANTS: VariantList = {
+export const TEXT_VARIANTS: VariantList<ITextProps> = {
   heading1: {
     heading: true,
     bold: true,
@@ -65,6 +61,7 @@ export const TEXT_VARIANTS: VariantList = {
     size: Size.SMALL,
   },
   subheading: {
+    bold: 500,
     size: Size.SMALL,
   },
   body: {
@@ -90,7 +87,8 @@ const BaseText = styled.span<ITextProps>`
 
 
   ${({ underline }) => underline && `text-decoration: underline;`}
-  ${({ bold }) => bold && `font-weight: bold;`}
+  ${({ bold }) =>
+    bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}
   ${({ align }) => align && `text-align: ${align}`};
 `;
