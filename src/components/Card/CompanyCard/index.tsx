@@ -34,6 +34,7 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
       <Text variant="body" className="avgRating" color="black">
         {avgRating.toFixed(1)}
       </Text>
+      &nbsp;
       <Text variant="body" color="greyDark">
         ({numRatings})
       </Text>
@@ -45,7 +46,7 @@ const Container = styled(Card)`
   position: relative;
   display: inline-grid;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 40%;
+  grid-template-columns: 1fr 80px;
   grid-column-gap: 30px;
   grid-template-areas:
     "name    logo"
@@ -81,10 +82,6 @@ const Container = styled(Card)`
     align-items: flex-end;
 
     margin-top: 15px;
-
-    & .avgRating {
-      padding: 0 3px;
-    }
   }
 `;
 
@@ -124,7 +121,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
         </Text>
       )}
 
-      <div className="ratings">{getRatingMarkup(numRatings, avgRating)} </div>
+      <div className="ratings">{getRatingMarkup(numRatings, avgRating)}</div>
     </Container>
   );
 };

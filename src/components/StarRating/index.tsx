@@ -23,8 +23,13 @@ export interface IStarRatingProps
 
 const Container = styled.span`
   display: inline-flex;
-  justify-content: center;
   align-items: center;
+
+  & > .starContainer {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 3px;
+  }
 `;
 
 const Star = styled.span`
@@ -82,17 +87,21 @@ const StarRating: React.FC<IStarRatingProps> = ({
 
   return (
     <Container {...rest}>
-      {stars.map((filled, i) => (
-        <Star
-          className={`${filled ? "filled" : ""}${readOnly ? " readOnly" : ""}`}
-          key={`star${i}${filled ? "-filled" : ""}`}
-          onClick={internalOnClick(i)}
-          onMouseEnter={internalOnMouseHover(i, true)}
-          onMouseLeave={internalOnMouseHover(i, false)}
-        >
-          <AnimatedIcon animationKey="star" size={size} autoplay={filled} />
-        </Star>
-      ))}
+      <span className="starContainer">
+        {stars.map((filled, i) => (
+          <Star
+            className={`${filled ? "filled" : ""}${
+              readOnly ? " readOnly" : ""
+            }`}
+            key={`star${i}${filled ? "-filled" : ""}`}
+            onClick={internalOnClick(i)}
+            onMouseEnter={internalOnMouseHover(i, true)}
+            onMouseLeave={internalOnMouseHover(i, false)}
+          >
+            <AnimatedIcon animationKey="star" size={size} autoplay={filled} />
+          </Star>
+        ))}
+      </span>
       {children}
     </Container>
   );
