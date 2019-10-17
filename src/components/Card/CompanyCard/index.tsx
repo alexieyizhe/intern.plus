@@ -45,7 +45,7 @@ const Container = styled(Card)`
   position: relative;
   display: inline-grid;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 80px;
+  grid-template-columns: 1fr 40%;
   grid-column-gap: 30px;
   grid-template-areas:
     "name    logo"
@@ -66,12 +66,21 @@ const Container = styled(Card)`
 
   & > .desc {
     grid-area: desc;
+    overflow: hidden;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0)
+    );
   }
 
   & > .ratings {
     grid-area: ratings;
     display: flex;
     align-items: flex-end;
+
+    margin-top: 15px;
 
     & .avgRating {
       padding: 0 3px;
@@ -110,7 +119,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
       )}
 
       {desc && (
-        <Text className="desc" variant="subheading">
+        <Text className="desc" variant="subheading" color="greyDark">
           {desc}
         </Text>
       )}

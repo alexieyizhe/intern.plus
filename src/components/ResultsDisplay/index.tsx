@@ -177,6 +177,11 @@ const resultsCardStyles = css`
 
   ${({ theme }) => theme.mediaQueries.tablet`
     width: 100%;
+    height: 210px;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    height: 250px;
   `}
 `;
 const ResultsCompanyCard = styled(CompanyCard)`
