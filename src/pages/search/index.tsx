@@ -146,7 +146,8 @@ const GenericSearchPage: React.FC = () => {
   const { loading, error, data } = useQuery<GetAllSearch>(QUERY, {
     variables: {
       query: searchQuery,
-      skip: (page - 1) * RESULTS_PER_PAGE,
+      offset: (page - 1) * RESULTS_PER_PAGE,
+      limit: RESULTS_PER_PAGE,
     },
     skip: isInitialSearch, // do not make an API call if search query is empty (on initial load)
   });

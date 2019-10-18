@@ -23,7 +23,7 @@ export interface JobResult {
   name: string | null;
   jobLocation: string | null;
   /**
-   * Average of all reviews for a job.
+   * Average of overall ratings in all reviews for a job.
    */
   avgRating: number | null;
   /**

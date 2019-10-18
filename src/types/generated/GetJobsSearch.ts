@@ -23,7 +23,7 @@ export interface GetJobsSearch_jobsList_items {
   name: string | null;
   jobLocation: string | null;
   /**
-   * Average of all reviews for a job.
+   * Average of overall ratings in all reviews for a job.
    */
   avgRating: number | null;
   /**
@@ -58,4 +58,6 @@ export interface GetJobsSearch {
 
 export interface GetJobsSearchVariables {
   query?: string | null;
+  offset?: number | null;
+  limit?: number | null;
 }

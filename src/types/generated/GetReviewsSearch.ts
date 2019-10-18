@@ -34,7 +34,8 @@ export interface GetReviewsSearch_reviewsList_items {
    */
   body: string | null;
   /**
-   * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
+   * Tags to provide additional information for a review. Represented by a single
+   * string, with commas (",") as delimiters between tags.
    */
   tags: string | null;
   company: GetReviewsSearch_reviewsList_items_company | null;
@@ -55,4 +56,6 @@ export interface GetReviewsSearch {
 
 export interface GetReviewsSearchVariables {
   query?: string | null;
+  offset?: number | null;
+  limit?: number | null;
 }

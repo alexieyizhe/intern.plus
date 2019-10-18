@@ -5,17 +5,16 @@ import {
   jobResultFragment,
   reviewResultJobFragment,
 } from "src/api/fragments";
-import { RESULTS_PER_PAGE } from "src/utils/constants";
 
 // gets all results (company, job, review) matching query
 export const GET_ALL_SEARCH = gql`
-  query GetAllSearch($query: String, $skip: Int) {
+  query GetAllSearch($query: String, $offset: Int, $limit: Int) {
     companiesList(
       filter: {
         OR: [{ name: { contains: $query } }, { desc: { contains: $query } }]
       }
-      skip: $skip
-      first: ${RESULTS_PER_PAGE}
+      skip: $offset
+      first: $limit
     ) {
       items {
         ...CompanyResult
@@ -30,8 +29,8 @@ export const GET_ALL_SEARCH = gql`
           { jobLocation: { contains: $query } }
         ]
       }
-      skip: $skip
-      first: ${RESULTS_PER_PAGE}
+      skip: $offset
+      first: $limit
     ) {
       items {
         ...JobResult
@@ -48,8 +47,8 @@ export const GET_ALL_SEARCH = gql`
           { author: { contains: $query } }
         ]
       }
-      skip: $skip
-      first: ${RESULTS_PER_PAGE}
+      skip: $offset
+      first: $limit
     ) {
       items {
         ...ReviewResultJob
@@ -63,13 +62,13 @@ export const GET_ALL_SEARCH = gql`
 `;
 
 export const GET_COMPANIES_SEARCH = gql`
-  query GetCompaniesSearch($query: String, $skip: Int) {
+  query GetCompaniesSearch($query: String, $offset: Int, $limit: Int) {
     companiesList(
       filter: {
         OR: [{ name: { contains: $query }, desc: { contains: $query } }]
       }
-      skip: $skip
-      first: ${RESULTS_PER_PAGE}
+      skip: $offset
+      first: $limit
     ) {
       items {
         ...CompanyResult
@@ -81,7 +80,7 @@ export const GET_COMPANIES_SEARCH = gql`
 `;
 
 export const GET_JOBS_SEARCH = gql`
-  query GetJobsSearch($query: String, $skip: Int) {
+  query GetJobsSearch($query: String, $offset: Int, $limit: Int) {
     jobsList(
       filter: {
         OR: [
@@ -90,8 +89,8 @@ export const GET_JOBS_SEARCH = gql`
           { jobLocation: { contains: $query } }
         ]
       }
-      skip: $skip
-      first: ${RESULTS_PER_PAGE}
+      skip: $offset
+      first: $limit
     ) {
       items {
         ...JobResult
@@ -103,7 +102,7 @@ export const GET_JOBS_SEARCH = gql`
 `;
 
 export const GET_REVIEWS_SEARCH = gql`
-  query GetReviewsSearch($query: String, $skip: Int) {
+  query GetReviewsSearch($query: String, $offset: Int, $limit: Int) {
     reviewsList(
       filter: {
         OR: [
@@ -114,8 +113,8 @@ export const GET_REVIEWS_SEARCH = gql`
           { author: { contains: $query } }
         ]
       }
-      skip: $skip
-      irst: ${RESULTS_PER_PAGE}
+      skip: $offset
+      first: $limit
     ) {
       items {
         ...ReviewResultJob
