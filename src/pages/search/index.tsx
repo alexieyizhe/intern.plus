@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
+import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 import { useQueryParam, StringParam } from "use-query-params";
@@ -30,6 +31,9 @@ import {
 } from "src/components";
 import { IGenericCardItem } from "src/types";
 
+/*******************************************************************
+ *                             **Types**                           *
+ *******************************************************************/
 export enum SearchType {
   COMPANIES = "companies",
   JOBS = "jobs",
@@ -74,15 +78,14 @@ const getTitleMarkup = (query?: string) =>
 const getDefaultHeading = (type?: SearchType) =>
   type ? (
     <>
-      <Text
-        variant="heading1"
-        color="greyDark"
-      >{`${pageCopy.heading.typeInitialHeading}`}</Text>
-      &nbsp;&nbsp;
-      <Text variant="heading1">{type}</Text>
+      <span className="grey">
+        {`${pageCopy.heading.typeInitialHeading}`}&nbsp;
+      </span>
+
+      <span>{type}</span>
     </>
   ) : (
-    <Text variant="heading1">{pageCopy.heading.defaultInitialHeading}</Text>
+    <span>{pageCopy.heading.defaultInitialHeading}</span>
   );
 
 /**
@@ -115,11 +118,9 @@ const useHeadingMarkup = () => {
 
   return (
     <>
-      <Text variant="heading1" color="greyDark">{`${prefix}${start} '`}</Text>
-      <Text variant="heading1">{searchQuery}</Text>
-      <Text variant="heading1" color="greyDark">
-        '
-      </Text>
+      <span className="grey">{`${prefix}${start} '`}</span>
+      <span>{searchQuery}</span>
+      <span className="grey">'</span>
     </>
   );
 };
@@ -143,6 +144,18 @@ const getQuery = (type?: SearchType) => {
       return GET_ALL_SEARCH;
   }
 };
+
+/*******************************************************************
+ *                             **Styles**                           *
+ *******************************************************************/
+export const Heading = styled(Text)`
+  display: inline-block;
+  margin-bottom: 10px;
+
+  & .grey {
+    color: ${({ theme }) => theme.color.greyDark};
+  }
+`;
 
 /*******************************************************************
  *                           **Component**                         *
@@ -250,7 +263,7 @@ const GenericSearchPage: React.FC = () => {
         <title>{getTitleMarkup(searchQuery)}</title>
       </Helmet>
       <PageContainer>
-        <div>{headingMarkup}</div>
+        <Heading variant="heading1">{headingMarkup}</Heading>
 
         <InputButtonCombo
           placeholder={pageCopy.searchInputPlaceholderText}
