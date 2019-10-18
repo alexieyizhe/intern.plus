@@ -29,7 +29,7 @@ export interface IResultsDisplayProps
   onResultsEndReached?: () => void;
 }
 
-export enum SearchState {
+export enum DisplayState {
   INITIAL,
   LOADING,
   ERROR,
@@ -56,7 +56,7 @@ const START_SEARCH_TEXT =
  * @param noResults `true` if the search query returned no results
  */
 const getMiscContent = (
-  state: SearchState
+  state: DisplayState
 ): {
   mood: KawaiiMood;
   markup: JSX.Element;
@@ -65,7 +65,7 @@ const getMiscContent = (
   let markup = <></>;
 
   switch (state) {
-    case SearchState.INITIAL:
+    case DisplayState.INITIAL:
       mood = "blissful";
       markup = (
         <Text variant="subheading" as="div" color="greyDark">
@@ -74,12 +74,12 @@ const getMiscContent = (
       );
       break;
 
-    case SearchState.LOADING:
+    case DisplayState.LOADING:
       mood = "excited";
       markup = <AnimatedIcon animationKey="loading" />;
       break;
 
-    case SearchState.ERROR:
+    case DisplayState.ERROR:
       mood = "ko";
       markup = (
         <Text variant="subheading" color="error" as="div">
@@ -88,7 +88,7 @@ const getMiscContent = (
       );
       break;
 
-    case SearchState.NO_RESULTS:
+    case DisplayState.NO_RESULTS:
       mood = "sad";
       markup = (
         <Text variant="subheading" as="div" color="greyDark">
@@ -97,7 +97,7 @@ const getMiscContent = (
       );
       break;
 
-    case SearchState.NO_MORE_RESULTS:
+    case DisplayState.NO_MORE_RESULTS:
       mood = "sad";
       markup = (
         <Text variant="subheading" as="div" color="greyDark">
@@ -247,22 +247,23 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
   ...rest
 }) => {
   const curState = useMemo(() => {
-    if (error) return SearchState.ERROR;
-    if (loading) return SearchState.LOADING;
-    if (noMoreResults) return SearchState.NO_MORE_RESULTS;
-    if (searchResults.length === 0 && searched) return SearchState.NO_RESULTS;
-    if (searchResults.length > 0) return SearchState.RESULTS;
+    if (error) return DisplayState.ERROR;
+    if (loading) return DisplayState.LOADING;
+    if (searchResults.length === 0 && searched) return DisplayState.NO_RESULTS;
+    if (noMoreResults) return DisplayState.NO_MORE_RESULTS;
+    if (searchResults.length > 0) return DisplayState.RESULTS;
 
-    return SearchState.INITIAL;
+    return DisplayState.INITIAL;
   }, [error, loading, noMoreResults, searchResults.length, searched]);
 
   const { mood, markup } = useMemo(() => getMiscContent(curState), [curState]);
 
   const shouldShowResults = useMemo(
     () =>
-      curState === SearchState.RESULTS ||
-      curState === SearchState.NO_MORE_RESULTS,
-    [curState]
+      searchResults.length > 0 ||
+      curState === DisplayState.RESULTS ||
+      curState === DisplayState.NO_MORE_RESULTS,
+    [curState, searchResults.length]
   );
 
   return (
@@ -275,9 +276,11 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
 
       <MiscContent>{markup}</MiscContent>
 
-      {searchResults.length > 0 && <Waypoint onEnter={onResultsEndReached} />}
+      {searchResults.length > 0 && !noMoreResults && (
+        <Waypoint onEnter={onResultsEndReached} />
+      )}
     </Container>
   );
 };
 
-export default ResultsDisplay;
+export default React.memo(ResultsDisplay);

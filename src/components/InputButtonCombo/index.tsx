@@ -78,4 +78,4 @@ const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
   );
 };
 
-export default InputButtonCombo;
+export default React.memo(InputButtonCombo);

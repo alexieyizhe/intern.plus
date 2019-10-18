@@ -14,6 +14,7 @@ import { LogoBlack, EditIcon, MobileMenuChevronImg } from "src/assets";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 import { UnstyledButton } from "src/components/Button";
+import { useUpdateTracer } from "src/utils/hooks/useUpdateTracer";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -249,6 +250,8 @@ const Header: React.FC = () => {
   const headerRef = useRef<HTMLElement | null>(null);
   useOnClickOutside(headerRef, closeMobileMenu);
 
+  console.log("render");
+  useUpdateTracer({ location, history, onClickAddReview, goHome });
   return (
     <Container
       className={`${scrolledDown ? "scrolled" : ""} ${

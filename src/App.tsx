@@ -7,6 +7,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { QueryParamProvider } from "use-query-params";
 
 import apolloClient from "src/api/client";
 import siteTheme from "src/theme";
@@ -79,13 +80,15 @@ const App: React.FC = () => (
   <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={siteTheme}>
       <Router>
-        <div className="App">
-          <GlobalStyles />
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <div className="App">
+            <GlobalStyles />
 
-          <PageHeader />
-          <AppSwitch />
-          <PageFooter />
-        </div>
+            <PageHeader />
+            <AppSwitch />
+            <PageFooter />
+          </div>
+        </QueryParamProvider>
       </Router>
     </ThemeProvider>
   </ApolloProvider>

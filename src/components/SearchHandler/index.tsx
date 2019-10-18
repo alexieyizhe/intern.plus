@@ -37,11 +37,6 @@ const SearchHandler: React.FC<ISearchHandlerProps> = ({
    * (see https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
    */
   const debouncedLastSearchUpdater = useRef(debounce(onNewSearchVal, 1500));
-  useEffect(() => {
-    if (searchVal) {
-      debouncedLastSearchUpdater.current(searchVal);
-    }
-  }, [searchVal]);
 
   return (
     <InputButtonCombo
