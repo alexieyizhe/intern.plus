@@ -4,15 +4,14 @@ import { useSearchParams } from "src/utils/hooks/useSearchParams";
 import { RESULTS_PER_PAGE } from "src/utils/constants";
 import { IGenericCardItem } from "src/types";
 
-export type ITransformData<T> = (data?: T) => IGenericCardItem[];
+export const useSearch = () => {
+  const { searchQuery, searchType, setSearchQuery } = useSearchParams();
 
-export const useSearch = <T>(
-  data: T,
-  transformData: ITransformData<T>,
-  setSearchResults: React.Dispatch<React.SetStateAction<IGenericCardItem[]>>
-) => {
-  const { searchQuery, setSearchQuery } = useSearchParams();
-
+  /**
+   * Every time the search query is updated, update the search results.
+   * We debounce the onChange call in SearchHandler, so this API
+   * call is not made excessively.
+   */
   const [page, setPage] = useState(1);
   const [isEndOfResults, setIsEndOfResults] = useState(false);
   const [isNewSearch, setIsNewSearch] = useState(false);
@@ -38,9 +37,35 @@ export const useSearch = <T>(
     setPage(prevPage => prevPage + 1);
   }, []);
 
+  return {
+    // filters
+    searchQuery,
+    searchType,
+
+    // search invariants
+    page,
+    isEndOfResults,
+    isNewSearch,
+    isInitialSearch,
+
+    // callbacks
+    setIsEndOfResults,
+    onNewSearch,
+    onNextBatchSearch,
+  };
+};
+
+export const useSearchResults = <T>(
+  isNewSearch: boolean,
+  setIsEndOfResults: React.Dispatch<React.SetStateAction<boolean>>,
+  transformData: (data?: T) => IGenericCardItem[],
+  data?: T
+) => {
   /**
    * After new data is fetched, build the list of new search results.
+   * Update other invariants accordingly.
    */
+  const [searchResults, setSearchResults] = useState<IGenericCardItem[]>([]);
   useEffect(() => {
     const resultsFetched = data !== undefined;
 
@@ -66,14 +91,7 @@ export const useSearch = <T>(
         setIsEndOfResults(false);
       }
     }
-  }, [data, isNewSearch, setSearchResults, transformData]);
+  }, [data, isNewSearch, setIsEndOfResults, setSearchResults, transformData]);
 
-  return {
-    page,
-    isEndOfResults,
-    isNewSearch,
-    isInitialSearch,
-    onNewSearch,
-    onNextBatchSearch,
-  };
+  return searchResults;
 };

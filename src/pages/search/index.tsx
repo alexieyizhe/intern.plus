@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
@@ -14,6 +14,7 @@ import { buildSearchResultCardsList } from "./graphql/utils";
 
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
+import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
 import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
 import pageCopy from "./copy";
 
@@ -23,7 +24,6 @@ import {
   Text,
   PageContainer,
 } from "src/components";
-import { IGenericCardItem } from "src/types";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -129,44 +129,20 @@ const GenericSearchPage: React.FC = () => {
     searchQuery,
     searchType,
 
-    setSearchQuery,
-    // setSearchType, TODO: add ability to toggle type filter
-  } = useSearchParams();
+    page,
+    isEndOfResults,
+    isNewSearch,
+    isInitialSearch,
+
+    setIsEndOfResults,
+    onNewSearch,
+    onNextBatchSearch,
+  } = useSearch();
 
   /**
-   * Every time the search query is updated, update the search results.
-   * We debounce the onChange call in SearchHandler, so this API
-   * call is not made excessively.
+   * Query the actual data.
    */
   const QUERY = useMemo(() => getQuery(searchType), [searchType]);
-  const [page, setPage] = useState(1);
-  const [isEndOfResults, setIsEndOfResults] = useState(false);
-  const [isNewSearch, setIsNewSearch] = useState(false);
-  const isInitialSearch = useMemo(
-    // tracks if user has not yet searched for the first time
-    () => searchQuery === undefined,
-    [searchQuery]
-  );
-
-  const onNewSearch = useCallback(
-    (newVal?: string) => {
-      if (newVal !== undefined && newVal !== searchQuery) {
-        setIsNewSearch(true);
-        setPage(1); // reset pagination
-        setSearchQuery(newVal);
-      }
-    },
-    [searchQuery, setSearchQuery]
-  );
-
-  const onNextBatchSearch = useCallback(() => {
-    setIsNewSearch(false);
-    setPage(prevPage => prevPage + 1);
-  }, []);
-
-  /**
-   * Queries the actual data.
-   */
   const { loading, error, data } = useQuery<GetAllSearch>(QUERY, {
     variables: {
       query: searchQuery,
@@ -176,35 +152,15 @@ const GenericSearchPage: React.FC = () => {
   });
 
   /**
-   * After new data is fetched, build the list of new search results.
+   * Transforms returned data into generic card list items.
+   * This is required for ResultsDisplay to accept our results.
    */
-  const [searchResults, setSearchResults] = useState<IGenericCardItem[]>([]);
-  useEffect(() => {
-    const resultsFetched = data !== undefined;
-
-    if (resultsFetched) {
-      const newResults = buildSearchResultCardsList(data);
-
-      if (isNewSearch) {
-        setSearchResults(newResults);
-      } else {
-        if (newResults.length > 0) {
-          setSearchResults(prevResults => [...prevResults, ...newResults]);
-        }
-      }
-
-      /**
-       * Check whether or not there are more results to be fetched.
-       * If not, indicate that so we can display it to the user and
-       * prevent further API calls with the same query.
-       */
-      if (newResults.length < RESULTS_PER_PAGE) {
-        setIsEndOfResults(true);
-      } else {
-        setIsEndOfResults(false);
-      }
-    }
-  }, [data, isNewSearch]);
+  const searchResults = useSearchResults(
+    isNewSearch,
+    setIsEndOfResults,
+    buildSearchResultCardsList,
+    data
+  );
 
   /**
    * Get heading markup/text based on query params.
