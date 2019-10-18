@@ -140,7 +140,12 @@ const GenericSearchPage: React.FC = () => {
   } = useSearch();
 
   const shouldSkipSearch = useMemo(
-    () => isInitialSearch && !searchType, // if type is provided, default state is to show all results of that type, not to prompt them to type something
+    /**
+     * If search type is provided, the default state is to show them
+     * all results of that type, not the empty state where we prompt them to
+     * type a search query.
+     */
+    () => isInitialSearch && !searchType,
     [isInitialSearch, searchType]
   );
 

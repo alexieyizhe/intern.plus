@@ -176,14 +176,23 @@ const NavLinks = styled.nav`
 const HeaderActionContainer = styled.div`
   justify-content: flex-end;
 
+  & button {
+    transition: transform 150ms ease-out;
+    transform: scale(0.9);
+    &:hover,
+    &:focus {
+      transform: scale(1);
+    }
+  }
+
   & img {
     cursor: pointer;
-    max-width: 25px;
+    max-width: 30px;
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
     & img {
-      max-width: 20px;
+      max-width: 25px;
     }
   `}
 `;
@@ -197,7 +206,7 @@ const Header: React.FC = () => {
    */
   const width = useWindowWidth();
   const isMobileUser = useMemo(
-    () => width < deviceBreakpoints[MOBILE_MENU_MEDIA_QUERY],
+    () => width <= deviceBreakpoints[MOBILE_MENU_MEDIA_QUERY],
     [width]
   );
 
@@ -243,8 +252,8 @@ const Header: React.FC = () => {
   history.listen(closeMobileMenu);
 
   /**
-   * Detect if a click outside the header has happened and if it has,
-   * close the mobile menu.
+   * Detect if a click outside the header has happened.
+   * If it has, close the mobile menu.
    */
   const headerRef = useRef<HTMLElement | null>(null);
   useOnClickOutside(headerRef, closeMobileMenu);
