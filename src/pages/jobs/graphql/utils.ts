@@ -21,6 +21,7 @@ const timeAgo = new TimeAgo("en-US");
 export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   name: job.name || "",
   companyName: job.company ? job.company.name || "" : "",
+  companySlug: job.company ? job.company.slug || "" : "",
   location: job.jobLocation || undefined,
   numRatings: job.reviews ? job.reviews.count : 0,
   avgRating: job.avgRating || 0,

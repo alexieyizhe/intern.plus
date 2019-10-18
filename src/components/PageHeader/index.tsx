@@ -159,8 +159,10 @@ const NavLinks = styled.nav`
     align-items: flex-start;
 
     transition: all 150ms ease-out;
+    pointer-events: none;
     opacity: 0;
     &.show {
+      pointer-events: auto;
       opacity: 1;
     }
 

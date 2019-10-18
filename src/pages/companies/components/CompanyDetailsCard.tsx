@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
+import { ICompanyDetails } from "src/types";
+import { detailsCardStyles } from "src/theme/snippets";
+
 import {
   ISearchFieldProps,
   Card,
@@ -9,7 +12,6 @@ import {
   SearchField,
   StarRating,
 } from "src/components";
-import { ICompanyDetails } from "src/types";
 
 /*******************************************************************
  *                            **Types**                           *
@@ -89,27 +91,7 @@ const getDetailsMarkup = (
  *                            **Styles**                           *
  *******************************************************************/
 const Container = styled(Card)`
-  position: relative;
-  width: 100%;
-  height: 400px;
-  margin-bottom: 40px;
-  padding: 40px 60px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  background-color: ${({ theme, color }) => theme.color[color || "greyLight"]};
-
-  & input {
-    background-color: white;
-  }
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-    width: 300%;
-    left: -100%;
-    padding: 40px 100%;
-  `}
+  ${detailsCardStyles}
 `;
 
 const MiscContentContainer = styled.div`
@@ -136,7 +118,7 @@ const DetailsContainer = styled.div`
   max-width: 55%;
 
   & > .subheading {
-    margin: 15px auto;
+    margin: 10px auto 15px auto;
   }
 
   & .rating {
@@ -147,6 +129,12 @@ const DetailsContainer = styled.div`
   & .ratingText {
     padding: 0 3px;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    & > .subheading {
+      margin: 0 auto 15px auto;
+    }
+  `}
 `;
 
 const Logo = styled.img`

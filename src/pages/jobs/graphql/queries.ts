@@ -9,6 +9,7 @@ export const GET_JOB_DETAILS = gql`
       jobLocation
       company {
         name
+        slug
       }
       minHourlySalary
       maxHourlySalary

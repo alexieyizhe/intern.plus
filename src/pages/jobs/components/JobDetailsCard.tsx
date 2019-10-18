@@ -2,14 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
+import { IJobDetails } from "src/types";
+import { detailsCardStyles } from "src/theme/snippets";
+import { RouteName } from "src/utils/constants";
+
 import {
   ISearchFieldProps,
   Card,
   Text,
+  Link,
   SearchField,
   StarRating,
 } from "src/components";
-import { IJobDetails } from "src/types";
 
 /*******************************************************************
  *                            **Types**                           *
@@ -46,13 +50,22 @@ const getDetailsMarkup = (
         <Text variant="heading1" as="div">
           {details.name}
         </Text>
-        <Text
+        <Link
           className="subheading"
+          to={`${RouteName.COMPANIES}/${details.companySlug}`}
+          bare
+        >
+          <Text variant="heading3" color="greyDark">
+            {details.companyName}
+          </Text>
+        </Link>
+        <span className="separator">&nbsp;{" • "}&nbsp;</span>
+        <Text
+          className="subheading location"
           variant="heading3"
-          as="div"
           color="greyDark"
         >
-          {`${details.companyName} | ${details.location}`}
+          {details.location}
         </Text>
 
         <MiscDetails>
@@ -137,27 +150,7 @@ const getDetailsMarkup = (
  *                            **Styles**                           *
  *******************************************************************/
 const Container = styled(Card)`
-  position: relative;
-  width: 100%;
-  height: 400px;
-  margin-bottom: 40px;
-  padding: 40px 60px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  background-color: ${({ theme, color }) => theme.color[color || "greyLight"]};
-
-  & input {
-    background-color: white;
-  }
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-    width: 300%;
-    left: -100%;
-    padding: 40px 100%;
-  `}
+  ${detailsCardStyles}
 `;
 
 const MiscContentContainer = styled.div`
@@ -186,6 +179,16 @@ const DetailsContainer = styled.div`
   & > .subheading {
     margin: 6px auto 35px auto;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    & .separator {
+      display: none;
+    }
+
+    & .location {
+      display: block;
+    }
+  `}
 `;
 
 const MiscDetails = styled.div`

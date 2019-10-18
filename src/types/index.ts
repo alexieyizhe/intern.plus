@@ -73,6 +73,7 @@ export interface ICompanyDetails {
 export interface IJobDetails {
   name: string;
   companyName: string;
+  companySlug: string;
   location?: string;
   numRatings: number;
   avgRating: number;
@@ -87,7 +88,9 @@ export interface IJobDetails {
 
 export interface IReviewDetails {
   jobName: string;
+  jobId: string;
   companyName: string;
+  companySlug: string;
   location?: string;
   author: string;
   body: string;

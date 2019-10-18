@@ -12,6 +12,10 @@ export interface GetJobDetails_job_company {
    * Name of a company.
    */
   name: string | null;
+  /**
+   * Unique slug for a company.
+   */
+  slug: string | null;
 }
 
 export interface GetJobDetails_job_reviews {

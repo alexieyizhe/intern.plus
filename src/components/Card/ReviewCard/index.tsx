@@ -40,7 +40,7 @@ const Container = styled(Card)`
 
   & > .subheading {
     grid-area: subheading;
-    padding-top: 8px;
+    padding-top: 5px;
 
     text-overflow: ellipsis;
     white-space: nowrap;
