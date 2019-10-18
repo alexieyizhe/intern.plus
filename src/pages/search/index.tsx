@@ -173,13 +173,10 @@ const GenericSearchPage: React.FC = () => {
       <Helmet>
         <title>{getTitleMarkup(searchQuery)}</title>
       </Helmet>
+
       <PageContainer>
         <Heading variant="heading1">{headingMarkup}</Heading>
-
-        <SearchField
-          onTriggerSearch={(searchVal: string) => onNewSearch(searchVal)}
-        />
-
+        <SearchField onTriggerSearch={onNewSearch} />
         <ResultsDisplay
           searched={!isInitialSearch}
           loading={loading}

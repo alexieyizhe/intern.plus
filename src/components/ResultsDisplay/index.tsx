@@ -26,7 +26,7 @@ export interface IResultsDisplayProps
   error: boolean;
   noMoreResults: boolean;
   searchResults: IGenericCardItem[];
-  onResultsEndReached?: () => void;
+  onResultsEndReached: () => void;
 }
 
 export enum DisplayState {

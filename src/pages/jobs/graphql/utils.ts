@@ -2,10 +2,12 @@
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { IJobDetails, IReviewUserCardItem } from "src/types";
+import { GetJobDetails_job } from "src/types/generated/GetJobDetails";
 import {
-  GetJobDetails_job,
-  GetJobDetails_job_reviews_items,
-} from "src/types/generated/GetJobDetails";
+  GetJobReviews,
+  GetJobReviews_job_reviews_items,
+} from "src/types/generated/GetJobReviews";
+
 import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 TimeAgo.addLocale(en);
@@ -31,15 +33,22 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   color: getPastelColor(),
 });
 
+export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
+  id: item.id || "",
+  authorName: item.author || "Anonymous",
+  date: timeAgo.format(new Date(item.updatedAt || item.createdAt || "")),
+  overallRating: item.overallRating || 0,
+  body: item.body || "",
+  tags: item.tags || "",
+  color: getDarkColor(),
+});
+
 export const buildJobReviewsCardList = (
-  reviewList: GetJobDetails_job_reviews_items[]
-): IReviewUserCardItem[] =>
-  reviewList.map(review => ({
-    id: review.id || "",
-    authorName: review.author || "Anonymous",
-    date: timeAgo.format(new Date(review.updatedAt || review.createdAt || "")),
-    overallRating: review.overallRating || 0,
-    body: review.body || "",
-    tags: review.tags || "",
-    color: getDarkColor(),
-  }));
+  data?: GetJobReviews
+): IReviewUserCardItem[] => {
+  if (data && data.job && data.job.reviews) {
+    return data.job.reviews.items.map(buildJobReviewsCard);
+  }
+
+  return [];
+};
