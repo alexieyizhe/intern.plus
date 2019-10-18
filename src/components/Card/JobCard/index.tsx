@@ -21,12 +21,13 @@ export interface IJobCardProps extends ICardProps {
 const Container = styled(Card)`
   position: relative;
   display: inline-grid;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr auto auto;
   grid-template-columns: 1fr auto;
   grid-template-areas:
-    "title    title"
-    "subtitle subtitle"
-    "ratings  salary";
+    "title     title"
+    "subtitle  subtitle"
+    "salaryAmt salaryAmt"
+    "ratings   salaryInfo";
 
   ${hoverStyles}
 
@@ -40,6 +41,7 @@ const Container = styled(Card)`
 
   & > .subtitle {
     grid-area: subtitle;
+    margin-top: 5px;
 
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -53,13 +55,13 @@ const Container = styled(Card)`
     align-items: flex-end;
   }
 
-  & > .salary {
-    grid-area: salary;
+  & > .salaryAmt {
+    grid-area: salaryAmt;
+    align-self: flex-end;
+  }
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
+  & > .salaryInfo {
+    grid-area: salaryInfo;
   }
 `;
 
@@ -95,23 +97,27 @@ const JobCard: React.FC<IJobCardProps> = ({
       </Text>
 
       <div className="ratings">
-        <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly />
-        <Text variant="body" color="black">
-          {avgRating}
-        </Text>
-        <Text variant="body" color="greyDark">
-          ({numRatings})
-        </Text>
+        <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly>
+          <Text variant="body" color="black">
+            {avgRating}
+          </Text>
+          &nbsp;
+          <Text variant="body" color="greyDark">
+            ({numRatings})
+          </Text>
+        </StarRating>
       </div>
 
-      <div className="salary">
-        <Text variant="heading2">
-          {minHourlySalary === maxHourlySalary
-            ? minHourlySalary
-            : `${minHourlySalary} - ${maxHourlySalary}`}
-        </Text>
-        <Text variant="heading3">{`${salaryCurrency}/hr`}</Text>
-      </div>
+      <Text className="salaryAmt" variant="heading2" align="right">
+        {minHourlySalary === maxHourlySalary
+          ? minHourlySalary
+          : `${minHourlySalary} - ${maxHourlySalary}`}
+      </Text>
+
+      <Text
+        className="salaryInfo"
+        variant="heading3"
+      >{`${salaryCurrency}/hr`}</Text>
     </Container>
   );
 };

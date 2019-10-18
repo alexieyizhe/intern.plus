@@ -139,7 +139,7 @@ const Background = styled.div`
 
   display: flex;
 
-  z-index: 200;
+  z-index: ${({ theme }) => theme.zIndex.modal};
   background-color: rgba(40, 40, 40, 0.5);
   overscroll-behavior: contain;
   overflow-y: scroll;
@@ -154,8 +154,6 @@ const Container = styled(Card)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  z-index: 201;
 
   & > .loading,
   & > .error {

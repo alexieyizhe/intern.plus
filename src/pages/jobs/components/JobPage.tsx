@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { GetJobDetails } from "src/types/generated/GetJobDetails";
+import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import { GET_JOB_DETAILS } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
@@ -23,6 +24,7 @@ const JobPageContainer = styled(PageContainer)`
  *                           **Component**                         *
  *******************************************************************/
 const JobDisplay = () => {
+  useScrollTopOnMount();
   /**
    * Fetch the job with the corresponding id. Store
    * the reviews for this job for use in searching.

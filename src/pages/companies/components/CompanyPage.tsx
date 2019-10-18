@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { GetCompanyDetails } from "src/types/generated/GetCompanyDetails";
+import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import { GET_COMPANY_DETAILS } from "../graphql/queries";
 import {
   buildCompanyDetails,
@@ -25,6 +26,8 @@ const CompanyPageContainer = styled(PageContainer)`
  *                           **Component**                         *
  *******************************************************************/
 const CompanyPage = () => {
+  useScrollTopOnMount();
+
   /**
    * Fetch the company with the corresponding slug. Store
    * the job results for use in searching.

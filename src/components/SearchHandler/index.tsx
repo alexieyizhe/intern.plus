@@ -5,19 +5,14 @@ import styled from "styled-components";
 import { useQueryParam } from "src/utils/hooks/useQueryParam";
 
 import Search from "src/components/Search";
-import { HEADER_HEIGHT } from "src/components/PageHeader";
 
 export interface ISearchHandlerProps
   extends React.ComponentPropsWithoutRef<"div"> {
   onNewSearchVal: (val: string) => void;
 }
 
-const StickySearch = styled(Search)`
-  position: sticky;
-  top: ${HEADER_HEIGHT + 10}px;
-
-  z-index: 50;
-`;
+// TODO: get this working
+const StickySearch = styled(Search)``;
 
 export const SEARCH_VALUE_QUERY_PARAM_KEY = "q";
 

@@ -1,35 +1,47 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import styled from "styled-components";
-import { default as AnimatedIcon } from "react-useanimations";
 import { useLocation, useHistory } from "react-router-dom";
 
 import { Size } from "src/theme/constants";
+import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/utils/routes";
-import useScrollPos from "src/utils/hooks/useWindowScrollPos";
-import { LogoBlack, IconEdit } from "src/assets";
+import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
+import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
+import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
+
+import { LogoBlack, EditIcon, MobileMenuChevronImg } from "src/assets";
 
 import Link from "src/components/Link";
 import Text from "src/components/Text";
+import { UnstyledButton } from "src/components/Button";
 
-export const MOBILE_MENU_HEIGHT = 110;
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 export const HEADER_HEIGHT = 70;
+export const HEADER_PADDING = 60;
+export const HEADER_PADDING_MOBILE = 30;
+export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // the width at which the mobile menu is activated
 
-// TODO: REFACTOR
-const Container = styled.header<{ mobileMenuOpen: boolean }>`
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
+const Container = styled.header`
   position: fixed;
   top: 0;
   width: 100%;
   height: ${HEADER_HEIGHT}px;
-  padding: 0 60px;
+  padding: 0 ${HEADER_PADDING}px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  z-index: 100;
+  z-index: ${({ theme }) => theme.zIndex.header};
   background-color: white;
 
   & > * {
+    z-index: 2;
     flex: 1;
     display: flex;
     align-items: center;
@@ -38,16 +50,17 @@ const Container = styled.header<{ mobileMenuOpen: boolean }>`
   &::after {
     content: "";
     position: absolute;
-    z-index: -1;
-    width: calc(100% + 60px);
-    height: 100%;
-    top: 0;
-    left: -60px;
+    z-index: 1;
+    width: calc(100% + ${HEADER_PADDING}px);
+    height: 400%;
+    bottom: 0;
+    left: -${HEADER_PADDING}px;
 
+    background-color: ${({ theme }) => theme.color.white};
     border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: opacity 150ms ease-in;
+    transition: all 150ms ease-in;
     opacity: 0;
   }
 
@@ -56,103 +69,113 @@ const Container = styled.header<{ mobileMenuOpen: boolean }>`
     opacity: 1;
   }
 
-  &.mobileMenuOpen ~ .add-review-modal > div {
-    top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
+  &.mobileMenuOpen::after {
+    transform: translateY(120px);
   }
 
-  ${({ theme, mobileMenuOpen }) => theme.mediaQueries.tablet`
-    top: 0;
-    height: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT}px;
-    transition: transform 200ms ease-out;
-    transform: translateY(${mobileMenuOpen ? "0" : `-${MOBILE_MENU_HEIGHT}px`});
-    padding: 25px 30px;
-
-    align-items: flex-end;
+  ${({ theme }) => theme.mediaQueries.tablet`
+    height: ${HEADER_HEIGHT}px;
+    padding: 0 ${HEADER_PADDING_MOBILE}px;
 
     &::after {
-      width: calc(100% + 30px);
-      left: -30px;
-      height: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT}px;
+      width: calc(100% + ${HEADER_PADDING_MOBILE}px);
+      left: -${HEADER_PADDING_MOBILE}px;
     }
   `}
 `;
 
-const Logo = styled(Link)`
+const Logo = styled.div`
   justify-content: flex-start;
-  align-items: center;
-  text-decoration: none;
 
-  & > img {
+  & > button {
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  & .logoImg {
     max-width: 40px;
     margin-right: 10px;
   }
 
-  ${({ theme }) => theme.mediaQueries.tablet`
-    justify-content: center;
-    order: 2;
+  & .logoText {
+    margin-top: 3px;
+  }
 
-    & > img {
+  & .chevron {
+    display: none;
+  }
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    & > button {
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    & .logoImg {
       max-width: 30px;
     }
-    
-    & > h2 {
+
+    & .logoText {
       font-size: ${theme.fontSize[Size.MEDIUM]}px;
+      margin-right: 5px;
+    }
+  `}
+
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    & .chevron {
+      display: inline-block;
+      margin-top: 2px;
+
+      transition: transform 150ms ease-in;
+      &.up {
+        transform: rotate(180deg);
+      }
     }
   `}
 `;
 
 const NavLinks = styled.nav`
   position: relative;
+  display: flex;
   justify-content: center;
   align-items: center;
 
-  & > .links {
-    display: flex;
+  & > * {
+    margin: auto 10px;
+  }
+
+  & .homeLink {
+    display: none;
+  }
+
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    position: absolute;
+    top: calc(100% - 10px);
+    left: ${HEADER_PADDING_MOBILE + 40 /* size of logoImg and its margin */}px;
+    
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    transition: all 150ms ease-out;
+    opacity: 0;
+    &.show {
+      opacity: 1;
+    }
 
     & > * {
-      margin: auto 10px;
-    }
-  }
-
-  & > .mobileMenu {
-    display: none;
-    cursor: pointer;
-  }
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-    order: 3;
-
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-end;
-
-
-    & > .links {
-      margin: auto 0 10px auto;
-      flex-direction: column;
-      align-items: flex-end;
-
-      position: absolute;
-      bottom: 100%;
+      margin: 0 0 10px 0;
+      color: ${theme.color.greyDark};
     }
 
-    & > .mobileMenu {
-      display: inherit;
-      margin: auto 0 auto auto;
+    & .homeLink { 
+      display: inline-block;
     }
   `}
 `;
 
-const AnimatedLink = styled(Link)<{ mobileShow: boolean }>`
-  ${({ theme, mobileShow }) => theme.mediaQueries.tablet`
-    transition: all 150ms ease-out;
-    opacity: ${mobileShow ? 1 : 0};
-    transform: translateY(${mobileShow ? "0" : "-10px"});
-    padding-bottom: 10px;
-  `}
-`;
-
-const ProfileAvatar = styled.div`
+const HeaderActionContainer = styled.div`
   justify-content: flex-end;
 
   & img {
@@ -161,21 +184,47 @@ const ProfileAvatar = styled.div`
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
-    justify-content: flex-start;
-    order: 1;
+    & img {
+      max-width: 20px;
+    }
   `}
 `;
 
-const Header = () => {
-  const [, scrollY] = useScrollPos();
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
+const Header: React.FC = () => {
+  /**
+   * Used to make the logo toggle the mobile menu if the user is mobile.
+   */
+  const width = useWindowWidth();
+  const isMobileUser = useMemo(
+    () => width < deviceBreakpoints[MOBILE_MENU_MEDIA_QUERY],
+    [width]
+  );
 
+  /**
+   * Used to show the drop shadow if scrolled down on page.
+   */
+  const [, scrollY] = useWindowScrollPos();
+  const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
+
+  /**
+   * Keeps track of whether the mobile menu is open or not.
+   * Only applies to mobile devices.
+   */
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenuOpen = useCallback(
+  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
+  const toggleMobileMenu = useCallback(
     () => setMobileMenuOpen(prevOpen => !prevOpen),
     []
   );
 
+  /**
+   * If the add review button is clicked, set the background page to
+   * the current location so the add review modal can be rendered
+   * on top of the current page.
+   */
   const location = useLocation();
   const history = useHistory();
   const onClickAddReview = useCallback(
@@ -189,51 +238,68 @@ const Header = () => {
     [history, location]
   );
 
+  /**
+   * Close the mobile menu after navigating between pages.
+   */
+  history.listen(closeMobileMenu);
+
+  /**
+   * Detect if a click outside the header has happened and if it has,
+   * close the mobile menu.
+   */
+  const headerRef = useRef<HTMLElement | null>(null);
+  useOnClickOutside(headerRef, closeMobileMenu);
+
   return (
     <Container
-      mobileMenuOpen={mobileMenuOpen}
-      className={`${scrollY > 0 ? "scrolled" : ""} ${
+      className={`${scrolledDown ? "scrolled" : ""} ${
         mobileMenuOpen ? "mobileMenuOpen" : ""
       }`}
+      ref={headerRef}
     >
-      <Logo to={RouteName.LANDING}>
-        <img src={LogoBlack} alt="An icon depicting a tugboat" />
+      <Logo onClick={isMobileUser ? toggleMobileMenu : () => {}}>
+        <UnstyledButton>
+          <img
+            className="logoImg"
+            src={LogoBlack}
+            alt="An icon depicting a tugboat"
+          />
 
-        <Text variant="heading2" as="h2">
-          Tugboat
-        </Text>
+          <Text className="logoText" variant="heading2" as="h2">
+            Tugboat
+          </Text>
+
+          <img
+            className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
+            src={MobileMenuChevronImg}
+            alt="A chevron, indicating that the logo can be clicked to open mobile menu"
+          />
+        </UnstyledButton>
       </Logo>
 
-      <NavLinks>
-        <span className="mobileMenu" onClick={toggleMobileMenuOpen}>
-          <AnimatedIcon animationKey="menu" />
-        </span>
-
-        <span className="links">
-          <AnimatedLink to={RouteName.JOBS} bare mobileShow={mobileMenuOpen}>
-            <Text size={16}>Positions</Text>
-          </AnimatedLink>
-          <AnimatedLink
-            to={RouteName.COMPANIES}
-            bare
-            mobileShow={mobileMenuOpen}
-          >
-            <Text size={16}>Companies</Text>
-          </AnimatedLink>
-          <AnimatedLink to={RouteName.REVIEWS} bare mobileShow={mobileMenuOpen}>
-            <Text size={16}>Reviews</Text>
-          </AnimatedLink>
-        </span>
+      <NavLinks className={mobileMenuOpen ? "show" : undefined}>
+        <Link to={RouteName.JOBS} bare>
+          <Text size={16}>Positions</Text>
+        </Link>
+        <Link to={RouteName.COMPANIES} bare>
+          <Text size={16}>Companies</Text>
+        </Link>
+        <Link to={RouteName.REVIEWS} bare>
+          <Text size={16}>Reviews</Text>
+        </Link>
+        <Link to={RouteName.LANDING} bare className="homeLink">
+          <Text size={16}>Home</Text>
+        </Link>
       </NavLinks>
 
-      <ProfileAvatar>
-        <img
-          src={IconEdit}
-          onClick={onClickAddReview}
-          role="button"
-          alt="A pencil icon, to be clicked to write a new review"
-        />
-      </ProfileAvatar>
+      <HeaderActionContainer>
+        <UnstyledButton onClick={onClickAddReview}>
+          <img
+            src={EditIcon}
+            alt="A pencil icon, to be clicked to write a new review"
+          />
+        </UnstyledButton>
+      </HeaderActionContainer>
     </Container>
   );
 };

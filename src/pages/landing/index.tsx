@@ -10,6 +10,7 @@ import { buildCompanyReviewCardsList } from "./graphql/utils";
 
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
+import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import pageCopy from "./copy";
 
 import {
@@ -42,9 +43,17 @@ const TitleCard = styled(Card)`
   overflow: hidden;
 
   ${({ theme }) => theme.mediaQueries.xlMobile`
-    height: 500px;
+    height: 540px;
     flex-direction: column-reverse;
     justify-content: flex-end;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    height: 515px;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.smallMobile`
+    height: 550px;
   `}
 `;
 
@@ -80,6 +89,10 @@ const TitleCardLeft = styled.div`
       font-size: ${theme.fontSize[Size.LARGE]}px;
     }
   `}
+
+  ${({ theme }) => theme.mediaQueries.smallMobile`
+    height: 50%;
+  `}
 `;
 
 const TitleCardRight = styled.div`
@@ -112,6 +125,8 @@ const SearchButton = styled(Button)`
  *                           **Component**                         *
  *******************************************************************/
 const LandingPage = () => {
+  useScrollTopOnMount();
+
   const history = useHistory();
   /**
    * Fetch companies and reviews that are displayed on the

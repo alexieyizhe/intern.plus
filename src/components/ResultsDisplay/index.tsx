@@ -177,6 +177,11 @@ const resultsCardStyles = css`
 
   ${({ theme }) => theme.mediaQueries.tablet`
     width: 100%;
+    height: 210px;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    height: 250px;
   `}
 `;
 const ResultsCompanyCard = styled(CompanyCard)`
@@ -187,6 +192,10 @@ const ResultsReviewCard = styled(ReviewCard)`
 `;
 const ResultsJobCard = styled(JobCard)`
   ${resultsCardStyles}
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    height: 180px;
+  `}
 `;
 
 /*******************************************************************

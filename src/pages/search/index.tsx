@@ -15,6 +15,7 @@ import {
 import { buildSearchResultCardsList } from "./graphql/utils";
 
 import { useQueryParam } from "src/utils/hooks/useQueryParam";
+import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import { RouteName } from "src/utils/routes";
 import { Size } from "src/theme/constants";
 import pageCopy from "./copy";
@@ -143,14 +144,14 @@ const EndText = styled(Text)<{ show: boolean }>`
 
 const SearchPageHandler = styled(SearchHandler)`
   top: 10px;
-
-  z-index: 150;
 `;
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
 const SearchPage: React.FC = () => {
+  useScrollTopOnMount();
+
   const { isExact } = useRouteMatch() as Match;
   const location = useLocation();
   const typeFilter = useMemo(() => {

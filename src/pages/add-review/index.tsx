@@ -13,7 +13,7 @@ const Background = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 200;
+  z-index: ${({ theme }) => theme.zIndex.modal};
 
   width: 100vw;
   height: 100vh;
@@ -27,11 +27,10 @@ const Container = styled(Card)`
   max-width: 900px;
   padding: 40px 60px;
 
-  z-index: 201;
-  box-shadow: ${({ theme }) => theme.boxShadow.hover};
-
   display: flex;
   flex-direction: column;
+
+  box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
   &:hover::after,
   &:focus::after {
