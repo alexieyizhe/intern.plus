@@ -15,10 +15,17 @@ import Link from "src/components/Link";
 import Text from "src/components/Text";
 import { UnstyledButton } from "src/components/Button";
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 export const HEADER_HEIGHT = 70;
 export const HEADER_PADDING = 60;
 export const HEADER_PADDING_MOBILE = 30;
+export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // the width at which the mobile menu is activated
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.header`
   position: fixed;
   top: 0;
@@ -77,14 +84,22 @@ const Container = styled.header`
   `}
 `;
 
-const Logo = styled(UnstyledButton)`
+const Logo = styled.div`
   justify-content: flex-start;
-  align-items: center;
-  text-decoration: none;
+
+  & > button {
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+  }
 
   & .logoImg {
     max-width: 40px;
     margin-right: 10px;
+  }
+
+  & .logoText {
+    margin-top: 3px;
   }
 
   & .chevron {
@@ -92,17 +107,30 @@ const Logo = styled(UnstyledButton)`
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
+    & > button {
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
     & .logoImg {
       max-width: 30px;
     }
 
-    & .chevron {
-      display: inline-block;
-    }
-    
     & .logoText {
       font-size: ${theme.fontSize[Size.MEDIUM]}px;
-      margin-right: 3px;
+      margin-right: 5px;
+    }
+  `}
+
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    & .chevron {
+      display: inline-block;
+      margin-top: 2px;
+
+      transition: transform 150ms ease-in;
+      &.up {
+        transform: rotate(180deg);
+      }
     }
   `}
 `;
@@ -121,7 +149,7 @@ const NavLinks = styled.nav`
     display: none;
   }
 
-  ${({ theme }) => theme.mediaQueries.tablet`
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     position: absolute;
     top: calc(100% - 10px);
     left: ${HEADER_PADDING_MOBILE + 40 /* size of logoImg and its margin */}px;
@@ -154,21 +182,49 @@ const HeaderActionContainer = styled.div`
     cursor: pointer;
     max-width: 25px;
   }
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    & img {
+      max-width: 20px;
+    }
+  `}
 `;
 
-const Header = () => {
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
+const Header: React.FC = () => {
+  /**
+   * Used to make the logo toggle the mobile menu if the user is mobile.
+   */
   const width = useWindowWidth();
-  const isMobileUser = useMemo(() => width < deviceBreakpoints.tablet, [width]);
+  const isMobileUser = useMemo(
+    () => width < deviceBreakpoints[MOBILE_MENU_MEDIA_QUERY],
+    [width]
+  );
 
+  /**
+   * Used to show the drop shadow if scrolled down on page.
+   */
   const [, scrollY] = useWindowScrollPos();
   const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
 
+  /**
+   * Keeps track of whether the mobile menu is open or not.
+   * Only applies to mobile devices.
+   */
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
   const toggleMobileMenu = useCallback(
     () => setMobileMenuOpen(prevOpen => !prevOpen),
     []
   );
 
+  /**
+   * If the add review button is clicked, set the background page to
+   * the current location so the add review modal can be rendered
+   * on top of the current page.
+   */
   const location = useLocation();
   const history = useHistory();
   const onClickAddReview = useCallback(
@@ -183,11 +239,15 @@ const Header = () => {
   );
 
   /**
+   * Close the mobile menu after navigating between pages.
+   */
+  history.listen(closeMobileMenu);
+
+  /**
    * Detect if a click outside the header has happened and if it has,
    * close the mobile menu.
    */
   const headerRef = useRef<HTMLElement | null>(null);
-  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
   useOnClickOutside(headerRef, closeMobileMenu);
 
   return (
@@ -198,21 +258,23 @@ const Header = () => {
       ref={headerRef}
     >
       <Logo onClick={isMobileUser ? toggleMobileMenu : () => {}}>
-        <img
-          className="logoImg"
-          src={LogoBlack}
-          alt="An icon depicting a tugboat"
-        />
+        <UnstyledButton>
+          <img
+            className="logoImg"
+            src={LogoBlack}
+            alt="An icon depicting a tugboat"
+          />
 
-        <Text className="logoText" variant="heading2" as="h2">
-          Tugboat
-        </Text>
+          <Text className="logoText" variant="heading2" as="h2">
+            Tugboat
+          </Text>
 
-        <img
-          className="chevron"
-          src={MobileMenuChevronImg}
-          alt="A chevron, indicating that the logo can be clicked to open mobile menu"
-        />
+          <img
+            className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
+            src={MobileMenuChevronImg}
+            alt="A chevron, indicating that the logo can be clicked to open mobile menu"
+          />
+        </UnstyledButton>
       </Logo>
 
       <NavLinks className={mobileMenuOpen ? "show" : undefined}>
@@ -231,12 +293,12 @@ const Header = () => {
       </NavLinks>
 
       <HeaderActionContainer>
-        <img
-          src={EditIcon}
-          onClick={onClickAddReview}
-          role="button"
-          alt="A pencil icon, to be clicked to write a new review"
-        />
+        <UnstyledButton onClick={onClickAddReview}>
+          <img
+            src={EditIcon}
+            alt="A pencil icon, to be clicked to write a new review"
+          />
+        </UnstyledButton>
       </HeaderActionContainer>
     </Container>
   );
