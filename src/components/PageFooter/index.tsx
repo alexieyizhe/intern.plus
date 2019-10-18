@@ -49,13 +49,11 @@ const Footer = () => (
       tabIndex={0}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
     />
+
     <Text className="subheading" variant="subheading">
-      Built with{" "}
-      <span role="img" aria-label="sparkles">
-        ✨
-      </span>
-      by Alex Xie
+      {copy.subtext()}
     </Text>
+
     <Link newTab to={copy.sourceCode.to} color="" bare>
       <Text variant="body" color="greyMedium">
         {copy.sourceCode.label}

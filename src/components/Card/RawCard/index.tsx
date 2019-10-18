@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export interface ICardProps extends React.ComponentPropsWithoutRef<"div"> {
+export interface ICardProps extends React.ComponentPropsWithRef<"div"> {
   color?: string;
 }
 const BaseCard = styled.div`
