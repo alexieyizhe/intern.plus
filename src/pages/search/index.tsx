@@ -139,17 +139,22 @@ const GenericSearchPage: React.FC = () => {
     onNextBatchSearch,
   } = useSearch();
 
+  const shouldSkipSearch = useMemo(
+    () => isInitialSearch && !searchType, // if type is provided, default state is to show all results of that type, not to prompt them to type something
+    [isInitialSearch, searchType]
+  );
+
   /**
    * Query the actual data.
    */
   const QUERY = useMemo(() => getQuery(searchType), [searchType]);
   const { loading, error, data } = useQuery<GetAllSearch>(QUERY, {
     variables: {
-      query: searchQuery,
+      query: searchQuery || "",
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
-    skip: isInitialSearch, // do not make an API call if search query is empty (on initial load)
+    skip: shouldSkipSearch, // do not make an API call if search query is empty (on initial load)
   });
 
   /**

@@ -88,7 +88,8 @@ const CompanyPage = () => {
     data: companyJobsData,
   } = useQuery<GetCompanyJobs>(GET_COMPANY_JOBS, {
     variables: {
-      query: searchQuery,
+      slug: companySlug,
+      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all jobs
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },

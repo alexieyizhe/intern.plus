@@ -86,11 +86,11 @@ const JobPage = () => {
     data: jobReviewsData,
   } = useQuery<GetJobReviews>(GET_JOB_REVIEWS, {
     variables: {
-      query: searchQuery,
+      id: jobId,
+      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all reviews
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
-    skip: isInitialSearch, // do not make an API call if search query is empty (on initial load)
   });
 
   const jobReviews = useSearchResults(
