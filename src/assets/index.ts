@@ -2,11 +2,13 @@
  * **IMAGES**
  */
 export { default as LogoBlack } from "./img/logo.png";
-export { default as LogoTwoTone } from "./img/logoTwoTone.png";
+export { default as LogoTwoTone } from "./img/logo-twotone.png";
 
-export { default as IconEdit } from "./img/edit-icon.svg";
+export { default as EditIcon } from "./img/icon-edit.svg";
 
 export { default as LandingDockImg } from "./img/landing-main.jpg";
+
+export { default as MobileMenuChevronImg } from "./img/mobilemenu-chevron.svg";
 
 /**
  * **FONTS**

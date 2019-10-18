@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-const useScrollPos = () => {
+export const useWindowScrollPos = () => {
   const [scrollPos, setScrollPos] = useState([
     window.pageXOffset,
     window.pageYOffset,
@@ -22,5 +22,3 @@ const useScrollPos = () => {
 
   return scrollPos;
 };
-
-export default useScrollPos;

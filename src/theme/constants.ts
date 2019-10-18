@@ -40,6 +40,10 @@ const constants = {
   borderRadius: {
     button: 10,
   },
+  zIndex: {
+    modal: 200,
+    header: 100,
+  },
 };
 
 export default constants;

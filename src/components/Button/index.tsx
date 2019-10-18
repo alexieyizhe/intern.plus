@@ -8,6 +8,7 @@ export interface IButtonProps extends React.ComponentPropsWithoutRef<"button"> {
 export const UnstyledButton = styled.button`
   padding: 0;
   border: none;
+  background-color: transparent;
 `;
 
 const BaseButton = styled(UnstyledButton)<IButtonProps>`

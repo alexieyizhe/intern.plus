@@ -144,8 +144,6 @@ const EndText = styled(Text)<{ show: boolean }>`
 
 const SearchPageHandler = styled(SearchHandler)`
   top: 10px;
-
-  z-index: 150;
 `;
 
 /*******************************************************************
