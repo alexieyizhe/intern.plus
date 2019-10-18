@@ -9,9 +9,8 @@ import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
 import { buildCompanyReviewCardsList } from "./graphql/utils";
 
 import { Size } from "src/theme/constants";
-import { RouteName } from "src/utils/routes";
+import { RouteName, SearchFilter } from "src/utils/constants";
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { QUERY_FILTER } from "src/pages/search";
 import pageCopy from "./copy";
 
 import {
@@ -158,7 +157,7 @@ const LandingPage = () => {
     return (
       <Redirect
         to={`${RouteName.FIND}${
-          searchVal ? `?${QUERY_FILTER}=${searchVal}` : ""
+          searchVal ? `?${SearchFilter.QUERY}=${searchVal}` : ""
         }`}
       />
     );

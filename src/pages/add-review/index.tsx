@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useLocation, useHistory } from "react-router-dom";
 
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
 
 import { Card, Text, HEADER_HEIGHT } from "src/components";

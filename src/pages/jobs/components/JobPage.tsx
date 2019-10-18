@@ -53,7 +53,7 @@ const JobDisplay = () => {
    * by the searched value whenever last search value changes.
    */
   const [lastSearchedVal, setLastSearchedVal] = useState("");
-  const onNewSearchVal = useCallback(
+  const onTriggerSearch = useCallback(
     (newVal: string) => setLastSearchedVal(newVal),
     []
   );
@@ -81,7 +81,7 @@ const JobDisplay = () => {
           loading={loading}
           error={error !== undefined}
           jobInfo={jobDetails}
-          onNewSearchVal={onNewSearchVal}
+          onTriggerSearch={onTriggerSearch}
         />
         <ResultsDisplay
           searched

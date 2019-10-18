@@ -4,7 +4,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 import { Size } from "src/theme/constants";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
 import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";

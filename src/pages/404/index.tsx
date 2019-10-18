@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import { PageContainer } from "src/components";
 
 const NotFoundPage = () => {

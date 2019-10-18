@@ -4,7 +4,7 @@ import { Planet, KawaiiMood } from "react-kawaii";
 import { default as AnimatedIcon } from "react-useanimations";
 import { Waypoint } from "react-waypoint";
 
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import {
   IGenericCardItem,
   isCompanyCardItem,
@@ -231,8 +231,8 @@ const ResultsJobCard = styled(JobCard)`
   `}
 `;
 
-// TODO: should loading indicator be displayed whenever user stops typing to show waiting and not just
-//       have a period of time where nothing happens before search activates?
+// TODO: after debouncing is implemented, loading indicator should be displayed whenever user stops typing to
+//       avoid nothing happening in the period of time before search call is triggered
 
 /*******************************************************************
  *                           **Component**                         *

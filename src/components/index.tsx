@@ -22,8 +22,8 @@ export * from "./PageHeader";
 export { default as ResultsDisplay } from "./ResultsDisplay";
 export * from "./ResultsDisplay";
 
-export { default as SearchHandler } from "./SearchHandler";
-export * from "./SearchHandler";
+export { default as SearchField } from "./SearchField";
+export * from "./SearchField";
 
 export { default as StarRating } from "./StarRating";
 export * from "./StarRating";

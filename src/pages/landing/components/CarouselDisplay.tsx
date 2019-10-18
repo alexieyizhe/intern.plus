@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import {
   IGenericCardItem,
   isCompanyCardItem,

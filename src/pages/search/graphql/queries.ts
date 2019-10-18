@@ -5,8 +5,7 @@ import {
   jobResultFragment,
   reviewResultJobFragment,
 } from "src/api/fragments";
-
-import { RESULTS_PER_PAGE } from "./utils";
+import { RESULTS_PER_PAGE } from "src/utils/constants";
 
 // gets all results (company, job, review) matching query
 export const GET_ALL_SEARCH = gql`

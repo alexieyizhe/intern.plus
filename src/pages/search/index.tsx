@@ -1,15 +1,7 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
-import { useQueryParam, StringParam } from "use-query-params";
-import { debounce } from "debounce";
 
 import { GetAllSearch } from "src/types/generated/GetAllSearch";
 import {
@@ -18,54 +10,24 @@ import {
   GET_JOBS_SEARCH,
   GET_REVIEWS_SEARCH,
 } from "./graphql/queries";
-import { buildSearchResultCardsList, RESULTS_PER_PAGE } from "./graphql/utils";
+import { buildSearchResultCardsList } from "./graphql/utils";
 
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
+import { useSearchParams } from "src/utils/hooks/useSearchParams";
+import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
 import pageCopy from "./copy";
 
 import {
   ResultsDisplay,
-  InputButtonCombo,
+  SearchField,
   Text,
   PageContainer,
 } from "src/components";
 import { IGenericCardItem } from "src/types";
 
 /*******************************************************************
- *                             **Types**                           *
- *******************************************************************/
-export enum SearchType {
-  COMPANIES = "companies",
-  JOBS = "jobs",
-  REVIEWS = "reviews",
-}
-
-/*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-export const QUERY_FILTER = "q";
-export const TYPE_FILTER = "t";
-// TODO: add more filters!
-
-const useSearchParams = () => {
-  /**
-   * Query parameter stores the value of the search query.
-   */
-  const [searchQuery, setSearchQuery] = useQueryParam(
-    QUERY_FILTER,
-    StringParam
-  );
-
-  const [searchType, setSearchType] = useQueryParam(TYPE_FILTER, StringParam);
-
-  return {
-    searchQuery,
-    searchType: searchType as SearchType,
-    setSearchQuery,
-    setSearchType,
-  };
-};
-
 /**
  * Creates markup for the title in the tab bar.
  */
@@ -168,24 +130,28 @@ const GenericSearchPage: React.FC = () => {
     searchType,
 
     setSearchQuery,
-    setSearchType, // TODO: add ability to toggle filters
+    // setSearchType, TODO: add ability to toggle type filter
   } = useSearchParams();
 
-  const headingMarkup = useHeadingMarkup();
-
-  const [inputVal, setInputVal] = useState(searchQuery);
-  const [searchResults, setSearchResults] = useState<IGenericCardItem[]>([]);
+  /**
+   * Every time the search query is updated, update the search results.
+   * We debounce the onChange call in SearchHandler, so this API
+   * call is not made excessively.
+   */
+  const QUERY = useMemo(() => getQuery(searchType), [searchType]);
   const [page, setPage] = useState(1);
-  const [noMoreResults, setNoMoreResults] = useState(false);
-  const [isNewSearch, setisNewSearch] = useState(false);
-  const isInitialSearch = useMemo(() => searchQuery === undefined, [
-    searchQuery,
-  ]); // if user has not yet searched
+  const [isEndOfResults, setIsEndOfResults] = useState(false);
+  const [isNewSearch, setIsNewSearch] = useState(false);
+  const isInitialSearch = useMemo(
+    // tracks if user has not yet searched for the first time
+    () => searchQuery === undefined,
+    [searchQuery]
+  );
 
   const onNewSearch = useCallback(
     (newVal?: string) => {
       if (newVal !== undefined && newVal !== searchQuery) {
-        setisNewSearch(true);
+        setIsNewSearch(true);
         setPage(1); // reset pagination
         setSearchQuery(newVal);
       }
@@ -194,31 +160,13 @@ const GenericSearchPage: React.FC = () => {
   );
 
   const onNextBatchSearch = useCallback(() => {
-    setisNewSearch(false);
+    setIsNewSearch(false);
     setPage(prevPage => prevPage + 1);
   }, []);
 
   /**
-   * Store debounced callback function in a ref to prevent timeouts from being
-   * set and cleared on renders errantly.
-   * (see https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
+   * Queries the actual data.
    */
-  const debouncedLastSearchUpdater = useRef(debounce(onNewSearch, 1500));
-
-  const onInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInputVal(e.target.value);
-      // debouncedLastSearchUpdater.current(e.target.value); TODO: enable this and test a lot
-    },
-    []
-  );
-
-  /**
-   * Every time the search query is updated, update the search results.
-   * We debounce the onChange call in SearchHandler, so this API
-   * call is not made excessively.
-   */
-  const QUERY = useMemo(() => getQuery(searchType), [searchType]);
   const { loading, error, data } = useQuery<GetAllSearch>(QUERY, {
     variables: {
       query: searchQuery,
@@ -228,8 +176,9 @@ const GenericSearchPage: React.FC = () => {
   });
 
   /**
-   * Whenever new data is fetched, build the list of new search results.
+   * After new data is fetched, build the list of new search results.
    */
+  const [searchResults, setSearchResults] = useState<IGenericCardItem[]>([]);
   useEffect(() => {
     const resultsFetched = data !== undefined;
 
@@ -250,12 +199,17 @@ const GenericSearchPage: React.FC = () => {
        * prevent further API calls with the same query.
        */
       if (newResults.length < RESULTS_PER_PAGE) {
-        setNoMoreResults(true);
+        setIsEndOfResults(true);
       } else {
-        setNoMoreResults(false);
+        setIsEndOfResults(false);
       }
     }
   }, [data, isNewSearch]);
+
+  /**
+   * Get heading markup/text based on query params.
+   */
+  const headingMarkup = useHeadingMarkup();
 
   return (
     <>
@@ -265,19 +219,15 @@ const GenericSearchPage: React.FC = () => {
       <PageContainer>
         <Heading variant="heading1">{headingMarkup}</Heading>
 
-        <InputButtonCombo
-          placeholder={pageCopy.searchInputPlaceholderText}
-          value={inputVal || ""}
-          onChange={onInputChange}
-          onEnterTrigger={() => onNewSearch(inputVal)}
-          buttonText={pageCopy.searchButtonText}
+        <SearchField
+          onTriggerSearch={(searchVal: string) => onNewSearch(searchVal)}
         />
 
         <ResultsDisplay
           searched={!isInitialSearch}
           loading={loading}
           error={error !== undefined}
-          noMoreResults={noMoreResults}
+          noMoreResults={isEndOfResults}
           searchResults={searchResults}
           onResultsEndReached={onNextBatchSearch}
         />

@@ -12,7 +12,7 @@ import { QueryParamProvider } from "use-query-params";
 import apolloClient from "src/api/client";
 import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 
 import { PageHeader, PageFooter } from "src/components";
 import LandingPage from "src/pages/landing";
