@@ -4,7 +4,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 import { Size } from "src/theme/constants";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
 import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
@@ -90,7 +90,7 @@ const Logo = styled.div`
   & > button {
     display: flex;
     align-items: center;
-    pointer-events: none;
+    cursor: pointer;
   }
 
   & .logoImg {
@@ -108,8 +108,6 @@ const Logo = styled.div`
 
   ${({ theme }) => theme.mediaQueries.tablet`
     & > button {
-      cursor: pointer;
-      pointer-events: auto;
     }
 
     & .logoImg {
@@ -237,6 +235,7 @@ const Header: React.FC = () => {
       }),
     [history, location]
   );
+  const goHome = useCallback(() => history.push(RouteName.LANDING), [history]);
 
   /**
    * Close the mobile menu after navigating between pages.
@@ -257,7 +256,7 @@ const Header: React.FC = () => {
       }`}
       ref={headerRef}
     >
-      <Logo onClick={isMobileUser ? toggleMobileMenu : () => {}}>
+      <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
         <UnstyledButton>
           <img
             className="logoImg"

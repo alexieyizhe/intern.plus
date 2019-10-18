@@ -26,7 +26,8 @@ export interface GetJobDetails_job_reviews_items {
    */
   body: string | null;
   /**
-   * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
+   * Tags to provide additional information for a review. Represented by a single
+   * string, with commas (",") as delimiters between tags.
    */
   tags: string | null;
   author: string | null;
@@ -74,7 +75,7 @@ export interface GetJobDetails_job {
    */
   reviews: GetJobDetails_job_reviews | null;
   /**
-   * Average of all reviews for a job.
+   * Average of overall ratings in all reviews for a job.
    */
   avgRating: number | null;
   avgLearningMentorshipRating: number | null;

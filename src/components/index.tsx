@@ -4,6 +4,9 @@ export * from "./Button";
 export { default as Card } from "./Card";
 export * from "./Card";
 
+export { default as InputButtonCombo } from "./InputButtonCombo";
+export * from "./InputButtonCombo";
+
 export { default as Link } from "./Link";
 export * from "./Link";
 
@@ -19,11 +22,8 @@ export * from "./PageHeader";
 export { default as ResultsDisplay } from "./ResultsDisplay";
 export * from "./ResultsDisplay";
 
-export { default as Search } from "./Search";
-export * from "./Search";
-
-export { default as SearchHandler } from "./SearchHandler";
-export * from "./SearchHandler";
+export { default as SearchField } from "./SearchField";
+export * from "./SearchField";
 
 export { default as StarRating } from "./StarRating";
 export * from "./StarRating";

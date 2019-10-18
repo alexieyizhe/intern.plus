@@ -53,5 +53,6 @@ export interface GetCompaniesSearch {
 
 export interface GetCompaniesSearchVariables {
   query?: string | null;
-  skip?: number | null;
+  offset?: number | null;
+  limit?: number | null;
 }

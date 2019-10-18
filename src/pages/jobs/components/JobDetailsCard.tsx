@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
 import {
-  ISearchHandlerProps,
+  ISearchFieldProps,
   Card,
   Text,
-  SearchHandler,
+  SearchField,
   StarRating,
 } from "src/components";
 import { IJobDetails } from "src/types";
@@ -14,7 +14,7 @@ import { IJobDetails } from "src/types";
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
-export interface IJobPageCardProps extends ISearchHandlerProps {
+export interface IJobPageCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;
   jobInfo?: IJobDetails;
@@ -217,14 +217,14 @@ const JobPageCard: React.FC<IJobPageCardProps> = ({
   loading,
   error,
   jobInfo,
-  onNewSearchVal,
+  onTriggerSearch,
 }) => (
   <Container>
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, jobInfo)}
     </MiscContentContainer>
 
-    <SearchHandler onNewSearchVal={onNewSearchVal} />
+    <SearchField onTriggerSearch={onTriggerSearch} />
   </Container>
 );
 

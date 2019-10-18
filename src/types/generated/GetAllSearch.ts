@@ -64,7 +64,7 @@ export interface GetAllSearch_jobsList_items {
   name: string | null;
   jobLocation: string | null;
   /**
-   * Average of all reviews for a job.
+   * Average of overall ratings in all reviews for a job.
    */
   avgRating: number | null;
   /**
@@ -121,7 +121,8 @@ export interface GetAllSearch_reviewsList_items {
    */
   body: string | null;
   /**
-   * Tags to provide additional information for a review. Represented by a single string, with "," as delimiters between tags.
+   * Tags to provide additional information for a review. Represented by a single
+   * string, with commas (",") as delimiters between tags.
    */
   tags: string | null;
   company: GetAllSearch_reviewsList_items_company | null;
@@ -144,4 +145,6 @@ export interface GetAllSearch {
 
 export interface GetAllSearchVariables {
   query?: string | null;
+  offset?: number | null;
+  limit?: number | null;
 }

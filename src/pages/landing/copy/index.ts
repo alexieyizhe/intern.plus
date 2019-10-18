@@ -1,4 +1,4 @@
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import { LandingDockImg } from "src/assets";
 
 const pageCopy = {

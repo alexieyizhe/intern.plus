@@ -1,32 +1,24 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useLocation, useHistory } from "react-router-dom";
 
-import { RouteName } from "src/utils/routes";
-import { Card, HEADER_HEIGHT } from "src/components";
+import { RouteName } from "src/utils/constants";
+import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
+
+import { Card, Text, HEADER_HEIGHT } from "src/components";
 import ReviewCreator from "./components/ReviewCreator";
 
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: ${({ theme }) => theme.zIndex.modal};
-
-  width: 100vw;
-  height: 100vh;
-`;
-
 const Container = styled(Card)`
   position: fixed;
   top: ${HEADER_HEIGHT + 20}px;
   right: 50px;
   max-height: 85vh;
   max-width: 900px;
-  padding: 40px 60px;
-
+  padding: 0;
+  
   display: flex;
   flex-direction: column;
 
@@ -57,6 +49,20 @@ const Container = styled(Card)`
   `}
 `;
 
+const Disabled = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 40px 60px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const AddReviewModal = () => {
   /**
    * If there is no background (usually when user navigates directly
@@ -65,8 +71,8 @@ const AddReviewModal = () => {
    */
   const location = useLocation();
   const history = useHistory();
-  const onExit = useCallback(
-    (e: React.MouseEvent) => {
+  const closeModal = useCallback(
+    (e: MouseEvent | TouchEvent) => {
       e.stopPropagation(); // prevent default browser back behaviour
       history.goBack();
     },
@@ -91,19 +97,20 @@ const AddReviewModal = () => {
   }, []); // eslint-disable-line
 
   /**
-   * Stop clicks on card bubbling up to background and closing the modal.
+   * Detect if a click outside the header has happened and if it has,
+   * close the mobile menu.
    */
-  const cardOnClick = useCallback(
-    (e: React.MouseEvent) => e.stopPropagation(),
-    []
-  );
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  useOnClickOutside(modalRef, closeModal);
 
   return (
-    <Background onClick={onExit} className="add-review-modal">
-      <Container onClick={cardOnClick} color="white">
-        <ReviewCreator />
-      </Container>
-    </Background>
+    <Container color="white">
+      <Disabled ref={modalRef}>
+        <Text variant="subheading" color="error">
+          Adding reviews isn't currently supported, but is coming soon!
+        </Text>
+      </Disabled>
+    </Container>
   );
 };
 

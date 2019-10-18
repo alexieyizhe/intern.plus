@@ -87,7 +87,7 @@ const TextInput: React.FC<ITextInputProps> = ({ variant = "", ...rest }) => {
   const propsToApply = useMemo(() => {
     const stylesFromVariant =
       variant in TEXT_INPUT_VARIANTS ? TEXT_INPUT_VARIANTS[variant] : {};
-    console.log(stylesFromVariant);
+
     return {
       ...stylesFromVariant,
       ...rest, // override variant if needed

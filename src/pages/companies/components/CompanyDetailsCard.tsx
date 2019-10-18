@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
 import {
-  ISearchHandlerProps,
+  ISearchFieldProps,
   Card,
   Text,
-  SearchHandler,
+  SearchField,
   StarRating,
 } from "src/components";
 import { ICompanyDetails } from "src/types";
@@ -14,7 +14,7 @@ import { ICompanyDetails } from "src/types";
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
-export interface ICompanyDetailsCardProps extends ISearchHandlerProps {
+export interface ICompanyDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;
   companyDetails?: ICompanyDetails;
@@ -160,13 +160,13 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   loading,
   error,
   companyDetails,
-  onNewSearchVal,
+  onTriggerSearch,
 }) => (
   <Container>
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, companyDetails)}
     </MiscContentContainer>
-    <SearchHandler onNewSearchVal={onNewSearchVal} />
+    <SearchField onTriggerSearch={onTriggerSearch} />
   </Container>
 );
 

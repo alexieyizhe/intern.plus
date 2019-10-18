@@ -7,11 +7,12 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { QueryParamProvider } from "use-query-params";
 
 import apolloClient from "src/api/client";
 import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 
 import { PageHeader, PageFooter } from "src/components";
 import LandingPage from "src/pages/landing";
@@ -79,13 +80,15 @@ const App: React.FC = () => (
   <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={siteTheme}>
       <Router>
-        <div className="App">
-          <GlobalStyles />
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <div className="App">
+            <GlobalStyles />
 
-          <PageHeader />
-          <AppSwitch />
-          <PageFooter />
-        </div>
+            <PageHeader />
+            <AppSwitch />
+            <PageFooter />
+          </div>
+        </QueryParamProvider>
       </Router>
     </ThemeProvider>
   </ApolloProvider>

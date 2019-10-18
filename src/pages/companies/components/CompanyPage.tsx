@@ -60,7 +60,7 @@ const CompanyPage = () => {
    * by the searched value whenever last search value changes.
    */
   const [lastSearchedVal, setLastSearchedVal] = useState("");
-  const onNewSearchVal = useCallback(
+  const onTriggerSearch = useCallback(
     (newVal: string) => setLastSearchedVal(newVal),
     []
   );
@@ -89,13 +89,14 @@ const CompanyPage = () => {
           loading={loading}
           error={error !== undefined}
           companyDetails={companyDetails}
-          onNewSearchVal={onNewSearchVal}
+          onTriggerSearch={onTriggerSearch}
         />
 
         <ResultsDisplay
           searched
           loading={loading}
           error={error !== undefined}
+          noMoreResults={false} // TODO: calculate this
           searchResults={filteredJobs}
         />
       </CompanyPageContainer>

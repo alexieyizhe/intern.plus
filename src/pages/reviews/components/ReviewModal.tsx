@@ -6,7 +6,7 @@ import { default as AnimatedIcon } from "react-useanimations";
 import { Helmet } from "react-helmet";
 
 import { Size } from "src/theme/constants";
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import { IReviewDetails } from "src/types";
 import { GetReviewDetails } from "src/types/generated/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";

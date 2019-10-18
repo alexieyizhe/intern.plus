@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
-import { RouteName } from "src/utils/routes";
+import { RouteName } from "src/utils/constants";
 import {
   IGenericCardItem,
   isCompanyCardItem,
@@ -47,7 +47,7 @@ const getCardMarkup = (card: IGenericCardItem) => {
       />
     );
   } else if (isJobCardItem(card)) {
-    return undefined; // this doesnt appear on landing page so not needed (for now)
+    return; // this doesnt appear on landing page so not needed (for now)
     // return (
     //   <ResultsJobCard
     //     key={card.id}
@@ -90,7 +90,7 @@ const getCardMarkup = (card: IGenericCardItem) => {
     );
   }
 
-  return undefined; // should never happen
+  return; // should never happen
 };
 
 /*******************************************************************

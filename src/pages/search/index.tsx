@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
-import { useRouteMatch, useLocation, match as Match } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { GetAllSearch } from "src/types/generated/GetAllSearch";
@@ -14,272 +12,185 @@ import {
 } from "./graphql/queries";
 import { buildSearchResultCardsList } from "./graphql/utils";
 
-import { useQueryParam } from "src/utils/hooks/useQueryParam";
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { RouteName } from "src/utils/routes";
-import { Size } from "src/theme/constants";
+import { useSearchParams } from "src/utils/hooks/useSearchParams";
+import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
+import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
 import pageCopy from "./copy";
 
 import {
-  SEARCH_VALUE_QUERY_PARAM_KEY,
-  PageContainer as BasePageContainer,
-  SearchHandler,
   ResultsDisplay,
+  SearchField,
   Text,
+  PageContainer,
 } from "src/components";
 
-// TODO: this code here needs some good ol refactorin, son
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (query?: string, typeFilter?: string) => {
-  if (typeFilter) {
-    return `Tugboat | ${typeFilter[0].toUpperCase()}${typeFilter.slice(1)}`;
-  } else if (query) {
-    return `Search | ${query}`;
+const getTitleMarkup = (query?: string) =>
+  query ? `Search | ${query}` : `Tugboat | Search`;
+
+/**
+ * Creates markup for the heading when no search is performed yet.
+ */
+const getDefaultHeading = (type?: SearchType) =>
+  type ? (
+    <>
+      <span className="grey">
+        {`${pageCopy.heading.typeInitialHeading}`}&nbsp;
+      </span>
+
+      <span>{type}</span>
+    </>
+  ) : (
+    <span>{pageCopy.heading.defaultInitialHeading}</span>
+  );
+
+/**
+ * Creates markup for the heading based on all search parameters.
+ */
+const useHeadingMarkup = () => {
+  const { searchQuery, searchType } = useSearchParams();
+
+  if (!searchQuery) return getDefaultHeading(searchType);
+
+  let prefix = "";
+  let start: string = pageCopy.heading.searchedHeading;
+
+  // query exists
+  switch (searchType) {
+    case SearchType.COMPANIES:
+      prefix = "Company ";
+      break;
+
+    case SearchType.JOBS:
+      prefix = "Job ";
+      break;
+
+    case SearchType.REVIEWS:
+      prefix = "Reviews ";
+      break;
   }
 
-  return "Tugboat | Search";
+  if (prefix) start = start.toLowerCase();
+
+  return (
+    <>
+      <span className="grey">{`${prefix}${start} '`}</span>
+      <span>{searchQuery}</span>
+      <span className="grey">'</span>
+    </>
+  );
 };
 
 /**
- * Creates the markup for the page heading, which will be different
- * based on if a search query exists, whether user is browsing, etc
- * @param query search query currently being executed
- * @param queryFilters any filters applied to the search
+ * Gets the correct graphQL query based on the type of search
+ * @param type type of search being performed
  */
-const getHeadingMarkup = (
-  query?: string,
-  queryFilters?: { [key: string]: string | undefined }
-) => {
-  if (!queryFilters) {
-    if (query) {
-      return (
-        <>
-          <Text variant="heading1" color="greyDark">
-            {pageCopy.searchingHeadingPrefix}
-          </Text>
-          &nbsp;
-          <QueryHeadingText variant="heading1">{query}</QueryHeadingText>
-        </>
-      );
-    }
-  } else {
-    if (queryFilters.type) {
-      return (
-        <>
-          <Text variant="heading1" color="greyDark">
-            {pageCopy.typeFilterHeadingPrefix}
-          </Text>
-          &nbsp;&nbsp;
-          <QueryHeadingText variant="heading1">
-            {queryFilters.type}
-          </QueryHeadingText>
-        </>
-      );
-    }
-  }
-
-  return <Text variant="heading1">{pageCopy.defaultHeading}</Text>;
-};
-
-const getSearchQuery = (typeFilter?: "companies" | "positions" | "reviews") => {
-  switch (typeFilter) {
+const getQuery = (type?: SearchType) => {
+  switch (type) {
     case "companies":
       return GET_COMPANIES_SEARCH;
-    case "positions":
+
+    case "jobs":
       return GET_JOBS_SEARCH;
+
     case "reviews":
       return GET_REVIEWS_SEARCH;
+
     default:
       return GET_ALL_SEARCH;
   }
 };
 
 /*******************************************************************
- *                            **Styles**                           *
+ *                             **Styles**                           *
  *******************************************************************/
-const PageContainer = styled(BasePageContainer)`
-  display: flex;
-  flex-direction: column;
-
-  & > * {
-    margin-bottom: 15px;
-  }
-`;
-
-const HeadingContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  margin-bottom: 15px;
-
-  ${({ theme }) => theme.mediaQueries.tablet`    
-    & > * {
-      font-size: ${theme.fontSize[Size.LARGE]}px;
-    }
-  `}
-
-  ${({ theme }) => theme.mediaQueries.mobile`    
-    text-align: center;
-  `}
-`;
-
-const QueryHeadingText = styled(Text)`
+export const Heading = styled(Text)`
   display: inline-block;
-  max-width: 50%;
+  margin-bottom: 10px;
 
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-`;
-
-const EndText = styled(Text)<{ show: boolean }>`
-  visibility: ${({ show }) => (show ? "visible" : "hidden")};
-  margin: 10px auto;
-`;
-
-const SearchPageHandler = styled(SearchHandler)`
-  top: 10px;
+  & .grey {
+    color: ${({ theme }) => theme.color.greyDark};
+  }
 `;
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const SearchPage: React.FC = () => {
+const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const { isExact } = useRouteMatch() as Match;
-  const location = useLocation();
-  const typeFilter = useMemo(() => {
-    if (!isExact && location.pathname.includes(RouteName.COMPANIES)) {
-      return "companies";
-    } else if (!isExact && location.pathname.includes(RouteName.JOBS)) {
-      return "positions";
-    } else if (!isExact && location.pathname.includes(RouteName.REVIEWS)) {
-      return "reviews";
-    }
+  const {
+    searchQuery,
+    searchType,
 
-    return undefined;
-  }, [isExact, location.pathname]);
+    page,
+    isEndOfResults,
+    isNewSearch,
+    isInitialSearch,
 
-  const queryFilters = useMemo(
-    () =>
-      typeFilter && {
-        type: typeFilter,
-      },
-    [typeFilter]
-  );
-
-  const QUERY = useMemo(() => getSearchQuery(typeFilter), [typeFilter]);
+    setIsEndOfResults,
+    onNewSearch,
+    onNextBatchSearch,
+  } = useSearch();
 
   /**
-   * Grab the query if it is provided in a query parameter.
+   * Query the actual data.
    */
-  const defaultQueryVal = useQueryParam(SEARCH_VALUE_QUERY_PARAM_KEY) as string;
-
-  /**
-   * Track the last searched value. This is useful for only calling the API after
-   * a set amount of debounced time, as well as displaying the last search results in
-   * the header.
-   *
-   * Figure out the default searchVal as well. If there's a typeFilter, we want to trigger
-   * the initial search right away so they can browse the type of result.
-   */
-  const [page, setPage] = useState(1);
-  const [reachedEnd, setReachedEnd] = useState(false);
-  const [lastSearchedVal, setLastSearchedVal] = useState(
-    defaultQueryVal || (typeFilter && "")
-  ); // whether the user has searched 1 or more times
-
-  /**
-   * Every time the search query is updated, update the search results.
-   * We debounce the onChange call in search handler, so that this API
-   * call is not made excessively.
-   */
-
+  const QUERY = useMemo(() => getQuery(searchType), [searchType]);
   const { loading, error, data } = useQuery<GetAllSearch>(QUERY, {
     variables: {
-      query: lastSearchedVal,
-      skip: (page - 1) * 10,
+      query: searchQuery,
+      offset: (page - 1) * RESULTS_PER_PAGE,
+      limit: RESULTS_PER_PAGE,
     },
-    skip: !lastSearchedVal && !typeFilter,
+    skip: isInitialSearch, // do not make an API call if search query is empty (on initial load)
   });
 
-  const fetchNextBatch = useCallback(
-    () => setPage(prevPage => prevPage + 1),
-    []
+  /**
+   * Transforms returned data into generic card list items.
+   * This is required for ResultsDisplay to accept our results.
+   */
+  const searchResults = useSearchResults(
+    isNewSearch,
+    setIsEndOfResults,
+    buildSearchResultCardsList,
+    data
   );
 
   /**
-   * Build the list of results based on fetched items.
-   * This serves to make the data easier to manipulate and work with,
-   * and transforms the data into a type that `ResultsDisplay` can work with.
+   * Get heading markup/text based on query params.
    */
-  const [searchResults, setSearchResults] = useState(
-    data ? buildSearchResultCardsList(data) : []
-  );
-  useEffect(() => {
-    const newResults = data ? buildSearchResultCardsList(data) : false;
-    if (newResults !== false) {
-      if (newResults.length) {
-        setSearchResults(prevResults => [...prevResults, ...newResults]);
-      } else {
-        setReachedEnd(true);
-      }
-    }
-  }, [data]);
-
-  /**
-   * Build the markup for the heading. The heading changes based on
-   * if you've searched before, if there are filters affecting search, browsing, etc
-   */
-  const headingMarkup = useMemo(
-    () => getHeadingMarkup(lastSearchedVal, queryFilters),
-    [lastSearchedVal, queryFilters]
-  );
-
-  const onNewSearchVal = useCallback((newVal: string) => {
-    // reset pagination
-    setPage(1);
-    setSearchResults([]);
-    setReachedEnd(false);
-    setLastSearchedVal(newVal);
-  }, []);
+  const headingMarkup = useHeadingMarkup();
 
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(lastSearchedVal, typeFilter)}</title>
+        <title>{getTitleMarkup(searchQuery)}</title>
       </Helmet>
       <PageContainer>
-        <HeadingContainer>{headingMarkup}</HeadingContainer>
+        <Heading variant="heading1">{headingMarkup}</Heading>
 
-        <SearchPageHandler onNewSearchVal={onNewSearchVal} />
-
-        <ResultsDisplay
-          searched={lastSearchedVal !== undefined}
-          loading={loading}
-          error={error !== undefined}
-          page={page}
-          searchResults={searchResults}
-          onResultsEndReached={fetchNextBatch}
+        <SearchField
+          onTriggerSearch={(searchVal: string) => onNewSearch(searchVal)}
         />
 
-        <EndText
-          variant="subheading"
-          align="center"
-          color="greyMedium"
-          show={searchResults.length > 0 && reachedEnd}
-        >
-          {pageCopy.reachedEnd}
-        </EndText>
+        <ResultsDisplay
+          searched={!isInitialSearch}
+          loading={loading}
+          error={error !== undefined}
+          noMoreResults={isEndOfResults}
+          searchResults={searchResults}
+          onResultsEndReached={onNextBatchSearch}
+        />
       </PageContainer>
     </>
   );
 };
 
-export default SearchPage;
+export default GenericSearchPage;
