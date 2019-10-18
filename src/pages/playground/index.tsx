@@ -14,7 +14,7 @@ import {
   Link,
   PageFooter,
   PageHeader,
-  Search,
+  InputButtonCombo,
   StarRating,
   Text,
   TextInput,
@@ -139,10 +139,10 @@ const LandingPage = () => {
       <br />
       <br />
       <div>SEARCH</div>
-      <Search
+      <InputButtonCombo
         value="some search value "
         onChange={() => {}}
-        onSearchStart={() => console.log("searching with")}
+        onEnterTrigger={() => console.log("searching with")}
       />
 
       <br />

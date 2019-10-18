@@ -1,34 +1,29 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { debounce } from "debounce";
-import styled from "styled-components";
 
-import { useQueryParam } from "src/utils/hooks/useQueryParam";
+import InputButtonCombo from "src/components/InputButtonCombo";
 
-import Search from "src/components/Search";
-
+/*******************************************************************
+ *                             **Types**                           *
+ *******************************************************************/
 export interface ISearchHandlerProps
   extends React.ComponentPropsWithoutRef<"div"> {
+  defaultSearchVal?: string;
   onNewSearchVal: (val: string) => void;
 }
 
-// TODO: get this working
-const StickySearch = styled(Search)``;
-
-export const SEARCH_VALUE_QUERY_PARAM_KEY = "q";
-
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const SearchHandler: React.FC<ISearchHandlerProps> = ({
+  defaultSearchVal,
   onNewSearchVal,
   ...rest
 }) => {
   /**
-   * Grab the query if it is provided in a query parameter.
-   */
-  const defaultQueryVal = useQueryParam(SEARCH_VALUE_QUERY_PARAM_KEY) as string; // search query to start with
-
-  /**
    * Track the current value in the search box.
    */
-  const [searchVal, setSearchVal] = useState(defaultQueryVal || "");
+  const [searchVal, setSearchVal] = useState(defaultSearchVal || "");
   const searchOnChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchVal(e.target.value);
@@ -36,7 +31,11 @@ const SearchHandler: React.FC<ISearchHandlerProps> = ({
     []
   );
 
-  // track debounce with ref (see https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
+  /**
+   * Store debounced callback function in a ref to prevent timeouts from being
+   * set and cleared on renders errantly.
+   * (see https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
+   */
   const debouncedLastSearchUpdater = useRef(debounce(onNewSearchVal, 1500));
   useEffect(() => {
     if (searchVal) {
@@ -45,10 +44,12 @@ const SearchHandler: React.FC<ISearchHandlerProps> = ({
   }, [searchVal]);
 
   return (
-    <StickySearch
+    <InputButtonCombo
+      placeholder="Find something"
       value={searchVal}
       onChange={searchOnChange}
-      onSearchStart={() => onNewSearchVal(searchVal)}
+      onEnterTrigger={() => onNewSearchVal(searchVal)}
+      buttonText="Search"
       {...rest}
     />
   );

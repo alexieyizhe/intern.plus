@@ -13,6 +13,8 @@ import {
 } from "src/types/generated/GetAllSearch";
 import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
+export const RESULTS_PER_PAGE = 10;
+
 /**
  * TODO: documentation
  */

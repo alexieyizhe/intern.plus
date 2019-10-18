@@ -87,6 +87,7 @@ const JobDisplay = () => {
           searched
           loading={loading}
           error={error !== undefined}
+          noMoreResults={false} // TODO: calculate this
           searchResults={filteredReviews}
         />
       </JobPageContainer>

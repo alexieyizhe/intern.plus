@@ -47,7 +47,7 @@ const getCardMarkup = (card: IGenericCardItem) => {
       />
     );
   } else if (isJobCardItem(card)) {
-    return undefined; // this doesnt appear on landing page so not needed (for now)
+    return; // this doesnt appear on landing page so not needed (for now)
     // return (
     //   <ResultsJobCard
     //     key={card.id}
@@ -90,7 +90,7 @@ const getCardMarkup = (card: IGenericCardItem) => {
     );
   }
 
-  return undefined; // should never happen
+  return; // should never happen
 };
 
 /*******************************************************************

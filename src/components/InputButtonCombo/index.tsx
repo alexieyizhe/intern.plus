@@ -5,13 +5,20 @@ import Button from "src/components/Button";
 import Text from "src/components/Text";
 import TextInput from "src/components/TextInput";
 
-export interface ISearchProps extends React.ComponentPropsWithoutRef<"div"> {
+export interface IInputButtonComboProps
+  extends React.ComponentPropsWithoutRef<"div"> {
+  inputColor?: string;
   placeholder?: string;
-  buttonText?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearchStart: () => void;
+  onEnterTrigger: () => void;
+
+  buttonColor?: string;
+  buttonText?: string;
+  buttonTextColor?: string;
 }
+
+const ENTER_KEY_CODE = 13;
 
 const Container = styled.div`
   position: relative;
@@ -32,32 +39,37 @@ const Container = styled.div`
   }
 `;
 
-const Search: React.FC<ISearchProps> = ({
-  placeholder = "Find something",
-  buttonText = "Search",
+const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
+  inputColor = "greyLight",
+  placeholder,
   value,
   onChange,
-  onSearchStart,
+  onEnterTrigger,
+  onKeyDown,
+  buttonColor = "greenDark",
+  buttonText,
+  buttonTextColor = "white",
   ...rest
 }) => {
   const internalOnKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.keyCode === 13) onSearchStart();
+      if (onKeyDown) onKeyDown(e); // make sure we don't break default original onKeyDown
+      if (e.keyCode === ENTER_KEY_CODE) onEnterTrigger();
     },
-    [onSearchStart]
+    [onEnterTrigger, onKeyDown]
   );
 
   return (
     <Container {...rest}>
       <TextInput
-        color="greyLight"
+        color={inputColor}
         variant="body"
         value={value}
         onChange={onChange}
         onKeyDown={internalOnKeyDown}
         placeholder={placeholder}
       />
-      <Button color="greenDark" onClick={onSearchStart}>
+      <Button color={buttonColor} onClick={onEnterTrigger}>
         <Text variant="body" color="white">
           {buttonText}
         </Text>
@@ -66,4 +78,4 @@ const Search: React.FC<ISearchProps> = ({
   );
 };
 
-export default Search;
+export default InputButtonCombo;

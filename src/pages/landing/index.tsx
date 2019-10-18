@@ -11,13 +11,13 @@ import { buildCompanyReviewCardsList } from "./graphql/utils";
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
+import { SEARCH_QUERY_PARAM } from "src/pages/search";
 import pageCopy from "./copy";
 
 import {
-  SEARCH_VALUE_QUERY_PARAM_KEY,
   Card,
   PageContainer as BasePageContainer,
-  Search,
+  InputButtonCombo,
   Text,
   Button,
 } from "src/components";
@@ -107,7 +107,7 @@ const TitleCardRight = styled.div`
   `}
 `;
 
-const SearchInput = styled(Search)`
+const SearchInput = styled(InputButtonCombo)`
   ${({ theme }) => theme.mediaQueries.tablet`
     display: none;
   `}
@@ -158,7 +158,7 @@ const LandingPage = () => {
     return (
       <Redirect
         to={`${RouteName.FIND}${
-          searchVal ? `?${SEARCH_VALUE_QUERY_PARAM_KEY}=${searchVal}` : ""
+          searchVal ? `?${SEARCH_QUERY_PARAM}=${searchVal}` : ""
         }`}
       />
     );
@@ -182,9 +182,11 @@ const LandingPage = () => {
             </div>
             <div>
               <SearchInput
+                placeholder="Find something"
                 value={searchVal}
                 onChange={searchOnChange}
-                onSearchStart={searchOnStart}
+                onEnterTrigger={searchOnStart}
+                buttonText="Search"
               />
               <SearchButton
                 onClick={() => history.push(RouteName.FIND)}

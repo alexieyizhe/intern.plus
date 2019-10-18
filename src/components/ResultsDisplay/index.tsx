@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 import { Planet, KawaiiMood } from "react-kawaii";
 import { default as AnimatedIcon } from "react-useanimations";
@@ -24,15 +24,25 @@ export interface IResultsDisplayProps
   searched: boolean; // has already searched once or more times
   loading: boolean;
   error: boolean;
-  page?: number;
+  noMoreResults: boolean;
   searchResults: IGenericCardItem[];
   onResultsEndReached?: () => void;
+}
+
+export enum SearchState {
+  INITIAL,
+  LOADING,
+  ERROR,
+  RESULTS,
+  NO_RESULTS,
+  NO_MORE_RESULTS,
 }
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const NO_RESULTS_TEXT = "No results were found.";
+const NO_MORE_RESULTS_TEXT = "All results have been shown.";
 const ERROR_OCCURRED_TEXT = "An error occurred while searching.";
 const START_SEARCH_TEXT =
   "There's nothing here. Type something to get started!";
@@ -46,40 +56,55 @@ const START_SEARCH_TEXT =
  * @param noResults `true` if the search query returned no results
  */
 const getMiscContent = (
-  searched: boolean,
-  loading: boolean,
-  error: boolean,
-  noResults: boolean
+  state: SearchState
 ): {
   mood: KawaiiMood;
   markup: JSX.Element;
 } => {
-  let mood: KawaiiMood = "blissful";
+  let mood: KawaiiMood = "shocked";
   let markup = <></>;
-  if (!searched) {
-    mood = "blissful";
-    markup = (
-      <Text variant="subheading" as="div">
-        {START_SEARCH_TEXT}
-      </Text>
-    );
-  } else if (loading) {
-    mood = "excited";
-    markup = <AnimatedIcon animationKey="loading" />;
-  } else if (error) {
-    mood = "ko";
-    markup = (
-      <Text variant="subheading" color="error" as="div">
-        {ERROR_OCCURRED_TEXT}
-      </Text>
-    );
-  } else if (noResults) {
-    mood = "sad";
-    markup = (
-      <Text variant="subheading" as="div">
-        {NO_RESULTS_TEXT}
-      </Text>
-    );
+
+  switch (state) {
+    case SearchState.INITIAL:
+      mood = "blissful";
+      markup = (
+        <Text variant="subheading" as="div" color="greyDark">
+          {START_SEARCH_TEXT}
+        </Text>
+      );
+      break;
+
+    case SearchState.LOADING:
+      mood = "excited";
+      markup = <AnimatedIcon animationKey="loading" />;
+      break;
+
+    case SearchState.ERROR:
+      mood = "ko";
+      markup = (
+        <Text variant="subheading" color="error" as="div">
+          {ERROR_OCCURRED_TEXT}
+        </Text>
+      );
+      break;
+
+    case SearchState.NO_RESULTS:
+      mood = "sad";
+      markup = (
+        <Text variant="subheading" as="div" color="greyDark">
+          {NO_RESULTS_TEXT}
+        </Text>
+      );
+      break;
+
+    case SearchState.NO_MORE_RESULTS:
+      mood = "sad";
+      markup = (
+        <Text variant="subheading" as="div" color="greyDark">
+          {NO_MORE_RESULTS_TEXT}
+        </Text>
+      );
+      break;
   }
 
   return { mood, markup };
@@ -147,7 +172,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
     );
   }
 
-  return undefined; // should never happen
+  return; // should never happen
 };
 
 /*******************************************************************
@@ -158,17 +183,25 @@ const Container = styled.section`
   flex-direction: column;
   align-items: center;
 
-  & > * {
-    margin: 10px auto;
-  }
+  padding: 30px 0;
 `;
 
-const MiscContentContainer = styled.div<{ show?: boolean }>`
-  display: ${({ show }) => (show ? "flex" : "none")};
+const MiscContent = styled.div<{ hide?: boolean }>`
+  display: ${({ hide }) => (hide ? "none" : "flex")};
   align-items: center;
   text-align: center;
 
-  margin-bottom: 15px;
+  margin: 20px auto 0 auto;
+`;
+
+const Results = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > * {
+    margin: 10px auto;
+  }
 `;
 
 const resultsCardStyles = css`
@@ -198,6 +231,9 @@ const ResultsJobCard = styled(JobCard)`
   `}
 `;
 
+// TODO: should loading indicator be displayed whenever user stops typing to show waiting and not just
+//       have a period of time where nothing happens before search activates?
+
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
@@ -205,40 +241,40 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
   searched,
   loading,
   error,
-  page,
+  noMoreResults,
   searchResults,
   onResultsEndReached,
   ...rest
 }) => {
-  const showMisc = useMemo(
-    () => !searched || loading || error || !searchResults.length,
-    [error, loading, searchResults.length, searched]
+  const curState = useMemo(() => {
+    if (error) return SearchState.ERROR;
+    if (loading) return SearchState.LOADING;
+    if (noMoreResults) return SearchState.NO_MORE_RESULTS;
+    if (searchResults.length === 0 && searched) return SearchState.NO_RESULTS;
+    if (searchResults.length > 0) return SearchState.RESULTS;
+
+    return SearchState.INITIAL;
+  }, [error, loading, noMoreResults, searchResults.length, searched]);
+
+  const { mood, markup } = useMemo(() => getMiscContent(curState), [curState]);
+
+  const shouldShowResults = useMemo(
+    () =>
+      curState === SearchState.RESULTS ||
+      curState === SearchState.NO_MORE_RESULTS,
+    [curState]
   );
-  // TODO: should loading indicator be displayed whenever user stops typing to show waiting and not just
-  //       have a period of time where nothing happens before search activates?
-
-  const [planetMood, setPlanetMood] = useState<KawaiiMood>("blissful");
-  const [miscMarkup, setMiscMarkup] = useState(<></>);
-
-  useEffect(() => {
-    const { mood, markup } = getMiscContent(
-      searched,
-      loading,
-      error,
-      !searchResults.length
-    );
-    setPlanetMood(mood);
-    setMiscMarkup(markup);
-  }, [error, loading, searchResults.length, searched]);
 
   return (
     <Container {...rest}>
-      <MiscContentContainer show={page === 1 && searchResults.length === 0}>
-        <Planet size={200} mood={planetMood} color="#DDDDDD" />
-      </MiscContentContainer>
+      <MiscContent hide={shouldShowResults}>
+        <Planet size={200} mood={mood} color="#DDDDDD" />
+      </MiscContent>
 
-      {searchResults.map(getResultCardMarkup)}
-      <MiscContentContainer show={showMisc}>{miscMarkup}</MiscContentContainer>
+      <Results>{searchResults.map(getResultCardMarkup)}</Results>
+
+      <MiscContent>{markup}</MiscContent>
+
       {searchResults.length > 0 && <Waypoint onEnter={onResultsEndReached} />}
     </Container>
   );

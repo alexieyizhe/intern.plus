@@ -6,14 +6,17 @@ import {
   reviewResultJobFragment,
 } from "src/api/fragments";
 
+import { RESULTS_PER_PAGE } from "./utils";
+
 // gets all results (company, job, review) matching query
 export const GET_ALL_SEARCH = gql`
-  query GetAllSearch($query: String) {
+  query GetAllSearch($query: String, $skip: Int) {
     companiesList(
       filter: {
         OR: [{ name: { contains: $query } }, { desc: { contains: $query } }]
       }
-      first: 10
+      skip: $skip
+      first: ${RESULTS_PER_PAGE}
     ) {
       items {
         ...CompanyResult
@@ -28,7 +31,8 @@ export const GET_ALL_SEARCH = gql`
           { jobLocation: { contains: $query } }
         ]
       }
-      first: 10
+      skip: $skip
+      first: ${RESULTS_PER_PAGE}
     ) {
       items {
         ...JobResult
@@ -45,7 +49,8 @@ export const GET_ALL_SEARCH = gql`
           { author: { contains: $query } }
         ]
       }
-      first: 10
+      skip: $skip
+      first: ${RESULTS_PER_PAGE}
     ) {
       items {
         ...ReviewResultJob
@@ -65,7 +70,7 @@ export const GET_COMPANIES_SEARCH = gql`
         OR: [{ name: { contains: $query }, desc: { contains: $query } }]
       }
       skip: $skip
-      first: 10
+      first: ${RESULTS_PER_PAGE}
     ) {
       items {
         ...CompanyResult
@@ -77,7 +82,7 @@ export const GET_COMPANIES_SEARCH = gql`
 `;
 
 export const GET_JOBS_SEARCH = gql`
-  query GetJobsSearch($query: String) {
+  query GetJobsSearch($query: String, $skip: Int) {
     jobsList(
       filter: {
         OR: [
@@ -86,7 +91,8 @@ export const GET_JOBS_SEARCH = gql`
           { jobLocation: { contains: $query } }
         ]
       }
-      first: 10
+      skip: $skip
+      first: ${RESULTS_PER_PAGE}
     ) {
       items {
         ...JobResult
@@ -98,7 +104,7 @@ export const GET_JOBS_SEARCH = gql`
 `;
 
 export const GET_REVIEWS_SEARCH = gql`
-  query GetReviewsSearch($query: String) {
+  query GetReviewsSearch($query: String, $skip: Int) {
     reviewsList(
       filter: {
         OR: [
@@ -109,7 +115,8 @@ export const GET_REVIEWS_SEARCH = gql`
           { author: { contains: $query } }
         ]
       }
-      first: 10
+      skip: $skip
+      irst: ${RESULTS_PER_PAGE}
     ) {
       items {
         ...ReviewResultJob
