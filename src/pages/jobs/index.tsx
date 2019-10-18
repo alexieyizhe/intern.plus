@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 
 import { RouteName } from "src/utils/routes";
+import { TYPE_FILTER, SearchType } from "src/pages/search";
+
 import JobPage from "./components/JobPage";
 
 /**
@@ -26,7 +28,9 @@ const JobsPage = () => {
         </Route>
 
         <Route path={match.path}>
-          <Redirect to={`${RouteName.FIND}${RouteName.JOBS}`} />
+          <Redirect
+            to={`${RouteName.FIND}?${TYPE_FILTER}=${SearchType.JOBS}`}
+          />
         </Route>
       </Switch>
     </>

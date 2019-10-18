@@ -11,7 +11,12 @@ import { useQueryParam, StringParam } from "use-query-params";
 import { debounce } from "debounce";
 
 import { GetAllSearch } from "src/types/generated/GetAllSearch";
-import { GET_ALL_SEARCH } from "./graphql/queries";
+import {
+  GET_ALL_SEARCH,
+  GET_COMPANIES_SEARCH,
+  GET_JOBS_SEARCH,
+  GET_REVIEWS_SEARCH,
+} from "./graphql/queries";
 import { buildSearchResultCardsList, RESULTS_PER_PAGE } from "./graphql/utils";
 
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
@@ -25,10 +30,37 @@ import {
 } from "src/components";
 import { IGenericCardItem } from "src/types";
 
+export enum SearchType {
+  COMPANIES = "companies",
+  JOBS = "jobs",
+  REVIEWS = "reviews",
+}
+
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-export const SEARCH_QUERY_PARAM = "q";
+export const QUERY_FILTER = "q";
+export const TYPE_FILTER = "t";
+// TODO: add more filters!
+
+const useSearchParams = () => {
+  /**
+   * Query parameter stores the value of the search query.
+   */
+  const [searchQuery, setSearchQuery] = useQueryParam(
+    QUERY_FILTER,
+    StringParam
+  );
+
+  const [searchType, setSearchType] = useQueryParam(TYPE_FILTER, StringParam);
+
+  return {
+    searchQuery,
+    searchType: searchType as SearchType,
+    setSearchQuery,
+    setSearchType,
+  };
+};
 
 /**
  * Creates markup for the title in the tab bar.
@@ -36,19 +68,97 @@ export const SEARCH_QUERY_PARAM = "q";
 const getTitleMarkup = (query?: string) =>
   query ? `Search | ${query}` : `Tugboat | Search`;
 
+/**
+ * Creates markup for the heading when no search is performed yet.
+ */
+const getDefaultHeading = (type?: SearchType) =>
+  type ? (
+    <>
+      <Text
+        variant="heading1"
+        color="greyDark"
+      >{`${pageCopy.heading.typeInitialHeading}`}</Text>
+      &nbsp;&nbsp;
+      <Text variant="heading1">{type}</Text>
+    </>
+  ) : (
+    <Text variant="heading1">{pageCopy.heading.defaultInitialHeading}</Text>
+  );
+
+/**
+ * Creates markup for the heading based on all search parameters.
+ */
+const useHeadingMarkup = () => {
+  const { searchQuery, searchType } = useSearchParams();
+
+  if (!searchQuery) return getDefaultHeading(searchType);
+
+  let prefix = "";
+  let start: string = pageCopy.heading.searchedHeading;
+
+  // query exists
+  switch (searchType) {
+    case SearchType.COMPANIES:
+      prefix = "Company ";
+      break;
+
+    case SearchType.JOBS:
+      prefix = "Job ";
+      break;
+
+    case SearchType.REVIEWS:
+      prefix = "Reviews ";
+      break;
+  }
+
+  if (prefix) start = start.toLowerCase();
+
+  return (
+    <>
+      <Text variant="heading1" color="greyDark">{`${prefix}${start} '`}</Text>
+      <Text variant="heading1">{searchQuery}</Text>
+      <Text variant="heading1" color="greyDark">
+        '
+      </Text>
+    </>
+  );
+};
+
+/**
+ * Gets the correct graphQL query based on the type of search
+ * @param type type of search being performed
+ */
+const getQuery = (type?: SearchType) => {
+  switch (type) {
+    case "companies":
+      return GET_COMPANIES_SEARCH;
+
+    case "jobs":
+      return GET_JOBS_SEARCH;
+
+    case "reviews":
+      return GET_REVIEWS_SEARCH;
+
+    default:
+      return GET_ALL_SEARCH;
+  }
+};
+
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
 const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
-  /**
-   * Grab the query if it is provided in a query parameter.
-   */
-  const [searchQuery, setSearchQuery] = useQueryParam(
-    SEARCH_QUERY_PARAM,
-    StringParam
-  ); // search query to start with
+  const {
+    searchQuery,
+    searchType,
+
+    setSearchQuery,
+    setSearchType, // TODO: add ability to toggle filters
+  } = useSearchParams();
+
+  const headingMarkup = useHeadingMarkup();
 
   const [inputVal, setInputVal] = useState(searchQuery);
   const [searchResults, setSearchResults] = useState<IGenericCardItem[]>([]);
@@ -95,7 +205,8 @@ const GenericSearchPage: React.FC = () => {
    * We debounce the onChange call in SearchHandler, so this API
    * call is not made excessively.
    */
-  const { loading, error, data } = useQuery<GetAllSearch>(GET_ALL_SEARCH, {
+  const QUERY = useMemo(() => getQuery(searchType), [searchType]);
+  const { loading, error, data } = useQuery<GetAllSearch>(QUERY, {
     variables: {
       query: searchQuery,
       skip: (page - 1) * RESULTS_PER_PAGE,
@@ -122,8 +233,8 @@ const GenericSearchPage: React.FC = () => {
 
       /**
        * Check whether or not there are more results to be fetched.
-       * If not, indicate that so we can display it and prevent further
-       * API calls with the same query.
+       * If not, indicate that so we can display it to the user and
+       * prevent further API calls with the same query.
        */
       if (newResults.length < RESULTS_PER_PAGE) {
         setNoMoreResults(true);
@@ -139,14 +250,14 @@ const GenericSearchPage: React.FC = () => {
         <title>{getTitleMarkup(searchQuery)}</title>
       </Helmet>
       <PageContainer>
-        <Text variant="heading1">{pageCopy.defaultHeading}</Text>
+        <div>{headingMarkup}</div>
 
         <InputButtonCombo
-          placeholder="Find something"
+          placeholder={pageCopy.searchInputPlaceholderText}
           value={inputVal || ""}
           onChange={onInputChange}
           onEnterTrigger={() => onNewSearch(inputVal)}
-          buttonText="Search"
+          buttonText={pageCopy.searchButtonText}
         />
 
         <ResultsDisplay

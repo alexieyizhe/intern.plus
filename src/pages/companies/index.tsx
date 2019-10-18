@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 
 import { RouteName } from "src/utils/routes";
+import { TYPE_FILTER, SearchType } from "src/pages/search";
+
 import CompanyPage from "./components/CompanyPage";
 
 /**
@@ -26,7 +28,9 @@ const CompaniesPage = () => {
         </Route>
 
         <Route path={match.path}>
-          <Redirect to={`${RouteName.FIND}${RouteName.COMPANIES}`} />
+          <Redirect
+            to={`${RouteName.FIND}?${TYPE_FILTER}=${SearchType.COMPANIES}`}
+          />
         </Route>
       </Switch>
     </>

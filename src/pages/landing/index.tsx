@@ -11,7 +11,7 @@ import { buildCompanyReviewCardsList } from "./graphql/utils";
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/routes";
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { SEARCH_QUERY_PARAM } from "src/pages/search";
+import { QUERY_FILTER } from "src/pages/search";
 import pageCopy from "./copy";
 
 import {
@@ -158,7 +158,7 @@ const LandingPage = () => {
     return (
       <Redirect
         to={`${RouteName.FIND}${
-          searchVal ? `?${SEARCH_QUERY_PARAM}=${searchVal}` : ""
+          searchVal ? `?${QUERY_FILTER}=${searchVal}` : ""
         }`}
       />
     );

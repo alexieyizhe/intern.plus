@@ -1,8 +1,11 @@
 const pageCopy = {
-  defaultHeading: "Looking for something?",
-  searchingHeadingPrefix: "Search results for",
-  typeFilterHeadingPrefix: "Browse",
-  reachedEnd: "All results have been shown.",
+  heading: {
+    defaultInitialHeading: "Looking for something?",
+    typeInitialHeading: "Browse",
+    searchedHeading: "Results for",
+  },
+  searchInputPlaceholderText: "Find something",
+  searchButtonText: "Search",
 };
 
 export default pageCopy;
