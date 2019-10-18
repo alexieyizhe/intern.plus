@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
+
 import { IJobDetails, IReviewUserCardItem } from "src/types";
 import { GetJobDetails_job } from "src/types/generated/GetJobDetails";
 import {
   GetJobReviews,
   GetJobReviews_job_reviews_items,
 } from "src/types/generated/GetJobReviews";
-
 import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 TimeAgo.addLocale(en);
@@ -45,10 +45,7 @@ export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
 
 export const buildJobReviewsCardList = (
   data?: GetJobReviews
-): IReviewUserCardItem[] => {
-  if (data && data.job && data.job.reviews) {
-    return data.job.reviews.items.map(buildJobReviewsCard);
-  }
-
-  return [];
-};
+): IReviewUserCardItem[] =>
+  data && data.job && data.job.reviews
+    ? data.job.reviews.items.map(buildJobReviewsCard)
+    : [];

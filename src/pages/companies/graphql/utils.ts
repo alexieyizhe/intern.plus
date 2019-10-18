@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { ICompanyDetails, IJobCardItem } from "src/types";
+import { GetCompanyDetails_company } from "src/types/generated/GetCompanyDetails";
 import {
-  GetCompanyDetails_company,
-  GetCompanyDetails_company_jobs_items,
-} from "src/types/generated/GetCompanyDetails";
+  GetCompanyJobs,
+  GetCompanyJobs_company_jobs_items,
+} from "src/types/generated/GetCompanyJobs";
 import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 /**
@@ -20,17 +21,23 @@ export const buildCompanyDetails = (
   color: getPastelColor(),
 });
 
+export const buildCompanyJobCard = (
+  item: GetCompanyJobs_company_jobs_items
+) => ({
+  id: item.id || "",
+  name: item.name || "",
+  location: item.jobLocation || "",
+  minHourlySalary: item.minHourlySalary || 0,
+  maxHourlySalary: item.maxHourlySalary || 0,
+  salaryCurrency: item.salaryCurrency || "CAD",
+  numRatings: item.reviews ? item.reviews.count : 0,
+  avgRating: item.avgRating || 0,
+  color: getDarkColor(),
+});
+
 export const buildCompanyJobCardsList = (
-  jobList: GetCompanyDetails_company_jobs_items[]
+  data?: GetCompanyJobs
 ): IJobCardItem[] =>
-  jobList.map(job => ({
-    id: job.id || "",
-    name: job.name || "",
-    location: job.jobLocation || "",
-    minHourlySalary: job.minHourlySalary || 0,
-    maxHourlySalary: job.maxHourlySalary || 0,
-    salaryCurrency: job.salaryCurrency || "CAD",
-    numRatings: job.reviews ? job.reviews.count : 0,
-    avgRating: job.avgRating || 0,
-    color: getDarkColor(),
-  }));
+  data && data.company && data.company.jobs
+    ? data.company.jobs.items.map(buildCompanyJobCard)
+    : [];

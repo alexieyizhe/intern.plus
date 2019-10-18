@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
@@ -65,6 +64,9 @@ const JobPage = () => {
     [detailsData]
   );
 
+  /**
+   * For reviews of the job.
+   */
   const {
     searchQuery,
 
