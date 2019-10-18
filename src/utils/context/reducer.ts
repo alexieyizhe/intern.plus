@@ -7,6 +7,18 @@ export interface IReducerDispatch {
 
 export const reducer: IReducerDispatch = (state, action) => {
   switch (action.type) {
+    case ActionType.CLOSE_MOBILE_MENU:
+      return {
+        ...state,
+        mobileMenuOpen: false,
+      };
+
+    case ActionType.TOGGLE_MOBILE_MENU:
+      return {
+        ...state,
+        mobileMenuOpen: !state.mobileMenuOpen,
+      };
+
     case ActionType.TOGGLE_EASTER_EGG:
       return {
         ...state,

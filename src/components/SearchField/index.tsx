@@ -4,6 +4,7 @@ import { debounce } from "debounce";
 
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
 import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
+import { useSiteContext } from "src/utils/context";
 
 import InputButtonCombo from "src/components/InputButtonCombo";
 
@@ -18,7 +19,7 @@ const Container = styled(InputButtonCombo)`
   position: sticky;
   top: 90px;
 
-  z-index: ${({ theme }) => theme.zIndex.header};
+  z-index: ${({ theme }) => theme.zIndex.header - 1};
 
   &::after {
     content: "";
@@ -31,7 +32,7 @@ const Container = styled(InputButtonCombo)`
     border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: all 150ms ease-in;
+    transition: opacity 150ms ease-in;
     opacity: 0;
   }
 
@@ -47,6 +48,10 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   onTriggerSearch,
   ...rest
 }) => {
+  const {
+    state: { mobileMenuOpen },
+  } = useSiteContext();
+
   const [, scrollY] = useWindowScrollPos();
   const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
 
@@ -74,7 +79,9 @@ const SearchField: React.FC<ISearchFieldProps> = ({
 
   return (
     <Container
-      className={`${scrolledDown ? "scrolled" : ""}`}
+      className={`${scrolledDown ? "scrolled" : ""} ${
+        mobileMenuOpen ? "mobileMenuOpen" : ""
+      }`}
       placeholder="Find something"
       value={inputVal || ""}
       onChange={onInputChange}

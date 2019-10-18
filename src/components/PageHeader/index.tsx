@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { useLocation, useHistory } from "react-router-dom";
 
 import { Size } from "src/theme/constants";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/utils/constants";
+import { useSiteContext } from "src/utils/context";
 import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
 import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
@@ -14,6 +15,7 @@ import { LogoBlack, EditIcon, MobileMenuChevronImg } from "src/assets";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 import { UnstyledButton } from "src/components/Button";
+import { ActionType } from "src/utils/context/actions";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -220,11 +222,18 @@ const Header: React.FC = () => {
    * Keeps track of whether the mobile menu is open or not.
    * Only applies to mobile devices.
    */
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
+  const {
+    state: { mobileMenuOpen },
+    dispatch,
+  } = useSiteContext();
+
+  const closeMobileMenu = useCallback(
+    () => dispatch({ type: ActionType.CLOSE_MOBILE_MENU }),
+    [dispatch]
+  );
   const toggleMobileMenu = useCallback(
-    () => setMobileMenuOpen(prevOpen => !prevOpen),
-    []
+    () => dispatch({ type: ActionType.TOGGLE_MOBILE_MENU }),
+    [dispatch]
   );
 
   /**

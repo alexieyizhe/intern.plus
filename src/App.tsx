@@ -13,6 +13,7 @@ import apolloClient from "src/api/client";
 import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/utils/constants";
+import { SiteContextProvider } from "src/utils/context";
 
 import { PageHeader, PageFooter } from "src/components";
 import LandingPage from "src/pages/landing";
@@ -79,17 +80,19 @@ const AppSwitch: React.FC = () => {
 const App: React.FC = () => (
   <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={siteTheme}>
-      <Router>
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <div className="App">
-            <GlobalStyles />
+      <SiteContextProvider>
+        <Router>
+          <QueryParamProvider ReactRouterRoute={Route}>
+            <div className="App">
+              <GlobalStyles />
 
-            <PageHeader />
-            <AppSwitch />
-            <PageFooter />
-          </div>
-        </QueryParamProvider>
-      </Router>
+              <PageHeader />
+              <AppSwitch />
+              <PageFooter />
+            </div>
+          </QueryParamProvider>
+        </Router>
+      </SiteContextProvider>
     </ThemeProvider>
   </ApolloProvider>
 );
