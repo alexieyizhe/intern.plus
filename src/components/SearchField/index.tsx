@@ -1,17 +1,45 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useMemo } from "react";
+import styled from "styled-components";
 import { debounce } from "debounce";
 
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
+import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
+import { useSiteContext } from "src/utils/context";
 
 import InputButtonCombo from "src/components/InputButtonCombo";
 
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
-export interface ISearchFieldProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+export interface ISearchFieldProps extends React.ComponentPropsWithRef<"div"> {
   onTriggerSearch: (val: string) => void;
 }
+
+const Container = styled(InputButtonCombo)`
+  position: sticky;
+  top: 90px;
+
+  z-index: ${({ theme }) => theme.zIndex.header - 1};
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+
+    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    box-shadow: ${({ theme }) => theme.boxShadow.hover};
+
+    transition: opacity 150ms ease-in;
+    opacity: 0;
+  }
+
+  &.scrolled::after {
+    opacity: 1;
+  }
+`;
 
 /*******************************************************************
  *                           **Component**                         *
@@ -21,9 +49,14 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   ...rest
 }) => {
   const {
-    searchQuery,
-    // setSearchType, TODO: add ability to toggle filters
-  } = useSearchParams();
+    state: { mobileMenuOpen },
+  } = useSiteContext();
+
+  const [, scrollY] = useWindowScrollPos();
+  const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
+
+  const { searchQuery } = useSearchParams();
+
   /**
    * Stores the current value in the search input.
    * Note that this is NOT the same as the current query, which is the last
@@ -45,7 +78,10 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   );
 
   return (
-    <InputButtonCombo
+    <Container
+      className={`${scrolledDown ? "scrolled" : ""} ${
+        mobileMenuOpen ? "mobileMenuOpen" : ""
+      }`}
       placeholder="Find something"
       value={inputVal || ""}
       onChange={onInputChange}

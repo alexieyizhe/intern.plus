@@ -21,3 +21,32 @@ export const GET_COMPANY_DETAILS = gql`
 
   ${jobResultFragment}
 `;
+
+export const GET_COMPANY_JOBS = gql`
+  query GetCompanyJobs(
+    $slug: String
+    $query: String
+    $offset: Int
+    $limit: Int
+  ) {
+    company(slug: $slug) {
+      jobs(
+        filter: {
+          OR: [
+            { name: { contains: $query } }
+            { jobLocation: { contains: $query } }
+          ]
+        }
+        sort: { name: DESC }
+        skip: $offset
+        first: $limit
+      ) {
+        items {
+          ...JobResult
+        }
+      }
+    }
+  }
+
+  ${jobResultFragment}
+`;

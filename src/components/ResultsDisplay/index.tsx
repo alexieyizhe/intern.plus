@@ -26,7 +26,7 @@ export interface IResultsDisplayProps
   error: boolean;
   noMoreResults: boolean;
   searchResults: IGenericCardItem[];
-  onResultsEndReached?: () => void;
+  onResultsEndReached: () => void;
 }
 
 export enum DisplayState {
@@ -68,7 +68,7 @@ const getMiscContent = (
     case DisplayState.INITIAL:
       mood = "blissful";
       markup = (
-        <Text variant="subheading" as="div" color="greyDark">
+        <Text variant="subheading" as="div" align="center" color="greyDark">
           {START_SEARCH_TEXT}
         </Text>
       );
@@ -82,7 +82,7 @@ const getMiscContent = (
     case DisplayState.ERROR:
       mood = "ko";
       markup = (
-        <Text variant="subheading" color="error" as="div">
+        <Text variant="subheading" as="div" align="center" color="error">
           {ERROR_OCCURRED_TEXT}
         </Text>
       );
@@ -91,7 +91,7 @@ const getMiscContent = (
     case DisplayState.NO_RESULTS:
       mood = "sad";
       markup = (
-        <Text variant="subheading" as="div" color="greyDark">
+        <Text variant="subheading" as="div" align="center" color="greyDark">
           {NO_RESULTS_TEXT}
         </Text>
       );
@@ -100,7 +100,7 @@ const getMiscContent = (
     case DisplayState.NO_MORE_RESULTS:
       mood = "sad";
       markup = (
-        <Text variant="subheading" as="div" color="greyDark">
+        <Text variant="subheading" as="div" align="center" color="greyDark">
           {NO_MORE_RESULTS_TEXT}
         </Text>
       );
@@ -183,29 +183,19 @@ const Container = styled.section`
   flex-direction: column;
   align-items: center;
 
-  padding: 30px 0;
-`;
-
-const MiscContent = styled.div<{ hide?: boolean }>`
-  display: ${({ hide }) => (hide ? "none" : "flex")};
-  align-items: center;
-  text-align: center;
-
-  margin: 20px auto 0 auto;
-`;
-
-const Results = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 30px 60px;
 
   & > * {
     margin: 10px auto;
   }
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    padding: 20px 0;
+  `}
 `;
 
 const resultsCardStyles = css`
-  width: 650px;
+  width: 100%;
   height: 180px;
 
   ${({ theme }) => theme.mediaQueries.tablet`
@@ -217,6 +207,7 @@ const resultsCardStyles = css`
     height: 250px;
   `}
 `;
+
 const ResultsCompanyCard = styled(CompanyCard)`
   ${resultsCardStyles}
 `;
@@ -230,9 +221,6 @@ const ResultsJobCard = styled(JobCard)`
     height: 180px;
   `}
 `;
-
-// TODO: after debouncing is implemented, loading indicator should be displayed whenever user stops typing to
-//       avoid nothing happening in the period of time before search call is triggered
 
 /*******************************************************************
  *                           **Component**                         *
@@ -268,13 +256,13 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
 
   return (
     <Container {...rest}>
-      <MiscContent hide={shouldShowResults}>
+      <div hidden={shouldShowResults}>
         <Planet size={200} mood={mood} color="#DDDDDD" />
-      </MiscContent>
+      </div>
 
-      <Results>{searchResults.map(getResultCardMarkup)}</Results>
+      {searchResults.map(getResultCardMarkup)}
 
-      <MiscContent>{markup}</MiscContent>
+      {markup}
 
       {searchResults.length > 0 && !noMoreResults && (
         <Waypoint onEnter={onResultsEndReached} />

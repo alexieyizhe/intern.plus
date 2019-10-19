@@ -8,6 +8,7 @@
 
 export interface GetReviewDetails_review_job {
   __typename: "Job";
+  id: string | null;
   /**
    * Title of a job.
    */
@@ -21,6 +22,10 @@ export interface GetReviewDetails_review_company {
    * Name of a company.
    */
   name: string | null;
+  /**
+   * Unique slug for a company.
+   */
+  slug: string | null;
   logoSrc: string | null;
 }
 

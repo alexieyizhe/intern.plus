@@ -12,7 +12,7 @@ import { GetReviewDetails } from "src/types/generated/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
 import { buildReviewDetails } from "../graphql/utils";
 
-import { Card, Text, StarRating, UnstyledButton } from "src/components";
+import { Card, Link, Text, StarRating, UnstyledButton } from "src/components";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -41,17 +41,25 @@ const getDetailsMarkup = (
       <>
         <FlexRowContainer>
           <div>
-            <Text variant="heading1" as="h1">
-              {details.jobName}
-            </Text>
-            <Text variant="heading3" as="div" color="greyDark">
-              {`${details.companyName} | ${details.location}`}
+            <Link to={`${RouteName.JOBS}/${details.jobId}`} bare>
+              <Text variant="heading1" as="h1">
+                {details.jobName}
+              </Text>
+            </Link>
+            <Link to={`${RouteName.COMPANIES}/${details.companySlug}`} bare>
+              <Text variant="heading3">{details.companyName}</Text>
+            </Link>
+            <span className="separator">&nbsp;{" • "}&nbsp;</span>
+            <Text className="location" variant="heading3" color="greyDark">
+              {details.location}
             </Text>
           </div>
-          <LogoImg
-            src={details.logoSrc}
-            alt={`Logo of ${details.companyName}`}
-          />
+          <Link to={`${RouteName.COMPANIES}/${details.companySlug}`} bare>
+            <LogoImg
+              src={details.logoSrc}
+              alt={`Logo of ${details.companyName}`}
+            />
+          </Link>
         </FlexRowContainer>
 
         <ReviewPrefixContainer>
@@ -185,6 +193,14 @@ const Container = styled(Card)`
 
     & h1 {
       font-size: ${theme.fontSize[Size.LARGE]}px;
+    }
+
+    & .separator {
+      display: none;
+    }
+
+    & .location {
+      display: block;
     }
   `}
 `;

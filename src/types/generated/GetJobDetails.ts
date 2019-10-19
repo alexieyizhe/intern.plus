@@ -12,27 +12,10 @@ export interface GetJobDetails_job_company {
    * Name of a company.
    */
   name: string | null;
-}
-
-export interface GetJobDetails_job_reviews_items {
-  __typename: "Review";
-  id: string | null;
   /**
-   * Overall score of the job in a review.
+   * Unique slug for a company.
    */
-  overallRating: number | null;
-  /**
-   * Contents of a review.
-   */
-  body: string | null;
-  /**
-   * Tags to provide additional information for a review. Represented by a single
-   * string, with commas (",") as delimiters between tags.
-   */
-  tags: string | null;
-  author: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
+  slug: string | null;
 }
 
 export interface GetJobDetails_job_reviews {
@@ -41,10 +24,6 @@ export interface GetJobDetails_job_reviews {
    * List items count
    */
   count: number;
-  /**
-   * List items
-   */
-  items: GetJobDetails_job_reviews_items[];
 }
 
 export interface GetJobDetails_job {

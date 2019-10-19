@@ -6,7 +6,7 @@ import Text from "src/components/Text";
 import TextInput from "src/components/TextInput";
 
 export interface IInputButtonComboProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+  extends React.ComponentPropsWithRef<"div"> {
   inputColor?: string;
   placeholder?: string;
   value: string;

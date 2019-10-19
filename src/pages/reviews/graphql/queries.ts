@@ -8,11 +8,13 @@ export const GET_REVIEW_DETAILS = gql`
       body
       tags
       job {
+        id
         name
         jobLocation
       }
       company {
         name
+        slug
         logoSrc
       }
       salary

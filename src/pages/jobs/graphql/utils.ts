@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
+
 import { IJobDetails, IReviewUserCardItem } from "src/types";
+import { GetJobDetails_job } from "src/types/generated/GetJobDetails";
 import {
-  GetJobDetails_job,
-  GetJobDetails_job_reviews_items,
-} from "src/types/generated/GetJobDetails";
+  GetJobReviews,
+  GetJobReviews_job_reviews_items,
+} from "src/types/generated/GetJobReviews";
 import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 TimeAgo.addLocale(en);
@@ -19,6 +21,7 @@ const timeAgo = new TimeAgo("en-US");
 export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   name: job.name || "",
   companyName: job.company ? job.company.name || "" : "",
+  companySlug: job.company ? job.company.slug || "" : "",
   location: job.jobLocation || undefined,
   numRatings: job.reviews ? job.reviews.count : 0,
   avgRating: job.avgRating || 0,
@@ -31,15 +34,19 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   color: getPastelColor(),
 });
 
+export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
+  id: item.id || "",
+  authorName: item.author || "Anonymous",
+  date: timeAgo.format(new Date(item.updatedAt || item.createdAt || "")),
+  overallRating: item.overallRating || 0,
+  body: item.body || "",
+  tags: item.tags || "",
+  color: getDarkColor(),
+});
+
 export const buildJobReviewsCardList = (
-  reviewList: GetJobDetails_job_reviews_items[]
+  data?: GetJobReviews
 ): IReviewUserCardItem[] =>
-  reviewList.map(review => ({
-    id: review.id || "",
-    authorName: review.author || "Anonymous",
-    date: timeAgo.format(new Date(review.updatedAt || review.createdAt || "")),
-    overallRating: review.overallRating || 0,
-    body: review.body || "",
-    tags: review.tags || "",
-    color: getDarkColor(),
-  }));
+  data && data.job && data.job.reviews
+    ? data.job.reviews.items.map(buildJobReviewsCard)
+    : [];

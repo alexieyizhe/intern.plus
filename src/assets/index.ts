@@ -4,7 +4,8 @@
 export { default as LogoBlack } from "./img/logo.png";
 export { default as LogoTwoTone } from "./img/logo-twotone.png";
 
-export { default as EditIcon } from "./img/icon-edit.svg";
+export { default as EditIcon } from "./img/icons/edit.svg";
+export { default as XCloseIcon } from "./img/icons/x-close.svg";
 
 export { default as LandingDockImg } from "./img/landing-main.jpg";
 

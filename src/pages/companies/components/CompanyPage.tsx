@@ -1,12 +1,17 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import { GetCompanyDetails } from "src/types/generated/GetCompanyDetails";
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { GET_COMPANY_DETAILS } from "../graphql/queries";
+import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
+import { RESULTS_PER_PAGE } from "src/utils/constants";
+
+import { IJobCardItem } from "src/types";
+import { GetCompanyDetails } from "src/types/generated/GetCompanyDetails";
+import { GetCompanyJobs } from "src/types/generated/GetCompanyJobs";
+import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";
 import {
   buildCompanyDetails,
   buildCompanyJobCardsList,
@@ -14,6 +19,19 @@ import {
 
 import { PageContainer, ResultsDisplay } from "src/components";
 import CompanyDetailsCard from "./CompanyDetailsCard";
+
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
+/**
+ * Creates markup for the title in the tab bar.
+ */
+const getTitleMarkup = (name?: string) => `Tugboat${name ? ` | ${name}` : ""}`;
+
+const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
+  job.name.toLowerCase().includes(filterBy) ||
+  job.location.toLowerCase().includes(filterBy) ||
+  job.salaryCurrency.toLowerCase().includes(filterBy);
 
 /*******************************************************************
  *                             **Styles**                          *
@@ -29,75 +47,88 @@ const CompanyPage = () => {
   useScrollTopOnMount();
 
   /**
-   * Fetch the company with the corresponding slug. Store
-   * the job results for use in searching.
+   * Fetch the company with the corresponding slug.
    */
   const { companySlug } = useParams();
-  const { loading, error, data } = useQuery<GetCompanyDetails>(
-    GET_COMPANY_DETAILS,
-    {
-      variables: { slug: companySlug },
-    }
-  );
+  const {
+    loading: detailsLoading,
+    error: detailsError,
+    data: detailsData,
+  } = useQuery<GetCompanyDetails>(GET_COMPANY_DETAILS, {
+    variables: { slug: companySlug },
+  });
 
   const companyDetails = useMemo(
     () =>
-      data && data.company ? buildCompanyDetails(data.company) : undefined,
-    [data]
-  );
-
-  const jobs = useMemo(
-    () =>
-      data && data.company && data.company.jobs
-        ? buildCompanyJobCardsList(data.company.jobs.items)
-        : [],
-    [data]
+      detailsData && detailsData.company
+        ? buildCompanyDetails(detailsData.company)
+        : undefined,
+    [detailsData]
   );
 
   /**
-   * Track the last searched value. This is useful for only filtering results after
-   * a set amount of time after user has stopped typing. Then filter jobs
-   * by the searched value whenever last search value changes.
+   * For jobs at the company.
    */
-  const [lastSearchedVal, setLastSearchedVal] = useState("");
-  const onTriggerSearch = useCallback(
-    (newVal: string) => setLastSearchedVal(newVal),
-    []
-  );
-  const filteredJobs = useMemo(
-    () =>
-      jobs.filter(
-        job =>
-          job.name.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
-          job.location.toLowerCase().includes(lastSearchedVal.toLowerCase()) ||
-          job.salaryCurrency
-            .toLowerCase()
-            .includes(lastSearchedVal.toLowerCase())
-      ),
-    [jobs, lastSearchedVal]
-  );
+  const {
+    searchQuery,
+
+    page,
+    isEndOfResults,
+    isNewSearch,
+    isInitialSearch,
+
+    setIsEndOfResults,
+    onNewSearch,
+    onNextBatchSearch,
+  } = useSearch();
+
+  const {
+    loading: companyJobsLoading,
+    error: companyJobsError,
+    data: companyJobsData,
+  } = useQuery<GetCompanyJobs>(GET_COMPANY_JOBS, {
+    variables: {
+      slug: companySlug,
+      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all jobs
+      offset: (page - 1) * RESULTS_PER_PAGE,
+      limit: RESULTS_PER_PAGE,
+    },
+    skip: isInitialSearch, // do not make an API call if search query is empty (on initial load)
+  });
+
+  const companyJobs = useSearchResults(
+    isNewSearch,
+    setIsEndOfResults,
+    buildCompanyJobCardsList,
+    companyJobsData
+  ) as IJobCardItem[];
+
+  const filteredJobs = useMemo(() => {
+    const normalizedQuery = (searchQuery || "").toLowerCase();
+    const filterFn = reviewFilterer(normalizedQuery);
+    return companyJobs.filter(filterFn);
+  }, [companyJobs, searchQuery]);
 
   return (
     <>
       <Helmet>
-        <title>
-          Tugboat{companyDetails ? ` | ${companyDetails.name}` : ""}
-        </title>
+        <title>{getTitleMarkup(companyDetails && companyDetails.name)}</title>
       </Helmet>
+
       <CompanyPageContainer>
         <CompanyDetailsCard
-          loading={loading}
-          error={error !== undefined}
+          loading={detailsLoading}
+          error={detailsError !== undefined}
           companyDetails={companyDetails}
-          onTriggerSearch={onTriggerSearch}
+          onTriggerSearch={onNewSearch}
         />
-
         <ResultsDisplay
-          searched
-          loading={loading}
-          error={error !== undefined}
-          noMoreResults={false} // TODO: calculate this
+          searched={!isInitialSearch}
+          loading={companyJobsLoading}
+          error={companyJobsError !== undefined}
+          noMoreResults={isEndOfResults}
           searchResults={filteredJobs}
+          onResultsEndReached={onNextBatchSearch}
         />
       </CompanyPageContainer>
     </>

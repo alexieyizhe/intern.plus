@@ -13,6 +13,7 @@ import apolloClient from "src/api/client";
 import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/utils/constants";
+import { SiteContextProvider } from "src/utils/context";
 
 import { PageHeader, PageFooter } from "src/components";
 import LandingPage from "src/pages/landing";
@@ -23,7 +24,7 @@ import ReviewsPage from "src/pages/reviews";
 import NotFoundPage from "src/pages/404";
 
 import ReviewModal from "src/pages/reviews/components/ReviewModal";
-import AddReviewModal from "src/pages/add-review";
+import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 
 const AppSwitch: React.FC = () => {
   const location = useLocation();
@@ -69,9 +70,7 @@ const AppSwitch: React.FC = () => {
         <ReviewModal />
       </Route>
 
-      <Route path={`${RouteName.ADD}`}>
-        <AddReviewModal />
-      </Route>
+      <AddReviewModal />
     </>
   );
 };
@@ -79,17 +78,19 @@ const AppSwitch: React.FC = () => {
 const App: React.FC = () => (
   <ApolloProvider client={apolloClient}>
     <ThemeProvider theme={siteTheme}>
-      <Router>
-        <QueryParamProvider ReactRouterRoute={Route}>
-          <div className="App">
-            <GlobalStyles />
+      <SiteContextProvider>
+        <Router>
+          <QueryParamProvider ReactRouterRoute={Route}>
+            <div className="App">
+              <GlobalStyles />
 
-            <PageHeader />
-            <AppSwitch />
-            <PageFooter />
-          </div>
-        </QueryParamProvider>
-      </Router>
+              <PageHeader />
+              <AppSwitch />
+              <PageFooter />
+            </div>
+          </QueryParamProvider>
+        </Router>
+      </SiteContextProvider>
     </ThemeProvider>
   </ApolloProvider>
 );
