@@ -180,6 +180,10 @@ const jobFields = [
 
 const reviewFields = [
   {
+    label: "author",
+    value: () => "Anonymous",
+  },
+  {
     label: "authorId",
     value: "user_id",
   },
@@ -215,7 +219,7 @@ const reviewFields = [
   },
   {
     label: "jobName",
-    value: row => jobJsonFile.filter(job => job.id === row.job_id)[0].name,
+    value: row => jobJsonFile.filter(job => job.id === row.job_id)[0].title,
   },
   {
     label: "jobId",
