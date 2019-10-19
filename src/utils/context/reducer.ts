@@ -6,7 +6,6 @@ export interface IReducerDispatch {
 }
 
 export const reducer: IReducerDispatch = (state, action) => {
-  console.log(action);
   switch (action.type) {
     case ActionType.CLOSE_MOBILE_MENU:
       return {

@@ -1,8 +1,8 @@
-import React, { useCallback, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { Card, Text, HEADER_HEIGHT } from "src/components";
-import { useSiteContext, ActionType } from "src/utils/context";
+import { useSiteContext } from "src/utils/context";
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -13,7 +13,7 @@ const Container = styled(Card)`
   right: 50px;
   max-height: 85vh;
   max-width: 900px;
-  padding: 0;
+  padding: 35px 40px;
   
   display: flex;
   flex-direction: column;
@@ -31,11 +31,6 @@ const Container = styled(Card)`
     transform: translateY(0);
   }
 
-  & > .loading,
-  & > .error {
-    margin: auto;
-  }
-
   ${({ theme }) => theme.mediaQueries.medium`
     max-width: 80%;
   `}
@@ -47,19 +42,8 @@ const Container = styled(Card)`
 
   ${({ theme }) => theme.mediaQueries.xlMobile`
     max-width: 90%;
-    padding: 35px 40px;
+    padding: 20px 30px;
   `}
-`;
-
-const Disabled = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 40px 60px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 /*******************************************************************
@@ -68,19 +52,7 @@ const Disabled = styled.div`
 const AddReviewModal = () => {
   const {
     state: { addReviewModalOpen: modalOpen, mobileMenuOpen },
-    dispatch,
   } = useSiteContext();
-
-  const closeModal = useCallback(() => {
-    if (modalOpen) dispatch({ type: ActionType.CLOSE_ADD_REVIEW_MODAL });
-  }, [dispatch, modalOpen]);
-
-  /**
-   * Detect if a click outside the header has happened and if it has,
-   * close the mobile menu.
-   */
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  // useOnClickOutside(modalRef, closeModal);
 
   return (
     <Container
@@ -91,11 +63,9 @@ const AddReviewModal = () => {
       aria-hidden={modalOpen ? "false" : "true"}
       color="white"
     >
-      <Disabled ref={modalRef}>
-        <Text variant="subheading" color="error">
-          Adding reviews isn't currently supported, but is coming soon!
-        </Text>
-      </Disabled>
+      <Text variant="subheading" color="error">
+        Adding reviews isn't currently supported, but is coming soon!
+      </Text>
     </Container>
   );
 };

@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useRef, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
-import { debounce } from "debounce";
+// import { debounce } from "debounce";
 
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
 import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
@@ -68,20 +68,21 @@ const SearchField: React.FC<ISearchFieldProps> = ({
    * set and cleared on renders errantly.
    * (see https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
    */
-  const debouncedOnTriggerSearch = useRef(debounce(onTriggerSearch, 1500));
+  // const debouncedOnTriggerSearch = useRef(debounce(onTriggerSearch, 1500));
   const onInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputVal(e.target.value);
-      // debouncedLastSearchUpdater.current(e.target.value); TODO: enable this and test a lot
+      // debouncedLastSearchUpdater.current(e.target.value); TODO: enable this and test hella lol
     },
     []
   );
 
   return (
     <Container
-      className={`${scrolledDown ? "scrolled" : ""} ${
-        mobileMenuOpen ? "mobileMenuOpen" : ""
-      }`}
+      className={`
+        ${scrolledDown ? "scrolled" : ""} 
+        ${mobileMenuOpen ? "mobileMenuOpen" : ""}
+      `}
       placeholder="Find something"
       value={inputVal || ""}
       onChange={onInputChange}

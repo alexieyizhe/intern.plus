@@ -263,9 +263,10 @@ const Header: React.FC = () => {
 
   return (
     <Container
-      className={`${scrolledDown ? "scrolled" : ""} ${
-        mobileMenuOpen ? "mobileMenuOpen" : ""
-      }`}
+      className={`
+        ${scrolledDown ? "scrolled" : ""} 
+        ${mobileMenuOpen ? "mobileMenuOpen" : ""}
+      `}
       ref={headerRef}
     >
       <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
