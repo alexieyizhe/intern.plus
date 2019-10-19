@@ -24,7 +24,7 @@ import ReviewsPage from "src/pages/reviews";
 import NotFoundPage from "src/pages/404";
 
 import ReviewModal from "src/pages/reviews/components/ReviewModal";
-import AddReviewModal from "src/pages/add-review";
+import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 
 const AppSwitch: React.FC = () => {
   const location = useLocation();
@@ -70,9 +70,7 @@ const AppSwitch: React.FC = () => {
         <ReviewModal />
       </Route>
 
-      <Route path={`${RouteName.ADD}`}>
-        <AddReviewModal />
-      </Route>
+      <AddReviewModal />
     </>
   );
 };

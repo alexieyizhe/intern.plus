@@ -1,21 +1,20 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import styled from "styled-components";
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { Size } from "src/theme/constants";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/utils/constants";
-import { useSiteContext } from "src/utils/context";
+import { useSiteContext, ActionType } from "src/utils/context";
+import copy from "./copy";
+
 import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
 import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
 
-import { LogoBlack, EditIcon, MobileMenuChevronImg } from "src/assets";
-
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 import { UnstyledButton } from "src/components/Button";
-import { ActionType } from "src/utils/context/actions";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -225,7 +224,7 @@ const Header: React.FC = () => {
    * Only applies to mobile devices.
    */
   const {
-    state: { mobileMenuOpen },
+    state: { mobileMenuOpen, addReviewModalOpen },
     dispatch,
   } = useSiteContext();
 
@@ -237,24 +236,17 @@ const Header: React.FC = () => {
     () => dispatch({ type: ActionType.TOGGLE_MOBILE_MENU }),
     [dispatch]
   );
+  const toggleAddReviewModal = useCallback(
+    () => dispatch({ type: ActionType.TOGGLE_ADD_REVIEW_MODAL }),
+    [dispatch]
+  );
 
   /**
    * If the add review button is clicked, set the background page to
    * the current location so the add review modal can be rendered
    * on top of the current page.
    */
-  const location = useLocation();
   const history = useHistory();
-  const onClickAddReview = useCallback(
-    () =>
-      history.push({
-        pathname: RouteName.ADD,
-        state: {
-          background: location,
-        },
-      }),
-    [history, location]
-  );
   const goHome = useCallback(() => history.push(RouteName.LANDING), [history]);
 
   /**
@@ -278,25 +270,24 @@ const Header: React.FC = () => {
     >
       <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
         <UnstyledButton>
-          <img
-            className="logoImg"
-            src={LogoBlack}
-            alt="An icon depicting a tugboat"
-          />
+          <img className="logoImg" src={copy.logo.src} alt={copy.logo.alt} />
 
           <Text className="logoText" variant="heading2" as="h2">
-            Tugboat
+            {copy.logo.text}
           </Text>
 
           <img
             className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
-            src={MobileMenuChevronImg}
-            alt="A chevron, indicating that the logo can be clicked to open mobile menu"
+            src={copy.mobileToggle.src}
+            alt={copy.mobileToggle.alt}
           />
         </UnstyledButton>
       </Logo>
 
-      <NavLinks className={mobileMenuOpen ? "show" : undefined}>
+      <NavLinks
+        className={mobileMenuOpen ? "show" : undefined}
+        aria-hidden={isMobileUser && !mobileMenuOpen ? "false" : "true"}
+      >
         <Link to={RouteName.JOBS} bare>
           <Text size={16}>Positions</Text>
         </Link>
@@ -312,10 +303,18 @@ const Header: React.FC = () => {
       </NavLinks>
 
       <HeaderActionContainer>
-        <UnstyledButton onClick={onClickAddReview}>
+        <UnstyledButton onClick={toggleAddReviewModal}>
           <img
-            src={EditIcon}
-            alt="A pencil icon, to be clicked to write a new review"
+            src={
+              addReviewModalOpen
+                ? copy.addReview.openIcon.src
+                : copy.addReview.closedIcon.src
+            }
+            alt={
+              addReviewModalOpen
+                ? copy.addReview.openIcon.alt
+                : copy.addReview.closedIcon.alt
+            }
           />
         </UnstyledButton>
       </HeaderActionContainer>
