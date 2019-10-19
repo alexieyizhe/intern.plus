@@ -49,10 +49,14 @@ const getDetailsMarkup = (
             <Link to={`${RouteName.COMPANIES}/${details.companySlug}`} bare>
               <Text variant="heading3">{details.companyName}</Text>
             </Link>
-            <span className="separator">&nbsp;{" • "}&nbsp;</span>
-            <Text className="location" variant="heading3" color="greyDark">
-              {details.location}
-            </Text>
+            {details.location && (
+              <>
+                <span className="separator">&nbsp;{" • "}&nbsp;</span>
+                <Text className="location" variant="heading3" color="greyDark">
+                  {details.location}
+                </Text>
+              </>
+            )}
           </div>
           <Link to={`${RouteName.COMPANIES}/${details.companySlug}`} bare>
             <LogoImg

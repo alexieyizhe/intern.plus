@@ -22,7 +22,7 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   name: job.name || "",
   companyName: job.company ? job.company.name || "" : "",
   companySlug: job.company ? job.company.slug || "" : "",
-  location: job.location || undefined,
+  location: job.loc || undefined,
   numRatings: job.reviews ? job.reviews.count : 0,
   avgRating: job.avgRating || 0,
   avgLearningMentorshipRating: job.avgLearningMentorshipRating || 0,
@@ -36,8 +36,14 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
 
 export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
   id: item.id || "",
-  authorName: item.author || "Anonymous",
-  date: timeAgo.format(new Date(item.updatedAt || item.createdAt || "")),
+  authorName: item.isLegacy ? "An InternCompass user" : "Anonymous", // TODO: change anonymous to user name,
+  date: timeAgo.format(
+    new Date(
+      item.isLegacy
+        ? item.legacyUpdatedAt || ""
+        : item.updatedAt || item.createdAt || ""
+    )
+  ),
   overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",

@@ -26,7 +26,7 @@ export const buildCompanyJobCard = (
 ) => ({
   id: item.id || "",
   name: item.name || "",
-  location: item.location || "",
+  location: item.loc || "",
   minHourlySalary: item.minHourlySalary || 0,
   maxHourlySalary: item.maxHourlySalary || 0,
   salaryCurrency: item.salaryCurrency || "CAD",

@@ -9,12 +9,12 @@ import { getDarkColor } from "src/utils/getColor";
 export const buildReviewDetails = (
   review: GetReviewDetails_review
 ): IReviewDetails => ({
-  jobName: review.job ? review.job.name || "" : "",
-  jobId: review.job ? review.job.id || "" : "",
-  companyName: review.company ? review.company.name || "" : "",
+  jobName: (review.job && review.job.name) || "",
+  jobId: (review.job && review.job.id) || "",
+  companyName: (review.company && review.company.name) || "",
   companySlug: review.company ? review.company.slug || "" : "",
-  location: review.job ? review.job.location || "" : "",
-  author: review.author || "Anonymous",
+  location: (review.job && review.job.loc) || "",
+  author: review.isLegacy ? "An InternCompass user" : "Anonymous", // TODO: change anonymous to user name
   body: review.body || "",
   overallRating: review.overallRating || 0,
   meaningfulWorkRating: review.meaningfulWorkRating || 0,
@@ -23,6 +23,6 @@ export const buildReviewDetails = (
   salary: review.salary || 0,
   salaryCurrency: review.salaryCurrency || "",
   salaryPeriod: review.salaryPeriod || "",
-  logoSrc: review.company ? review.company.logoSrc || "" : "",
+  logoSrc: (review.company && review.company.logoSrc) || "",
   color: getDarkColor(),
 });

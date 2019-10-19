@@ -17,7 +17,7 @@ export const jobResultFragment = gql`
   fragment JobResult on Job {
     id
     name
-    location
+    loc
     avgRating
     reviews {
       count
@@ -49,8 +49,9 @@ export const reviewResultUserFragment = gql`
     overallRating
     body
     tags
-    author
     createdAt
     updatedAt
+    isLegacy
+    legacyUpdatedAt
   }
 `;

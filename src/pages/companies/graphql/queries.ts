@@ -32,10 +32,7 @@ export const GET_COMPANY_JOBS = gql`
     company(slug: $slug) {
       jobs(
         filter: {
-          OR: [
-            { name: { contains: $query } }
-            { location: { contains: $query } }
-          ]
+          OR: [{ name: { contains: $query } }, { loc: { contains: $query } }]
         }
         sort: { name: DESC }
         skip: $offset

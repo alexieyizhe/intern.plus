@@ -93,6 +93,8 @@ const JobPage = () => {
     },
   });
 
+  console.log(jobDetails);
+
   const jobReviews = useSearchResults(
     isNewSearch,
     setIsEndOfResults,

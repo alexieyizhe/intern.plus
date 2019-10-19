@@ -4,13 +4,12 @@ import { gql } from "apollo-boost";
 export const GET_REVIEW_DETAILS = gql`
   query GetReviewDetails($id: ID) {
     review(id: $id) {
-      author
       body
       tags
       job {
         id
         name
-        location
+        loc
       }
       company {
         name
@@ -24,6 +23,7 @@ export const GET_REVIEW_DETAILS = gql`
       learningMentorshipRating
       meaningfulWorkRating
       workLifeBalanceRating
+      isLegacy
     }
   }
 `;

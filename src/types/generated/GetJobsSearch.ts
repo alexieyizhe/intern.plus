@@ -21,7 +21,7 @@ export interface GetJobsSearch_jobsList_items {
    * Job title
    */
   name: string | null;
-  location: string | null;
+  loc: string | null;
   avgRating: number | null;
   reviews: GetJobsSearch_jobsList_items_reviews | null;
   minHourlySalary: number | null;
