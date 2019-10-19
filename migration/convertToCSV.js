@@ -24,6 +24,9 @@ const companiesById = reduceToIdMap(companyJsonFile);
 const jobsById = reduceToIdMap(jobJsonFile);
 const reviewsById = reduceToIdMap(reviewJsonFile);
 
+/**
+ * **COMPANY**
+ */
 const companyFields = [
   {
     label: "name",
@@ -39,20 +42,130 @@ const companyFields = [
   },
   {
     label: "totRating",
-    value: "tot_rating",
-    default: 0,
+    value: row =>
+      Math.round(
+        reviewJsonFile
+          .filter(review => review.company_id === row.id)
+          .reduce((acc, cur) => acc + (cur.overall_rating || 0), 0)
+      ),
   },
   {
     label: "avgRating",
-    value: "avg_rating",
-    default: 0,
+    value: row => {
+      const reviewsForCompany = reviewJsonFile.filter(
+        review => review.company_id === row.id
+      );
+
+      const reviewRatingSum = reviewsForCompany.reduce(
+        (acc, cur) => acc + (cur.overall_rating || 0),
+        0
+      );
+
+      return (reviewsForCompany.length
+        ? reviewRatingSum / reviewsForCompany.length
+        : 0
+      ).toFixed(1);
+    },
+  },
+  {
+    label: "totLearningMentorshipRating",
+    value: row =>
+      Math.round(
+        reviewJsonFile
+          .filter(review => review.company_id === row.id)
+          .reduce((acc, cur) => acc + (cur.mentorship_rating || 0), 0)
+      ),
+  },
+  {
+    label: "avgLearningMentorshipRating",
+    value: row => {
+      const reviewsForCompany = reviewJsonFile.filter(
+        review => review.company_id === row.id
+      );
+
+      const reviewRatingSum = reviewsForCompany.reduce(
+        (acc, cur) => acc + (cur.mentorship_rating || 0),
+        0
+      );
+
+      return (reviewsForCompany.length
+        ? reviewRatingSum / reviewsForCompany.length
+        : 0
+      ).toFixed(1);
+    },
+  },
+  {
+    label: "totMeaningfulWorkRating",
+    value: row =>
+      Math.round(
+        reviewJsonFile
+          .filter(review => review.company_id === row.id)
+          .reduce((acc, cur) => acc + (cur.meaningful_work_rating || 0), 0)
+      ),
+  },
+  {
+    label: "avgMeaningfulWorkRating",
+    value: row => {
+      const reviewsForCompany = reviewJsonFile.filter(
+        review => review.company_id === row.id
+      );
+
+      const reviewRatingSum = reviewsForCompany.reduce(
+        (acc, cur) => acc + (cur.meaningful_work_rating || 0),
+        0
+      );
+
+      return (reviewsForCompany.length
+        ? reviewRatingSum / reviewsForCompany.length
+        : 0
+      ).toFixed(1);
+    },
+  },
+  {
+    label: "totWorkLifeBalanceRating",
+    value: row =>
+      Math.round(
+        reviewJsonFile
+          .filter(review => review.company_id === row.id)
+          .reduce((acc, cur) => acc + (cur.work_life_balance_rating || 0), 0)
+      ),
+  },
+  {
+    label: "avgWorkLifeBalanceRating",
+    value: row => {
+      const reviewsForCompany = reviewJsonFile.filter(
+        review => review.company_id === row.id
+      );
+
+      const reviewRatingSum = reviewsForCompany.reduce(
+        (acc, cur) => acc + (cur.work_life_balance_rating || 0),
+        0
+      );
+
+      return (reviewsForCompany.length
+        ? reviewRatingSum / reviewsForCompany.length
+        : 0
+      ).toFixed(1);
+    },
   },
   {
     label: "logoSrc",
     value: "logo_url",
   },
+  {
+    label: "uniqueIdentifier",
+    value: row => `c${row.id}`,
+  },
+  {
+    label: "numRatings",
+    value: row =>
+      reviewJsonFile.filter(review => review.company_id === row.id).length,
+  },
 ];
 
+/**
+ * **JOB**
+ */
 const jobFields = [
   {
     label: "slug",
@@ -65,16 +178,6 @@ const jobFields = [
   {
     label: "location",
     value: "location",
-  },
-  {
-    label: "companyName",
-    value: row =>
-      companyJsonFile.filter(company => company.id === row.company_id)[0].name,
-  },
-  {
-    label: "companyId",
-    value: row =>
-      companyJsonFile.filter(company => company.id === row.company_id)[0].id,
   },
   {
     label: "minHourlySalary",
@@ -98,11 +201,28 @@ const jobFields = [
   },
   {
     label: "totRating",
-    value: row => (row["tot_rating"] || 0).toFixed(1),
+    value: row =>
+      reviewJsonFile
+        .filter(review => review.job_id === row.id)
+        .reduce((acc, cur) => acc + (cur.overall_rating || 0), 0),
   },
   {
     label: "avgRating",
-    value: row => (row["avg_rating"] || 0).toFixed(1),
+    value: row => {
+      const allReviewsForJob = reviewJsonFile.filter(
+        review => review.job_id === row.id
+      );
+
+      const sum = allReviewsForJob.reduce(
+        (acc, cur) => acc + (cur.overall_rating || 0),
+        0
+      );
+
+      return (allReviewsForJob.length
+        ? sum / allReviewsForJob.length
+        : 0
+      ).toFixed(1);
+    },
   },
   {
     label: "totLearningMentorshipRating",
@@ -176,20 +296,24 @@ const jobFields = [
       ).toFixed(1);
     },
   },
+  {
+    label: "uniqueIdentifier",
+    value: row => `j${row.id}c${row.company_id}`,
+  },
+  {
+    label: "numRatings",
+    value: row =>
+      reviewJsonFile.filter(review => review.job_id === row.id).length,
+  },
 ];
 
+/**
+ * **REVIEW**
+ */
 const reviewFields = [
   {
     label: "author",
     value: () => "Anonymous",
-  },
-  {
-    label: "authorId",
-    value: "user_id",
-  },
-  {
-    label: "anonymous",
-    value: "anonymous",
   },
   {
     label: "body",
@@ -208,24 +332,6 @@ const reviewFields = [
     value: "pay_period",
   },
   {
-    label: "companyName",
-    value: row =>
-      companyJsonFile.filter(company => company.id === row.company_id)[0].name,
-  },
-  {
-    label: "companyId",
-    value: row =>
-      companyJsonFile.filter(company => company.id === row.company_id)[0].id,
-  },
-  {
-    label: "jobName",
-    value: row => jobJsonFile.filter(job => job.id === row.job_id)[0].title,
-  },
-  {
-    label: "jobId",
-    value: row => jobJsonFile.filter(job => job.id === row.job_id)[0].id,
-  },
-  {
     label: "overallRating",
     value: "overall_rating",
   },
@@ -240,6 +346,14 @@ const reviewFields = [
   {
     label: "workLifeBalanceRating",
     value: "work_life_balance_rating",
+  },
+  {
+    label: "legacyUpdatedAt",
+    value: "updated_at",
+  },
+  {
+    label: "uniqueIdentifier",
+    value: row => `r${row.id}j${row.job_id}c${row.company_id}`,
   },
 ];
 
