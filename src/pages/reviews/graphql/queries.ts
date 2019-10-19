@@ -10,7 +10,7 @@ export const GET_REVIEW_DETAILS = gql`
       job {
         id
         name
-        jobLocation
+        location
       }
       company {
         name

@@ -34,7 +34,7 @@ export const GET_COMPANY_JOBS = gql`
         filter: {
           OR: [
             { name: { contains: $query } }
-            { jobLocation: { contains: $query } }
+            { location: { contains: $query } }
           ]
         }
         sort: { name: DESC }

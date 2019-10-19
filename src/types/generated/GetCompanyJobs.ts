@@ -18,29 +18,14 @@ export interface GetCompanyJobs_company_jobs_items {
   __typename: "Job";
   id: string | null;
   /**
-   * Title of a job.
+   * Job title
    */
   name: string | null;
-  jobLocation: string | null;
-  /**
-   * Average of overall ratings in all reviews for a job.
-   */
+  location: string | null;
   avgRating: number | null;
-  /**
-   * Reviews for a job.
-   */
   reviews: GetCompanyJobs_company_jobs_items_reviews | null;
-  /**
-   * Minimum reported salary of a job, measured in cents/hour.
-   */
   minHourlySalary: number | null;
-  /**
-   * Maximum reported salary for a job, measured in cents/hour.
-   */
   maxHourlySalary: number | null;
-  /**
-   * Currency of min, max, and avg salary.
-   */
   salaryCurrency: string | null;
 }
 

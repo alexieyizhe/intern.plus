@@ -6,7 +6,7 @@ export const GET_JOB_DETAILS = gql`
   query GetJobDetails($id: ID) {
     job(id: $id) {
       name
-      jobLocation
+      location
       company {
         name
         slug

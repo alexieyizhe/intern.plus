@@ -33,9 +33,6 @@ export interface GetCompaniesReviewsLanding_companiesList_items {
    * Average score of all reviews of a company.
    */
   avgRating: number | null;
-  /**
-   * Reviews for a company.
-   */
   reviews: GetCompaniesReviewsLanding_companiesList_items_reviews | null;
 }
 
@@ -58,7 +55,7 @@ export interface GetCompaniesReviewsLanding_reviewsList_items_company {
 export interface GetCompaniesReviewsLanding_reviewsList_items_job {
   __typename: "Job";
   /**
-   * Title of a job.
+   * Job title
    */
   name: string | null;
 }
@@ -66,18 +63,8 @@ export interface GetCompaniesReviewsLanding_reviewsList_items_job {
 export interface GetCompaniesReviewsLanding_reviewsList_items {
   __typename: "Review";
   id: string | null;
-  /**
-   * Overall score of the job in a review.
-   */
   overallRating: number | null;
-  /**
-   * Contents of a review.
-   */
   body: string | null;
-  /**
-   * Tags to provide additional information for a review. Represented by a single
-   * string, with commas (",") as delimiters between tags.
-   */
   tags: string | null;
   company: GetCompaniesReviewsLanding_reviewsList_items_company | null;
   job: GetCompaniesReviewsLanding_reviewsList_items_job | null;

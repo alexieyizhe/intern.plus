@@ -29,33 +29,15 @@ export interface GetJobDetails_job_reviews {
 export interface GetJobDetails_job {
   __typename: "Job";
   /**
-   * Title of a job.
+   * Job title
    */
   name: string | null;
-  jobLocation: string | null;
-  /**
-   * Company that a job has been reviewed for.
-   */
+  location: string | null;
   company: GetJobDetails_job_company | null;
-  /**
-   * Minimum reported salary of a job, measured in cents/hour.
-   */
   minHourlySalary: number | null;
-  /**
-   * Maximum reported salary for a job, measured in cents/hour.
-   */
   maxHourlySalary: number | null;
-  /**
-   * Currency of min, max, and avg salary.
-   */
   salaryCurrency: string | null;
-  /**
-   * Reviews for a job.
-   */
   reviews: GetJobDetails_job_reviews | null;
-  /**
-   * Average of overall ratings in all reviews for a job.
-   */
   avgRating: number | null;
   avgLearningMentorshipRating: number | null;
   avgMeaningfulWorkRating: number | null;
