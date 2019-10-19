@@ -13,7 +13,7 @@ export interface GetReviewDetails_review_job {
    * Job title
    */
   name: string | null;
-  location: string | null;
+  loc: string | null;
 }
 
 export interface GetReviewDetails_review_company {
@@ -31,7 +31,6 @@ export interface GetReviewDetails_review_company {
 
 export interface GetReviewDetails_review {
   __typename: "Review";
-  author: string | null;
   body: string | null;
   tags: string | null;
   job: GetReviewDetails_review_job | null;
@@ -43,6 +42,10 @@ export interface GetReviewDetails_review {
   learningMentorshipRating: number | null;
   meaningfulWorkRating: number | null;
   workLifeBalanceRating: number | null;
+  /**
+   * Whether or not this review was imported from old internCompass data. If true, use legacyUpdatedAt info.
+   */
+  isLegacy: boolean | null;
 }
 
 export interface GetReviewDetails {

@@ -28,15 +28,13 @@ export const buildReviewCard = (
   id: item.id || "",
   companyName: item.company ? item.company.name || "" : "",
   jobName: item.job ? item.job.name || "" : "",
-  rating: item.overallRating || 0,
+  overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",
   color: getDarkColor(),
 });
 
-export const buildCompanyReviewCardsList = (
-  data?: GetCompaniesReviewsLanding
-) => {
+export const buildLandingCardsList = (data?: GetCompaniesReviewsLanding) => {
   let companyCards: ICompanyCardItem[] = [];
   let reviewCards: IReviewJobCardItem[] = [];
 

@@ -16,14 +16,14 @@ const pageCopy = {
       heading: "Top companies",
       subLink: {
         text: "See more companies",
-        to: `${RouteName.FIND}/companies`,
+        to: `${RouteName.COMPANIES}`,
       },
     },
     recentlyReviewed: {
       heading: "Recently reviewed",
       subLink: {
         text: "See more reviews",
-        to: `${RouteName.FIND}/reviews`,
+        to: `${RouteName.REVIEWS}`,
       },
     },
   },

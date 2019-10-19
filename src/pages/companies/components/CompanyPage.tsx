@@ -31,7 +31,7 @@ const getTitleMarkup = (name?: string) => `Tugboat${name ? ` | ${name}` : ""}`;
 const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
   job.name.toLowerCase().includes(filterBy) ||
   job.location.toLowerCase().includes(filterBy) ||
-  job.salaryCurrency.toLowerCase().includes(filterBy);
+  job.hourlySalaryCurrency.toLowerCase().includes(filterBy);
 
 /*******************************************************************
  *                             **Styles**                          *
@@ -70,16 +70,20 @@ const CompanyPage = () => {
    * For jobs at the company.
    */
   const {
+    // for fetching results
     searchQuery,
-
     page,
-    isEndOfResults,
-    isNewSearch,
-    isInitialSearch,
 
-    setIsEndOfResults,
+    // flags
+    isEndOfResults,
+    isInitialSearch,
+    isDataLoaded,
+
+    // search trigger functions
     onNewSearch,
     onNextBatchSearch,
+
+    ...searchResultsConfig
   } = useSearch();
 
   const {
@@ -93,12 +97,11 @@ const CompanyPage = () => {
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
-    skip: isInitialSearch, // do not make an API call if search query is empty (on initial load)
+    skip: isInitialSearch || isDataLoaded, // do not make an API call if search query is empty (on initial load)
   });
 
   const companyJobs = useSearchResults(
-    isNewSearch,
-    setIsEndOfResults,
+    searchResultsConfig,
     buildCompanyJobCardsList,
     companyJobsData
   ) as IJobCardItem[];

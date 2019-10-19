@@ -32,11 +32,13 @@ export const buildJobCard = (
   item: GetAllSearch_jobsList_items
 ): IJobCardItem => ({
   id: item.id || "",
+  slug: item.slug || "",
+  companySlug: (item.company && item.company.slug) || "",
   name: item.name || "",
-  location: item.location || "",
+  location: item.loc || "",
   minHourlySalary: item.minHourlySalary || 0, // hourly
   maxHourlySalary: item.maxHourlySalary || 0, // hourly
-  salaryCurrency: item.salaryCurrency || "", // hourly
+  hourlySalaryCurrency: item.hourlySalaryCurrency || "", // hourly
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0, // score out of 5
   color: getDarkColor(),
@@ -48,7 +50,7 @@ export const buildReviewCard = (
   id: item.id || "",
   companyName: item.company ? item.company.name || "" : "",
   jobName: item.job ? item.job.name || "" : "",
-  rating: item.overallRating || 0,
+  overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",
   color: getDarkColor(),

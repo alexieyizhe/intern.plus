@@ -111,6 +111,18 @@ const getMiscContent = (
 };
 
 /**
+ * Gets the unique routes for each type of card for navigating to details of that card
+ */
+const getCompanyCardRoute = (companySlug: string) =>
+  `${RouteName.COMPANIES}/${companySlug}`;
+
+const getJobCardRoute = (jobId: string, jobSlug: string, companySlug: string) =>
+  `${RouteName.JOBS}/${jobId}`;
+
+const getReviewCardRoute = (reviewId: string) =>
+  `${RouteName.REVIEWS}/${reviewId}`;
+
+/**
  * Creates the markup for a single search result card, based on
  * the data in the search result.
  * @param result object containing item data for a specific search result
@@ -126,7 +138,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
         numRatings={result.numRatings}
         avgRating={result.avgRating}
         color={result.color}
-        linkTo={`${RouteName.COMPANIES}/${result.slug}`}
+        linkTo={getCompanyCardRoute(result.slug)}
       />
     );
   } else if (isJobCardItem(result)) {
@@ -139,33 +151,27 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
         avgRating={result.avgRating}
         minHourlySalary={result.minHourlySalary}
         maxHourlySalary={result.maxHourlySalary}
-        salaryCurrency={result.salaryCurrency}
+        hourlySalaryCurrency={result.hourlySalaryCurrency}
         color={result.color}
-        linkTo={`${RouteName.JOBS}/${result.id}`}
+        linkTo={getJobCardRoute(result.id, result.slug, result.companySlug)}
       />
     );
-  } else if (isReviewJobCardItem(result)) {
+  } else if (isReviewJobCardItem(result) || isReviewUserCardItem(result)) {
+    const heading = isReviewJobCardItem(result)
+      ? result.companyName
+      : result.authorName;
+    const subheading = isReviewJobCardItem(result)
+      ? result.jobName
+      : result.date;
+
     return (
       <ResultsReviewCard
         key={result.id}
-        heading={result.companyName}
-        subheading={result.jobName}
-        rating={result.rating}
-        color={result.color}
-        linkTo={`${RouteName.REVIEWS}/${result.id}`}
-      >
-        <Text variant="body">{result.body}</Text>
-      </ResultsReviewCard>
-    );
-  } else if (isReviewUserCardItem(result)) {
-    return (
-      <ResultsReviewCard
-        key={result.id}
-        heading={result.authorName}
-        subheading={result.date}
+        heading={heading}
+        subheading={subheading}
         rating={result.overallRating}
         color={result.color}
-        linkTo={`${RouteName.REVIEWS}/${result.id}`}
+        linkTo={getReviewCardRoute(result.id)}
       >
         <Text variant="body">{result.body}</Text>
       </ResultsReviewCard>

@@ -6,14 +6,14 @@ export const GET_JOB_DETAILS = gql`
   query GetJobDetails($id: ID) {
     job(id: $id) {
       name
-      location
+      loc
       company {
         name
         slug
       }
       minHourlySalary
       maxHourlySalary
-      salaryCurrency
+      hourlySalaryCurrency
       reviews {
         count
       }
@@ -30,11 +30,7 @@ export const GET_JOB_REVIEWS = gql`
     job(id: $id) {
       reviews(
         filter: {
-          OR: [
-            { body: { contains: $query } }
-            { tags: { contains: $query } }
-            { author: { contains: $query } }
-          ]
+          OR: [{ body: { contains: $query } }, { tags: { contains: $query } }]
         }
         sort: { updatedAt: DESC }
         skip: $offset

@@ -6,6 +6,14 @@
 // GraphQL fragment: JobResult
 // ====================================================
 
+export interface JobResult_company {
+  __typename: "Company";
+  /**
+   * Unique slug for a company.
+   */
+  slug: string | null;
+}
+
 export interface JobResult_reviews {
   __typename: "ReviewListResponse";
   /**
@@ -17,14 +25,16 @@ export interface JobResult_reviews {
 export interface JobResult {
   __typename: "Job";
   id: string | null;
+  slug: string | null;
   /**
    * Job title
    */
   name: string | null;
-  location: string | null;
+  loc: string | null;
+  company: JobResult_company | null;
   avgRating: number | null;
   reviews: JobResult_reviews | null;
   minHourlySalary: number | null;
   maxHourlySalary: number | null;
-  salaryCurrency: string | null;
+  hourlySalaryCurrency: string | null;
 }

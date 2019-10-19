@@ -14,7 +14,7 @@ export interface IJobCardProps extends ICardProps {
   avgRating: number;
   minHourlySalary: number;
   maxHourlySalary: number;
-  salaryCurrency: string;
+  hourlySalaryCurrency: string;
   linkTo: string;
 }
 
@@ -72,7 +72,7 @@ const JobCard: React.FC<IJobCardProps> = ({
   numRatings,
   minHourlySalary,
   maxHourlySalary,
-  salaryCurrency,
+  hourlySalaryCurrency,
   linkTo,
   color,
   ...rest
@@ -117,7 +117,7 @@ const JobCard: React.FC<IJobCardProps> = ({
       <Text
         className="salaryInfo"
         variant="heading3"
-      >{`${salaryCurrency}/hr`}</Text>
+      >{`${hourlySalaryCurrency}/hr`}</Text>
     </Container>
   );
 };

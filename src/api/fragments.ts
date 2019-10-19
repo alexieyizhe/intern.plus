@@ -16,15 +16,19 @@ export const companyResultFragment = gql`
 export const jobResultFragment = gql`
   fragment JobResult on Job {
     id
+    slug
     name
-    location
+    loc
+    company {
+      slug
+    }
     avgRating
     reviews {
       count
     }
     minHourlySalary
     maxHourlySalary
-    salaryCurrency
+    hourlySalaryCurrency
   }
 `;
 
@@ -49,8 +53,9 @@ export const reviewResultUserFragment = gql`
     overallRating
     body
     tags
-    author
     createdAt
     updatedAt
+    isLegacy
+    legacyUpdatedAt
   }
 `;

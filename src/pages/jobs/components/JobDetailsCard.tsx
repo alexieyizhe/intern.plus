@@ -59,14 +59,18 @@ const getDetailsMarkup = (
             {details.companyName}
           </Text>
         </Link>
-        <span className="separator">&nbsp;{" • "}&nbsp;</span>
-        <Text
-          className="subheading location"
-          variant="heading3"
-          color="greyDark"
-        >
-          {details.location}
-        </Text>
+        {details.location && (
+          <>
+            <span className="separator">&nbsp;{" • "}&nbsp;</span>
+            <Text
+              className="subheading location"
+              variant="heading3"
+              color="greyDark"
+            >
+              {details.location}
+            </Text>
+          </>
+        )}
 
         <MiscDetails>
           <div>
@@ -124,7 +128,7 @@ const getDetailsMarkup = (
                 : `${details.minHourlySalary} - ${details.maxHourlySalary}`}
             </Text>
             <Text variant="heading3" as="div">
-              {`${details.salaryCurrency}/hr`}
+              {`${details.hourlySalaryCurrency}/hr`}
             </Text>
           </div>
         </MiscDetails>

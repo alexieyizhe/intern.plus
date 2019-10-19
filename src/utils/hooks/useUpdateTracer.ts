@@ -18,7 +18,7 @@ export const useUpdateTracer = <T extends AnyObject>(props: T) => {
     );
 
     if (Object.keys(changedProps).length > 0) {
-      console.log("Changed props:", changedProps);
+      console.debug("Changed props:", changedProps);
     }
 
     prevProps.current = props;

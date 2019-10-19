@@ -126,17 +126,21 @@ const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
   const {
+    // for fetching results
     searchQuery,
     searchType,
-
     page,
-    isEndOfResults,
-    isNewSearch,
-    isInitialSearch,
 
-    setIsEndOfResults,
+    // flags
+    isEndOfResults,
+    isInitialSearch,
+    isDataLoaded,
+
+    // search trigger functions
     onNewSearch,
     onNextBatchSearch,
+
+    ...searchResultsConfig
   } = useSearch();
 
   const shouldSkipSearch = useMemo(
@@ -145,8 +149,8 @@ const GenericSearchPage: React.FC = () => {
      * all results of that type, not the empty state where we prompt them to
      * type a search query.
      */
-    () => isInitialSearch && !searchType,
-    [isInitialSearch, searchType]
+    () => (isInitialSearch && !searchType) || isDataLoaded,
+    [isDataLoaded, isInitialSearch, searchType]
   );
 
   /**
@@ -167,8 +171,7 @@ const GenericSearchPage: React.FC = () => {
    * This is required for ResultsDisplay to accept our results.
    */
   const searchResults = useSearchResults(
-    isNewSearch,
-    setIsEndOfResults,
+    searchResultsConfig,
     buildSearchResultCardsList,
     data
   );
@@ -200,4 +203,4 @@ const GenericSearchPage: React.FC = () => {
   );
 };
 
-export default GenericSearchPage;
+export default React.memo(GenericSearchPage);

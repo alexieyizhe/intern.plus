@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 
 import { GetCompaniesReviewsLanding } from "src/types/generated/GetCompaniesReviewsLanding";
 import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
-import { buildCompanyReviewCardsList } from "./graphql/utils";
+import { buildLandingCardsList } from "./graphql/utils";
 
 import { Size } from "src/theme/constants";
 import { RouteName, SearchFilter } from "src/utils/constants";
@@ -20,7 +20,7 @@ import {
   Text,
   Button,
 } from "src/components";
-import CardDisplay from "./components/CarouselDisplay";
+import LandingCardDisplay from "./components/LandingCardDisplay";
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -136,7 +136,7 @@ const LandingPage = () => {
   );
 
   const { companyCards, reviewCards } = useMemo(
-    () => buildCompanyReviewCardsList(data),
+    () => buildLandingCardsList(data),
     [data]
   );
 
@@ -156,7 +156,7 @@ const LandingPage = () => {
   if (searchStarted) {
     return (
       <Redirect
-        to={`${RouteName.FIND}${
+        to={`${RouteName.SEARCH}${
           searchVal ? `?${SearchFilter.QUERY}=${searchVal}` : ""
         }`}
       />
@@ -188,7 +188,7 @@ const LandingPage = () => {
                 buttonText="Search"
               />
               <SearchButton
-                onClick={() => history.push(RouteName.FIND)}
+                onClick={() => history.push(RouteName.SEARCH)}
                 color="greenDark"
               >
                 <Text variant="subheading" color="white">
@@ -201,7 +201,7 @@ const LandingPage = () => {
           <TitleCardRight />
         </TitleCard>
 
-        <CardDisplay
+        <LandingCardDisplay
           heading={pageCopy.sections.topCompanies.heading}
           subLinkText={pageCopy.sections.topCompanies.subLink.text}
           subLinkTo={pageCopy.sections.topCompanies.subLink.to}
@@ -210,7 +210,7 @@ const LandingPage = () => {
           cards={companyCards}
         />
 
-        <CardDisplay
+        <LandingCardDisplay
           heading={pageCopy.sections.recentlyReviewed.heading}
           subLinkText={pageCopy.sections.recentlyReviewed.subLink.text}
           subLinkTo={pageCopy.sections.recentlyReviewed.subLink.to}

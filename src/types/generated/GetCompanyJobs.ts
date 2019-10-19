@@ -6,6 +6,14 @@
 // GraphQL query operation: GetCompanyJobs
 // ====================================================
 
+export interface GetCompanyJobs_company_jobs_items_company {
+  __typename: "Company";
+  /**
+   * Unique slug for a company.
+   */
+  slug: string | null;
+}
+
 export interface GetCompanyJobs_company_jobs_items_reviews {
   __typename: "ReviewListResponse";
   /**
@@ -17,16 +25,18 @@ export interface GetCompanyJobs_company_jobs_items_reviews {
 export interface GetCompanyJobs_company_jobs_items {
   __typename: "Job";
   id: string | null;
+  slug: string | null;
   /**
    * Job title
    */
   name: string | null;
-  location: string | null;
+  loc: string | null;
+  company: GetCompanyJobs_company_jobs_items_company | null;
   avgRating: number | null;
   reviews: GetCompanyJobs_company_jobs_items_reviews | null;
   minHourlySalary: number | null;
   maxHourlySalary: number | null;
-  salaryCurrency: string | null;
+  hourlySalaryCurrency: string | null;
 }
 
 export interface GetCompanyJobs_company_jobs {

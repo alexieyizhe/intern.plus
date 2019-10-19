@@ -26,7 +26,7 @@ export const GET_ALL_SEARCH = gql`
         OR: [
           { name: { contains: $query } }
           { company: { name: { contains: $query } } }
-          { location: { contains: $query } }
+          { loc: { contains: $query } }
         ]
       }
       skip: $offset
@@ -44,7 +44,6 @@ export const GET_ALL_SEARCH = gql`
           { job: { name: { contains: $query } } }
           { body: { contains: $query } }
           { tags: { contains: $query } }
-          { author: { contains: $query } }
         ]
       }
       skip: $offset
@@ -86,7 +85,7 @@ export const GET_JOBS_SEARCH = gql`
         OR: [
           { name: { contains: $query } }
           { company: { name: { contains: $query } } }
-          { location: { contains: $query } }
+          { loc: { contains: $query } }
         ]
       }
       skip: $offset
@@ -110,7 +109,6 @@ export const GET_REVIEWS_SEARCH = gql`
           { job: { name: { contains: $query } } }
           { body: { contains: $query } }
           { tags: { contains: $query } }
-          { author: { contains: $query } }
         ]
       }
       skip: $offset

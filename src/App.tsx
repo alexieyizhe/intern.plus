@@ -43,7 +43,7 @@ const AppSwitch: React.FC = () => {
           <LandingPage />
         </Route>
 
-        <Route path={RouteName.FIND}>
+        <Route path={RouteName.SEARCH}>
           <SearchPage />
         </Route>
 
