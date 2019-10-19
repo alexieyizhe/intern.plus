@@ -17,7 +17,7 @@ export interface GetReviewsSearch_reviewsList_items_company {
 export interface GetReviewsSearch_reviewsList_items_job {
   __typename: "Job";
   /**
-   * Title of a job.
+   * Job title
    */
   name: string | null;
 }
@@ -25,18 +25,8 @@ export interface GetReviewsSearch_reviewsList_items_job {
 export interface GetReviewsSearch_reviewsList_items {
   __typename: "Review";
   id: string | null;
-  /**
-   * Overall score of the job in a review.
-   */
   overallRating: number | null;
-  /**
-   * Contents of a review.
-   */
   body: string | null;
-  /**
-   * Tags to provide additional information for a review. Represented by a single
-   * string, with commas (",") as delimiters between tags.
-   */
   tags: string | null;
   company: GetReviewsSearch_reviewsList_items_company | null;
   job: GetReviewsSearch_reviewsList_items_job | null;

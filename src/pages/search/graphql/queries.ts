@@ -26,7 +26,7 @@ export const GET_ALL_SEARCH = gql`
         OR: [
           { name: { contains: $query } }
           { company: { name: { contains: $query } } }
-          { jobLocation: { contains: $query } }
+          { location: { contains: $query } }
         ]
       }
       skip: $offset
@@ -86,7 +86,7 @@ export const GET_JOBS_SEARCH = gql`
         OR: [
           { name: { contains: $query } }
           { company: { name: { contains: $query } } }
-          { jobLocation: { contains: $query } }
+          { location: { contains: $query } }
         ]
       }
       skip: $offset

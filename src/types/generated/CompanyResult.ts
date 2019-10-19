@@ -33,8 +33,5 @@ export interface CompanyResult {
    * Average score of all reviews of a company.
    */
   avgRating: number | null;
-  /**
-   * Reviews for a company.
-   */
   reviews: CompanyResult_reviews | null;
 }

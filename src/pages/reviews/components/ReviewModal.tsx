@@ -21,7 +21,7 @@ const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this review.";
 const AUTHOR_SUFFIX = "mentioned the following...";
 
-// TODO: REFACTOR
+// TODO: REFACTOR (especially the styles)
 /**
  * Creates the markup for displaying the correct state of
  * the review details, whether still loading, etc.
@@ -64,7 +64,7 @@ const getDetailsMarkup = (
 
         <ReviewPrefixContainer>
           <Text variant="subheading">{details.author}</Text>&nbsp;
-          <Text variant="body" color="greyDark">
+          <Text variant="subheading" color="greyDark">
             {AUTHOR_SUFFIX}
           </Text>
         </ReviewPrefixContainer>
@@ -76,7 +76,7 @@ const getDetailsMarkup = (
               filledStars={details.overallRating}
               readOnly
             >
-              <Text variant="body" className="ratingText" color="greyDark">
+              <Text variant="subheading" className="ratingText">
                 Overall
               </Text>
             </ReviewRating>
@@ -85,7 +85,11 @@ const getDetailsMarkup = (
               filledStars={details.meaningfulWorkRating}
               readOnly
             >
-              <Text variant="body" className="ratingText" color="greyDark">
+              <Text
+                variant="subheading"
+                className="ratingText"
+                color="greyDark"
+              >
                 Meaningful work
               </Text>
             </ReviewRating>
@@ -94,7 +98,11 @@ const getDetailsMarkup = (
               filledStars={details.workLifeBalanceRating}
               readOnly
             >
-              <Text variant="body" className="ratingText" color="greyDark">
+              <Text
+                variant="subheading"
+                className="ratingText"
+                color="greyDark"
+              >
                 Work life balance
               </Text>
             </ReviewRating>
@@ -103,7 +111,11 @@ const getDetailsMarkup = (
               filledStars={details.learningMentorshipRating}
               readOnly
             >
-              <Text variant="body" className="ratingText" color="greyDark">
+              <Text
+                variant="subheading"
+                className="ratingText"
+                color="greyDark"
+              >
                 Learning &amp; mentorship
               </Text>
             </ReviewRating>
@@ -170,6 +182,10 @@ const Container = styled(Card)`
 
   & > .reviewBody {
     margin-top: 20px;
+  }
+
+  & h1 {
+    margin-bottom: 4px;
   }
 
   & img {

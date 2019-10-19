@@ -10,10 +10,10 @@ export interface GetReviewDetails_review_job {
   __typename: "Job";
   id: string | null;
   /**
-   * Title of a job.
+   * Job title
    */
   name: string | null;
-  jobLocation: string | null;
+  location: string | null;
 }
 
 export interface GetReviewDetails_review_company {
@@ -32,44 +32,16 @@ export interface GetReviewDetails_review_company {
 export interface GetReviewDetails_review {
   __typename: "Review";
   author: string | null;
-  /**
-   * Contents of a review.
-   */
   body: string | null;
-  /**
-   * Tags to provide additional information for a review. Represented by a single
-   * string, with commas (",") as delimiters between tags.
-   */
   tags: string | null;
   job: GetReviewDetails_review_job | null;
   company: GetReviewDetails_review_company | null;
-  /**
-   * Salary of the job in a review, measured in cents.
-   */
   salary: number | null;
-  /**
-   * Period of salary, whether paid hourly, monthly, etc. 
-   */
   salaryPeriod: string | null;
-  /**
-   * Type of currency a job is paid in.
-   */
   salaryCurrency: string | null;
-  /**
-   * Overall score of the job in a review.
-   */
   overallRating: number | null;
-  /**
-   * How much learning/mentorship the job in a review provided.
-   */
   learningMentorshipRating: number | null;
-  /**
-   * How meaningful work was at the job in a review.
-   */
   meaningfulWorkRating: number | null;
-  /**
-   * How good work-life balance was at the job in a review.
-   */
   workLifeBalanceRating: number | null;
 }
 

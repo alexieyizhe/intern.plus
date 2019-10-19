@@ -33,9 +33,6 @@ export interface GetCompaniesSearch_companiesList_items {
    * Average score of all reviews of a company.
    */
   avgRating: number | null;
-  /**
-   * Reviews for a company.
-   */
   reviews: GetCompaniesSearch_companiesList_items_reviews | null;
 }
 

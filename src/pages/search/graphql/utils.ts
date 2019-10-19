@@ -33,7 +33,7 @@ export const buildJobCard = (
 ): IJobCardItem => ({
   id: item.id || "",
   name: item.name || "",
-  location: item.jobLocation || "",
+  location: item.location || "",
   minHourlySalary: item.minHourlySalary || 0, // hourly
   maxHourlySalary: item.maxHourlySalary || 0, // hourly
   salaryCurrency: item.salaryCurrency || "", // hourly

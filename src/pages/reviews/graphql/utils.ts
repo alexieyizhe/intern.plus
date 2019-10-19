@@ -13,7 +13,7 @@ export const buildReviewDetails = (
   jobId: review.job ? review.job.id || "" : "",
   companyName: review.company ? review.company.name || "" : "",
   companySlug: review.company ? review.company.slug || "" : "",
-  location: review.job ? review.job.jobLocation || "" : "",
+  location: review.job ? review.job.location || "" : "",
   author: review.author || "Anonymous",
   body: review.body || "",
   overallRating: review.overallRating || 0,

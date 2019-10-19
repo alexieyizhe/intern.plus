@@ -177,7 +177,8 @@ const DetailsContainer = styled.div`
   width: 100%;
 
   & > .subheading {
-    margin: 6px auto 35px auto;
+    display: inline-block;
+    margin: 5px auto 35px auto;
   }
 
   ${({ theme }) => theme.mediaQueries.largeMobile`

@@ -17,7 +17,7 @@ export interface ReviewResultJob_company {
 export interface ReviewResultJob_job {
   __typename: "Job";
   /**
-   * Title of a job.
+   * Job title
    */
   name: string | null;
 }
@@ -25,18 +25,8 @@ export interface ReviewResultJob_job {
 export interface ReviewResultJob {
   __typename: "Review";
   id: string | null;
-  /**
-   * Overall score of the job in a review.
-   */
   overallRating: number | null;
-  /**
-   * Contents of a review.
-   */
   body: string | null;
-  /**
-   * Tags to provide additional information for a review. Represented by a single
-   * string, with commas (",") as delimiters between tags.
-   */
   tags: string | null;
   company: ReviewResultJob_company | null;
   job: ReviewResultJob_job | null;
