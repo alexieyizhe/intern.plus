@@ -48,6 +48,7 @@ const getCardMarkup = (card: IGenericCardItem) => {
     );
   } else if (isJobCardItem(card)) {
     return; // this doesnt appear on landing page so not needed (for now)
+
     // return (
     //   <ResultsJobCard
     //     key={card.id}
@@ -57,7 +58,7 @@ const getCardMarkup = (card: IGenericCardItem) => {
     //     avgRating={card.avgRating}
     //     minHourlySalary={card.minHourlySalary}
     //     maxHourlySalary={card.maxHourlySalary}
-    //     salaryCurrency={card.salaryCurrency}
+    //     hourlySalaryCurrency={card.hourlySalaryCurrency}
     //     color={card.color}
     //     linkTo={`${RouteName.JOBS}/${card.id}`}
     //   />

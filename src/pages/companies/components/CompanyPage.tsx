@@ -31,7 +31,7 @@ const getTitleMarkup = (name?: string) => `Tugboat${name ? ` | ${name}` : ""}`;
 const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
   job.name.toLowerCase().includes(filterBy) ||
   job.location.toLowerCase().includes(filterBy) ||
-  job.salaryCurrency.toLowerCase().includes(filterBy);
+  job.hourlySalaryCurrency.toLowerCase().includes(filterBy);
 
 /*******************************************************************
  *                             **Styles**                          *

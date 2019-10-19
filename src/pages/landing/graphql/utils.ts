@@ -34,9 +34,7 @@ export const buildReviewCard = (
   color: getDarkColor(),
 });
 
-export const buildCompanyReviewCardsList = (
-  data?: GetCompaniesReviewsLanding
-) => {
+export const buildLandingCardsList = (data?: GetCompaniesReviewsLanding) => {
   let companyCards: ICompanyCardItem[] = [];
   let reviewCards: IReviewJobCardItem[] = [];
 

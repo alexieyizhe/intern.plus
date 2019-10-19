@@ -26,7 +26,7 @@ export interface GetJobsSearch_jobsList_items {
   reviews: GetJobsSearch_jobsList_items_reviews | null;
   minHourlySalary: number | null;
   maxHourlySalary: number | null;
-  salaryCurrency: string | null;
+  hourlySalaryCurrency: string | null;
 }
 
 export interface GetJobsSearch_jobsList {

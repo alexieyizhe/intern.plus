@@ -14,7 +14,7 @@ export interface IJobCardItem {
   location: string;
   minHourlySalary: number; // hourly
   maxHourlySalary: number; // hourly
-  salaryCurrency: string; // hourly
+  hourlySalaryCurrency: string; // hourly
   numRatings: number;
   avgRating: number; // score out of 5
   color: string;
@@ -51,7 +51,7 @@ export const isCompanyCardItem = (
 ): item is ICompanyCardItem => "slug" in item && "avgRating" in item;
 
 export const isJobCardItem = (item: IGenericCardItem): item is IJobCardItem =>
-  "location" in item && "salaryCurrency" in item;
+  "location" in item && "hourlySalaryCurrency" in item;
 
 export const isReviewJobCardItem = (
   item: IGenericCardItem
@@ -82,7 +82,7 @@ export interface IJobDetails {
   avgWorkLifeBalanceRating: number;
   minHourlySalary: number;
   maxHourlySalary: number;
-  salaryCurrency: string;
+  hourlySalaryCurrency: string;
   color: string;
 }
 

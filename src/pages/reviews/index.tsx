@@ -9,7 +9,7 @@ import { SearchFilter, SearchType } from "src/utils/constants";
  */
 const ReviewsPage = () => (
   <Redirect
-    to={`${RouteName.FIND}?${SearchFilter.TYPE}=${SearchType.REVIEWS}`}
+    to={`${RouteName.SEARCH}?${SearchFilter.TYPE}=${SearchType.REVIEWS}`}
   />
 );
 

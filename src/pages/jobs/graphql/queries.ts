@@ -13,7 +13,7 @@ export const GET_JOB_DETAILS = gql`
       }
       minHourlySalary
       maxHourlySalary
-      salaryCurrency
+      hourlySalaryCurrency
       reviews {
         count
       }

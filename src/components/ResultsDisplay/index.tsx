@@ -139,7 +139,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
         avgRating={result.avgRating}
         minHourlySalary={result.minHourlySalary}
         maxHourlySalary={result.maxHourlySalary}
-        salaryCurrency={result.salaryCurrency}
+        hourlySalaryCurrency={result.hourlySalaryCurrency}
         color={result.color}
         linkTo={`${RouteName.JOBS}/${result.id}`}
       />

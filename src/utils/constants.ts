@@ -1,6 +1,6 @@
 export enum RouteName {
   LANDING = "/",
-  FIND = "/find",
+  SEARCH = "/find",
   COMPANIES = "/companies",
   JOBS = "/positions",
   REVIEWS = "/reviews",

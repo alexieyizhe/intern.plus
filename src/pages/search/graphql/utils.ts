@@ -36,7 +36,7 @@ export const buildJobCard = (
   location: item.loc || "",
   minHourlySalary: item.minHourlySalary || 0, // hourly
   maxHourlySalary: item.maxHourlySalary || 0, // hourly
-  salaryCurrency: item.salaryCurrency || "", // hourly
+  hourlySalaryCurrency: item.hourlySalaryCurrency || "", // hourly
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0, // score out of 5
   color: getDarkColor(),

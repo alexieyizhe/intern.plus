@@ -26,5 +26,5 @@ export interface JobResult {
   reviews: JobResult_reviews | null;
   minHourlySalary: number | null;
   maxHourlySalary: number | null;
-  salaryCurrency: string | null;
+  hourlySalaryCurrency: string | null;
 }

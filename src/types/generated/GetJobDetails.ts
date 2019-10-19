@@ -36,7 +36,7 @@ export interface GetJobDetails_job {
   company: GetJobDetails_job_company | null;
   minHourlySalary: number | null;
   maxHourlySalary: number | null;
-  salaryCurrency: string | null;
+  hourlySalaryCurrency: string | null;
   reviews: GetJobDetails_job_reviews | null;
   avgRating: number | null;
   avgLearningMentorshipRating: number | null;

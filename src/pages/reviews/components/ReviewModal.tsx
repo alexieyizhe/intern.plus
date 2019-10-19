@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { default as AnimatedIcon } from "react-useanimations";
 import { Helmet } from "react-helmet";
 
+// TODO: REFACTOR (especially the styles)
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/constants";
 import { IReviewDetails } from "src/types";
@@ -21,7 +22,19 @@ const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this review.";
 const AUTHOR_SUFFIX = "mentioned the following...";
 
-// TODO: REFACTOR (especially the styles)
+const getSalaryPeriodText = (salaryPeriod: string) => {
+  switch (salaryPeriod) {
+    case "monthly":
+      return "/month";
+    case "weekly":
+      return "/week";
+    case "hourly":
+      return "/hr";
+    default:
+      return "";
+  }
+};
+
 /**
  * Creates the markup for displaying the correct state of
  * the review details, whether still loading, etc.
@@ -126,7 +139,9 @@ const getDetailsMarkup = (
           </div>
           <SalaryInfo>
             <Text variant="heading2">{details.salary}</Text>
-            <Text variant="heading3">{`${details.salaryCurrency}/${details.salaryPeriod}`}</Text>
+            <Text variant="heading3">{`${
+              details.salaryCurrency
+            }${getSalaryPeriodText(details.salaryPeriod)}`}</Text>
           </SalaryInfo>
         </FlexRowContainer>
         <Text className="reviewBody" variant="body">

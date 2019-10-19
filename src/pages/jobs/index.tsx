@@ -29,7 +29,7 @@ const JobsPage = () => {
 
         <Route path={match.path}>
           <Redirect
-            to={`${RouteName.FIND}?${SearchFilter.TYPE}=${SearchType.JOBS}`}
+            to={`${RouteName.SEARCH}?${SearchFilter.TYPE}=${SearchType.JOBS}`}
           />
         </Route>
       </Switch>

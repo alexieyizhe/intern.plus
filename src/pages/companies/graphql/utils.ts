@@ -29,7 +29,7 @@ export const buildCompanyJobCard = (
   location: item.loc || "",
   minHourlySalary: item.minHourlySalary || 0,
   maxHourlySalary: item.maxHourlySalary || 0,
-  salaryCurrency: item.salaryCurrency || "CAD",
+  hourlySalaryCurrency: item.hourlySalaryCurrency || "CAD",
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
   color: getDarkColor(),

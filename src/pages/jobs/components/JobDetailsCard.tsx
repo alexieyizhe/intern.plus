@@ -128,7 +128,7 @@ const getDetailsMarkup = (
                 : `${details.minHourlySalary} - ${details.maxHourlySalary}`}
             </Text>
             <Text variant="heading3" as="div">
-              {`${details.salaryCurrency}/hr`}
+              {`${details.hourlySalaryCurrency}/hr`}
             </Text>
           </div>
         </MiscDetails>

@@ -24,7 +24,7 @@ export const jobResultFragment = gql`
     }
     minHourlySalary
     maxHourlySalary
-    salaryCurrency
+    hourlySalaryCurrency
   }
 `;
 

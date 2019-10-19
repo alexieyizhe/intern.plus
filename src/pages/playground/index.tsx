@@ -216,13 +216,14 @@ const LandingPage = () => {
         numRatings={22}
         minHourlySalary={32}
         maxHourlySalary={48}
-        salaryCurrency="USD"
+        hourlySalaryCurrency="USD"
         color="#CAE9ED"
         linkTo=""
       />
 
       <br />
       <br />
+
       <ResultsJobCard
         title="Web Developer"
         subtitle="Waterloo, Ontario"
@@ -230,7 +231,7 @@ const LandingPage = () => {
         numRatings={1}
         minHourlySalary={21}
         maxHourlySalary={21}
-        salaryCurrency="CAD"
+        hourlySalaryCurrency="CAD"
         color="#CAE9ED"
         linkTo=""
       />

@@ -173,6 +173,8 @@ const GenericSearchPage: React.FC = () => {
     data
   );
 
+  console.log(searchResults);
+
   /**
    * Get heading markup/text based on query params.
    */

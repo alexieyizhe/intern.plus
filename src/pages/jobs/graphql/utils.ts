@@ -30,7 +30,7 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   avgWorkLifeBalanceRating: job.avgWorkLifeBalanceRating || 0,
   minHourlySalary: job.minHourlySalary || 0,
   maxHourlySalary: job.maxHourlySalary || 0,
-  salaryCurrency: job.salaryCurrency || "",
+  hourlySalaryCurrency: job.hourlySalaryCurrency || "",
   color: getPastelColor(),
 });
 
