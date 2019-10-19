@@ -32,6 +32,8 @@ export const buildJobCard = (
   item: GetAllSearch_jobsList_items
 ): IJobCardItem => ({
   id: item.id || "",
+  slug: item.slug || "",
+  companySlug: (item.company && item.company.slug) || "",
   name: item.name || "",
   location: item.loc || "",
   minHourlySalary: item.minHourlySalary || 0, // hourly
@@ -48,7 +50,7 @@ export const buildReviewCard = (
   id: item.id || "",
   companyName: item.company ? item.company.name || "" : "",
   jobName: item.job ? item.job.name || "" : "",
-  rating: item.overallRating || 0,
+  overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",
   color: getDarkColor(),

@@ -18,7 +18,7 @@ import { CompanyCard, ReviewCard, Link, Text } from "src/components";
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
-export interface ICardDisplayProps
+export interface ILandingCardDisplayProps
   extends React.ComponentPropsWithoutRef<"div"> {
   heading: string;
   subLinkText?: string;
@@ -28,12 +28,21 @@ export interface ICardDisplayProps
   cards: IGenericCardItem[];
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
+const getCompanyCardRoute = (companySlug: string) =>
+  `${RouteName.COMPANIES}/${companySlug}`;
+
+const getReviewCardRoute = (reviewId: string) =>
+  `${RouteName.REVIEWS}/${reviewId}`;
+
 /**
  * Creates the markup for a single carousel card, based on
  * the data in the search result.
  * @param card object containing item data for a specific search result
  */
-const getCardMarkup = (card: IGenericCardItem) => {
+const getLandingCardMarkup = (card: IGenericCardItem) => {
   if (isCompanyCardItem(card)) {
     return (
       <CarouselCompanyCard
@@ -43,7 +52,7 @@ const getCardMarkup = (card: IGenericCardItem) => {
         numRatings={card.numRatings}
         avgRating={card.avgRating}
         color={card.color}
-        linkTo={`${RouteName.COMPANIES}/${card.slug}`}
+        linkTo={getCompanyCardRoute(card.slug)}
       />
     );
   } else if (isJobCardItem(card)) {
@@ -69,9 +78,9 @@ const getCardMarkup = (card: IGenericCardItem) => {
         key={card.id}
         heading={card.companyName}
         subheading={card.jobName}
-        rating={card.rating}
+        rating={card.overallRating}
         color={card.color}
-        linkTo={`${RouteName.REVIEWS}/${card.id}`}
+        linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
       </CarouselReviewCard>
@@ -84,7 +93,7 @@ const getCardMarkup = (card: IGenericCardItem) => {
         subheading={card.date}
         rating={card.overallRating}
         color={card.color}
-        linkTo={`${RouteName.REVIEWS}/${card.id}`}
+        linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
       </CarouselReviewCard>
@@ -149,7 +158,7 @@ const SubLink = styled(Link)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const CarouselDisplay: React.FC<ICardDisplayProps> = ({
+const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
   heading,
   loading,
   error,
@@ -167,6 +176,7 @@ const CarouselDisplay: React.FC<ICardDisplayProps> = ({
   return (
     <Container {...rest}>
       <Text variant="heading2">{heading}</Text>
+
       <Display>
         {showMisc ? (
           <MiscContentContainer>
@@ -178,7 +188,7 @@ const CarouselDisplay: React.FC<ICardDisplayProps> = ({
             )}
           </MiscContentContainer>
         ) : (
-          cards.map(getCardMarkup)
+          cards.map(getLandingCardMarkup)
         )}
       </Display>
 
@@ -191,4 +201,4 @@ const CarouselDisplay: React.FC<ICardDisplayProps> = ({
   );
 };
 
-export default CarouselDisplay;
+export default LandingCardDisplay;

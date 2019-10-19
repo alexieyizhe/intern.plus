@@ -20,7 +20,7 @@ import {
   Text,
   Button,
 } from "src/components";
-import CardDisplay from "./components/CarouselDisplay";
+import LandingCardDisplay from "./components/LandingCardDisplay";
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -201,7 +201,7 @@ const LandingPage = () => {
           <TitleCardRight />
         </TitleCard>
 
-        <CardDisplay
+        <LandingCardDisplay
           heading={pageCopy.sections.topCompanies.heading}
           subLinkText={pageCopy.sections.topCompanies.subLink.text}
           subLinkTo={pageCopy.sections.topCompanies.subLink.to}
@@ -210,7 +210,7 @@ const LandingPage = () => {
           cards={companyCards}
         />
 
-        <CardDisplay
+        <LandingCardDisplay
           heading={pageCopy.sections.recentlyReviewed.heading}
           subLinkText={pageCopy.sections.recentlyReviewed.subLink.text}
           subLinkTo={pageCopy.sections.recentlyReviewed.subLink.to}

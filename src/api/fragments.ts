@@ -16,8 +16,12 @@ export const companyResultFragment = gql`
 export const jobResultFragment = gql`
   fragment JobResult on Job {
     id
+    slug
     name
     loc
+    company {
+      slug
+    }
     avgRating
     reviews {
       count

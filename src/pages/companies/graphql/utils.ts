@@ -25,6 +25,8 @@ export const buildCompanyJobCard = (
   item: GetCompanyJobs_company_jobs_items
 ) => ({
   id: item.id || "",
+  slug: item.slug || "",
+  companySlug: (item.company && item.company.slug) || "",
   name: item.name || "",
   location: item.loc || "",
   minHourlySalary: item.minHourlySalary || 0,

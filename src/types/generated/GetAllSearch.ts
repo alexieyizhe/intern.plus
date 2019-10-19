@@ -44,6 +44,14 @@ export interface GetAllSearch_companiesList {
   items: GetAllSearch_companiesList_items[];
 }
 
+export interface GetAllSearch_jobsList_items_company {
+  __typename: "Company";
+  /**
+   * Unique slug for a company.
+   */
+  slug: string | null;
+}
+
 export interface GetAllSearch_jobsList_items_reviews {
   __typename: "ReviewListResponse";
   /**
@@ -55,11 +63,13 @@ export interface GetAllSearch_jobsList_items_reviews {
 export interface GetAllSearch_jobsList_items {
   __typename: "Job";
   id: string | null;
+  slug: string | null;
   /**
    * Job title
    */
   name: string | null;
   loc: string | null;
+  company: GetAllSearch_jobsList_items_company | null;
   avgRating: number | null;
   reviews: GetAllSearch_jobsList_items_reviews | null;
   minHourlySalary: number | null;

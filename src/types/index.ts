@@ -10,6 +10,8 @@ export interface ICompanyCardItem {
 
 export interface IJobCardItem {
   id: string;
+  slug: string; // unique slug when combined with company slug
+  companySlug: string;
   name: string;
   location: string;
   minHourlySalary: number; // hourly
@@ -24,7 +26,7 @@ export interface IReviewJobCardItem {
   id: string;
   companyName: string; // company name
   jobName: string; // role/position
-  rating: number; // score out of 5
+  overallRating: number; // score out of 5
   body: string;
   tags: string;
   color: string;
@@ -48,7 +50,7 @@ export type IGenericCardItem =
 
 export const isCompanyCardItem = (
   item: IGenericCardItem
-): item is ICompanyCardItem => "slug" in item && "avgRating" in item;
+): item is ICompanyCardItem => "slug" in item && "logoSrc" in item;
 
 export const isJobCardItem = (item: IGenericCardItem): item is IJobCardItem =>
   "location" in item && "hourlySalaryCurrency" in item;
