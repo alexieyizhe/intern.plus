@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
 import { RESULTS_PER_PAGE } from "src/utils/constants";
@@ -13,19 +13,24 @@ export const useSearch = () => {
    * call is not made excessively.
    */
   const [page, setPage] = useState(1);
-  const [isEndOfResults, setIsEndOfResults] = useState(false);
-  const [isNewSearch, setIsNewSearch] = useState(false);
-  const isInitialSearch = useMemo(
-    // tracks if user has not yet searched for the first time
-    () => searchQuery === undefined,
-    [searchQuery]
-  );
+  const [isNewSearch, setIsNewSearch] = useState(false); // whether a search is completely new or just another page of the current search
+  const [isEndOfResults, setIsEndOfResults] = useState(false); // whether the end of
+  const isInitialSearch = useMemo(() => searchQuery === undefined, [
+    searchQuery,
+  ]); // whether a user has not yet searched for the first time
+  const [isDataLoaded, setIsDataLoaded] = useState(false); // whether data is loaded and ready
 
   const onNewSearch = useCallback(
     (newVal?: string) => {
       if (newVal !== undefined && newVal !== searchQuery) {
-        setIsNewSearch(true);
         setPage(1); // reset pagination
+        setIsNewSearch(true);
+
+        // prep for search
+        setIsDataLoaded(false);
+        // setIsInitialSearch(false);
+
+        // perform the new search
         setSearchQuery(newVal);
       }
     },
@@ -33,8 +38,13 @@ export const useSearch = () => {
   );
 
   const onNextBatchSearch = useCallback(() => {
-    setIsNewSearch(false);
+    // increment pagination
     setPage(prevPage => prevPage + 1);
+    setIsNewSearch(false);
+
+    // prep for search
+    setIsDataLoaded(false);
+    // setIsInitialSearch(false);
   }, []);
 
   return {
@@ -47,17 +57,25 @@ export const useSearch = () => {
     isEndOfResults,
     isNewSearch,
     isInitialSearch,
+    isDataLoaded,
 
     // callbacks
     setIsEndOfResults,
+    setIsDataLoaded,
+
     onNewSearch,
     onNextBatchSearch,
   };
 };
 
+interface UseSearchResultsConfig {
+  isNewSearch: boolean;
+  setIsDataLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEndOfResults: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export const useSearchResults = <T>(
-  isNewSearch: boolean,
-  setIsEndOfResults: React.Dispatch<React.SetStateAction<boolean>>,
+  { isNewSearch, setIsDataLoaded, setIsEndOfResults }: UseSearchResultsConfig,
   transformData: (data?: T) => IGenericCardItem[],
   data?: T
 ) => {
@@ -90,8 +108,18 @@ export const useSearchResults = <T>(
       } else {
         setIsEndOfResults(false);
       }
+
+      // indicate that the data is ready for display
+      setIsDataLoaded(true);
     }
-  }, [data, isNewSearch, setIsEndOfResults, setSearchResults, transformData]);
+  }, [
+    data,
+    isNewSearch,
+    setIsDataLoaded,
+    setIsEndOfResults,
+    setSearchResults,
+    transformData,
+  ]);
 
   return searchResults;
 };

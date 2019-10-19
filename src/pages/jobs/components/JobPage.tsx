@@ -68,16 +68,20 @@ const JobPage = () => {
    * For reviews of the job.
    */
   const {
+    // for fetching results
     searchQuery,
-
     page,
-    isEndOfResults,
-    isNewSearch,
-    isInitialSearch,
 
-    setIsEndOfResults,
+    // flags
+    isEndOfResults,
+    isInitialSearch,
+    isDataLoaded,
+
+    // search trigger functions
     onNewSearch,
     onNextBatchSearch,
+
+    ...searchResultsConfig
   } = useSearch();
 
   const {
@@ -94,8 +98,7 @@ const JobPage = () => {
   });
 
   const jobReviews = useSearchResults(
-    isNewSearch,
-    setIsEndOfResults,
+    searchResultsConfig,
     buildJobReviewsCardList,
     jobReviewsData
   ) as IReviewUserCardItem[];
