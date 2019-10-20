@@ -60,7 +60,9 @@ const getDetailsMarkup = (
               </Text>
             </Link>
             <Link to={`${RouteName.COMPANIES}/${details.companySlug}`} bare>
-              <Text variant="heading3">{details.companyName}</Text>
+              <Text variant="heading3" color={details.color}>
+                {details.companyName}
+              </Text>
             </Link>
             {details.location && (
               <>

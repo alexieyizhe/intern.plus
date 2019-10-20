@@ -48,7 +48,11 @@ const getDetailsMarkup = (
   } else if (details) {
     return (
       <DetailsContainer>
-        <Text variant="heading1" as="div">
+        <Text
+          variant="heading1"
+          as="div"
+          color={(details && details.color) || "greyLight"}
+        >
           {details.name}
         </Text>
         <Link

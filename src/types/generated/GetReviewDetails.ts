@@ -27,6 +27,10 @@ export interface GetReviewDetails_review_company {
    */
   slug: string | null;
   logoSrc: string | null;
+  /**
+   * Average color of the company's logo, in HSL format.
+   */
+  logoColor: string | null;
 }
 
 export interface GetReviewDetails_review {

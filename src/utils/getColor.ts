@@ -8,9 +8,20 @@ export const getLightColorFromImg = async (
 ) => {
   try {
     const palette = await Vibrant.from(imgSrc).getPalette();
-    if (palette && palette.LightMuted) {
-      const [h, s] = palette.LightMuted.getHsl();
-      return `hsl(${h * 360}, ${s * 100}%, 85%)`; // set lightness to high bc background
+    const bestFitSwatch = palette
+      ? palette.LightVibrant ||
+        palette.Vibrant ||
+        palette.DarkVibrant ||
+        palette.LightMuted ||
+        palette.Muted ||
+        palette.DarkMuted
+      : null;
+
+    console.log(bestFitSwatch);
+
+    if (bestFitSwatch) {
+      const [h, s, l] = bestFitSwatch.getHsl();
+      return `hsl(${h * 360}, ${s * 100}%, ${l * 100}%)`; // set lightness to high bc background
     }
   } catch (e) {
     console.error(e);

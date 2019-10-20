@@ -7,6 +7,7 @@ export const GET_COMPANY_DETAILS = gql`
       name
       desc
       logoSrc
+      logoColor
       jobs {
         items {
           ...JobResult

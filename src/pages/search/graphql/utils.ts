@@ -24,7 +24,7 @@ export const buildCompanyCard = (
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
   logoSrc: item.logoSrc || "",
-  color: "",
+  color: item.logoColor || "greyLight",
 });
 
 export const buildJobCard = (
@@ -40,7 +40,7 @@ export const buildJobCard = (
   hourlySalaryCurrency: item.hourlySalaryCurrency || "", // hourly
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0, // score out of 5
-  color: "",
+  color: (item.company && item.company.logoColor) || "",
 });
 
 export const buildReviewCard = (

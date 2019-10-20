@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 
-import { useComputedColor } from "src/utils/hooks/useComputedColor";
 import { hoverStyles } from "src/theme/snippets";
 
 import StarRating from "src/components/StarRating";
@@ -22,7 +21,6 @@ export interface ICompanyCardProps extends ICardProps {
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const NO_RATINGS_TEXT = "No ratings yet";
-const FALLBACK_BG_COLOR = "greyLight";
 
 const getRatingMarkup = (numRatings: number, avgRating: number) => {
   if (numRatings === 0) {
@@ -48,7 +46,7 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
   );
 };
 
-const Container = styled(Card)<{ show?: boolean }>`
+const Container = styled(Card)`
   position: relative;
   display: inline-grid;
   grid-template-rows: auto 1fr auto;
@@ -60,9 +58,6 @@ const Container = styled(Card)<{ show?: boolean }>`
     "ratings logo";
 
   ${hoverStyles}
-
-  transition: opacity 150ms ease-out;
-  opacity: ${({ show }) => (show ? 1 : 0)};
 
   & > .name {
     grid-area: name;
@@ -101,11 +96,8 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   numRatings,
   avgRating,
   linkTo,
-  color: _, // not used for now
   ...rest
 }) => {
-  const bgColor = useComputedColor(logoSrc || "", FALLBACK_BG_COLOR, true); // TODO: move this server-side and store value directly on company.
-
   const [clicked, setClicked] = useState(false);
   if (clicked) {
     return <Redirect push to={linkTo} />;
@@ -116,8 +108,6 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
       role="link"
       onClick={() => setClicked(true)}
       tabIndex={0}
-      color={bgColor}
-      show={bgColor !== ""}
       {...rest}
     >
       <Text className="name" variant="heading2">

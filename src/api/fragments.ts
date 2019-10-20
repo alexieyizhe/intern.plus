@@ -6,6 +6,7 @@ export const companyResultFragment = gql`
     name
     desc
     logoSrc
+    logoColor
     avgRating
     reviews {
       count
@@ -21,6 +22,7 @@ export const jobResultFragment = gql`
     location
     company {
       slug
+      logoColor
     }
     avgRating
     reviews {
@@ -40,6 +42,7 @@ export const reviewResultJobFragment = gql`
     tags
     company {
       name
+      logoColor
     }
     job {
       name

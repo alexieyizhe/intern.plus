@@ -30,6 +30,10 @@ export interface GetCompaniesReviewsLanding_companiesList_items {
   desc: string | null;
   logoSrc: string | null;
   /**
+   * Average color of the company's logo, in HSL format.
+   */
+  logoColor: string | null;
+  /**
    * Average score of all reviews of a company.
    */
   avgRating: number | null;
@@ -50,6 +54,10 @@ export interface GetCompaniesReviewsLanding_reviewsList_items_company {
    * Name of a company.
    */
   name: string | null;
+  /**
+   * Average color of the company's logo, in HSL format.
+   */
+  logoColor: string | null;
 }
 
 export interface GetCompaniesReviewsLanding_reviewsList_items_job {

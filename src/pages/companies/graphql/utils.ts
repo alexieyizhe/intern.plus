@@ -17,7 +17,7 @@ export const buildCompanyDetails = (
   numRatings: company.reviews ? company.reviews.count : 0,
   avgRating: company.avgRating || 0,
   logoSrc: company.logoSrc || "",
-  color: "",
+  color: company.logoColor || "",
 });
 
 export const buildCompanyJobCard = (
@@ -33,7 +33,7 @@ export const buildCompanyJobCard = (
   hourlySalaryCurrency: item.hourlySalaryCurrency || "CAD",
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
-  color: "",
+  color: (item.company && item.company.logoColor) || "",
 });
 
 export const buildCompanyJobCardsList = (
