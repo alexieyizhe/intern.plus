@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { default as AnimatedIcon } from "react-useanimations";
 
 import { ICompanyDetails } from "src/types";
+import { useComputedColor } from "src/utils/hooks/useComputedColor";
 import { detailsCardStyles } from "src/theme/snippets";
 
 import {
@@ -26,6 +27,7 @@ export interface ICompanyDetailsCardProps extends ISearchFieldProps {
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const ERROR_OCCURRED_TEXT = "An error occurred while getting company details.";
+const FALLBACK_BG_COLOR = "greyLight";
 
 /**
  * Creates the markup for displaying the correct state of
@@ -149,16 +151,27 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   error,
   companyDetails,
   onTriggerSearch,
-}) => (
-  <Container>
-    <MiscContentContainer>
-      {getDetailsMarkup(loading, error, companyDetails)}
-    </MiscContentContainer>
-    <SearchField
-      onTriggerSearch={onTriggerSearch}
-      placeholder="Find a position"
-    />
-  </Container>
-);
+}) => {
+  /**
+   * TODO: move this server-side and store value directly on company.
+   */
+  const bgColor = useComputedColor(
+    companyDetails ? companyDetails.logoSrc : "",
+    FALLBACK_BG_COLOR,
+    true
+  );
+
+  return (
+    <Container color={bgColor}>
+      <MiscContentContainer>
+        {getDetailsMarkup(loading, error, companyDetails)}
+      </MiscContentContainer>
+      <SearchField
+        onTriggerSearch={onTriggerSearch}
+        placeholder="Find a position"
+      />
+    </Container>
+  );
+};
 
 export default CompanyDetailsCard;

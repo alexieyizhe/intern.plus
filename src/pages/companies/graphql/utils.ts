@@ -5,7 +5,6 @@ import {
   GetCompanyJobs,
   GetCompanyJobs_company_jobs_items,
 } from "src/types/generated/GetCompanyJobs";
-import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 /**
  * TODO: documentation
@@ -18,7 +17,7 @@ export const buildCompanyDetails = (
   numRatings: company.reviews ? company.reviews.count : 0,
   avgRating: company.avgRating || 0,
   logoSrc: company.logoSrc || "",
-  color: getPastelColor(),
+  color: "",
 });
 
 export const buildCompanyJobCard = (
@@ -34,7 +33,7 @@ export const buildCompanyJobCard = (
   hourlySalaryCurrency: item.hourlySalaryCurrency || "CAD",
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
-  color: getDarkColor(),
+  color: "",
 });
 
 export const buildCompanyJobCardsList = (

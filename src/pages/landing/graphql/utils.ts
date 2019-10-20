@@ -5,7 +5,6 @@ import {
   GetCompaniesReviewsLanding_companiesList_items,
   GetCompaniesReviewsLanding_reviewsList_items,
 } from "src/types/generated/GetCompaniesReviewsLanding";
-import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 /**
  * TODO: documentation
@@ -19,7 +18,7 @@ export const buildCompanyCard = (
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
   logoSrc: item.logoSrc || "",
-  color: getPastelColor(),
+  color: "",
 });
 
 export const buildReviewCard = (
@@ -31,7 +30,7 @@ export const buildReviewCard = (
   overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",
-  color: getDarkColor(),
+  color: "",
 });
 
 export const buildLandingCardsList = (data?: GetCompaniesReviewsLanding) => {

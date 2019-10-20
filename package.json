@@ -40,6 +40,7 @@
     "focus-visible": "^5.0.2",
     "graphql": "^14.5.8",
     "javascript-time-ago": "^2.0.2",
+    "node-vibrant": "^3.1.4",
     "query-string": "^6.8.3",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",

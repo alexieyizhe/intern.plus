@@ -8,7 +8,6 @@ import {
   GetJobReviews,
   GetJobReviews_job_reviews_items,
 } from "src/types/generated/GetJobReviews";
-import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 TimeAgo.addLocale(en);
 
@@ -31,7 +30,7 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   minHourlySalary: job.minHourlySalary || 0,
   maxHourlySalary: job.maxHourlySalary || 0,
   hourlySalaryCurrency: job.hourlySalaryCurrency || "",
-  color: getPastelColor(),
+  color: "",
 });
 
 export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
@@ -47,7 +46,7 @@ export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
   overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",
-  color: getDarkColor(),
+  color: "",
 });
 
 export const buildJobReviewsCardList = (

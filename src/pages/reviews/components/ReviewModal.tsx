@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { default as AnimatedIcon } from "react-useanimations";
 import { Helmet } from "react-helmet";
 
-// TODO: REFACTOR (especially the styles)
+// TODO: REFACTOR (especially the styles and getMarkup)
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/constants";
 import { IReviewDetails } from "src/types";

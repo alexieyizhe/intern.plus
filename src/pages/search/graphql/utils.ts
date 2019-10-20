@@ -11,7 +11,6 @@ import {
   GetAllSearch_jobsList_items,
   GetAllSearch_reviewsList_items,
 } from "src/types/generated/GetAllSearch";
-import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 /**
  * TODO: documentation
@@ -25,7 +24,7 @@ export const buildCompanyCard = (
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
   logoSrc: item.logoSrc || "",
-  color: getPastelColor(),
+  color: "",
 });
 
 export const buildJobCard = (
@@ -41,7 +40,7 @@ export const buildJobCard = (
   hourlySalaryCurrency: item.hourlySalaryCurrency || "", // hourly
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0, // score out of 5
-  color: getDarkColor(),
+  color: "",
 });
 
 export const buildReviewCard = (
@@ -53,7 +52,7 @@ export const buildReviewCard = (
   overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",
-  color: getDarkColor(),
+  color: "",
 });
 
 export const buildSearchResultCardsList = (
