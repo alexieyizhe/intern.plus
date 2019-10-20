@@ -1,77 +1,46 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import { Size, VariantList } from "src/theme/constants";
-import { TEXT_VARIANTS } from "src/components/Text";
+import { VariantList } from "src/theme/constants";
+import {
+  IInputStyleOptions,
+  inputStyles,
+} from "src/theme/componentStyles/input";
+
+import { TEXT_VARIANTS, ITextProps } from "src/components/Text";
 
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
 export interface ITextInputProps
-  extends React.ComponentPropsWithoutRef<"input"> {
-  /**
-   * Props that affect/augment styling of the TextInput component.
-   */
-  color?: string;
-  heading?: boolean; // affects font family
-  textColor?: string;
-  textSize?: Size | number;
-
-  underline?: boolean;
-  bold?: boolean;
-  italic?: boolean;
-
-  /**
-   * Specifies a predefined set of styles to apply to the TextInput component.
-   * If `variant` is supplied, its styles can be overriden by specifying individual
-   * styles as props.
-   */
-  variant?: string;
-}
+  extends IInputStyleOptions,
+    React.ComponentPropsWithoutRef<"input"> {}
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
 /**
- * Predefined variants for the TextInput component. Ensures consistency across multiple
- * parts of the site using the same style (i.e. different pages using the same input styles).
+ * Transform text variants into a shape that matches the TextInput props.
+ * Ensures consistency across multiple parts of the site using the same
+ * style (i.e. different pages using the same input styles) and between
+ * components (Text, TextInput, Button, Select, etc)
  */
-const TEXT_INPUT_VARIANTS: VariantList<ITextInputProps> = Object.keys(
+export const INPUT_VARIANTS: VariantList<IInputStyleOptions> = Object.keys(
   TEXT_VARIANTS
 ).reduce(
   (acc, key) => {
-    acc[key].textSize = acc[key].size;
+    (acc[key] as Partial<IInputStyleOptions>).textSize = acc[key].size;
     delete acc.size;
     return acc;
   },
-  { ...TEXT_VARIANTS } as VariantList<ITextInputProps>
+  { ...TEXT_VARIANTS } as VariantList<ITextProps>
 );
 
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
-const BaseTextInput = styled.input<ITextInputProps>`
-  width: 100%;
-  padding: 15px 20px;
-
-  color: ${({ textColor = "", theme }) =>
-    theme.color[textColor] || textColor || "inherit"};
-  font-family: ${({ heading, theme }) =>
-    theme.fontFamily[heading ? "heading" : "body"]};
-  font-size: ${({ textSize = Size.SMALL, theme }) =>
-    theme.fontSize[textSize] || textSize}px;
-
-  ${({ underline }) => underline && `text-decoration: underline;`}
-  ${({ bold }) => bold && `font-weight: bold;`}
-  ${({ italic }) => italic && `font-style: italic;`}
-
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
-  border: none;
-
-  background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
-  cursor: ${({ disabled, readOnly }) =>
-    disabled || readOnly ? "not-allowed" : "text"};
+const BaseTextInput = styled.input`
+  ${inputStyles}
 `;
 
 /*******************************************************************
@@ -86,7 +55,7 @@ const TextInput: React.FC<ITextInputProps> = ({ variant = "", ...rest }) => {
    */
   const propsToApply = useMemo(() => {
     const stylesFromVariant =
-      variant in TEXT_INPUT_VARIANTS ? TEXT_INPUT_VARIANTS[variant] : {};
+      variant in INPUT_VARIANTS ? INPUT_VARIANTS[variant] : {};
 
     return {
       ...stylesFromVariant,

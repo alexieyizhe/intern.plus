@@ -18,9 +18,24 @@ import {
   PageFooter,
   PageHeader,
   StarRating,
+  Select,
   Text,
   TextInput,
 } from "src/components";
+
+const inputOptions = [
+  { label: "Option 1", value: "option-1" },
+  { label: "Option 2", value: "option-2" },
+  { label: "Option 3", value: "option-3" },
+  { label: "Option 4", value: "option-4" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 6", value: "option-6" },
+];
 
 const landingCardStyles = css`
   width: 350px;
@@ -62,6 +77,14 @@ const DesignSystemPage = () => {
 
   return (
     <PageContainer>
+      <div>SELECT</div>
+      <Select color="greyLight" variant="body" options={inputOptions} />
+
+      <br />
+      <br />
+      <br />
+      <br />
+
       <div>CHECKBOX</div>
       <Checkbox
         checked={checkboxChecked}
