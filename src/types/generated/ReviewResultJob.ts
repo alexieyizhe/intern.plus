@@ -12,6 +12,10 @@ export interface ReviewResultJob_company {
    * Name of a company.
    */
   name: string | null;
+  /**
+   * Average color of the company's logo, in HSL format.
+   */
+  logoColor: string | null;
 }
 
 export interface ReviewResultJob_job {

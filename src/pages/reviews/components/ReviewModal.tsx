@@ -5,9 +5,11 @@ import { useQuery } from "@apollo/react-hooks";
 import { default as AnimatedIcon } from "react-useanimations";
 import { Helmet } from "react-helmet";
 
-// TODO: REFACTOR (especially the styles)
+// TODO: REFACTOR (especially the styles and getMarkup)
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/utils/constants";
+import { getDarkColor } from "src/utils/getColor";
+
 import { IReviewDetails } from "src/types";
 import { GetReviewDetails } from "src/types/generated/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
@@ -60,7 +62,12 @@ const getDetailsMarkup = (
               </Text>
             </Link>
             <Link to={`${RouteName.COMPANIES}/${details.companySlug}`} bare>
-              <Text variant="heading3">{details.companyName}</Text>
+              <Text
+                variant="heading3"
+                color={details.color && getDarkColor(details.color)}
+              >
+                {details.companyName}
+              </Text>
             </Link>
             {details.location && (
               <>

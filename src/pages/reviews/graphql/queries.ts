@@ -15,6 +15,7 @@ export const GET_REVIEW_DETAILS = gql`
         name
         slug
         logoSrc
+        logoColor
       }
       salary
       salaryPeriod

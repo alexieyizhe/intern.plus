@@ -12,6 +12,10 @@ export interface GetCompanyJobs_company_jobs_items_company {
    * Unique slug for a company.
    */
   slug: string | null;
+  /**
+   * Average color of the company's logo, in HSL format.
+   */
+  logoColor: string | null;
 }
 
 export interface GetCompanyJobs_company_jobs_items_reviews {

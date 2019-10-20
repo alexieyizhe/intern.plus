@@ -8,7 +8,6 @@ import {
   GetJobReviews,
   GetJobReviews_job_reviews_items,
 } from "src/types/generated/GetJobReviews";
-import { getPastelColor, getDarkColor } from "src/utils/getColor";
 
 TimeAgo.addLocale(en);
 
@@ -20,8 +19,8 @@ const timeAgo = new TimeAgo("en-US");
  */
 export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   name: job.name || "",
-  companyName: job.company ? job.company.name || "" : "",
-  companySlug: job.company ? job.company.slug || "" : "",
+  companyName: (job.company && job.company.name) || "",
+  companySlug: (job.company && job.company.slug) || "",
   location: job.location || undefined,
   numRatings: job.reviews ? job.reviews.count : 0,
   avgRating: job.avgRating || 0,
@@ -31,7 +30,7 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   minHourlySalary: job.minHourlySalary || 0,
   maxHourlySalary: job.maxHourlySalary || 0,
   hourlySalaryCurrency: job.hourlySalaryCurrency || "",
-  color: getPastelColor(),
+  color: (job.company && job.company.logoColor) || "",
 });
 
 export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
@@ -47,7 +46,7 @@ export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
   overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",
-  color: getDarkColor(),
+  color: "",
 });
 
 export const buildJobReviewsCardList = (

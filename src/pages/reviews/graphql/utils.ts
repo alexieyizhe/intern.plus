@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { IReviewDetails } from "src/types";
 import { GetReviewDetails_review } from "src/types/generated/GetReviewDetails";
-import { getDarkColor } from "src/utils/getColor";
 
 /**
  * TODO: documentation
@@ -24,5 +23,5 @@ export const buildReviewDetails = (
   salaryCurrency: review.salaryCurrency || "",
   salaryPeriod: review.salaryPeriod || "",
   logoSrc: (review.company && review.company.logoSrc) || "",
-  color: getDarkColor(),
+  color: (review.company && review.company.logoColor) || "",
 });

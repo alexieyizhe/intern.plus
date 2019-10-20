@@ -4,6 +4,7 @@ import { default as AnimatedIcon } from "react-useanimations";
 
 import { ICompanyDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
+import { getLightColor } from "src/utils/getColor";
 
 import {
   ISearchFieldProps,
@@ -150,7 +151,7 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   companyDetails,
   onTriggerSearch,
 }) => (
-  <Container>
+  <Container color={companyDetails && getLightColor(companyDetails.color)}>
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, companyDetails)}
     </MiscContentContainer>

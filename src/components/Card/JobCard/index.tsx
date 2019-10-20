@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 
 import { hoverStyles } from "src/theme/snippets";
+
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";

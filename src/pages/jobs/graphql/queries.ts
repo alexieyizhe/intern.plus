@@ -10,6 +10,7 @@ export const GET_JOB_DETAILS = gql`
       company {
         name
         slug
+        logoColor
       }
       minHourlySalary
       maxHourlySalary

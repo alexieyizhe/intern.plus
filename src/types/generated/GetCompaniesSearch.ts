@@ -30,6 +30,10 @@ export interface GetCompaniesSearch_companiesList_items {
   desc: string | null;
   logoSrc: string | null;
   /**
+   * Average color of the company's logo, in HSL format.
+   */
+  logoColor: string | null;
+  /**
    * Average score of all reviews of a company.
    */
   avgRating: number | null;
