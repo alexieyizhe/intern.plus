@@ -15,7 +15,8 @@ import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/utils/constants";
 import { SiteContextProvider } from "src/utils/context";
-import Analytics, { initAnalytics } from "src/utils/analytics";
+import Analytics from "src/utils/analytics";
+import * as analytics from "src/utils/analytics";
 
 import { PageHeader, PageFooter } from "src/components";
 
@@ -30,6 +31,9 @@ import NotFoundPage from "src/pages/404";
 import ReviewModal from "src/pages/reviews/components/ReviewModal";
 import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 
+/**
+ * Main switch for all of our pages in the app.
+ */
 const AppSwitch: React.FC = () => {
   const location = useLocation();
   const calculatedLocation = useMemo(
@@ -91,7 +95,7 @@ const App: React.FC = () => (
           <QueryParamProvider ReactRouterRoute={Route}>
             <div className="App">
               <GlobalStyles />
-              {initAnalytics() && <Analytics />}
+              {analytics.init() && <Analytics />}
 
               <PageHeader />
               <AppSwitch />

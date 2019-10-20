@@ -52,6 +52,7 @@
     "react-useanimations": "^1.2.10",
     "react-waypoint": "^9.0.2",
     "styled-components": "^4.4.0",
+    "tti-polyfill": "^0.2.2",
     "typescript": "3.6.4",
     "use-query-params": "^0.4.2"
   },
@@ -63,6 +64,7 @@
     "@types/react-router-dom": "^5.1.0",
     "@types/react-select": "^3.0.5",
     "@types/styled-components": "^4.1.19",
+    "@types/tti-polyfill": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "chalk": "^2.4.2",
