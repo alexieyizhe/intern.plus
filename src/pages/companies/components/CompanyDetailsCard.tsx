@@ -4,6 +4,7 @@ import { default as AnimatedIcon } from "react-useanimations";
 
 import { ICompanyDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
+import { getLightColor } from "src/utils/getColor";
 
 import {
   ISearchFieldProps,
@@ -26,7 +27,6 @@ export interface ICompanyDetailsCardProps extends ISearchFieldProps {
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const ERROR_OCCURRED_TEXT = "An error occurred while getting company details.";
-const FALLBACK_BG_COLOR = "transparent";
 
 /**
  * Creates the markup for displaying the correct state of
@@ -151,7 +151,7 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   companyDetails,
   onTriggerSearch,
 }) => (
-  <Container color={companyDetails ? companyDetails.color : FALLBACK_BG_COLOR}>
+  <Container color={companyDetails && getLightColor(companyDetails.color)}>
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, companyDetails)}
     </MiscContentContainer>

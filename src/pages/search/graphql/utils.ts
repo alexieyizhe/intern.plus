@@ -24,7 +24,7 @@ export const buildCompanyCard = (
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
   logoSrc: item.logoSrc || "",
-  color: item.logoColor || "greyLight",
+  color: item.logoColor || "",
 });
 
 export const buildJobCard = (
@@ -47,12 +47,12 @@ export const buildReviewCard = (
   item: GetAllSearch_reviewsList_items
 ): IReviewJobCardItem => ({
   id: item.id || "",
-  companyName: item.company ? item.company.name || "" : "",
+  companyName: (item.company && item.company.name) || "",
   jobName: item.job ? item.job.name || "" : "",
   overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",
-  color: "",
+  color: (item.company && item.company.logoColor) || "",
 });
 
 export const buildSearchResultCardsList = (

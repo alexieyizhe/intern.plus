@@ -18,7 +18,7 @@ export const buildCompanyCard = (
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
   logoSrc: item.logoSrc || "",
-  color: item.logoColor || "greyLight",
+  color: item.logoColor || "",
 });
 
 export const buildReviewCard = (

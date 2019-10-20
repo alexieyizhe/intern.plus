@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 
 import { hoverStyles } from "src/theme/snippets";
+import { getLightColor, getDarkColor } from "src/utils/getColor";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -21,6 +22,7 @@ export interface ICompanyCardProps extends ICardProps {
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const NO_RATINGS_TEXT = "No ratings yet";
+const FALLBACK_BG_COLOR = "greyLight";
 
 const getRatingMarkup = (numRatings: number, avgRating: number) => {
   if (numRatings === 0) {
@@ -96,6 +98,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   numRatings,
   avgRating,
   linkTo,
+  color,
   ...rest
 }) => {
   const [clicked, setClicked] = useState(false);
@@ -108,9 +111,14 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
       role="link"
       onClick={() => setClicked(true)}
       tabIndex={0}
+      color={color ? getLightColor(color) : FALLBACK_BG_COLOR}
       {...rest}
     >
-      <Text className="name" variant="heading2">
+      <Text
+        className="name"
+        variant="heading2"
+        color={color && getDarkColor(color)}
+      >
         {name}
       </Text>
 

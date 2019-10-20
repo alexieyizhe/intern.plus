@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useLocation, useHistory } from "react-router-dom";
 
 import { hoverStyles } from "src/theme/snippets";
+import { getDarkColor } from "src/utils/getColor";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -97,7 +98,11 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
       tabIndex={0}
       {...rest}
     >
-      <Text className="heading" variant="heading3" color={color}>
+      <Text
+        className="heading"
+        variant="heading3"
+        color={color && getDarkColor(color)}
+      >
         {heading}
       </Text>
       <Text className="subheading" variant="heading4" color="greyDark">

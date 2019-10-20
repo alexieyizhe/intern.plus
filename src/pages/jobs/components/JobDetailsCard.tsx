@@ -6,6 +6,7 @@ import { default as AnimatedIcon } from "react-useanimations";
 import { IJobDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
 import { RouteName } from "src/utils/constants";
+import { getDarkColor } from "src/utils/getColor";
 
 import {
   ISearchFieldProps,
@@ -51,7 +52,7 @@ const getDetailsMarkup = (
         <Text
           variant="heading1"
           as="div"
-          color={(details && details.color) || "greyLight"}
+          color={details && details.color && getDarkColor(details.color)}
         >
           {details.name}
         </Text>
