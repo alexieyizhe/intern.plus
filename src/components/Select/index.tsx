@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import BaseSelect from "react-select";
 import { CommonProps } from "react-select/src/types";
@@ -7,7 +8,11 @@ import themeConstants, { Size } from "src/theme/constants";
 
 export interface ISelectProps extends IInputStyleOptions, CommonProps<any> {}
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * Override the styling provided by `react-select` to match
+ * the rest of the input component styles. Use theme constants
+ * wherever possible to be more maintainable.
+ */
 const customSelectStyles = {
   container: (provided: any) => ({
     ...provided,

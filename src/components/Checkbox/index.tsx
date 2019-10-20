@@ -7,6 +7,7 @@ export interface ICheckboxProps
 const CHECKBOX_SIZE = 15;
 
 const Container = styled.span`
+  position: relative;
   display: inline-flex;
   align-items: center;
 `;

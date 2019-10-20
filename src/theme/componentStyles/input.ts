@@ -42,14 +42,14 @@ export const inputStyles = css<IInputStyleOptions>`
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}
 
-  transition: all 100ms;
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
-  border: 2px solid transparent;
-
   background-color: ${({ color = "", theme }) =>
     theme.color[color] || color || "inherit"};
   cursor: ${({ disabled, readOnly }) =>
     disabled || readOnly ? "not-allowed" : "text"};
+
+  transition: all 100ms;
+  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border: 2px solid transparent;
 
   &:hover:not(:read-only):not(:disabled) {
     border: 2px solid ${({ theme }) => theme.color.greyMedium};
