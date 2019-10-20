@@ -15,6 +15,7 @@ import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/utils/constants";
 import { SiteContextProvider } from "src/utils/context";
+import Analytics, { initAnalytics } from "src/utils/analytics";
 
 import { PageHeader, PageFooter } from "src/components";
 
@@ -90,6 +91,7 @@ const App: React.FC = () => (
           <QueryParamProvider ReactRouterRoute={Route}>
             <div className="App">
               <GlobalStyles />
+              {initAnalytics() && <Analytics />}
 
               <PageHeader />
               <AppSwitch />
