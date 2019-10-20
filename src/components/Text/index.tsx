@@ -82,8 +82,8 @@ const BaseText = styled.span<ITextProps>`
   color: ${({ color = "", theme }) => theme.color[color] || color || "inherit"};
   font-family: ${({ heading, theme }) =>
     theme.fontFamily[heading ? "heading" : "body"]};
-  font-size: ${({ size = Size.MEDIUM, theme }) =>
-    theme.fontSize[size] || size}px;
+  font-size: ${({ size, theme }) =>
+    size ? `${theme.fontSize[size] || size}px` : "inherit"};
 
 
   ${({ underline }) => underline && `text-decoration: underline;`}

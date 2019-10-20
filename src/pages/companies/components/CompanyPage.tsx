@@ -97,7 +97,7 @@ const CompanyPage = () => {
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
-    skip: isInitialSearch || isDataLoaded, // do not make an API call if search query is empty (on initial load)
+    skip: isDataLoaded,
   });
 
   const companyJobs = useSearchResults(

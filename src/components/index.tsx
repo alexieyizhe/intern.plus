@@ -4,6 +4,9 @@ export * from "./Button";
 export { default as Card } from "./Card";
 export * from "./Card";
 
+export { default as Checkbox } from "./Checkbox";
+export * from "./Checkbox";
+
 export { default as InputButtonCombo } from "./InputButtonCombo";
 export * from "./InputButtonCombo";
 
@@ -25,11 +28,17 @@ export * from "./ResultsDisplay";
 export { default as SearchField } from "./SearchField";
 export * from "./SearchField";
 
+export { default as Select } from "./Select";
+export * from "./Select";
+
 export { default as StarRating } from "./StarRating";
 export * from "./StarRating";
 
 export { default as Text } from "./Text";
 export * from "./Text";
+
+export { default as TextArea } from "./TextArea";
+export * from "./TextArea";
 
 export { default as TextInput } from "./TextInput";
 export * from "./TextInput";

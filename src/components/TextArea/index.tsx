@@ -1,52 +1,35 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import { VariantList } from "src/theme/constants";
 import {
   IInputStyleOptions,
   inputStyles,
 } from "src/theme/componentStyles/input";
 
-import { TEXT_VARIANTS, ITextProps } from "src/components/Text";
-
+import { INPUT_VARIANTS } from "src/components/TextInput";
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
-export interface ITextInputProps
+export interface ITextAreaProps
   extends IInputStyleOptions,
-    React.ComponentPropsWithoutRef<"input"> {}
-
-/*******************************************************************
- *                  **Utility functions/constants**                *
- *******************************************************************/
-/**
- * Transform text variants into a shape that matches the TextInput props.
- * Ensures consistency across multiple parts of the site using the same
- * style (i.e. different pages using the same input styles) and between
- * components (Text, TextInput, Button, Select, etc)
- */
-export const INPUT_VARIANTS: VariantList<IInputStyleOptions> = Object.keys(
-  TEXT_VARIANTS
-).reduce(
-  (acc, key) => {
-    (acc[key] as Partial<IInputStyleOptions>).textSize = acc[key].size;
-    delete acc.size;
-    return acc;
-  },
-  { ...TEXT_VARIANTS } as VariantList<ITextProps>
-);
+    React.ComponentPropsWithoutRef<"textarea"> {}
 
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
-const BaseTextInput = styled.input`
+const BaseTextArea = styled.textarea`
   ${inputStyles}
+
+  resize: vertical;
+  &::-webkit-resizer {
+    display: none;
+  }
 `;
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const TextInput: React.FC<ITextInputProps> = ({ variant = "", ...rest }) => {
+const TextArea: React.FC<ITextAreaProps> = ({ variant = "", ...rest }) => {
   /**
    * Calculate the styles that will be applied to the Text component from the provided props.
    * If a variant is supplied, use those styles, and override with other props.
@@ -63,6 +46,6 @@ const TextInput: React.FC<ITextInputProps> = ({ variant = "", ...rest }) => {
     };
   }, [rest, variant]);
 
-  return <BaseTextInput {...propsToApply} />;
+  return <BaseTextArea {...propsToApply} />;
 };
-export default TextInput;
+export default TextArea;

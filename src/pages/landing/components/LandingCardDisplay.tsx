@@ -194,7 +194,9 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
 
       {subLinkTo && (
         <SubLink to={subLinkTo}>
-          <Text variant="subheading">{subLinkText}</Text>
+          <Text variant="subheading" color="greyDark">
+            {subLinkText}
+          </Text>
         </SubLink>
       )}
     </Container>

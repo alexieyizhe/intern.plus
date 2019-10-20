@@ -11,6 +11,7 @@ export interface ILinkProps extends React.ComponentPropsWithoutRef<"a"> {
 const baseLinkStyles = css<{ bare?: boolean }>`
   color: inherit;
 
+  text-decoration-color: ${({ theme }) => theme.color.greyLight};
   text-decoration: ${({ bare }) => (bare ? "none" : "underline")};
 
   &:hover:not(:disabled),

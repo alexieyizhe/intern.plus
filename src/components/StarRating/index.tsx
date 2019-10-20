@@ -90,10 +90,11 @@ const StarRating: React.FC<IStarRatingProps> = ({
       <span className="starContainer">
         {stars.map((filled, i) => (
           <Star
-            className={`${filled ? "filled" : ""}${
-              readOnly ? " readOnly" : ""
-            }`}
-            key={`star${i}${filled ? "-filled" : ""}`}
+            className={`
+              ${filled ? "filled" : ""}
+              ${readOnly ? " readOnly" : ""}
+            `}
+            key={`star${i}${filled ? "filled" : ""}`}
             onClick={internalOnClick(i)}
             onMouseEnter={internalOnMouseHover(i, true)}
             onMouseLeave={internalOnMouseHover(i, false)}

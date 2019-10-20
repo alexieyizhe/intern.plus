@@ -95,6 +95,7 @@ const JobPage = () => {
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
+    skip: isDataLoaded,
   });
 
   const jobReviews = useSearchResults(

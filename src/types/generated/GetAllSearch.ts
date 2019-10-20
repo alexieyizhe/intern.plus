@@ -68,7 +68,7 @@ export interface GetAllSearch_jobsList_items {
    * Job title
    */
   name: string | null;
-  loc: string | null;
+  location: string | null;
   company: GetAllSearch_jobsList_items_company | null;
   avgRating: number | null;
   reviews: GetAllSearch_jobsList_items_reviews | null;

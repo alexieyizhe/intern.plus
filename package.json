@@ -1,6 +1,6 @@
 {
   "name": "tugboat",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -37,6 +37,7 @@
     "@types/react-dom": "16.9.1",
     "apollo-boost": "^0.4.4",
     "debounce": "^1.2.0",
+    "focus-visible": "^5.0.2",
     "graphql": "^14.5.8",
     "javascript-time-ago": "^2.0.2",
     "query-string": "^6.8.3",
@@ -46,6 +47,7 @@
     "react-kawaii": "^0.14.4",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "react-select": "^3.0.8",
     "react-useanimations": "^1.2.10",
     "react-waypoint": "^9.0.2",
     "styled-components": "^4.4.0",
@@ -58,6 +60,7 @@
     "@types/react-helmet": "^5.0.12",
     "@types/react-kawaii": "^0.11.0",
     "@types/react-router-dom": "^5.1.0",
+    "@types/react-select": "^3.0.5",
     "@types/styled-components": "^4.1.19",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",

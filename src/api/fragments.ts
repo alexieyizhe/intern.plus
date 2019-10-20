@@ -18,7 +18,7 @@ export const jobResultFragment = gql`
     id
     slug
     name
-    loc
+    location
     company {
       slug
     }

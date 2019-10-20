@@ -20,25 +20,21 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
     theme.color[color] || color || "inherit"};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 
-  &::after {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
+  transition: all 150ms;
+  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border: 2px solid transparent;
 
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
-    box-shadow: ${({ theme }) => theme.boxShadow.hover};
-
-    transition: opacity 150ms ease-in;
-    opacity: 0;
+  & > * {
+    opacity: 1;
   }
 
-  &:hover::after,
-  &:focus::after {
-    opacity: 1;
+  &:hover:not(:disabled) > * {
+    opacity: 0.8;
+  }
+
+  &:focus:not(:disabled).focus-visible,
+  &:active:not(:disabled) {
+    border: 2px solid ${({ theme }) => theme.color.greyMedium};
   }
 `;
 

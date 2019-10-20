@@ -22,7 +22,7 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   name: job.name || "",
   companyName: job.company ? job.company.name || "" : "",
   companySlug: job.company ? job.company.slug || "" : "",
-  location: job.loc || undefined,
+  location: job.location || undefined,
   numRatings: job.reviews ? job.reviews.count : 0,
   avgRating: job.avgRating || 0,
   avgLearningMentorshipRating: job.avgLearningMentorshipRating || 0,

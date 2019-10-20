@@ -32,7 +32,7 @@ export interface GetJobDetails_job {
    * Job title
    */
   name: string | null;
-  loc: string | null;
+  location: string | null;
   company: GetJobDetails_job_company | null;
   minHourlySalary: number | null;
   maxHourlySalary: number | null;

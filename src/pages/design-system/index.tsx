@@ -1,24 +1,42 @@
 /**
  * A playground for testing various components and code.
- * Not pretty or well-documented, so venture forth at your own risk.
+ * Not pretty or well-documented (currently), so venture forth at your own risk.
  */
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 import {
+  Button,
   Card,
   CompanyCard,
   JobCard,
   ReviewCard,
-  Button,
+  Checkbox,
+  InputButtonCombo,
   Link,
+  PageContainer,
   PageFooter,
   PageHeader,
-  InputButtonCombo,
   StarRating,
+  Select,
   Text,
+  TextArea,
   TextInput,
 } from "src/components";
+
+const inputOptions = [
+  { label: "Option 1", value: "option-1" },
+  { label: "Option 2", value: "option-2" },
+  { label: "Option 3", value: "option-3" },
+  { label: "Option 4", value: "option-4" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 5", value: "option-5" },
+  { label: "Option 6", value: "option-6" },
+];
 
 const landingCardStyles = css`
   width: 350px;
@@ -54,10 +72,48 @@ const ResultsReviewCard = styled(ReviewCard)`
   ${resultsCardstyles}
 `;
 
-const LandingPage = () => {
+const DesignSystemPage = () => {
   const [numFilledStars, setNumFilledStars] = useState(3);
+  const [checkboxChecked, setChecked] = useState(false);
+
   return (
-    <div>
+    <PageContainer>
+      <div>SELECT</div>
+      <Select color="greyLight" variant="body" options={inputOptions} />
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <div>TEXTAREA</div>
+      <TextArea color="greyLight" variant="body" />
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <div>CHECKBOX</div>
+      <Checkbox
+        checked={checkboxChecked}
+        onChange={e => setChecked(e.target.checked)}
+      >
+        <span>I agree to terms.</span>
+      </Checkbox>
+
+      <Checkbox
+        disabled
+        checked={checkboxChecked}
+        onChange={e => setChecked(e.target.checked)}
+      >
+        <span>I agree to terms.</span>
+      </Checkbox>
+      <br />
+      <br />
+      <br />
+      <br />
+
       <div>TEXT</div>
       <Text variant="heading1" as="div">
         Heading 1
@@ -141,6 +197,7 @@ const LandingPage = () => {
       <div>SEARCH</div>
       <InputButtonCombo
         value="some search value "
+        buttonText="Search"
         onChange={() => {}}
         onEnterTrigger={() => console.log("searching with")}
       />
@@ -284,8 +341,8 @@ const LandingPage = () => {
       <br />
       <br />
       <PageFooter />
-    </div>
+    </PageContainer>
   );
 };
 
-export default LandingPage;
+export default DesignSystemPage;

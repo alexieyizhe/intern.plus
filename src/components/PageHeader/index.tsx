@@ -142,6 +142,7 @@ const NavLinks = styled.nav`
 
   & > * {
     margin: auto 10px;
+    font-size: 16px;
   }
 
   & .homeLink {
@@ -168,6 +169,8 @@ const NavLinks = styled.nav`
     & > * {
       margin: 0 0 10px 0;
       color: ${theme.color.greyDark};
+      font-size: 14px;
+      font-weight: 500;
     }
 
     & .homeLink { 
@@ -220,8 +223,7 @@ const Header: React.FC = () => {
   const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
 
   /**
-   * Keeps track of whether the mobile menu is open or not.
-   * Only applies to mobile devices.
+   * State and callbacks for mobile menu and add review modal.
    */
   const {
     state: { mobileMenuOpen, addReviewModalOpen },
@@ -290,16 +292,16 @@ const Header: React.FC = () => {
         aria-hidden={isMobileUser && !mobileMenuOpen ? "false" : "true"}
       >
         <Link to={RouteName.JOBS} bare>
-          <Text size={16}>Positions</Text>
+          <Text>Positions</Text>
         </Link>
         <Link to={RouteName.COMPANIES} bare>
-          <Text size={16}>Companies</Text>
+          <Text>Companies</Text>
         </Link>
         <Link to={RouteName.REVIEWS} bare>
-          <Text size={16}>Reviews</Text>
+          <Text>Reviews</Text>
         </Link>
         <Link to={RouteName.LANDING} bare className="homeLink">
-          <Text size={16}>Home</Text>
+          <Text>Home</Text>
         </Link>
       </NavLinks>
 

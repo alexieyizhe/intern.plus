@@ -30,7 +30,7 @@ export interface JobResult {
    * Job title
    */
   name: string | null;
-  loc: string | null;
+  location: string | null;
   company: JobResult_company | null;
   avgRating: number | null;
   reviews: JobResult_reviews | null;
