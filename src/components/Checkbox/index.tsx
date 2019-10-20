@@ -33,14 +33,6 @@ const sharedStyles = css`
   height: ${CHECKBOX_SIZE}px;
 `;
 
-const focusedStyles = css`
-  border: 1.5px solid ${({ theme }) => theme.color.black};
-`;
-
-const checkedStyles = css`
-  background-color: ${({ theme }) => theme.color.black};
-`;
-
 const disabledStyles = css`
   &:disabled {
     cursor: not-allowed;
@@ -63,6 +55,29 @@ const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
   ${disabledStyles}
 `;
 
+const focusedStyles = css`
+  ${HiddenCheckbox}:not(:disabled).focus-visible + & {
+    border: 1.5px solid ${({ theme }) => theme.color.black};
+  }
+`;
+
+const hoveredStyles = css`
+  ${HiddenCheckbox}:not(:disabled):checked:hover + & {
+    border: 1.5px solid ${({ theme }) => theme.color.black};
+    background-color: ${({ theme }) => theme.color.greyLight};
+  }
+
+  ${HiddenCheckbox}:not(:disabled):not(:checked):hover + & {
+    border: 1.5px solid ${({ theme }) => theme.color.greyMedium};
+  }
+`;
+
+const checkedStyles = css`
+  ${HiddenCheckbox}:checked + & {
+    background-color: ${({ theme }) => theme.color.black};
+  }
+`;
+
 const StyledCheckbox = styled.span`
   ${sharedStyles}
 
@@ -70,16 +85,11 @@ const StyledCheckbox = styled.span`
   border-radius: ${({ theme }) => theme.borderRadius.checkbox}px;
   z-index: 1;
 
+  transition: all 100ms;
   border: 1.5px solid transparent;
-  ${HiddenCheckbox}:not(:disabled):hover + &,
-  ${HiddenCheckbox}:not(:disabled).focus-visible + & {
-    ${focusedStyles}
-  }
-
-
-  ${HiddenCheckbox}:checked + & {
-    ${checkedStyles}
-  }
+  ${hoveredStyles}
+  ${focusedStyles}
+  ${checkedStyles}
 `;
 
 const Checkbox: React.FC<ICheckboxProps> = ({

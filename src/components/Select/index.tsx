@@ -3,54 +3,74 @@ import BaseSelect from "react-select";
 import { CommonProps } from "react-select/src/types";
 
 import { IInputStyleOptions } from "src/theme/componentStyles/input";
+import themeConstants, { Size } from "src/theme/constants";
 
 export interface ISelectProps extends IInputStyleOptions, CommonProps<any> {}
 
-// TODO: make these on theme
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const customSelectStyles = {
   container: (provided: any) => ({
     ...provided,
-    fontSize: "14px",
-    fontFamily:
-      'Roboto,Oxygen-Sans,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',
+    fontSize: `${themeConstants.fontSize[Size.SMALL]}px`,
+    fontFamily: themeConstants.fontFamily.body,
+    pointerEvents: "auto",
   }),
   control: (provided: any, state: any) => ({
     ...provided,
-    border: "none",
-    borderRadius: 10,
-    padding: "15px 20px",
+    borderWidth: "2px",
+    borderColor: state.isFocused
+      ? `${themeConstants.color.black} !important`
+      : "transparent",
+    boxShadow: "none",
+    borderRadius: themeConstants.borderRadius.button,
+    padding: themeConstants.padding.input,
     cursor: state.isDisabled ? "not-allowed" : "text",
-    backgroundColor: "#F1F1F1",
-  }),
-  option: (provided: any, state: any) => ({
-    ...provided,
-    cursor: "pointer",
-    backgroundColor:
-      state.isSelected || state.isFocused ? "#787878" : "#F1F1F1",
-    color: state.isSelected || state.isFocused ? "white" : "black",
-    padding: "15px 20px",
-  }),
-  indicatorSeparator: () => {},
-  dropdownIndicator: (provided: any) => ({
-    ...provided,
-    cursor: "pointer",
-    padding: "0 8px",
-  }),
-  valueContainer: (provided: any) => ({
-    ...provided,
-    padding: 0,
-  }),
-  menuList: (provided: any) => ({
-    ...provided,
-    borderRadius: 10,
-    padding: 0,
-    margin: 0,
+    backgroundColor: themeConstants.color.greyLight,
   }),
   input: (provided: any) => ({
     ...provided,
     padding: 0,
     margin: 0,
+  }),
+  indicatorSeparator: () => {},
+  indicatorsContainer: (provided: any, state: any) => ({
+    ...provided,
+    pointerEvents: state.isDisabled ? "none" : "auto",
+  }),
+  dropdownIndicator: (provided: any) => ({
+    ...provided,
+    cursor: "pointer",
+    padding: "0 8px",
+  }),
+  menu: (provided: any) => ({
+    ...provided,
+    boxShadow: themeConstants.boxShadow.hover,
+    borderRadius: 10,
+    backgroundColor: "#F1F1F1",
+    zIndex: 50,
+  }),
+  menuList: (provided: any) => ({
+    ...provided,
+    borderRadius: themeConstants.borderRadius.button,
+    padding: 0,
+    margin: 0,
+  }),
+  option: (provided: any, state: any) => ({
+    ...provided,
+    cursor: "pointer",
+    backgroundColor:
+      state.isSelected || state.isFocused
+        ? themeConstants.color.greyDark
+        : themeConstants.color.greyLight,
+    color:
+      state.isSelected || state.isFocused
+        ? themeConstants.color.white
+        : themeConstants.color.black,
+    padding: themeConstants.padding.input,
+  }),
+  valueContainer: (provided: any) => ({
+    ...provided,
+    padding: 0,
   }),
   singleValue: (provided: any, state: any) => {
     const opacity = state.isDisabled ? 0.5 : 1;
@@ -58,17 +78,10 @@ const customSelectStyles = {
 
     return { ...provided, opacity, transition };
   },
-  menu: (provided: any) => ({
-    ...provided,
-    boxShadow: "none",
-    borderRadius: 10,
-    backgroundColor: "#F1F1F1",
-    zIndex: 50,
-  }),
 };
 
 const Select: React.FC<any> = ({ ...rest }) => (
-  <BaseSelect {...rest} isDisabled styles={customSelectStyles} />
+  <BaseSelect {...rest} styles={customSelectStyles} />
 );
 
 export default Select;

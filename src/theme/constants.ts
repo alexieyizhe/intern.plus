@@ -45,6 +45,9 @@ const constants = {
     modal: 200,
     header: 100,
   },
+  padding: {
+    input: "15px 20px",
+  },
 };
 
 export default constants;

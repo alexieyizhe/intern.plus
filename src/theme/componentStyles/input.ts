@@ -42,6 +42,7 @@ export const inputStyles = css<IInputStyleOptions>`
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}
 
+  transition: all 100ms;
   border-radius: ${({ theme }) => theme.borderRadius.button}px;
   border: 2px solid transparent;
 
@@ -50,12 +51,12 @@ export const inputStyles = css<IInputStyleOptions>`
   cursor: ${({ disabled, readOnly }) =>
     disabled || readOnly ? "not-allowed" : "text"};
 
-  &:focus,
-  &:hover {
-    outline: none;
+  &:hover:not(:read-only):not(:disabled) {
+    border: 2px solid ${({ theme }) => theme.color.greyMedium};
+  }
   
-    &:not(:read-only):not(:disabled) {
-      border: 2px solid ${({ theme }) => theme.color.black};
-    }
+  &:focus:not(:read-only):not(:disabled) {
+    outline: none;
+    border: 2px solid ${({ theme }) => theme.color.black};
   }
 `;
