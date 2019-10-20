@@ -18,6 +18,10 @@ const GlobalStyles = createGlobalStyle`
   *, *:before, *:after {
     box-sizing: inherit;
   }
+
+  *:focus:not(.focus-visible) {
+    outline: none;
+  }    
 `;
 
 export default GlobalStyles;

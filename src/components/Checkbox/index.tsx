@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 export interface ICheckboxProps
   extends React.ComponentPropsWithoutRef<"input"> {}
 
-const CHECKBOX_SIZE = 16;
+const CHECKBOX_SIZE = 15;
 
 const Container = styled.span`
   display: inline-flex;
@@ -34,7 +34,7 @@ const sharedStyles = css`
 `;
 
 const focusedStyles = css`
-  border: 2px solid ${({ theme }) => theme.color.black};
+  border: 1.5px solid ${({ theme }) => theme.color.black};
 `;
 
 const checkedStyles = css`
@@ -70,6 +70,7 @@ const StyledCheckbox = styled.span`
   border-radius: ${({ theme }) => theme.borderRadius.checkbox}px;
   z-index: 1;
 
+  border: 1.5px solid transparent;
   ${HiddenCheckbox}:not(:disabled):hover + &,
   ${HiddenCheckbox}:not(:disabled).focus-visible + & {
     ${focusedStyles}

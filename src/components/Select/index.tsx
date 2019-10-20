@@ -7,6 +7,7 @@ import { IInputStyleOptions } from "src/theme/componentStyles/input";
 export interface ISelectProps extends IInputStyleOptions, CommonProps<any> {}
 
 // TODO: make these on theme
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const customSelectStyles = {
   container: (provided: any) => ({
     ...provided,

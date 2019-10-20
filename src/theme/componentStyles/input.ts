@@ -43,10 +43,19 @@ export const inputStyles = css<IInputStyleOptions>`
   ${({ italic }) => italic && `font-style: italic;`}
 
   border-radius: ${({ theme }) => theme.borderRadius.button}px;
-  border: none;
+  border: 2px solid transparent;
 
   background-color: ${({ color = "", theme }) =>
     theme.color[color] || color || "inherit"};
   cursor: ${({ disabled, readOnly }) =>
     disabled || readOnly ? "not-allowed" : "text"};
+
+  &:focus,
+  &:hover {
+    outline: none;
+  
+    &:not(:read-only):not(:disabled) {
+      border: 2px solid ${({ theme }) => theme.color.black};
+    }
+  }
 `;

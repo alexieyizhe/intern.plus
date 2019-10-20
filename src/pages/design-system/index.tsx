@@ -20,6 +20,7 @@ import {
   StarRating,
   Select,
   Text,
+  TextArea,
   TextInput,
 } from "src/components";
 
@@ -79,6 +80,14 @@ const DesignSystemPage = () => {
     <PageContainer>
       <div>SELECT</div>
       <Select color="greyLight" variant="body" options={inputOptions} />
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <div>TEXTAREA</div>
+      <TextArea color="greyLight" variant="body" />
 
       <br />
       <br />

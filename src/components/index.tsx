@@ -37,5 +37,8 @@ export * from "./StarRating";
 export { default as Text } from "./Text";
 export * from "./Text";
 
+export { default as TextArea } from "./TextArea";
+export * from "./TextArea";
+
 export { default as TextInput } from "./TextInput";
 export * from "./TextInput";
