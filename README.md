@@ -1,19 +1,28 @@
-<h3>
-    <img alt="Tugboat logo" src="./src/assets/img/logo.png" width="30" />
-    Tugboat
-</h3>
-
+<p align="center">
+    <img alt="Tugboat logo" src="./src/assets/img/logo-full.png" width="200" />
+</p>
+<p align="center">
 tugga tugga choo choo
+</p>
 
-### Design
+## ✨ Design
 
 Check out [the mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/Tugboat) on Figma! You can also watch a [timelapse of the design process](https://youtu.be/qe5OSFoVCmA) on YouTube.
 
-### Development guidelines
+## 🚀 Development
 
-This project follows a (trunk based development)[https://trunkbaseddevelopment.com/] style. Branches are split off from the `master` branch for features, fixes, and all other development. The `release` branch contains production code that must always be kept in a go-live state.
+To get started:
 
-##### Branch naming
+```sh
+git clone https://github.com/alexieyizhe/tugboat.git
+cd tugboat
+npm install
+npm start
+```
+
+This project follows a [trunk based development](https://trunkbaseddevelopment.com/) style. Branches are split off from the `master` branch for features, fixes, and all other development. The `release` branch contains production code that must always be kept in a go-live state.
+
+#### Branch naming
 
 Branches are prefixed with the following codes to denote their purpose:
 
@@ -23,7 +32,7 @@ Branches are prefixed with the following codes to denote their purpose:
 
 Branch names contain the issue number on which the development efforts are focused, if any.
 
-##### Commits into `master`
+#### Commits into `master`
 
 When branches are merged back into `master`, they must be squashed committed. The new commit name must be tagged with one of `[major|minor|patch]`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
 
@@ -35,3 +44,5 @@ Usually (but not always), the commit name is also prefixed with one of the follo
 - 💄: style changes
 - 🧹: chore-related changes
 - 📚: documentation
+
+###### Wanna get in touch? [Shoot Alex an email.](mailto:hi@alexxie.ca)

@@ -36,12 +36,10 @@
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "apollo-boost": "^0.4.4",
-    "cross-fetch": "^3.0.4",
     "debounce": "^1.2.0",
     "focus-visible": "^5.0.2",
     "graphql": "^14.5.8",
     "javascript-time-ago": "^2.0.2",
-    "node-vibrant": "^3.1.4",
     "query-string": "^6.8.3",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
@@ -67,10 +65,12 @@
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "chalk": "^2.4.2",
+    "cross-fetch": "^3.0.4",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "json2csv": "^4.5.4",
+    "node-vibrant": "^3.1.4",
     "prettier": "^1.18.2"
   }
 }
