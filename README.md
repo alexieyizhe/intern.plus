@@ -25,4 +25,13 @@ Branch names contain the issue number on which the development efforts are focus
 
 ##### Commits into `master`
 
-When branches are merged back into `master`, they must be tagged with one of `major|minor|patch`, following semver rules. This allows for more context when browsing and is also used by CI when deploying.
+When branches are merged back into `master`, they must be squashed committed. The new commit name must be tagged with one of `[major|minor|patch]`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
+
+Usually (but not always), the commit name is also prefixed with one of the following emojis based on the changes done in the commit, for better context when browsing on the `master` branch:
+
+- ✨: new feature
+- 🐛: bug fixes
+- ♻️: refactoring
+- 💄: style changes
+- 🧹: chore-related changes
+- 📚: documentation
