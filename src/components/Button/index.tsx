@@ -36,8 +36,8 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
     opacity: 0;
   }
 
-  &:hover::after,
-  &:focus::after {
+  &:hover:not(:disabled)::after,
+  &:focus:not(:disabled)::after {
     opacity: 1;
   }
 `;
