@@ -30,7 +30,7 @@ export interface GetCompanyJobs_company_jobs_items {
    * Job title
    */
   name: string | null;
-  loc: string | null;
+  location: string | null;
   company: GetCompanyJobs_company_jobs_items_company | null;
   avgRating: number | null;
   reviews: GetCompanyJobs_company_jobs_items_reviews | null;

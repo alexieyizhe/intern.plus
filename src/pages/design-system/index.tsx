@@ -1,20 +1,22 @@
 /**
  * A playground for testing various components and code.
- * Not pretty or well-documented, so venture forth at your own risk.
+ * Not pretty or well-documented (currently), so venture forth at your own risk.
  */
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 import {
+  Button,
   Card,
   CompanyCard,
   JobCard,
   ReviewCard,
-  Button,
+  Checkbox,
+  InputButtonCombo,
   Link,
+  PageContainer,
   PageFooter,
   PageHeader,
-  InputButtonCombo,
   StarRating,
   Text,
   TextInput,
@@ -54,10 +56,18 @@ const ResultsReviewCard = styled(ReviewCard)`
   ${resultsCardstyles}
 `;
 
-const LandingPage = () => {
+const DesignSystemPage = () => {
   const [numFilledStars, setNumFilledStars] = useState(3);
+  const [checkboxChecked, setChecked] = useState(false);
   return (
-    <div>
+    <PageContainer>
+      <div>CHECKBOX</div>
+      <Checkbox
+        value={checkboxChecked}
+        onChange={e => setChecked(e.target.checked)}
+      >
+        I agree to terms.
+      </Checkbox>
       <div>TEXT</div>
       <Text variant="heading1" as="div">
         Heading 1
@@ -141,6 +151,7 @@ const LandingPage = () => {
       <div>SEARCH</div>
       <InputButtonCombo
         value="some search value "
+        buttonText="Search"
         onChange={() => {}}
         onEnterTrigger={() => console.log("searching with")}
       />
@@ -284,8 +295,8 @@ const LandingPage = () => {
       <br />
       <br />
       <PageFooter />
-    </div>
+    </PageContainer>
   );
 };
 
-export default LandingPage;
+export default DesignSystemPage;

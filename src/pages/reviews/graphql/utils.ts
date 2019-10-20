@@ -13,7 +13,7 @@ export const buildReviewDetails = (
   jobId: (review.job && review.job.id) || "",
   companyName: (review.company && review.company.name) || "",
   companySlug: review.company ? review.company.slug || "" : "",
-  location: (review.job && review.job.loc) || "",
+  location: (review.job && review.job.location) || "",
   author: review.isLegacy ? "An InternCompass user" : "Anonymous", // TODO: change anonymous to user name
   body: review.body || "",
   overallRating: review.overallRating || 0,

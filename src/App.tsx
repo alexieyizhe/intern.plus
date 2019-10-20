@@ -1,3 +1,4 @@
+import "focus-visible";
 import React, { useMemo } from "react";
 import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/react-hooks";
@@ -16,11 +17,13 @@ import { RouteName } from "src/utils/constants";
 import { SiteContextProvider } from "src/utils/context";
 
 import { PageHeader, PageFooter } from "src/components";
+
 import LandingPage from "src/pages/landing";
 import SearchPage from "src/pages/search";
 import CompaniesPage from "src/pages/companies";
 import JobsPage from "src/pages/jobs";
 import ReviewsPage from "src/pages/reviews";
+import DesignSystemPage from "src/pages/design-system";
 import NotFoundPage from "src/pages/404";
 
 import ReviewModal from "src/pages/reviews/components/ReviewModal";
@@ -57,6 +60,10 @@ const AppSwitch: React.FC = () => {
 
         <Route exact path={RouteName.REVIEWS}>
           <ReviewsPage />
+        </Route>
+
+        <Route path={RouteName.DESIGN_SYSTEM}>
+          <DesignSystemPage />
         </Route>
 
         {/* Render 404 if no other routes match */}

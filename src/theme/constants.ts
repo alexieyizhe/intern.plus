@@ -39,6 +39,7 @@ const constants = {
   },
   borderRadius: {
     button: 10,
+    checkbox: 5,
   },
   zIndex: {
     modal: 200,

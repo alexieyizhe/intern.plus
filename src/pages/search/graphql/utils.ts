@@ -35,7 +35,7 @@ export const buildJobCard = (
   slug: item.slug || "",
   companySlug: (item.company && item.company.slug) || "",
   name: item.name || "",
-  location: item.loc || "",
+  location: item.location || "",
   minHourlySalary: item.minHourlySalary || 0, // hourly
   maxHourlySalary: item.maxHourlySalary || 0, // hourly
   hourlySalaryCurrency: item.hourlySalaryCurrency || "", // hourly

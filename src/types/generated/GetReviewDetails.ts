@@ -13,7 +13,7 @@ export interface GetReviewDetails_review_job {
    * Job title
    */
   name: string | null;
-  loc: string | null;
+  location: string | null;
 }
 
 export interface GetReviewDetails_review_company {
