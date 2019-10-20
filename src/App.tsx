@@ -34,7 +34,7 @@ import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 /**
  * Main switch for all of our pages in the app.
  */
-const AppSwitch: React.FC = () => {
+export const AppSwitch: React.FC = () => {
   const location = useLocation();
   const calculatedLocation = useMemo(
     () =>
