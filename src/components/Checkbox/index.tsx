@@ -2,12 +2,9 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 export interface ICheckboxProps
-  extends Omit<React.ComponentPropsWithoutRef<"input">, "value"> {
-  value: boolean;
-  size?: number;
-}
+  extends React.ComponentPropsWithoutRef<"input"> {}
 
-const DEFAULT_CHECKBOX_SIZE = 20;
+const CHECKBOX_SIZE = 16;
 
 const Container = styled.span`
   display: inline-flex;
@@ -20,16 +17,20 @@ const Stack = styled.span`
   justify-content: center;
   align-items: center;
 
+  &:not(:only-child) {
+    margin-right: 5px;
+  }
+
   & > * {
     grid-row: 1;
     grid-column: 1;
   }
 `;
 
-const sharedStyles = css<{ size?: number }>`
+const sharedStyles = css`
   display: inline-block;
-  width: ${({ size }) => size}px;
-  height: ${({ size }) => size}px;
+  width: ${CHECKBOX_SIZE}px;
+  height: ${CHECKBOX_SIZE}px;
 `;
 
 const focusedStyles = css`
@@ -62,7 +63,7 @@ const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
   ${disabledStyles}
 `;
 
-const StyledCheckbox = styled.span<{ size?: number }>`
+const StyledCheckbox = styled.span`
   ${sharedStyles}
 
   background-color: ${({ theme }) => theme.color.greyLight};
@@ -82,16 +83,14 @@ const StyledCheckbox = styled.span<{ size?: number }>`
 
 const Checkbox: React.FC<ICheckboxProps> = ({
   className,
-  value,
-  size = DEFAULT_CHECKBOX_SIZE,
   type, // unused
   children,
   ...rest
 }) => (
   <Container className={className}>
     <Stack>
-      <HiddenCheckbox size={size} checked={value} {...rest} />
-      <StyledCheckbox size={size} />
+      <HiddenCheckbox {...rest} />
+      <StyledCheckbox />
     </Stack>
     {children}
   </Container>

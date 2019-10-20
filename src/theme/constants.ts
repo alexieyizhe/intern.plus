@@ -15,12 +15,12 @@ const constants = {
     black: "#000000",
     greyDark: "#787878",
     greyMedium: "#C6C6C6",
-    greyLight: "#F4F4F4",
-    white: "#ffffff",
+    greyLight: "#F1F1F1",
+    white: "#FFFFFF",
 
     greenDark: "#507561",
 
-    error: "#ff6166",
+    error: "#FF6166",
   },
   fontSize: {
     [Size.SMALL]: 14,

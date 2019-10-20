@@ -59,15 +59,29 @@ const ResultsReviewCard = styled(ReviewCard)`
 const DesignSystemPage = () => {
   const [numFilledStars, setNumFilledStars] = useState(3);
   const [checkboxChecked, setChecked] = useState(false);
+
   return (
     <PageContainer>
       <div>CHECKBOX</div>
       <Checkbox
-        value={checkboxChecked}
+        checked={checkboxChecked}
         onChange={e => setChecked(e.target.checked)}
       >
-        I agree to terms.
+        <span>I agree to terms.</span>
       </Checkbox>
+
+      <Checkbox
+        disabled
+        checked={checkboxChecked}
+        onChange={e => setChecked(e.target.checked)}
+      >
+        <span>I agree to terms.</span>
+      </Checkbox>
+      <br />
+      <br />
+      <br />
+      <br />
+
       <div>TEXT</div>
       <Text variant="heading1" as="div">
         Heading 1
