@@ -31,11 +31,13 @@ const Container = styled.div`
   & > input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    border-right: none !important;
   }
 
   & > button {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    border-left: none !important;
   }
 `;
 

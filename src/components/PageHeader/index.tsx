@@ -23,6 +23,17 @@ export const HEADER_HEIGHT = 70;
 export const HEADER_PADDING = 60;
 export const HEADER_PADDING_MOBILE = 30;
 export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // the width at which the mobile menu is activated
+export const NAV_LINK_TEXT_STYLES = {
+  default: {
+    bold: false,
+    size: 16,
+    color: "greyDark",
+  },
+  mobile: {
+    bold: 500,
+    size: 14,
+  },
+};
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -220,8 +231,7 @@ const Header: React.FC = () => {
   const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
 
   /**
-   * Keeps track of whether the mobile menu is open or not.
-   * Only applies to mobile devices.
+   * State and callbacks for mobile menu and add review modal.
    */
   const {
     state: { mobileMenuOpen, addReviewModalOpen },
@@ -261,6 +271,17 @@ const Header: React.FC = () => {
   const headerRef = useRef<HTMLElement | null>(null);
   useOnClickOutside(headerRef, closeMobileMenu);
 
+  /**
+   * Determine which styles and props to apply to nav links.
+   * Because they are in a nav menu on mobile, they have differing
+   * props.
+   */
+  const navLinkProps = useMemo(
+    () =>
+      isMobileUser ? NAV_LINK_TEXT_STYLES.mobile : NAV_LINK_TEXT_STYLES.default,
+    [isMobileUser]
+  );
+
   return (
     <Container
       className={`
@@ -290,16 +311,16 @@ const Header: React.FC = () => {
         aria-hidden={isMobileUser && !mobileMenuOpen ? "false" : "true"}
       >
         <Link to={RouteName.JOBS} bare>
-          <Text size={16}>Positions</Text>
+          <Text {...navLinkProps}>Positions</Text>
         </Link>
         <Link to={RouteName.COMPANIES} bare>
-          <Text size={16}>Companies</Text>
+          <Text {...navLinkProps}>Companies</Text>
         </Link>
         <Link to={RouteName.REVIEWS} bare>
-          <Text size={16}>Reviews</Text>
+          <Text {...navLinkProps}>Reviews</Text>
         </Link>
         <Link to={RouteName.LANDING} bare className="homeLink">
-          <Text size={16}>Home</Text>
+          <Text {...navLinkProps}>Home</Text>
         </Link>
       </NavLinks>
 
