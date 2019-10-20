@@ -9,6 +9,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
+import ErrorBoundary from "react-error-boundary";
 
 import apolloClient from "src/api/client";
 import siteTheme from "src/theme";
@@ -26,7 +27,7 @@ import CompaniesPage from "src/pages/companies";
 import JobsPage from "src/pages/jobs";
 import ReviewsPage from "src/pages/reviews";
 import DesignSystemPage from "src/pages/design-system";
-import NotFoundPage from "src/pages/404";
+import { NotFoundPage, CrashPage } from "src/pages/error";
 
 import ReviewModal from "src/pages/reviews/components/ReviewModal";
 import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
@@ -97,9 +98,11 @@ const App: React.FC = () => (
               <GlobalStyles />
               {analytics.init() && <Analytics />}
 
-              <PageHeader />
-              <AppSwitch />
-              <PageFooter />
+              <ErrorBoundary FallbackComponent={CrashPage}>
+                <PageHeader />
+                <AppSwitch />
+                <PageFooter />
+              </ErrorBoundary>
             </div>
           </QueryParamProvider>
         </Router>

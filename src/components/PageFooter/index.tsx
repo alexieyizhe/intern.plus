@@ -6,13 +6,12 @@ import copy from "./copy";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
-export const FOOTER_HEIGHT = 140;
+export const FOOTER_HEIGHT = 200;
 
 const Container = styled.footer`
   position: relative;
   width: 100%;
   height: ${FOOTER_HEIGHT}px;
-  margin: 15px auto;
 
   display: flex;
   flex-direction: column;
