@@ -232,7 +232,10 @@ const JobPageCard: React.FC<IJobPageCardProps> = ({
       {getDetailsMarkup(loading, error, jobInfo)}
     </MiscContentContainer>
 
-    <SearchField onTriggerSearch={onTriggerSearch} />
+    <SearchField
+      onTriggerSearch={onTriggerSearch}
+      placeholder="Find a review"
+    />
   </Container>
 );
 
