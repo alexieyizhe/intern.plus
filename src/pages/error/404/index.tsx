@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { Ghost } from "react-kawaii";
 
 import { RouteName } from "src/utils/constants";
+
 import { PageContainer, Text } from "src/components";
 
 const Contents = styled.div`
@@ -15,10 +16,25 @@ const Contents = styled.div`
   justify-content: center;
   align-items: center;
 
-  & > div {
-    margin-left: 40px;
+  & > div.textContainer {
+    margin-left: 50px;
     max-width: 300px;
   }
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    flex-direction: column;
+    text-align: center;
+    min-height: 450px;
+
+    & > div.textContainer {
+      margin-top: 60px;
+      margin-left: 0;
+
+      & h1 {
+        font-size: 26px;
+      }
+    }
+  `}
 `;
 
 const FloatingGhost = styled(Ghost)`
@@ -54,8 +70,8 @@ const NotFoundPage = () => {
     <PageContainer>
       <Contents>
         <FloatingGhost size={240} mood="shocked" color="#E0E4E8" />
-        <div>
-          <Text variant="heading1" as="div">
+        <div className="textContainer">
+          <Text variant="heading1" as="h1">
             This page doesn't exist. Spooky!
           </Text>
           <Text variant="subheading" color="greyDark" as="div" size={20}>
