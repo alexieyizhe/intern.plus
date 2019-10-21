@@ -13,6 +13,7 @@ export const GET_ALL_SEARCH = gql`
       filter: {
         OR: [{ name: { contains: $query } }, { desc: { contains: $query } }]
       }
+      sort: { name: ASC }
       skip: $offset
       first: $limit
     ) {
@@ -29,6 +30,7 @@ export const GET_ALL_SEARCH = gql`
           { location: { contains: $query } }
         ]
       }
+      sort: { name: ASC }
       skip: $offset
       first: $limit
     ) {
@@ -46,6 +48,7 @@ export const GET_ALL_SEARCH = gql`
           { tags: { contains: $query } }
         ]
       }
+      sort: { job: { name: ASC } }
       skip: $offset
       first: $limit
     ) {
@@ -66,6 +69,7 @@ export const GET_COMPANIES_SEARCH = gql`
       filter: {
         OR: [{ name: { contains: $query }, desc: { contains: $query } }]
       }
+      sort: { name: ASC }
       skip: $offset
       first: $limit
     ) {
@@ -88,6 +92,7 @@ export const GET_JOBS_SEARCH = gql`
           { location: { contains: $query } }
         ]
       }
+      sort: { name: ASC }
       skip: $offset
       first: $limit
     ) {
@@ -111,6 +116,7 @@ export const GET_REVIEWS_SEARCH = gql`
           { tags: { contains: $query } }
         ]
       }
+      sort: { job: { name: ASC } }
       skip: $offset
       first: $limit
     ) {

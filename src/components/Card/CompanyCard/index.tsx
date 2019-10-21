@@ -137,4 +137,4 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   );
 };
 
-export default CompanyCard;
+export default React.memo(CompanyCard);

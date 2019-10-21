@@ -3,6 +3,12 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
+import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
+import { useSearchParams } from "src/utils/hooks/useSearchParams";
+import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
+import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
+import pageCopy from "./copy";
+
 import { GetAllSearch } from "src/types/generated/GetAllSearch";
 import {
   GET_ALL_SEARCH,
@@ -12,14 +18,8 @@ import {
 } from "./graphql/queries";
 import { buildSearchResultCardsList } from "./graphql/utils";
 
-import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { useSearchParams } from "src/utils/hooks/useSearchParams";
-import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
-import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
-import pageCopy from "./copy";
-
 import {
-  ResultsDisplay,
+  ResultCardDisplay,
   SearchField,
   Text,
   PageContainer,
@@ -168,7 +168,7 @@ const GenericSearchPage: React.FC = () => {
 
   /**
    * Transforms returned data into generic card list items.
-   * This is required for ResultsDisplay to accept our results.
+   * This is required for ResultCardDisplay to accept our results.
    */
   const searchResults = useSearchResults(
     searchResultsConfig,
@@ -190,7 +190,7 @@ const GenericSearchPage: React.FC = () => {
       <PageContainer>
         <Heading variant="heading1">{headingMarkup}</Heading>
         <SearchField onTriggerSearch={onNewSearch} />
-        <ResultsDisplay
+        <ResultCardDisplay
           searched={!isInitialSearch}
           loading={loading}
           error={error !== undefined}

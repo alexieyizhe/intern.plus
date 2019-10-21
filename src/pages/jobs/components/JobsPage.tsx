@@ -8,17 +8,14 @@ import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/utils/constants";
 
-import { IJobCardItem } from "src/types";
-import { GetCompanyDetails } from "src/types/generated/GetCompanyDetails";
-import { GetCompanyJobs } from "src/types/generated/GetCompanyJobs";
-import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";
-import {
-  buildCompanyDetails,
-  buildCompanyJobCardsList,
-} from "../graphql/utils";
+import { IReviewUserCardItem } from "src/types";
+import { GetJobDetails } from "src/types/generated/GetJobDetails";
+import { GetJobReviews } from "src/types/generated/GetJobReviews";
+import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
+import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
-import { PageContainer, ResultsDisplay } from "src/components";
-import CompanyDetailsCard from "./CompanyDetailsCard";
+import { PageContainer, ResultCardDisplay } from "src/components";
+import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -28,46 +25,47 @@ import CompanyDetailsCard from "./CompanyDetailsCard";
  */
 const getTitleMarkup = (name?: string) => `intern+${name ? ` | ${name}` : ""}`;
 
-const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
-  job.name.toLowerCase().includes(filterBy) ||
-  job.location.toLowerCase().includes(filterBy) ||
-  job.hourlySalaryCurrency.toLowerCase().includes(filterBy);
+const reviewFilterer = (filterBy: string) => (review: IReviewUserCardItem) =>
+  review.authorName.toLowerCase().includes(filterBy) ||
+  review.date.toLowerCase().includes(filterBy) ||
+  review.body.toLowerCase().includes(filterBy) ||
+  review.tags.toLowerCase().includes(filterBy);
 
 /*******************************************************************
- *                             **Styles**                          *
+ *                            **Styles**                           *
  *******************************************************************/
-const CompanyPageContainer = styled(PageContainer)`
+const JobPageContainer = styled(PageContainer)`
   overflow: hidden;
 `;
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const CompanyPage = () => {
+const JobsPage: React.FC = () => {
   useScrollTopOnMount();
 
   /**
-   * Fetch the company with the corresponding slug.
+   * Fetch the job with the corresponding id.
    */
-  const { companySlug } = useParams();
+  const { jobId } = useParams();
   const {
     loading: detailsLoading,
     error: detailsError,
     data: detailsData,
-  } = useQuery<GetCompanyDetails>(GET_COMPANY_DETAILS, {
-    variables: { slug: companySlug },
+  } = useQuery<GetJobDetails>(GET_JOB_DETAILS, {
+    variables: { id: jobId },
   });
 
-  const companyDetails = useMemo(
+  const jobDetails = useMemo(
     () =>
-      detailsData && detailsData.company
-        ? buildCompanyDetails(detailsData.company)
+      detailsData && detailsData.job
+        ? buildJobDetails(detailsData.job)
         : undefined,
     [detailsData]
   );
 
   /**
-   * For jobs at the company.
+   * For reviews of the job.
    */
   const {
     // for fetching results
@@ -87,55 +85,59 @@ const CompanyPage = () => {
   } = useSearch();
 
   const {
-    loading: companyJobsLoading,
-    error: companyJobsError,
-    data: companyJobsData,
-  } = useQuery<GetCompanyJobs>(GET_COMPANY_JOBS, {
+    loading: jobReviewsLoading,
+    error: jobReviewsError,
+    data: jobReviewsData,
+  } = useQuery<GetJobReviews>(GET_JOB_REVIEWS, {
     variables: {
-      slug: companySlug,
-      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all jobs
+      id: jobId,
+      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all reviews
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
     skip: isDataLoaded,
   });
 
-  const companyJobs = useSearchResults(
+  /**
+   * Transforms returned data into generic card list items.
+   * This is required for ResultCardDisplay to accept our results.
+   */
+  const jobReviews = useSearchResults(
     searchResultsConfig,
-    buildCompanyJobCardsList,
-    companyJobsData
-  ) as IJobCardItem[];
+    buildJobReviewsCardList,
+    jobReviewsData
+  ) as IReviewUserCardItem[];
 
-  const filteredJobs = useMemo(() => {
+  const filteredReviews = useMemo(() => {
     const normalizedQuery = (searchQuery || "").toLowerCase();
     const filterFn = reviewFilterer(normalizedQuery);
-    return companyJobs.filter(filterFn);
-  }, [companyJobs, searchQuery]);
+    return jobReviews.filter(filterFn);
+  }, [jobReviews, searchQuery]);
 
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(companyDetails && companyDetails.name)}</title>
+        <title>{getTitleMarkup(jobDetails && jobDetails.name)}</title>
       </Helmet>
 
-      <CompanyPageContainer>
-        <CompanyDetailsCard
+      <JobPageContainer>
+        <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          companyDetails={companyDetails}
+          jobInfo={jobDetails}
           onTriggerSearch={onNewSearch}
         />
-        <ResultsDisplay
+        <ResultCardDisplay
           searched={!isInitialSearch}
-          loading={companyJobsLoading}
-          error={companyJobsError !== undefined}
+          loading={jobReviewsLoading}
+          error={jobReviewsError !== undefined}
           noMoreResults={isEndOfResults}
-          searchResults={filteredJobs}
+          searchResults={filteredReviews}
           onResultsEndReached={onNextBatchSearch}
         />
-      </CompanyPageContainer>
+      </JobPageContainer>
     </>
   );
 };
 
-export default CompanyPage;
+export default JobsPage;

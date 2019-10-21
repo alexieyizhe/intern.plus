@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Card, Text, HEADER_HEIGHT } from "src/components";
 import { useSiteContext } from "src/utils/context";
+
+import { Card, Text, HEADER_HEIGHT } from "src/components";
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -49,7 +50,7 @@ const Container = styled(Card)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const AddReviewModal = () => {
+const AddReviewModal: React.FC = () => {
   const {
     state: { addReviewModalOpen: modalOpen, mobileMenuOpen },
   } = useSiteContext();
@@ -70,4 +71,4 @@ const AddReviewModal = () => {
   );
 };
 
-export default AddReviewModal;
+export default React.memo(AddReviewModal);

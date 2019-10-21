@@ -10,21 +10,21 @@ import {
 import { RouteName } from "src/utils/constants";
 import { SearchFilter, SearchType } from "src/utils/constants";
 
-import JobPage from "./components/JobPage";
+import JobsPage from "./components/JobsPage";
 
 /**
  * Page router will either:
  *  - redirect to search with a filter of only jobs
  *  - display a job and its reviews
  */
-const JobsPage = () => {
+const JobsRouteHandler = () => {
   const match = useRouteMatch() as Match;
 
   return (
     <>
       <Switch>
         <Route path={`${match.path}/:jobId`}>
-          <JobPage />
+          <JobsPage />
         </Route>
 
         <Route path={match.path}>
@@ -37,4 +37,4 @@ const JobsPage = () => {
   );
 };
 
-export default JobsPage;
+export default JobsRouteHandler;

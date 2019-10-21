@@ -10,21 +10,21 @@ import {
 import { RouteName } from "src/utils/constants";
 import { SearchFilter, SearchType } from "src/utils/constants";
 
-import CompanyPage from "./components/CompanyPage";
+import CompaniesPage from "./components/CompaniesPage";
 
 /**
  * Page router will either:
  *  - redirect to search with a filter of only companies
  *  - display a company and its jobs
  */
-const CompaniesPage = () => {
+const CompaniesRouteHandler = () => {
   const match = useRouteMatch() as Match;
 
   return (
     <>
       <Switch>
         <Route path={`${match.path}/:companySlug`}>
-          <CompanyPage />
+          <CompaniesPage />
         </Route>
 
         <Route path={match.path}>
@@ -37,4 +37,4 @@ const CompaniesPage = () => {
   );
 };
 
-export default CompaniesPage;
+export default CompaniesRouteHandler;
