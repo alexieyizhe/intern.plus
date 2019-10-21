@@ -26,7 +26,7 @@ const Container = styled.footer`
 const Logo = styled.img`
   cursor: pointer;
   opacity: 0.7;
-  max-width: 55px;
+  width: 30px;
 
   transition: opacity 150ms ease-out;
   &:hover,
@@ -35,7 +35,7 @@ const Logo = styled.img`
   }
 
   ${({ theme }) => theme.mediaQueries.xlMobile`
-    max-width: 40px;
+    max-width: 20px;
   `}
 `;
 
