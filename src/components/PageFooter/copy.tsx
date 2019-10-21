@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LogoPlus } from "src/assets";
+import { LogoSmall } from "src/assets";
 
 const emojis = [
   { raw: "✨", label: "sparkles" },
@@ -13,7 +13,7 @@ export const FEEDBACK_LINK = `mailto:${EMAIL}?subject=Feedback for intern.plus`;
 
 export default {
   logo: {
-    src: LogoPlus,
+    src: LogoSmall,
     alt: "Small intern.plus logo",
   },
   subtext: () => {

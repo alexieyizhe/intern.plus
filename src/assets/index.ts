@@ -2,7 +2,7 @@
  * **IMAGES**
  */
 export { default as LogoText } from "./img/logo-text.svg";
-export { default as LogoPlus } from "./img/logo-plus.svg";
+export { default as LogoSmall } from "./img/logo-small.svg";
 
 export { default as EditIcon } from "./img/icons/edit.svg";
 export { default as XCloseIcon } from "./img/icons/x-close.svg";
