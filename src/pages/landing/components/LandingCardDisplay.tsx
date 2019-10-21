@@ -18,7 +18,6 @@ import {
   ReviewCard,
   Link,
   Text,
-  HEADER_PADDING,
   HEADER_PADDING_MOBILE,
   MOBILE_MENU_MEDIA_QUERY,
 } from "src/components";
