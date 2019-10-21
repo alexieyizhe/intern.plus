@@ -13,6 +13,7 @@
     "version:major": "npm version major --force -m \"Version %s\"",
     "version:minor": "npm version minor --force -m \"Version %s\"",
     "version:patch": "npm version patch --force -m \"Version %s\"",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "preversion": "npm run test:nowatch && npm run lint",
     "version": "",
     "postversion": "git push && git push --tags"
@@ -78,6 +79,7 @@
     "json2csv": "^4.5.4",
     "node-vibrant": "^3.1.4",
     "prettier": "^1.18.2",
-    "react-router-sitemap": "^1.2.0"
+    "react-router-sitemap": "^1.2.0",
+    "source-map-explorer": "^2.1.0"
   }
 }
