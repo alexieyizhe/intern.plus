@@ -118,6 +118,7 @@ const Display = styled.div`
   justify-content: space-between;
   align-items: center;
   overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 
   position: relative;
   padding: 25px 0;
