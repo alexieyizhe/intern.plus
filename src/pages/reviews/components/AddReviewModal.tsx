@@ -71,4 +71,4 @@ const AddReviewModal: React.FC = () => {
   );
 };
 
-export default AddReviewModal;
+export default React.memo(AddReviewModal);

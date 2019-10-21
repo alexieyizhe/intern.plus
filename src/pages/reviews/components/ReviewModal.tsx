@@ -404,4 +404,4 @@ const ReviewModal: React.FC = () => {
   );
 };
 
-export default ReviewModal;
+export default React.memo(ReviewModal);
