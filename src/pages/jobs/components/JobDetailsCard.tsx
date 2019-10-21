@@ -245,4 +245,4 @@ const JobPageCard: React.FC<IJobPageCardProps> = ({
   </Container>
 );
 
-export default JobPageCard;
+export default React.memo(JobPageCard);

@@ -3,7 +3,7 @@ import React from "react";
 import BaseSelect from "react-select";
 import { CommonProps } from "react-select/src/types";
 
-import { IInputStyleOptions } from "src/theme/componentStyles/input";
+import { IInputStyleOptions } from "src/theme/snippets";
 import themeConstants, { Size } from "src/theme/constants";
 
 export interface ISelectProps extends IInputStyleOptions, CommonProps<any> {}

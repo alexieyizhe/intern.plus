@@ -24,6 +24,16 @@ const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this review.";
 const AUTHOR_SUFFIX = "mentioned the following...";
 
+const getTitleMarkup = (jobName?: string) =>
+  `Review${jobName ? ` | ${jobName}` : ""}`;
+
+/**
+ * Converts the stored backend value into a readable
+ * format for display.
+ * The reason we use hourly/monthly/weekly is from legacy
+ * internCompass data.
+ * @param salaryPeriod one of `weekly`, `hourly`, `monthly`
+ */
 const getSalaryPeriodText = (salaryPeriod: string) => {
   switch (salaryPeriod) {
     case "monthly":
@@ -313,7 +323,7 @@ const CloseButton = styled(UnstyledButton)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const ReviewModal = () => {
+const ReviewModal: React.FC = () => {
   /**
    * If there is no background (usually when user navigates directly
    * to a review) then by default, show it on the landing page by
@@ -321,13 +331,6 @@ const ReviewModal = () => {
    */
   const location = useLocation();
   const history = useHistory();
-  const onExit = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation(); // prevent default browser back behaviour
-      history.goBack();
-    },
-    [history]
-  );
   useEffect(() => {
     const noBackgroundPageSet = !(location.state && location.state.background);
     if (noBackgroundPageSet) {
@@ -347,8 +350,28 @@ const ReviewModal = () => {
   }, []); // eslint-disable-line
 
   /**
-   * Fetch the review with the corresponding id. Then, transform it
-   * to something that's easier to work with.
+   * Callback to trigger when user wants to close modal.
+   */
+  const onExit = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation(); // prevent default browser back behaviour
+      history.goBack();
+    },
+    [history]
+  );
+
+  /**
+   * Callback to stop clicks on card bubbling up to background
+   * and closing the modal.
+   */
+  const cardOnClick = useCallback(
+    (e: React.MouseEvent) => e.stopPropagation(),
+    []
+  );
+
+  /**
+   * Fetch the data for the review with
+   * a corresponding id.
    */
   const { reviewId } = useParams();
   const { loading, error, data } = useQuery<GetReviewDetails>(
@@ -358,23 +381,18 @@ const ReviewModal = () => {
     }
   );
 
+  /**
+   * Transform it into review details type
+   */
   const review = useMemo(
     () => (data && data.review ? buildReviewDetails(data.review) : undefined),
     [data]
   );
 
-  /**
-   * Stop clicks on card bubbling up to background and closing the modal.
-   */
-  const cardOnClick = useCallback(
-    (e: React.MouseEvent) => e.stopPropagation(),
-    []
-  );
-
   return (
     <>
       <Helmet>
-        <title>Review{review ? ` | ${review.jobName}` : ""}</title>
+        <title>{getTitleMarkup(review && review.jobName)}</title>
       </Helmet>
       <Background onClick={onExit}>
         <Container color="greyLight" onClick={cardOnClick}>

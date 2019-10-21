@@ -52,7 +52,7 @@ const getReviewCardRoute = (reviewId: string) =>
 const getLandingCardMarkup = (card: IGenericCardItem) => {
   if (isCompanyCardItem(card)) {
     return (
-      <CarouselCompanyCard
+      <LandingCompanyCard
         key={card.slug}
         name={card.name}
         logoSrc={card.logoSrc}
@@ -81,7 +81,7 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
     // );
   } else if (isReviewJobCardItem(card)) {
     return (
-      <CarouselReviewCard
+      <LandingReviewCard
         key={card.id}
         heading={card.companyName}
         subheading={card.jobName}
@@ -90,11 +90,11 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
-      </CarouselReviewCard>
+      </LandingReviewCard>
     );
   } else if (isReviewUserCardItem(card)) {
     return (
-      <CarouselReviewCard
+      <LandingReviewCard
         key={card.id}
         heading={card.authorName}
         subheading={card.date}
@@ -103,7 +103,7 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
-      </CarouselReviewCard>
+      </LandingReviewCard>
     );
   }
 
@@ -161,11 +161,11 @@ const landingCardStyles = css`
   `}
 `;
 
-const CarouselCompanyCard = styled(CompanyCard)`
+const LandingCompanyCard = styled(CompanyCard)`
   ${landingCardStyles}
 `;
 
-const CarouselReviewCard = styled(ReviewCard)`
+const LandingReviewCard = styled(ReviewCard)`
   ${landingCardStyles}
 `;
 

@@ -1,10 +1,7 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import {
-  IInputStyleOptions,
-  inputStyles,
-} from "src/theme/componentStyles/input";
+import { IInputStyleOptions, inputStyles } from "src/theme/snippets";
 
 import { INPUT_VARIANTS } from "src/components/TextInput";
 /*******************************************************************

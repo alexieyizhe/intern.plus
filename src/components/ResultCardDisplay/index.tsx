@@ -19,7 +19,7 @@ import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
-export interface IResultsDisplayProps
+export interface IResultCardDisplayProps
   extends React.ComponentPropsWithoutRef<"section"> {
   searched: boolean; // has already searched once or more times
   loading: boolean;
@@ -130,7 +130,7 @@ const getReviewCardRoute = (reviewId: string) =>
 const getResultCardMarkup = (result: IGenericCardItem) => {
   if (isCompanyCardItem(result)) {
     return (
-      <ResultsCompanyCard
+      <ResultCompanyCard
         key={result.slug}
         name={result.name}
         logoSrc={result.logoSrc}
@@ -143,7 +143,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
     );
   } else if (isJobCardItem(result)) {
     return (
-      <ResultsJobCard
+      <ResultJobCard
         key={result.id}
         title={result.name}
         subtitle={result.location}
@@ -165,7 +165,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
       : result.date;
 
     return (
-      <ResultsReviewCard
+      <ResultReviewCard
         key={result.id}
         heading={heading}
         subheading={subheading}
@@ -174,7 +174,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
         linkTo={getReviewCardRoute(result.id)}
       >
         <Text variant="body">{result.body}</Text>
-      </ResultsReviewCard>
+      </ResultReviewCard>
     );
   }
 
@@ -200,7 +200,7 @@ const Container = styled.section`
   `}
 `;
 
-const resultsCardStyles = css`
+const resultCardStyles = css`
   width: 100%;
   height: 180px;
 
@@ -214,14 +214,14 @@ const resultsCardStyles = css`
   `}
 `;
 
-const ResultsCompanyCard = styled(CompanyCard)`
-  ${resultsCardStyles}
+const ResultCompanyCard = styled(CompanyCard)`
+  ${resultCardStyles}
 `;
-const ResultsReviewCard = styled(ReviewCard)`
-  ${resultsCardStyles}
+const ResultReviewCard = styled(ReviewCard)`
+  ${resultCardStyles}
 `;
-const ResultsJobCard = styled(JobCard)`
-  ${resultsCardStyles}
+const ResultJobCard = styled(JobCard)`
+  ${resultCardStyles}
 
   ${({ theme }) => theme.mediaQueries.tablet`
     height: 180px;
@@ -231,7 +231,7 @@ const ResultsJobCard = styled(JobCard)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
+const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
   searched,
   loading,
   error,
@@ -277,4 +277,4 @@ const ResultsDisplay: React.FC<IResultsDisplayProps> = ({
   );
 };
 
-export default React.memo(ResultsDisplay);
+export default React.memo(ResultCardDisplay);

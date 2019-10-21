@@ -8,14 +8,17 @@ import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/utils/constants";
 
-import { IReviewUserCardItem } from "src/types";
-import { GetJobDetails } from "src/types/generated/GetJobDetails";
-import { GetJobReviews } from "src/types/generated/GetJobReviews";
-import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
-import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
+import { IJobCardItem } from "src/types";
+import { GetCompanyDetails } from "src/types/generated/GetCompanyDetails";
+import { GetCompanyJobs } from "src/types/generated/GetCompanyJobs";
+import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";
+import {
+  buildCompanyDetails,
+  buildCompanyJobCardsList,
+} from "../graphql/utils";
 
-import { PageContainer, ResultsDisplay } from "src/components";
-import JobDetailsCard from "./JobDetailsCard";
+import { PageContainer, ResultCardDisplay } from "src/components";
+import CompanyDetailsCard from "./CompanyDetailsCard";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -25,47 +28,46 @@ import JobDetailsCard from "./JobDetailsCard";
  */
 const getTitleMarkup = (name?: string) => `intern+${name ? ` | ${name}` : ""}`;
 
-const reviewFilterer = (filterBy: string) => (review: IReviewUserCardItem) =>
-  review.authorName.toLowerCase().includes(filterBy) ||
-  review.date.toLowerCase().includes(filterBy) ||
-  review.body.toLowerCase().includes(filterBy) ||
-  review.tags.toLowerCase().includes(filterBy);
+const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
+  job.name.toLowerCase().includes(filterBy) ||
+  job.location.toLowerCase().includes(filterBy) ||
+  job.hourlySalaryCurrency.toLowerCase().includes(filterBy);
 
 /*******************************************************************
- *                            **Styles**                           *
+ *                             **Styles**                          *
  *******************************************************************/
-const JobPageContainer = styled(PageContainer)`
+const CompanyPageContainer = styled(PageContainer)`
   overflow: hidden;
 `;
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const JobPage = () => {
+const CompaniesPage: React.FC = () => {
   useScrollTopOnMount();
 
   /**
-   * Fetch the job with the corresponding id.
+   * Fetch the company with the corresponding slug.
    */
-  const { jobId } = useParams();
+  const { companySlug } = useParams();
   const {
     loading: detailsLoading,
     error: detailsError,
     data: detailsData,
-  } = useQuery<GetJobDetails>(GET_JOB_DETAILS, {
-    variables: { id: jobId },
+  } = useQuery<GetCompanyDetails>(GET_COMPANY_DETAILS, {
+    variables: { slug: companySlug },
   });
 
-  const jobDetails = useMemo(
+  const companyDetails = useMemo(
     () =>
-      detailsData && detailsData.job
-        ? buildJobDetails(detailsData.job)
+      detailsData && detailsData.company
+        ? buildCompanyDetails(detailsData.company)
         : undefined,
     [detailsData]
   );
 
   /**
-   * For reviews of the job.
+   * For jobs at the company.
    */
   const {
     // for fetching results
@@ -85,55 +87,55 @@ const JobPage = () => {
   } = useSearch();
 
   const {
-    loading: jobReviewsLoading,
-    error: jobReviewsError,
-    data: jobReviewsData,
-  } = useQuery<GetJobReviews>(GET_JOB_REVIEWS, {
+    loading: companyJobsLoading,
+    error: companyJobsError,
+    data: companyJobsData,
+  } = useQuery<GetCompanyJobs>(GET_COMPANY_JOBS, {
     variables: {
-      id: jobId,
-      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all reviews
+      slug: companySlug,
+      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all jobs
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
     skip: isDataLoaded,
   });
 
-  const jobReviews = useSearchResults(
+  const companyJobs = useSearchResults(
     searchResultsConfig,
-    buildJobReviewsCardList,
-    jobReviewsData
-  ) as IReviewUserCardItem[];
+    buildCompanyJobCardsList,
+    companyJobsData
+  ) as IJobCardItem[];
 
-  const filteredReviews = useMemo(() => {
+  const filteredJobs = useMemo(() => {
     const normalizedQuery = (searchQuery || "").toLowerCase();
     const filterFn = reviewFilterer(normalizedQuery);
-    return jobReviews.filter(filterFn);
-  }, [jobReviews, searchQuery]);
+    return companyJobs.filter(filterFn);
+  }, [companyJobs, searchQuery]);
 
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(jobDetails && jobDetails.name)}</title>
+        <title>{getTitleMarkup(companyDetails && companyDetails.name)}</title>
       </Helmet>
 
-      <JobPageContainer>
-        <JobDetailsCard
+      <CompanyPageContainer>
+        <CompanyDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          jobInfo={jobDetails}
+          companyDetails={companyDetails}
           onTriggerSearch={onNewSearch}
         />
-        <ResultsDisplay
+        <ResultCardDisplay
           searched={!isInitialSearch}
-          loading={jobReviewsLoading}
-          error={jobReviewsError !== undefined}
+          loading={companyJobsLoading}
+          error={companyJobsError !== undefined}
           noMoreResults={isEndOfResults}
-          searchResults={filteredReviews}
+          searchResults={filteredJobs}
           onResultsEndReached={onNextBatchSearch}
         />
-      </JobPageContainer>
+      </CompanyPageContainer>
     </>
   );
 };
 
-export default JobPage;
+export default React.memo(CompaniesPage);
