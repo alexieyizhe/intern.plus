@@ -23,7 +23,7 @@ import JobDetailsCard from "./JobDetailsCard";
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (name?: string) => `Tugboat${name ? ` | ${name}` : ""}`;
+const getTitleMarkup = (name?: string) => `intern+${name ? ` | ${name}` : ""}`;
 
 const reviewFilterer = (filterBy: string) => (review: IReviewUserCardItem) =>
   review.authorName.toLowerCase().includes(filterBy) ||

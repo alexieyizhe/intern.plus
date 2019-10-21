@@ -4,7 +4,7 @@ import { LandingDockImg } from "src/assets";
 const pageCopy = {
   splashCard: {
     heading: "Great internships are priceless.",
-    subheading: "Tugboat helps steer you towards them.",
+    subheading: "Upgrade your search with intern+.", // i dont like this
     searchButtonText: "Start searching",
     splashImg: {
       src: LandingDockImg,

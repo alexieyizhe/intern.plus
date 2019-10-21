@@ -166,7 +166,7 @@ const LandingPage = () => {
   return (
     <>
       <Helmet>
-        <title>Tugboat</title>
+        <title>intern+</title>
       </Helmet>
       <PageContainer>
         <TitleCard>

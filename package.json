@@ -1,5 +1,5 @@
 {
-  "name": "tugboat",
+  "name": "intern.plus",
   "version": "0.8.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "test:nowatch": "CI=true react-scripts test",
     "lint": "eslint src --ext ts,tsx",
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
-    "api:generate-types": "apollo codegen:generate src/types/generated --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --outputFlat --passthroughCustomScalars --customScalarsPrefix Tugboat && echo 'export default 0;' >> src/types/generated/globalTypes.ts && sed -i '' 's/TugboatDateTime/string/g' src/types/generated/*",
+    "api:generate-types": "apollo codegen:generate src/types/generated --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --outputFlat --passthroughCustomScalars --customScalarsPrefix InternPlus && echo 'export default 0;' >> src/types/generated/globalTypes.ts && sed -i '' 's/InternPlusDateTime/string/g' src/types/generated/*",
     "version:major": "npm version major --force -m \"Version %s\"",
     "version:minor": "npm version minor --force -m \"Version %s\"",
     "version:patch": "npm version patch --force -m \"Version %s\"",

@@ -26,7 +26,7 @@ import CompanyDetailsCard from "./CompanyDetailsCard";
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (name?: string) => `Tugboat${name ? ` | ${name}` : ""}`;
+const getTitleMarkup = (name?: string) => `intern+${name ? ` | ${name}` : ""}`;
 
 const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
   job.name.toLowerCase().includes(filterBy) ||

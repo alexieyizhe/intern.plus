@@ -49,20 +49,17 @@ const Footer = () => (
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
     />
 
-    <Text className="subheading" variant="subheading">
+    <Text className="subheading" variant="heading4">
       {copy.subtext()}
     </Text>
 
-    <Link newTab to={copy.sourceCode.to} color="" bare>
-      <Text variant="body" color="greyMedium">
-        {copy.sourceCode.label}
-      </Text>
-    </Link>
-    <Link newTab to={copy.reportIssue.to} color="" bare>
-      <Text variant="body" color="greyMedium">
-        {copy.reportIssue.label}
-      </Text>
-    </Link>
+    {copy.sublinks.map(({ label, to }) => (
+      <Link newTab to={to} bare>
+        <Text variant="body" color="greyMedium">
+          {label}
+        </Text>
+      </Link>
+    ))}
   </Container>
 );
 

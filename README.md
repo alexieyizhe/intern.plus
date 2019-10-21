@@ -1,13 +1,10 @@
 <p align="center">
-    <img alt="Tugboat logo" src="./src/assets/img/logo-full.png" width="200" />
-</p>
-<p align="center">
-tugga tugga choo choo
+    <img alt="Site logo" src="./src/assets/img/logo-text.svg" width="200" />
 </p>
 
 ## ✨ Design
 
-Check out [the mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/Tugboat) on Figma! You can also watch a [timelapse of the design process](https://youtu.be/qe5OSFoVCmA) on YouTube.
+Check out [the mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/intern?node-id=0%3A1) on Figma! You can also watch a [timelapse of the design process](https://youtu.be/qe5OSFoVCmA) on YouTube.
 
 #### 🥞 Tech Stack
 
@@ -25,8 +22,8 @@ Deploys through [Netlify](http://netlify.com) paired with Cloudflare DNS.
 To get started:
 
 ```sh
-git clone https://github.com/alexieyizhe/tugboat.git
-cd tugboat
+git clone https://github.com/alexieyizhe/intern.plus.git
+cd intern.plus
 npm install
 npm start
 ```

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Ghost } from "react-kawaii";
 
 import { Text, Link } from "src/components";
-import copy from "src/components/PageFooter/copy";
+import { FEEDBACK_LINK } from "src/components/PageFooter/copy";
 
 const Contents = styled.div`
   position: relative;
@@ -48,8 +48,8 @@ const CrashPage = () => (
       </Text>
       <Text variant="subheading" color="greyDark" as="div" size={20}>
         If you have the time, please{" "}
-        <Link to={copy.reportIssue.to}>report the issue</Link> you encountered.
-        Thank you!
+        <Link to={FEEDBACK_LINK}>report the issue</Link> you encountered. Thank
+        you!
       </Text>
     </div>
   </Contents>

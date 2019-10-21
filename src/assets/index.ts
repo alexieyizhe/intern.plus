@@ -1,8 +1,8 @@
 /**
  * **IMAGES**
  */
-export { default as LogoBlack } from "./img/logo.png";
-export { default as LogoTwoTone } from "./img/logo-twotone.png";
+export { default as LogoText } from "./img/logo-text.svg";
+export { default as LogoPlus } from "./img/logo-plus.svg";
 
 export { default as EditIcon } from "./img/icons/edit.svg";
 export { default as XCloseIcon } from "./img/icons/x-close.svg";
