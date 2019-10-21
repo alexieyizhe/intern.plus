@@ -1,5 +1,5 @@
 import {
-  LogoBlack,
+  LogoText,
   XCloseIcon,
   EditIcon,
   MobileMenuChevronImg,
@@ -7,9 +7,8 @@ import {
 
 export default {
   logo: {
-    src: LogoBlack,
-    text: "Tugboat",
-    alt: "An icon depicting a tugboat",
+    src: LogoText,
+    alt: "Logo of intern+",
   },
   mobileToggle: {
     src: MobileMenuChevronImg,

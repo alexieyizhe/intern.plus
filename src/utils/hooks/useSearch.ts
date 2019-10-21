@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from "react";
 
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
 import { RESULTS_PER_PAGE } from "src/utils/constants";
+import * as analytics from "src/utils/analytics";
 import { IGenericCardItem } from "src/types";
 
 export const useSearch = () => {
@@ -23,6 +24,12 @@ export const useSearch = () => {
   const onNewSearch = useCallback(
     (newVal?: string) => {
       if (newVal !== undefined && newVal !== searchQuery) {
+        analytics.event({
+          category: "Search",
+          action: "Started new search",
+          label: newVal,
+        });
+
         setPage(1); // reset pagination
         setIsNewSearch(true);
 
@@ -38,6 +45,11 @@ export const useSearch = () => {
   );
 
   const onNextBatchSearch = useCallback(() => {
+    analytics.event({
+      category: "Search",
+      action: "Loaded more search results",
+    });
+
     // increment pagination
     setPage(prevPage => prevPage + 1);
     setIsNewSearch(false);

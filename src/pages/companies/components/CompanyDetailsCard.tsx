@@ -151,7 +151,13 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   companyDetails,
   onTriggerSearch,
 }) => (
-  <Container color={companyDetails && getLightColor(companyDetails.color)}>
+  <Container
+    color={
+      companyDetails &&
+      companyDetails.color &&
+      getLightColor(companyDetails.color)
+    }
+  >
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, companyDetails)}
     </MiscContentContainer>

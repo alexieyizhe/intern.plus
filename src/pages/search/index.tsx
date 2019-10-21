@@ -32,7 +32,7 @@ import {
  * Creates markup for the title in the tab bar.
  */
 const getTitleMarkup = (query?: string) =>
-  query ? `Search | ${query}` : `Tugboat | Search`;
+  query ? `Search | ${query}` : `intern+ | search`;
 
 /**
  * Creates markup for the heading when no search is performed yet.
