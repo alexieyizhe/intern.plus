@@ -8,7 +8,6 @@ import { GetCompaniesReviewsLanding } from "src/types/generated/GetCompaniesRevi
 import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
 import { buildLandingCardsList } from "./graphql/utils";
 
-import { Size } from "src/theme/constants";
 import { RouteName, SearchFilter } from "src/utils/constants";
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import pageCopy from "./copy";
@@ -44,14 +43,6 @@ const TitleCard = styled.div`
     flex-direction: column-reverse;
     justify-content: flex-end;
   `}
-
-  ${({ theme }) => theme.mediaQueries.largeMobile`
-    height: 515px;
-  `}
-
-  ${({ theme }) => theme.mediaQueries.smallMobile`
-    height: 550px;
-  `}
 `;
 
 const TitleCardLeft = styled.div`
@@ -70,19 +61,16 @@ const TitleCardLeft = styled.div`
     margin-bottom: 30px;
   }
 
-
   ${({ theme }) => theme.mediaQueries.medium`
     width: 100%;
     height: 45%;
-    padding: 20px 0;
+    padding: 10px 0;
 
     text-align: center;
     align-items: center;
-  `}
 
-  ${({ theme }) => theme.mediaQueries.largeMobile`
-    & h1 {
-      font-size: ${theme.fontSize[Size.LARGE]}px;
+    & h3 {
+      margin-bottom: 20px;
     }
   `}
 
@@ -99,12 +87,20 @@ const TitleCardRight = styled.div`
   align-items: center;
 
   & > img {
+    position: relative;
     max-width: 100%;
   }
 
   ${({ theme }) => theme.mediaQueries.medium`
     width: 100%;
     height: 55%;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.medium`
+    & > img {
+      max-width: 110%;
+      left: -5%;
+    }
   `}
 `;
 
