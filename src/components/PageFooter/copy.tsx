@@ -1,6 +1,6 @@
 import React from "react";
 
-import { LogoTwoTone } from "src/assets";
+import { LogoSmall } from "src/assets";
 
 const emojis = [
   { raw: "✨", label: "sparkles" },
@@ -8,31 +8,41 @@ const emojis = [
   { raw: "💛", label: "yellow-heart" },
 ];
 
+export const EMAIL = "hello@intern.plus";
+// export const FEEDBACK_LINK = `mailto:${EMAIL}?subject=Feedback for intern.plus`;
+export const FEEDBACK_LINK =
+  "https://github.com/alexieyizhe/intern.plus/issues/new?title=Feedback%20for%20intern.plus&body=Explain%20your%20issue%20here";
+
 export default {
   logo: {
-    src: LogoTwoTone,
-    alt: "An icon depicting a tugboat",
+    src: LogoSmall,
+    alt: "Small intern.plus logo",
   },
   subtext: () => {
     const randomEmoji = emojis[Math.floor(Math.random() * 3)];
 
     return (
       <>
-        Built with{" "}
+        built with{" "}
         <span role="img" aria-label={randomEmoji.label}>
           {randomEmoji.raw}
         </span>{" "}
-        by Alex Xie
+        by alex
       </>
     );
   },
-  sourceCode: {
-    to: "https://github.com/alexieyizhe/tugboat",
-    label: "source code",
-  },
-  reportIssue: {
-    to:
-      "https://github.com/alexieyizhe/tugboat/issues/new?assignee=alexieyizhe&labels=bug&title=%20Something's%20wrong&body=Describe%20the%20problem%20you%27re%20having!",
-    label: "report an issue",
-  },
+  sublinks: [
+    {
+      to: "https://github.com/alexieyizhe/intern.plus",
+      label: "open source",
+    },
+    {
+      to: FEEDBACK_LINK,
+      label: "submit feedback",
+    },
+    {
+      to: `mailto:${EMAIL}`,
+      label: "get in touch",
+    },
+  ],
 };

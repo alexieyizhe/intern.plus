@@ -17,7 +17,7 @@ import {
   buildCompanyJobCardsList,
 } from "../graphql/utils";
 
-import { PageContainer, ResultsDisplay } from "src/components";
+import { PageContainer, ResultCardDisplay } from "src/components";
 import CompanyDetailsCard from "./CompanyDetailsCard";
 
 /*******************************************************************
@@ -26,7 +26,7 @@ import CompanyDetailsCard from "./CompanyDetailsCard";
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (name?: string) => `Tugboat${name ? ` | ${name}` : ""}`;
+const getTitleMarkup = (name?: string) => `intern+${name ? ` | ${name}` : ""}`;
 
 const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
   job.name.toLowerCase().includes(filterBy) ||
@@ -43,7 +43,7 @@ const CompanyPageContainer = styled(PageContainer)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const CompanyPage = () => {
+const CompaniesPage: React.FC = () => {
   useScrollTopOnMount();
 
   /**
@@ -125,7 +125,7 @@ const CompanyPage = () => {
           companyDetails={companyDetails}
           onTriggerSearch={onNewSearch}
         />
-        <ResultsDisplay
+        <ResultCardDisplay
           searched={!isInitialSearch}
           loading={companyJobsLoading}
           error={companyJobsError !== undefined}
@@ -138,4 +138,4 @@ const CompanyPage = () => {
   );
 };
 
-export default CompanyPage;
+export default React.memo(CompaniesPage);

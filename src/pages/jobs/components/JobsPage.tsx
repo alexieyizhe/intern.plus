@@ -14,7 +14,7 @@ import { GetJobReviews } from "src/types/generated/GetJobReviews";
 import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
-import { PageContainer, ResultsDisplay } from "src/components";
+import { PageContainer, ResultCardDisplay } from "src/components";
 import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
@@ -23,7 +23,7 @@ import JobDetailsCard from "./JobDetailsCard";
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (name?: string) => `Tugboat${name ? ` | ${name}` : ""}`;
+const getTitleMarkup = (name?: string) => `intern+${name ? ` | ${name}` : ""}`;
 
 const reviewFilterer = (filterBy: string) => (review: IReviewUserCardItem) =>
   review.authorName.toLowerCase().includes(filterBy) ||
@@ -41,7 +41,7 @@ const JobPageContainer = styled(PageContainer)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const JobPage = () => {
+const JobsPage: React.FC = () => {
   useScrollTopOnMount();
 
   /**
@@ -98,6 +98,10 @@ const JobPage = () => {
     skip: isDataLoaded,
   });
 
+  /**
+   * Transforms returned data into generic card list items.
+   * This is required for ResultCardDisplay to accept our results.
+   */
   const jobReviews = useSearchResults(
     searchResultsConfig,
     buildJobReviewsCardList,
@@ -123,7 +127,7 @@ const JobPage = () => {
           jobInfo={jobDetails}
           onTriggerSearch={onNewSearch}
         />
-        <ResultsDisplay
+        <ResultCardDisplay
           searched={!isInitialSearch}
           loading={jobReviewsLoading}
           error={jobReviewsError !== undefined}
@@ -136,4 +140,4 @@ const JobPage = () => {
   );
 };
 
-export default JobPage;
+export default JobsPage;

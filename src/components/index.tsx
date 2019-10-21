@@ -22,8 +22,8 @@ export * from "./PageFooter";
 export { default as PageHeader } from "./PageHeader";
 export * from "./PageHeader";
 
-export { default as ResultsDisplay } from "./ResultsDisplay";
-export * from "./ResultsDisplay";
+export { default as ResultCardDisplay } from "./ResultCardDisplay";
+export * from "./ResultCardDisplay";
 
 export { default as SearchField } from "./SearchField";
 export * from "./SearchField";

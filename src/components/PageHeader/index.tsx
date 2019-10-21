@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
-import { Size } from "src/theme/constants";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/utils/constants";
 import { useSiteContext, ActionType } from "src/utils/context";
@@ -20,8 +19,8 @@ import { UnstyledButton } from "src/components/Button";
  *                  **Utility functions/constants**                *
  *******************************************************************/
 export const HEADER_HEIGHT = 70;
-export const HEADER_PADDING = 60;
-export const HEADER_PADDING_MOBILE = 30;
+export const HEADER_PADDING = 100;
+export const HEADER_PADDING_MOBILE = 40;
 export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // the width at which the mobile menu is activated
 
 /*******************************************************************
@@ -95,12 +94,8 @@ const Logo = styled.div`
   }
 
   & .logoImg {
-    max-width: 40px;
+    max-height: 35px;
     margin-right: 10px;
-  }
-
-  & .logoText {
-    margin-top: 3px;
   }
 
   & .chevron {
@@ -108,23 +103,16 @@ const Logo = styled.div`
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
-    & > button {
-    }
-
     & .logoImg {
-      max-width: 30px;
-    }
-
-    & .logoText {
-      font-size: ${theme.fontSize[Size.MEDIUM]}px;
-      margin-right: 5px;
+      max-height: 30px;
+      margin-right: 3px;
     }
   `}
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     & .chevron {
       display: inline-block;
-      margin-top: 2px;
+      margin-top: 1px;
 
       transition: transform 150ms ease-in;
       &.up {
@@ -152,7 +140,7 @@ const NavLinks = styled.nav`
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     position: absolute;
     top: calc(100% - 10px);
-    left: ${HEADER_PADDING_MOBILE + 40 /* size of logoImg and its margin */}px;
+    left: ${HEADER_PADDING_MOBILE}px;
     
     flex-direction: column;
     justify-content: flex-start;
@@ -275,10 +263,6 @@ const Header: React.FC = () => {
         <UnstyledButton>
           <img className="logoImg" src={copy.logo.src} alt={copy.logo.alt} />
 
-          <Text className="logoText" variant="heading2" as="h2">
-            {copy.logo.text}
-          </Text>
-
           <img
             className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
             src={copy.mobileToggle.src}
@@ -291,17 +275,17 @@ const Header: React.FC = () => {
         className={mobileMenuOpen ? "show" : undefined}
         aria-hidden={isMobileUser && !mobileMenuOpen ? "false" : "true"}
       >
-        <Link to={RouteName.JOBS} bare>
-          <Text>Positions</Text>
-        </Link>
         <Link to={RouteName.COMPANIES} bare>
-          <Text>Companies</Text>
+          <Text>companies</Text>
+        </Link>
+        <Link to={RouteName.JOBS} bare>
+          <Text>positions</Text>
         </Link>
         <Link to={RouteName.REVIEWS} bare>
-          <Text>Reviews</Text>
+          <Text>reviews</Text>
         </Link>
         <Link to={RouteName.LANDING} bare className="homeLink">
-          <Text>Home</Text>
+          <Text>home</Text>
         </Link>
       </NavLinks>
 

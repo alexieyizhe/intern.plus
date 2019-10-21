@@ -2,10 +2,7 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 
 import { VariantList } from "src/theme/constants";
-import {
-  IInputStyleOptions,
-  inputStyles,
-} from "src/theme/componentStyles/input";
+import { IInputStyleOptions, inputStyles } from "src/theme/snippets";
 
 import { TEXT_VARIANTS, ITextProps } from "src/components/Text";
 

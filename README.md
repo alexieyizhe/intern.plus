@@ -1,26 +1,40 @@
 <p align="center">
-    <img alt="Tugboat logo" src="./src/assets/img/logo-full.png" width="200" />
+    <img alt="Site logo" src="./src/assets/img/logo-text.svg" width="200" />
 </p>
 <p align="center">
-tugga tugga choo choo
+    <img src="https://github.com/alexieyizhe/intern.plus/workflows/Continuous%20Integration/badge.svg">
 </p>
 
 ## ✨ Design
 
-Check out [the mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/Tugboat) on Figma! You can also watch a [timelapse of the design process](https://youtu.be/qe5OSFoVCmA) on YouTube.
+Check out [the mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/intern?node-id=0%3A1) on Figma! You can also watch a [timelapse of the design process](https://youtu.be/0Ioruq2xIXw) on YouTube.
+
+## 🥞 Tech Stack
+
+Created with [React](https://reactjs.org/) and bootstrapped with `create-react-app`.  
+Developed in [TypeScript](https://www.typescriptlang.org/).  
+Powered by [GraphQL](https://graphql.org/) and [Apollo](https://www.apollographql.com/).  
+Styled with [styled-components](https://www.styled-components.com).  
+Functionality tested through Jest and Percy (soon!).  
+Code style enforced with [eslint](https://eslint.org/) and [Prettier](https://prettier.io/).  
+Continuous integration with [Github Actions](https://github.com/features/actions).  
+Deploys through [Netlify](http://netlify.com).
 
 ## 🚀 Development
 
 To get started:
 
 ```sh
-git clone https://github.com/alexieyizhe/tugboat.git
-cd tugboat
+git clone https://github.com/alexieyizhe/intern.plus.git
+cd intern.plus
 npm install
 npm start
 ```
 
-This project follows a [trunk based development](https://trunkbaseddevelopment.com/) style. Branches are split off from the `master` branch for features, fixes, and all other development. The `release` branch contains production code that must always be kept in a go-live state.
+This project (loosely) follows a [trunk based development](https://trunkbaseddevelopment.com/) style.
+
+- Branches are split off from the `master` branch for features, fixes, and all other development.
+- The `release` branch contains production code that must always be kept in a go-live state.
 
 #### Branch naming
 
@@ -34,7 +48,7 @@ Branch names contain the issue number on which the development efforts are focus
 
 #### Commits into `master`
 
-When branches are merged back into `master`, they must be squashed committed. The new commit name must be tagged with one of `[major|minor|patch]`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
+When branches are merged back into `master`, they must be squashed committed.
 
 Usually (but not always), the commit name is also prefixed with one of the following emojis based on the changes done in the commit, for better context when browsing on the `master` branch:
 
@@ -44,5 +58,11 @@ Usually (but not always), the commit name is also prefixed with one of the follo
 - 💄: style changes
 - 🧹: chore-related changes
 - 📚: documentation
+
+#### Commits into `release` (releases)
+
+When a release is ready, a pull request should be made from `master` to `release`. This pull request title must be tagged with one of `[major|minor|patch]`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
+
+Once merged into `release`, CI will (read: should) tag the last commit with a versoin number according to the pull request title.
 
 ###### Wanna get in touch? [Shoot Alex an email.](mailto:hi@alexxie.ca)

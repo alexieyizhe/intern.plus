@@ -13,7 +13,14 @@ import {
 } from "src/types";
 import pageCopy from "../copy";
 
-import { CompanyCard, ReviewCard, Link, Text } from "src/components";
+import {
+  CompanyCard,
+  ReviewCard,
+  Link,
+  Text,
+  HEADER_PADDING_MOBILE,
+  MOBILE_MENU_MEDIA_QUERY,
+} from "src/components";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -45,7 +52,7 @@ const getReviewCardRoute = (reviewId: string) =>
 const getLandingCardMarkup = (card: IGenericCardItem) => {
   if (isCompanyCardItem(card)) {
     return (
-      <CarouselCompanyCard
+      <LandingCompanyCard
         key={card.slug}
         name={card.name}
         logoSrc={card.logoSrc}
@@ -74,7 +81,7 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
     // );
   } else if (isReviewJobCardItem(card)) {
     return (
-      <CarouselReviewCard
+      <LandingReviewCard
         key={card.id}
         heading={card.companyName}
         subheading={card.jobName}
@@ -83,11 +90,11 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
-      </CarouselReviewCard>
+      </LandingReviewCard>
     );
   } else if (isReviewUserCardItem(card)) {
     return (
-      <CarouselReviewCard
+      <LandingReviewCard
         key={card.id}
         heading={card.authorName}
         subheading={card.date}
@@ -96,7 +103,7 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
-      </CarouselReviewCard>
+      </LandingReviewCard>
     );
   }
 
@@ -118,9 +125,19 @@ const Display = styled.div`
   justify-content: space-between;
   align-items: center;
   overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 
   position: relative;
   padding: 25px 0;
+
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    width: calc(100% + ${HEADER_PADDING_MOBILE * 2}px);
+    left: -${HEADER_PADDING_MOBILE}px;
+
+    & > :first-child {
+      margin-left: ${HEADER_PADDING_MOBILE}px;
+    }
+  `}
 `;
 
 const MiscContentContainer = styled.span`
@@ -132,22 +149,23 @@ const landingCardStyles = css`
   width: 350px;
   height: 180px;
   flex-shrink: 0;
-  margin-left: 22px;
+  flex-grow: 0;
+  margin-right: 22px;
 
-  &:first-child {
+  &:last-child {
     margin-left: 0;
   }
 
   ${({ theme }) => theme.mediaQueries.largeMobile`
-    width: 100%;
+    width: 80%;
   `}
 `;
 
-const CarouselCompanyCard = styled(CompanyCard)`
+const LandingCompanyCard = styled(CompanyCard)`
   ${landingCardStyles}
 `;
 
-const CarouselReviewCard = styled(ReviewCard)`
+const LandingReviewCard = styled(ReviewCard)`
   ${landingCardStyles}
 `;
 

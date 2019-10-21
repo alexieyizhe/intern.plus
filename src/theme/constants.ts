@@ -25,7 +25,7 @@ const constants = {
   fontSize: {
     [Size.SMALL]: 14,
     [Size.MEDIUM]: 18,
-    [Size.LARGE]: 28,
+    [Size.LARGE]: 24,
     [Size.XLARGE]: 34,
   },
   fontFamily: {

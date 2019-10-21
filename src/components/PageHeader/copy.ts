@@ -1,5 +1,5 @@
 import {
-  LogoBlack,
+  LogoText,
   XCloseIcon,
   EditIcon,
   MobileMenuChevronImg,
@@ -7,9 +7,8 @@ import {
 
 export default {
   logo: {
-    src: LogoBlack,
-    text: "Tugboat",
-    alt: "An icon depicting a tugboat",
+    src: LogoText,
+    alt: "Logo of intern+",
   },
   mobileToggle: {
     src: MobileMenuChevronImg,
@@ -19,11 +18,11 @@ export default {
   addReview: {
     closedIcon: {
       src: EditIcon,
-      alt: "A pencil icon, to be clicked to write a new review",
+      alt: "Pencil icon to add review",
     },
     openIcon: {
       src: XCloseIcon,
-      alt: "A close X icon, which closes the add review modal when clicked",
+      alt: "Icon to dismiss add review modal",
     },
   },
 };

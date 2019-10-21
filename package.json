@@ -1,5 +1,5 @@
 {
-  "name": "tugboat",
+  "name": "intern.plus",
   "version": "0.8.0",
   "private": true,
   "scripts": {
@@ -9,10 +9,11 @@
     "test:nowatch": "CI=true react-scripts test",
     "lint": "eslint src --ext ts,tsx",
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
-    "api:generate-types": "apollo codegen:generate src/types/generated --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --outputFlat --passthroughCustomScalars --customScalarsPrefix Tugboat && echo 'export default 0;' >> src/types/generated/globalTypes.ts && sed -i '' 's/TugboatDateTime/string/g' src/types/generated/*",
+    "api:generate-types": "apollo codegen:generate src/types/generated --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --outputFlat --passthroughCustomScalars --customScalarsPrefix InternPlus && echo 'export default 0;' >> src/types/generated/globalTypes.ts && sed -i '' 's/InternPlusDateTime/string/g' src/types/generated/*",
     "version:major": "npm version major --force -m \"Version %s\"",
     "version:minor": "npm version minor --force -m \"Version %s\"",
     "version:patch": "npm version patch --force -m \"Version %s\"",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "preversion": "npm run test:nowatch && npm run lint",
     "version": "",
     "postversion": "git push && git push --tags"
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.2",
+    "@sentry/browser": "^5.7.1",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.12",
     "@types/react": "16.9.5",
@@ -43,6 +45,8 @@
     "query-string": "^6.8.3",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-error-boundary": "^1.2.5",
+    "react-ga": "^2.7.0",
     "react-helmet": "^5.2.1",
     "react-kawaii": "^0.14.4",
     "react-router-dom": "^5.1.2",
@@ -51,6 +55,7 @@
     "react-useanimations": "^1.2.10",
     "react-waypoint": "^9.0.2",
     "styled-components": "^4.4.0",
+    "tti-polyfill": "^0.2.2",
     "typescript": "3.6.4",
     "use-query-params": "^0.4.2"
   },
@@ -62,8 +67,10 @@
     "@types/react-router-dom": "^5.1.0",
     "@types/react-select": "^3.0.5",
     "@types/styled-components": "^4.1.19",
+    "@types/tti-polyfill": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
+    "babel-register": "^6.26.0",
     "chalk": "^2.4.2",
     "cross-fetch": "^3.0.4",
     "eslint-config-prettier": "^6.4.0",
@@ -71,6 +78,8 @@
     "eslint-plugin-react": "^7.16.0",
     "json2csv": "^4.5.4",
     "node-vibrant": "^3.1.4",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "react-router-sitemap": "^1.2.0",
+    "source-map-explorer": "^2.1.0"
   }
 }

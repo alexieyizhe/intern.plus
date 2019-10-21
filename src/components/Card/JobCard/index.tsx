@@ -123,4 +123,4 @@ const JobCard: React.FC<IJobCardProps> = ({
   );
 };
 
-export default JobCard;
+export default React.memo(JobCard);
