@@ -1,6 +1,9 @@
 <p align="center">
     <img alt="Site logo" src="./src/assets/img/logo-text.svg" width="200" />
 </p>
+<p align="center">
+    <img src="https://github.com/alexieyizhe/intern.plus/workflows/Continuous%20Integration/badge.svg">
+</p>
 
 ## ✨ Design
 
@@ -28,7 +31,10 @@ npm install
 npm start
 ```
 
-This project follows a [trunk based development](https://trunkbaseddevelopment.com/) style. Branches are split off from the `master` branch for features, fixes, and all other development. The `release` branch contains production code that must always be kept in a go-live state.
+This project (loosely) follows a [trunk based development](https://trunkbaseddevelopment.com/) style.
+
+- Branches are split off from the `master` branch for features, fixes, and all other development.
+- The `release` branch contains production code that must always be kept in a go-live state.
 
 #### Branch naming
 
@@ -42,7 +48,7 @@ Branch names contain the issue number on which the development efforts are focus
 
 #### Commits into `master`
 
-When branches are merged back into `master`, they must be squashed committed. The new commit name must be tagged with one of `[major|minor|patch]`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
+When branches are merged back into `master`, they must be squashed committed.
 
 Usually (but not always), the commit name is also prefixed with one of the following emojis based on the changes done in the commit, for better context when browsing on the `master` branch:
 
@@ -52,5 +58,11 @@ Usually (but not always), the commit name is also prefixed with one of the follo
 - 💄: style changes
 - 🧹: chore-related changes
 - 📚: documentation
+
+#### Commits into `release` (releases)
+
+When a release is ready, a pull request should be made from `master` to `release`. This pull request title must be tagged with one of `[major|minor|patch]`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
+
+Once merged into `release`, CI will (read: should) tag the last commit with a versoin number according to the pull request title.
 
 ###### Wanna get in touch? [Shoot Alex an email.](mailto:hi@alexxie.ca)
