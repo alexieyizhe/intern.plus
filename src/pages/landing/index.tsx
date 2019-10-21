@@ -14,7 +14,6 @@ import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import pageCopy from "./copy";
 
 import {
-  Card,
   PageContainer as BasePageContainer,
   InputButtonCombo,
   Text,
@@ -29,7 +28,7 @@ const PageContainer = styled(BasePageContainer)`
   max-width: 1300px;
 `;
 
-const TitleCard = styled(Card)`
+const TitleCard = styled.div`
   position: relative;
   width: 100%;
   height: 400px;
@@ -38,11 +37,10 @@ const TitleCard = styled(Card)`
   display: flex;
   justify-content: space-between;
 
-  background-color: wheat;
   overflow: hidden;
 
-  ${({ theme }) => theme.mediaQueries.xlMobile`
-    height: 540px;
+  ${({ theme }) => theme.mediaQueries.medium`
+    height: auto;
     flex-direction: column-reverse;
     justify-content: flex-end;
   `}
@@ -58,7 +56,7 @@ const TitleCard = styled(Card)`
 
 const TitleCardLeft = styled.div`
   width: 35%;
-  padding: 50px 60px;
+  padding: 50px 0;
 
   display: flex;
   flex-direction: column;
@@ -68,19 +66,18 @@ const TitleCardLeft = styled.div`
     margin-bottom: 10px;
   }
 
+  & h3 {
+    margin-bottom: 30px;
+  }
+
+
   ${({ theme }) => theme.mediaQueries.medium`
-    width: 45%;
-    padding: 35px 45px;
-  `}
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-    padding: 30px 35px;
-  `}
-
-  ${({ theme }) => theme.mediaQueries.xlMobile`
     width: 100%;
     height: 45%;
-    padding: 20px 30px;
+    padding: 20px 0;
+
+    text-align: center;
+    align-items: center;
   `}
 
   ${({ theme }) => theme.mediaQueries.largeMobile`
@@ -95,19 +92,27 @@ const TitleCardLeft = styled.div`
 `;
 
 const TitleCardRight = styled.div`
-  width: 50%;
+  position: relative;
+  width: 55%;
 
-  background: url(${pageCopy.splashCard.splashImg.src});
-  background-size: cover;
+  display: flex;
+  align-items: center;
 
-  ${({ theme }) => theme.mediaQueries.xlMobile`
+  & > img {
+    max-width: 100%;
+  }
+
+  ${({ theme }) => theme.mediaQueries.medium`
     width: 100%;
     height: 55%;
   `}
 `;
 
 const SearchInput = styled(InputButtonCombo)`
-  ${({ theme }) => theme.mediaQueries.tablet`
+  display: flex;
+  width: 100%;
+
+  ${({ theme }) => theme.mediaQueries.xlMobile`
     display: none;
   `}
 `;
@@ -115,7 +120,7 @@ const SearchInput = styled(InputButtonCombo)`
 const SearchButton = styled(Button)`
   display: none;
 
-  ${({ theme }) => theme.mediaQueries.tablet`
+  ${({ theme }) => theme.mediaQueries.xlMobile`
     display: inherit;
   `}
 `;
@@ -175,7 +180,7 @@ const LandingPage = () => {
               <Text variant="heading1" as="h1">
                 {pageCopy.splashCard.heading}
               </Text>
-              <Text variant="heading3" color="greyDark" as="div">
+              <Text variant="heading3" color="greyDark" as="h3">
                 {pageCopy.splashCard.subheading}
               </Text>
             </div>
@@ -198,7 +203,12 @@ const LandingPage = () => {
             </div>
           </TitleCardLeft>
 
-          <TitleCardRight />
+          <TitleCardRight>
+            <img
+              src={pageCopy.splashCard.splashImg.src}
+              alt={pageCopy.splashCard.splashImg.alt}
+            />
+          </TitleCardRight>
         </TitleCard>
 
         <LandingCardDisplay

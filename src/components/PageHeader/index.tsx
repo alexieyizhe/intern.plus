@@ -20,7 +20,7 @@ import { UnstyledButton } from "src/components/Button";
  *******************************************************************/
 export const HEADER_HEIGHT = 70;
 export const HEADER_PADDING = 100;
-export const HEADER_PADDING_MOBILE = 30;
+export const HEADER_PADDING_MOBILE = 40;
 export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // the width at which the mobile menu is activated
 
 /*******************************************************************
@@ -103,17 +103,16 @@ const Logo = styled.div`
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
-
     & .logoImg {
       max-height: 30px;
-      margin-right: 5px;
+      margin-right: 3px;
     }
   `}
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     & .chevron {
       display: inline-block;
-      margin-top: 2px;
+      margin-top: 1px;
 
       transition: transform 150ms ease-in;
       &.up {
@@ -276,10 +275,10 @@ const Header: React.FC = () => {
         className={mobileMenuOpen ? "show" : undefined}
         aria-hidden={isMobileUser && !mobileMenuOpen ? "false" : "true"}
       >
-        <Link to={RouteName.JOBS} bare>
+        <Link to={RouteName.COMPANIES} bare>
           <Text>companies</Text>
         </Link>
-        <Link to={RouteName.COMPANIES} bare>
+        <Link to={RouteName.JOBS} bare>
           <Text>positions</Text>
         </Link>
         <Link to={RouteName.REVIEWS} bare>

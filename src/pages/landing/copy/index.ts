@@ -1,5 +1,5 @@
 import { RouteName } from "src/utils/constants";
-import { LandingDockImg } from "src/assets";
+import { StarCityImg } from "src/assets";
 
 const pageCopy = {
   splashCard: {
@@ -7,8 +7,8 @@ const pageCopy = {
     subheading: "Upgrade your search with intern+.", // i dont like this
     searchButtonText: "Start searching",
     splashImg: {
-      src: LandingDockImg,
-      alt: "An illustration of a harbour with containers being unloaded.",
+      src: StarCityImg,
+      alt: "A city with star ratings hovering over buildings.",
     },
   },
   sections: {

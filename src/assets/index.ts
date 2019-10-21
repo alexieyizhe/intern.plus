@@ -7,7 +7,7 @@ export { default as LogoPlus } from "./img/logo-plus.svg";
 export { default as EditIcon } from "./img/icons/edit.svg";
 export { default as XCloseIcon } from "./img/icons/x-close.svg";
 
-export { default as LandingDockImg } from "./img/landing-main.jpg";
+export { default as StarCityImg } from "./img/star-city.png";
 
 export { default as MobileMenuChevronImg } from "./img/mobilemenu-chevron.svg";
 

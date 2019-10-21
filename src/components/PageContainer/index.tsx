@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-import { HEADER_HEIGHT } from "src/components/PageHeader";
+import {
+  HEADER_HEIGHT,
+  HEADER_PADDING,
+  HEADER_PADDING_MOBILE,
+  MOBILE_MENU_MEDIA_QUERY,
+} from "src/components/PageHeader";
 import { FOOTER_HEIGHT } from "src/components/PageFooter";
 
 const PageContainer = styled.main`
@@ -11,14 +16,10 @@ const PageContainer = styled.main`
 
   margin: auto;
   margin-top: ${HEADER_HEIGHT}px;
-  padding: 10px 100px;
+  padding: 10px ${HEADER_PADDING}px;
 
-  ${({ theme }) => theme.mediaQueries.tablet`
-    padding: 10px 80px;
-  `}
-
-  ${({ theme }) => theme.mediaQueries.largeMobile`
-    padding: 10px 30px;
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    padding: 10px ${HEADER_PADDING_MOBILE}px;
   `}
 `;
 
