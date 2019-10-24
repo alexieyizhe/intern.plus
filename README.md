@@ -61,8 +61,8 @@ Usually (but not always), the commit name is also prefixed with one of the follo
 
 #### Commits into `release` (releases)
 
-When a release is ready, a pull request should be made from `master` to `release`. This pull request title must be tagged with one of `[major|minor|patch]`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
+When a release is ready, a pull request should be made from `master` to `release`. This pull request title must be tagged with one of `#major|#minor|#patch`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
 
-Once merged into `release`, CI will (read: should) tag the last commit with a versoin number according to the pull request title.
+Once merged into `release`, CI will (read: should) tag the last commit with the appropriate version number according to the pull request title.
 
 ###### Wanna get in touch? [Shoot Alex an email.](mailto:hi@alexxie.ca)

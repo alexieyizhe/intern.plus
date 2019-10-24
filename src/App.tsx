@@ -96,16 +96,16 @@ const App: React.FC = () => (
       <SiteContextProvider>
         <Router>
           <QueryParamProvider ReactRouterRoute={Route}>
-            <div className="App">
-              <GlobalStyles />
-              {analytics.init() && <Analytics />}
+            <ErrorBoundary FallbackComponent={CrashPage}>
+              <div className="App">
+                <GlobalStyles />
+                {analytics.init() && <Analytics />}
 
-              <ErrorBoundary FallbackComponent={CrashPage}>
                 <PageHeader />
                 <AppSwitch />
                 <PageFooter />
-              </ErrorBoundary>
-            </div>
+              </div>
+            </ErrorBoundary>
           </QueryParamProvider>
         </Router>
       </SiteContextProvider>
