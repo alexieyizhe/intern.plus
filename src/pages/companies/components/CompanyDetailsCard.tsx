@@ -28,6 +28,18 @@ export interface ICompanyDetailsCardProps extends ISearchFieldProps {
  *******************************************************************/
 const ERROR_OCCURRED_TEXT = "An error occurred while getting company details.";
 
+const getRatingsText = (numRatings: number) => {
+  switch (numRatings) {
+    case 0:
+      return `No reviews yet`;
+    case 1:
+      return `${numRatings} review`;
+
+    default:
+      return `${numRatings} reviews`;
+  }
+};
+
 /**
  * Creates the markup for displaying the correct state of
  * the company details, whether still loading, etc.
@@ -52,21 +64,20 @@ const getDetailsMarkup = (
           <Text className="subheading" variant="subheading" as="div">
             {details.desc}
           </Text>
-          <StarRating
-            className="rating"
-            maxStars={5}
-            filledStars={Math.round(details.avgRating)}
-            readOnly
-          >
-            <Text variant="body" className="ratingText" color="black">
-              {details.avgRating.toFixed(1)}
+          <div className="rating">
+            <StarRating
+              maxStars={5}
+              filledStars={Math.round(details.avgRating)}
+              readOnly
+            >
+              <Text variant="body" className="ratingText" color="black">
+                {details.avgRating.toFixed(1)}
+              </Text>
+            </StarRating>
+            <Text variant="subheading" as="div" color="greyDark">
+              {getRatingsText(details.numRatings)}
             </Text>
-          </StarRating>
-          <Text variant="subheading" as="div" color="greyDark">
-            {`${details.numRatings} ${
-              details.numRatings === 1 ? "review" : "reviews"
-            }`}
-          </Text>
+          </div>
         </DetailsContainer>
 
         <Logo src={details.logoSrc} alt={`Logo of ${details.name}`} />
@@ -119,12 +130,12 @@ const DetailsContainer = styled.div`
   max-width: 55%;
 
   & > .subheading {
+    display: inline-block;
     margin: 10px auto 15px auto;
   }
 
   & .rating {
-    display: flex;
-    justify-content: flex-start;
+    margin: 35px auto 20px auto;
   }
 
   & .ratingText {

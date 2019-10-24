@@ -188,7 +188,6 @@ const DetailsContainer = styled.div`
 
   & > .subheading {
     display: inline-block;
-    margin: 5px auto 35px auto;
   }
 
   ${({ theme }) => theme.mediaQueries.largeMobile`
@@ -205,6 +204,7 @@ const DetailsContainer = styled.div`
 const MiscDetails = styled.div`
   display: flex;
   justify-content: space-between;
+  margin: 35px auto 20px auto;
 
   & .rating {
     display: flex;

@@ -27,7 +27,6 @@ export const hoverStyles = css`
 export const detailsCardStyles = css<{ color?: string }>`
   position: relative;
   width: 100%;
-  height: 400px;
   padding: 40px 60px;
 
   display: flex;
