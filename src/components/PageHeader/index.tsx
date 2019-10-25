@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
@@ -242,7 +242,11 @@ const Header: React.FC = () => {
   /**
    * Close the mobile menu after navigating between pages.
    */
-  history.listen(closeMobileMenu);
+  useEffect(() => {
+    const unlistenCallback = history.listen(closeMobileMenu);
+
+    return () => unlistenCallback();
+  }, [closeMobileMenu, history]);
 
   /**
    * Detect if a click outside the header has happened.
