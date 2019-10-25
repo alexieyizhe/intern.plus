@@ -150,7 +150,7 @@ const DetailsContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  max-width: 30%;
+  max-width: 120px;
 `;
 
 /*******************************************************************

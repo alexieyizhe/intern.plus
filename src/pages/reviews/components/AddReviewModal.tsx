@@ -17,6 +17,8 @@ const ModalContainer = styled.div`
   position: fixed;
   width: 100%;
   top: ${HEADER_HEIGHT}px;
+
+  z-index: ${({ theme }) => theme.zIndex.modal};
 `;
 
 const InnerModalContainer = styled.div`
@@ -40,7 +42,6 @@ const InnerContainer = styled(Card)`
   display: flex;
   flex-direction: column;
 
-  z-index: ${({ theme }) => theme.zIndex.modal};
   box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
   transition: all 150ms ease-out;
