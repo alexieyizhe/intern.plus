@@ -13,7 +13,7 @@
 # macOS generated
 .DS_Store
 
-# misc
+# env files
 .env
 .env.local
 .env.development.local
@@ -21,7 +21,9 @@
 .env.production.local
 
 npm-debug.log*
-# Local Netlify folder
+
+# local netlify folder
 .netlify
 
+# misc
 /backup
