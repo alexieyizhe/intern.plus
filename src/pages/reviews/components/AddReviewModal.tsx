@@ -18,7 +18,15 @@ const ModalContainer = styled.div`
   width: 100%;
   top: ${HEADER_HEIGHT}px;
 
-  z-index: ${({ theme }) => theme.zIndex.modal};
+  z-index: -1;
+
+  &.open {
+    z-index: ${({ theme }) => theme.zIndex.modal};
+  }
+
+  &.mobileMenuOpen {
+    top: ${HEADER_HEIGHT + 130}px;
+  }
 `;
 
 const InnerModalContainer = styled.div`
@@ -46,11 +54,9 @@ const InnerContainer = styled(Card)`
 
   transition: all 150ms ease-out;
   opacity: 0;
-  pointer-events: none;
   transform: translateY(10px);
   &.open {
     opacity: 1;
-    pointer-events: auto;
     transform: translateY(0);
   }
 
@@ -74,13 +80,15 @@ const AddReviewModal: React.FC = () => {
   } = useSiteContext();
 
   return (
-    <ModalContainer>
-      <InnerModalContainer>
-        <InnerContainer
-          className={`
+    <ModalContainer
+      className={`
         ${modalOpen ? "open" : ""} 
         ${mobileMenuOpen ? "mobileMenuOpen" : ""}
       `}
+    >
+      <InnerModalContainer>
+        <InnerContainer
+          className={modalOpen ? "open" : ""}
           aria-hidden={modalOpen ? "false" : "true"}
           color="white"
         >

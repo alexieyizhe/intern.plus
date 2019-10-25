@@ -58,10 +58,6 @@ const Container = styled.header`
   &.mobileMenuOpen::after {
     transform: translateY(120px);
   }
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-    height: ${HEADER_HEIGHT}px;
-  `}
 `;
 
 const InnerContainer = styled.div`
