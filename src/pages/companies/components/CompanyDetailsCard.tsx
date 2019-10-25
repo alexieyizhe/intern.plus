@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { default as AnimatedIcon } from "react-useanimations";
 
 import { ICompanyDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
@@ -11,6 +10,7 @@ import {
   Card,
   Text,
   SearchField,
+  Spinner,
   StarRating,
 } from "src/components";
 
@@ -53,7 +53,7 @@ const getDetailsMarkup = (
   details?: ICompanyDetails
 ) => {
   if (loading) {
-    return <AnimatedIcon className="loading" animationKey="loading" />;
+    return <Spinner className="loading" />;
   } else if (details) {
     return (
       <>
@@ -150,7 +150,7 @@ const DetailsContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  max-width: 30%;
+  max-width: 120px;
 `;
 
 /*******************************************************************

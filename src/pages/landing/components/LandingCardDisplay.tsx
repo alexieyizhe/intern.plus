@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
-import { default as AnimatedIcon } from "react-useanimations";
 
 import { RouteName } from "src/utils/constants";
 import {
@@ -14,12 +13,12 @@ import {
 import pageCopy from "../copy";
 
 import {
+  MOBILE_MENU_MEDIA_QUERY,
   CompanyCard,
   ReviewCard,
   Link,
+  Spinner,
   Text,
-  HEADER_PADDING_MOBILE,
-  MOBILE_MENU_MEDIA_QUERY,
 } from "src/components";
 
 /*******************************************************************
@@ -131,11 +130,11 @@ const Display = styled.div`
   padding: 25px 0;
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
-    width: calc(100% + ${HEADER_PADDING_MOBILE * 2}px);
-    left: -${HEADER_PADDING_MOBILE}px;
+    width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
+    left: -${theme.padding.pageHorizontalMobile}px;
 
     & > :first-child {
-      margin-left: ${HEADER_PADDING_MOBILE}px;
+      margin-left: ${theme.padding.pageHorizontalMobile}px;
     }
   `}
 `;
@@ -151,10 +150,6 @@ const landingCardStyles = css`
   flex-shrink: 0;
   flex-grow: 0;
   margin-right: 22px;
-
-  &:last-child {
-    margin-left: 0;
-  }
 
   ${({ theme }) => theme.mediaQueries.largeMobile`
     width: 80%;
@@ -198,7 +193,7 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
       <Display>
         {showMisc ? (
           <MiscContentContainer>
-            {loading && <AnimatedIcon animationKey="loading" />}
+            {loading && <Spinner />}
             {error && (
               <Text variant="subheading" color="error">
                 {pageCopy.errorText}

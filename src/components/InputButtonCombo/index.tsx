@@ -56,7 +56,10 @@ const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
   const internalOnKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (onKeyDown) onKeyDown(e); // make sure we don't break default original onKeyDown
-      if (e.keyCode === ENTER_KEY_CODE) onEnterTrigger();
+      if (e.keyCode === ENTER_KEY_CODE) {
+        onEnterTrigger();
+        (e.target as HTMLInputElement).blur();
+      }
     },
     [onEnterTrigger, onKeyDown]
   );

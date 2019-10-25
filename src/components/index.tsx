@@ -7,6 +7,9 @@ export * from "./Card";
 export { default as Checkbox } from "./Checkbox";
 export * from "./Checkbox";
 
+export { default as Icon } from "./Icon";
+export * from "./Icon";
+
 export { default as InputButtonCombo } from "./InputButtonCombo";
 export * from "./InputButtonCombo";
 
@@ -30,6 +33,9 @@ export * from "./SearchField";
 
 export { default as Select } from "./Select";
 export * from "./Select";
+
+export { default as Spinner } from "./Spinner";
+export * from "./Spinner";
 
 export { default as StarRating } from "./StarRating";
 export * from "./StarRating";

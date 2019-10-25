@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
@@ -11,17 +11,16 @@ import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
 import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
 
+import { UnstyledButton } from "src/components/Button";
+import Icon from "src/components/Icon";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
-import { UnstyledButton } from "src/components/Button";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-export const HEADER_HEIGHT = 70;
-export const HEADER_PADDING = 100;
-export const HEADER_PADDING_MOBILE = 40;
-export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // the width at which the mobile menu is activated
+export const HEADER_HEIGHT = 75;
+export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // width at which the mobile menu is activated
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -31,30 +30,17 @@ const Container = styled.header`
   top: 0;
   width: 100%;
   height: ${HEADER_HEIGHT}px;
-  padding: 0 ${HEADER_PADDING}px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
   z-index: ${({ theme }) => theme.zIndex.header};
   background-color: white;
-
-  & > * {
-    z-index: 2;
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
 
   &::after {
     content: "";
     position: absolute;
     z-index: 1;
-    width: calc(100% + ${HEADER_PADDING}px);
+    width: calc(100%);
     height: 400%;
     bottom: 0;
-    left: -${HEADER_PADDING}px;
 
     background-color: ${({ theme }) => theme.color.white};
     border-radius: ${({ theme }) => theme.borderRadius.button}px;
@@ -75,12 +61,29 @@ const Container = styled.header`
 
   ${({ theme }) => theme.mediaQueries.tablet`
     height: ${HEADER_HEIGHT}px;
-    padding: 0 ${HEADER_PADDING_MOBILE}px;
+  `}
+`;
 
-    &::after {
-      width: calc(100% + ${HEADER_PADDING_MOBILE}px);
-      left: -${HEADER_PADDING_MOBILE}px;
-    }
+const InnerContainer = styled.div`
+  margin: auto;
+  max-width: ${({ theme }) => theme.maxWidth.page}px;
+  height: ${HEADER_HEIGHT}px;
+  padding: ${({ theme }) =>
+    `${theme.padding.pageVertical}px ${theme.padding.pageHorizontal}px`};
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > * {
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    padding: ${theme.padding.pageVertical}px ${theme.padding.pageHorizontalMobile}px;
   `}
 `;
 
@@ -140,7 +143,7 @@ const NavLinks = styled.nav`
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     position: absolute;
     top: calc(100% - 10px);
-    left: ${HEADER_PADDING_MOBILE}px;
+    left: ${theme.padding.pageHorizontalMobile}px;
     
     flex-direction: column;
     justify-content: flex-start;
@@ -179,16 +182,9 @@ const HeaderActionContainer = styled.div`
     }
   }
 
-  & img {
+  & svg {
     cursor: pointer;
-    max-width: 30px;
   }
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-    & img {
-      max-width: 25px;
-    }
-  `}
 `;
 
 /*******************************************************************
@@ -242,7 +238,11 @@ const Header: React.FC = () => {
   /**
    * Close the mobile menu after navigating between pages.
    */
-  history.listen(closeMobileMenu);
+  useEffect(() => {
+    const unlistenCallback = history.listen(closeMobileMenu);
+
+    return () => unlistenCallback();
+  }, [closeMobileMenu, history]);
 
   /**
    * Detect if a click outside the header has happened.
@@ -259,52 +259,50 @@ const Header: React.FC = () => {
       `}
       ref={headerRef}
     >
-      <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
-        <UnstyledButton>
-          <img className="logoImg" src={copy.logo.src} alt={copy.logo.alt} />
+      <InnerContainer>
+        <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
+          <UnstyledButton>
+            <img className="logoImg" src={copy.logo.src} alt={copy.logo.alt} />
 
-          <img
-            className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
-            src={copy.mobileToggle.src}
-            alt={copy.mobileToggle.alt}
-          />
-        </UnstyledButton>
-      </Logo>
+            <img
+              className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
+              src={copy.mobileToggle.src}
+              alt={copy.mobileToggle.alt}
+            />
+          </UnstyledButton>
+        </Logo>
 
-      <NavLinks
-        className={mobileMenuOpen ? "show" : undefined}
-        aria-hidden={isMobileUser && !mobileMenuOpen ? "false" : "true"}
-      >
-        <Link to={RouteName.COMPANIES} bare>
-          <Text>companies</Text>
-        </Link>
-        <Link to={RouteName.JOBS} bare>
-          <Text>positions</Text>
-        </Link>
-        <Link to={RouteName.REVIEWS} bare>
-          <Text>reviews</Text>
-        </Link>
-        <Link to={RouteName.LANDING} bare className="homeLink">
-          <Text>home</Text>
-        </Link>
-      </NavLinks>
+        <NavLinks
+          className={mobileMenuOpen ? "show" : undefined}
+          aria-hidden={isMobileUser && !mobileMenuOpen ? "false" : "true"}
+        >
+          <Link to={RouteName.COMPANIES} bare>
+            <Text>companies</Text>
+          </Link>
+          <Link to={RouteName.JOBS} bare>
+            <Text>positions</Text>
+          </Link>
+          <Link to={RouteName.REVIEWS} bare>
+            <Text>reviews</Text>
+          </Link>
+          <Link to={RouteName.LANDING} bare className="homeLink">
+            <Text>home</Text>
+          </Link>
+        </NavLinks>
 
-      <HeaderActionContainer>
-        <UnstyledButton onClick={toggleAddReviewModal}>
-          <img
-            src={
-              addReviewModalOpen
-                ? copy.addReview.openIcon.src
-                : copy.addReview.closedIcon.src
-            }
-            alt={
-              addReviewModalOpen
-                ? copy.addReview.openIcon.alt
-                : copy.addReview.closedIcon.alt
-            }
-          />
-        </UnstyledButton>
-      </HeaderActionContainer>
+        <HeaderActionContainer>
+          <UnstyledButton onClick={toggleAddReviewModal}>
+            <Icon
+              name={
+                addReviewModalOpen
+                  ? copy.addReview.openIcon.name
+                  : copy.addReview.closedIcon.name
+              }
+              size={24}
+            />
+          </UnstyledButton>
+        </HeaderActionContainer>
+      </InnerContainer>
     </Container>
   );
 };

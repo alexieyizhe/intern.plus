@@ -4,8 +4,11 @@
 export { default as LogoText } from "./img/logo-text.svg";
 export { default as LogoSmall } from "./img/logo-small.svg";
 
-export { default as EditIcon } from "./img/icons/edit.svg";
-export { default as XCloseIcon } from "./img/icons/x-close.svg";
+export { ReactComponent as EditIcon } from "./img/icons/edit.svg";
+export { ReactComponent as XIcon } from "./img/icons/x.svg";
+export { ReactComponent as XSquareIcon } from "./img/icons/x-square.svg";
+export { ReactComponent as StarEmptyIcon } from "./img/icons/star-empty.svg";
+export { ReactComponent as StarFilledIcon } from "./img/icons/star-filled.svg";
 
 export { default as MobileMenuChevronImg } from "./img/mobilemenu-chevron.svg";
 

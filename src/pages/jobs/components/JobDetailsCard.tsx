@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { default as AnimatedIcon } from "react-useanimations";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
 import { IJobDetails } from "src/types";
@@ -14,6 +13,7 @@ import {
   Text,
   Link,
   SearchField,
+  Spinner,
   StarRating,
 } from "src/components";
 
@@ -45,7 +45,7 @@ const getDetailsMarkup = (
   details?: IJobDetails
 ) => {
   if (loading) {
-    return <AnimatedIcon className="loading" animationKey="loading" />;
+    return <Spinner className="loading" />;
   } else if (details) {
     return (
       <DetailsContainer>

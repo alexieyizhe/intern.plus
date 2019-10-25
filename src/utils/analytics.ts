@@ -17,21 +17,23 @@ export const init = (options = {}) => {
   /**
    * Track timing of server requests.
    */
-  const callback: PerformanceObserverCallback = list => {
-    list.getEntries().forEach(entry => {
-      timing({
-        category: "Load Performace",
-        variable: "Server latency",
-        value:
-          ((entry as PerformanceNavigationTiming).responseStart -
-            (entry as PerformanceNavigationTiming).requestStart) *
-          1000,
+  if (typeof PerformanceObserver === "function") {
+    const callback: PerformanceObserverCallback = list => {
+      list.getEntries().forEach(entry => {
+        timing({
+          category: "Load Performace",
+          variable: "Server latency",
+          value:
+            ((entry as PerformanceNavigationTiming).responseStart -
+              (entry as PerformanceNavigationTiming).requestStart) *
+            1000,
+        });
       });
-    });
-  };
+    };
 
-  const observer = new PerformanceObserver(callback);
-  observer.observe({ entryTypes: ["navigation"] });
+    const observer = new PerformanceObserver(callback);
+    observer.observe({ entryTypes: ["navigation"] });
+  }
 
   ttiPolyfill.getFirstConsistentlyInteractive().then(tti => {
     if (tti) {
