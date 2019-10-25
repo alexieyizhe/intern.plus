@@ -1,5 +1,14 @@
-import { css } from "styled-components";
+import { css, keyframes } from "styled-components";
 import { Size } from "src/theme/constants";
+
+export const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
 
 export const hoverStyles = css`
   cursor: pointer;

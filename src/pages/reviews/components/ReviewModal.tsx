@@ -16,6 +16,8 @@ import { buildReviewDetails } from "../graphql/utils";
 
 import {
   Card,
+  Icon,
+  IconName,
   Link,
   Text,
   StarRating,
@@ -313,16 +315,30 @@ const CloseButton = styled(UnstyledButton)`
   top: -10px;
   right: -10px;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1;
   cursor: pointer;
 
-  background-color: ${({ theme }) => theme.color.error};
-  border-radius: 50%;
+  & .bg {
+    z-index: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: ${({ theme }) => theme.color.error};
+    border-radius: 50%;
+  }
 
-  transition: transform 150ms ease-out;
-  transform: scale(0.9);
-  &:hover,
-  &:focus {
-    transform: scale(1);
+  &:hover > .bg,
+  &:focus > .bg {
+    transition: transform 150ms ease-out;
+    transform: scale(1.1);
+  }
+
+  & > svg {
+    z-index: 1;
   }
 `;
 
@@ -403,7 +419,10 @@ const ReviewModal: React.FC = () => {
       <Background onClick={onExit}>
         <Container color="greyLight" onClick={cardOnClick}>
           {getDetailsMarkup(loading, error !== undefined, review)}
-          <CloseButton onClick={onExit} tabIndex={1} />
+          <CloseButton onClick={onExit} tabIndex={1}>
+            <span className="bg" />
+            <Icon name={IconName.X} color="white" size={13} />
+          </CloseButton>
         </Container>
       </Background>
     </>

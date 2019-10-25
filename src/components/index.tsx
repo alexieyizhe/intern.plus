@@ -7,6 +7,9 @@ export * from "./Card";
 export { default as Checkbox } from "./Checkbox";
 export * from "./Checkbox";
 
+export { default as Icon } from "./Icon";
+export * from "./Icon";
+
 export { default as InputButtonCombo } from "./InputButtonCombo";
 export * from "./InputButtonCombo";
 

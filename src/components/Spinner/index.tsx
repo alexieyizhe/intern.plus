@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { spin } from "src/theme/snippets";
+
 export interface SpinnerProps extends React.ComponentPropsWithoutRef<"div"> {
   color?: string;
 }
@@ -14,15 +16,6 @@ const Container = styled.div`
 `;
 
 const Ring = styled.div`
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
   display: block;
   position: absolute;
   width: 23px;
@@ -35,7 +28,7 @@ const Ring = styled.div`
       theme.color[color] || color || "black"}
     transparent transparent transparent;
 
-  animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  animation: ${spin} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   &:nth-child(1) {
     animation-delay: -0.45s;
   }
