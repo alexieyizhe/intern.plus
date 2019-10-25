@@ -23,9 +23,7 @@ import LandingCardDisplay from "./components/LandingCardDisplay";
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
-const PageContainer = styled(BasePageContainer)`
-  max-width: 1300px;
-`;
+const PageContainer = styled(BasePageContainer)``;
 
 const TitleCard = styled.div`
   position: relative;

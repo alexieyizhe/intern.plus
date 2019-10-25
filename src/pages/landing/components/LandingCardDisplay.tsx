@@ -13,7 +13,6 @@ import {
 import pageCopy from "../copy";
 
 import {
-  HEADER_PADDING_MOBILE,
   MOBILE_MENU_MEDIA_QUERY,
   CompanyCard,
   ReviewCard,
@@ -131,11 +130,11 @@ const Display = styled.div`
   padding: 25px 0;
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
-    width: calc(100% + ${HEADER_PADDING_MOBILE * 2}px);
-    left: -${HEADER_PADDING_MOBILE}px;
+    width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
+    left: -${theme.padding.pageHorizontalMobile}px;
 
     & > :first-child {
-      margin-left: ${HEADER_PADDING_MOBILE}px;
+      margin-left: ${theme.padding.pageHorizontalMobile}px;
     }
   `}
 `;
@@ -151,10 +150,6 @@ const landingCardStyles = css`
   flex-shrink: 0;
   flex-grow: 0;
   margin-right: 22px;
-
-  &:last-child {
-    margin-left: 0;
-  }
 
   ${({ theme }) => theme.mediaQueries.largeMobile`
     width: 80%;
