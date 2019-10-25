@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
-import { default as AnimatedIcon } from "react-useanimations";
 
 import { RouteName } from "src/utils/constants";
 import {
@@ -14,12 +13,13 @@ import {
 import pageCopy from "../copy";
 
 import {
+  HEADER_PADDING_MOBILE,
+  MOBILE_MENU_MEDIA_QUERY,
   CompanyCard,
   ReviewCard,
   Link,
+  Spinner,
   Text,
-  HEADER_PADDING_MOBILE,
-  MOBILE_MENU_MEDIA_QUERY,
 } from "src/components";
 
 /*******************************************************************
@@ -198,7 +198,7 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
       <Display>
         {showMisc ? (
           <MiscContentContainer>
-            {loading && <AnimatedIcon animationKey="loading" />}
+            {loading && <Spinner />}
             {error && (
               <Text variant="subheading" color="error">
                 {pageCopy.errorText}

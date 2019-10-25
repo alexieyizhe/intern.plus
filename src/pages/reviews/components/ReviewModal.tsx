@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
-import { default as AnimatedIcon } from "react-useanimations";
 import { Helmet } from "react-helmet";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
@@ -15,7 +14,14 @@ import { GetReviewDetails } from "src/types/generated/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
 import { buildReviewDetails } from "../graphql/utils";
 
-import { Card, Link, Text, StarRating, UnstyledButton } from "src/components";
+import {
+  Card,
+  Link,
+  Text,
+  StarRating,
+  Spinner,
+  UnstyledButton,
+} from "src/components";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -60,7 +66,7 @@ const getDetailsMarkup = (
   details?: IReviewDetails
 ) => {
   if (loading) {
-    return <AnimatedIcon className="loading" animationKey="loading" />;
+    return <Spinner className="loading" />;
   } else if (details) {
     return (
       <>

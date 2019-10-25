@@ -31,6 +31,9 @@ export * from "./SearchField";
 export { default as Select } from "./Select";
 export * from "./Select";
 
+export { default as Spinner } from "./Spinner";
+export * from "./Spinner";
+
 export { default as StarRating } from "./StarRating";
 export * from "./StarRating";
 

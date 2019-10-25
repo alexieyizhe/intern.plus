@@ -11,9 +11,10 @@ import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
 import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
 
+import { UnstyledButton } from "src/components/Button";
+import Icon from "src/components/Icon";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
-import { UnstyledButton } from "src/components/Button";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -179,16 +180,9 @@ const HeaderActionContainer = styled.div`
     }
   }
 
-  & img {
+  & svg {
     cursor: pointer;
-    max-width: 30px;
   }
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-    & img {
-      max-width: 25px;
-    }
-  `}
 `;
 
 /*******************************************************************
@@ -291,17 +285,13 @@ const Header: React.FC = () => {
 
       <HeaderActionContainer>
         <UnstyledButton onClick={toggleAddReviewModal}>
-          <img
-            src={
+          <Icon
+            name={
               addReviewModalOpen
-                ? copy.addReview.openIcon.src
-                : copy.addReview.closedIcon.src
+                ? copy.addReview.openIcon.name
+                : copy.addReview.closedIcon.name
             }
-            alt={
-              addReviewModalOpen
-                ? copy.addReview.openIcon.alt
-                : copy.addReview.closedIcon.alt
-            }
+            size={24}
           />
         </UnstyledButton>
       </HeaderActionContainer>
