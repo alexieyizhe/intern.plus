@@ -1,9 +1,6 @@
-import {
-  LogoText,
-  XCloseIcon,
-  EditIcon,
-  MobileMenuChevronImg,
-} from "src/assets";
+import { LogoText, MobileMenuChevronImg } from "src/assets";
+
+import { IconName } from "src/components/Icon";
 
 export default {
   logo: {
@@ -17,11 +14,11 @@ export default {
   },
   addReview: {
     closedIcon: {
-      src: EditIcon,
+      name: IconName.EDIT,
       alt: "Pencil icon to add review",
     },
     openIcon: {
-      src: XCloseIcon,
+      name: IconName.X_SQUARE,
       alt: "Icon to dismiss add review modal",
     },
   },

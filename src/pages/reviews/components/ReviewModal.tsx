@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
-import { default as AnimatedIcon } from "react-useanimations";
 import { Helmet } from "react-helmet";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
@@ -15,7 +14,16 @@ import { GetReviewDetails } from "src/types/generated/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
 import { buildReviewDetails } from "../graphql/utils";
 
-import { Card, Link, Text, StarRating, UnstyledButton } from "src/components";
+import {
+  Card,
+  Icon,
+  IconName,
+  Link,
+  Text,
+  StarRating,
+  Spinner,
+  UnstyledButton,
+} from "src/components";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -60,7 +68,7 @@ const getDetailsMarkup = (
   details?: IReviewDetails
 ) => {
   if (loading) {
-    return <AnimatedIcon className="loading" animationKey="loading" />;
+    return <Spinner className="loading" />;
   } else if (details) {
     return (
       <>
@@ -307,16 +315,30 @@ const CloseButton = styled(UnstyledButton)`
   top: -10px;
   right: -10px;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1;
   cursor: pointer;
 
-  background-color: ${({ theme }) => theme.color.error};
-  border-radius: 50%;
+  & .bg {
+    z-index: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: ${({ theme }) => theme.color.error};
+    border-radius: 50%;
+  }
 
-  transition: transform 150ms ease-out;
-  transform: scale(0.9);
-  &:hover,
-  &:focus {
-    transform: scale(1);
+  &:hover > .bg,
+  &:focus > .bg {
+    transition: transform 150ms ease-out;
+    transform: scale(1.1);
+  }
+
+  & > svg {
+    z-index: 1;
   }
 `;
 
@@ -397,7 +419,10 @@ const ReviewModal: React.FC = () => {
       <Background onClick={onExit}>
         <Container color="greyLight" onClick={cardOnClick}>
           {getDetailsMarkup(loading, error !== undefined, review)}
-          <CloseButton onClick={onExit} tabIndex={1} />
+          <CloseButton onClick={onExit} tabIndex={1}>
+            <span className="bg" />
+            <Icon name={IconName.X} color="white" size={13} />
+          </CloseButton>
         </Container>
       </Background>
     </>

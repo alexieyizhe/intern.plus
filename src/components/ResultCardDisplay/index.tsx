@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 import { Planet, KawaiiMood } from "react-kawaii";
-import { default as AnimatedIcon } from "react-useanimations";
 import { Waypoint } from "react-waypoint";
 
 import { RouteName } from "src/utils/constants";
@@ -15,6 +14,7 @@ import {
 
 import Text from "src/components/Text";
 import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
+import Spinner from "src/components/Spinner";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -76,7 +76,7 @@ const getMiscContent = (
 
     case DisplayState.LOADING:
       mood = "excited";
-      markup = <AnimatedIcon animationKey="loading" />;
+      markup = <Spinner />;
       break;
 
     case DisplayState.ERROR:

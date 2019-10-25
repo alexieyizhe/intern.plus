@@ -3,19 +3,40 @@ import styled from "styled-components";
 
 import { useSiteContext } from "src/utils/context";
 
-import { Card, Text, HEADER_HEIGHT } from "src/components";
+import {
+  HEADER_HEIGHT,
+  MOBILE_MENU_MEDIA_QUERY,
+  Card,
+  Text,
+} from "src/components";
 
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
-const Container = styled(Card)`
+const ModalContainer = styled.div`
   position: fixed;
-  top: ${HEADER_HEIGHT + 20}px;
-  right: 50px;
+  width: 100%;
+  top: ${HEADER_HEIGHT}px;
+`;
+
+const InnerModalContainer = styled.div`
+  position: relative;
+  margin: auto;
+  max-width: ${({ theme }) => theme.maxWidth.page}px;
+  padding: ${({ theme }) =>
+    `${theme.padding.pageVertical}px ${theme.padding.pageHorizontal}px`};
+
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    padding: ${theme.padding.pageVertical}px ${theme.padding.pageHorizontalMobile}px;
+  `}
+`;
+
+const InnerContainer = styled(Card)`
+  position: relative;
+  margin-left: auto;
   max-height: 85vh;
-  max-width: 900px;
-  padding: 35px 40px;
-  
+  max-width: 500px;
+
   display: flex;
   flex-direction: column;
 
@@ -36,14 +57,10 @@ const Container = styled(Card)`
     max-width: 80%;
   `}
 
-  ${({ theme }) => theme.mediaQueries.medium`
-    left: 50px;
-    right: unset;
-  `}
-
   ${({ theme }) => theme.mediaQueries.xlMobile`
-    max-width: 90%;
-    padding: 20px 30px;
+    margin: auto;  
+    right: unset;
+    max-width: 100%;
   `}
 `;
 
@@ -56,18 +73,22 @@ const AddReviewModal: React.FC = () => {
   } = useSiteContext();
 
   return (
-    <Container
-      className={`
+    <ModalContainer>
+      <InnerModalContainer>
+        <InnerContainer
+          className={`
         ${modalOpen ? "open" : ""} 
         ${mobileMenuOpen ? "mobileMenuOpen" : ""}
       `}
-      aria-hidden={modalOpen ? "false" : "true"}
-      color="white"
-    >
-      <Text variant="subheading" color="error">
-        Adding reviews isn't currently supported, but is coming soon!
-      </Text>
-    </Container>
+          aria-hidden={modalOpen ? "false" : "true"}
+          color="white"
+        >
+          <Text variant="subheading" color="error" align="center">
+            Adding reviews isn't currently supported, but is coming soon!
+          </Text>
+        </InnerContainer>
+      </InnerModalContainer>
+    </ModalContainer>
   );
 };
 
