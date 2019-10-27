@@ -5,7 +5,6 @@ export const companyResultFragment = gql`
     slug
     name
     desc
-    logoSrc
     logoImg {
       downloadUrl
     }

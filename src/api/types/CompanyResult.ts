@@ -33,7 +33,6 @@ export interface CompanyResult {
    * Description of a company.
    */
   desc: string | null;
-  logoSrc: string | null;
   logoImg: CompanyResult_logoImg | null;
   /**
    * Average color of the company's logo, in HSL format.
