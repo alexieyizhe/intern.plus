@@ -16,6 +16,7 @@ import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/utils/constants";
 import { SiteContextProvider } from "src/utils/context";
+import { useEasterEgg } from "src/utils/hooks/useEasterEgg";
 import Analytics from "src/utils/analytics";
 import * as analytics from "src/utils/analytics";
 
@@ -45,6 +46,8 @@ export const AppSwitch: React.FC = () => {
         : location,
     [location]
   );
+
+  useEasterEgg();
 
   return (
     <>
