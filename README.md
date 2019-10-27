@@ -46,7 +46,7 @@ Branches are prefixed with the following codes to denote their purpose:
 
 Branch names contain the issue number on which the development efforts are focused, if any.
 
-#### Commits into `master`
+#### Commits into `master` branch
 
 When branches are merged back into `master`, they must be squashed committed.
 
@@ -59,7 +59,7 @@ The commit name is usually also prefixed with one of the following emojis based 
 - 🧹: chore-related changes
 - 📚: documentation
 
-#### Commits into `release` (releases)
+#### Commits into `release` branch (releases)
 
 When a release is ready, a pull request should be made from `master` to `release`. This pull request title must be tagged with one of `#major|#minor|#patch`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
 
