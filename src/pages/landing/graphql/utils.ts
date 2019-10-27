@@ -4,7 +4,7 @@ import {
   GetCompaniesReviewsLanding,
   GetCompaniesReviewsLanding_companiesList_items,
   GetCompaniesReviewsLanding_reviewsList_items,
-} from "src/types/generated/GetCompaniesReviewsLanding";
+} from "./types/GetCompaniesReviewsLanding";
 
 /**
  * TODO: documentation

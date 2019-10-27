@@ -3,11 +3,11 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 
 import { IJobDetails, IReviewUserCardItem } from "src/types";
-import { GetJobDetails_job } from "src/types/generated/GetJobDetails";
+import { GetJobDetails_job } from "./types/GetJobDetails";
 import {
   GetJobReviews,
   GetJobReviews_job_reviews_items,
-} from "src/types/generated/GetJobReviews";
+} from "./types/GetJobReviews";
 
 TimeAgo.addLocale(en);
 

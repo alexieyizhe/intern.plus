@@ -4,7 +4,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
-import { GetCompaniesReviewsLanding } from "src/types/generated/GetCompaniesReviewsLanding";
+import { GetCompaniesReviewsLanding } from "./graphql/types/GetCompaniesReviewsLanding";
 import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
 import { buildLandingCardsList } from "./graphql/utils";
 

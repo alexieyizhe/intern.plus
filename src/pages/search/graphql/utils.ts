@@ -10,7 +10,7 @@ import {
   GetAllSearch_companiesList_items,
   GetAllSearch_jobsList_items,
   GetAllSearch_reviewsList_items,
-} from "src/types/generated/GetAllSearch";
+} from "./types/GetAllSearch";
 
 /**
  * TODO: documentation
