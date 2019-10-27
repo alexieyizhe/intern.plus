@@ -7,11 +7,14 @@ const chalk = require("chalk"); // eslint-disable-line
 const API_URL = process.env.REACT_APP_DB_GRAPHQL_API_URL;
 const GET_COMPANY_LOGO_URLS = gql`
   query GetCompanyLogoUrls {
-    companiesList {
+    companiesList(sort: { numRatings: DESC }) {
       items {
         id
         name
-        logoSrc
+        logoImg {
+          downloadUrl
+        }
+        logoColor
       }
     }
   }
@@ -28,6 +31,14 @@ const UPDATE_COMPANY_COLOR = gql`
 
 const client = new ApolloClient({
   uri: API_URL,
+  request: operation => {
+    const token = process.env.REACT_APP_DB_GRAPHQL_API_TOKEN;
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+  },
 });
 
 // may throw errors
@@ -77,10 +88,10 @@ const computeAllCompanyColors = async () => {
   if (data && data.companiesList && data.companiesList.items) {
     const allCompanies = data.companiesList.items.slice(0, 2);
 
-    for (const { id, name, logoSrc } of allCompanies) {
+    for (const { id, name, logoImg, logoColor } of allCompanies) {
       let hsl;
       try {
-        hsl = await getCompanyLogoColor(logoSrc || "");
+        hsl = await getCompanyLogoColor((logoImg && logoImg.downloadUrl) || "");
       } catch (e) {
         console.log(
           chalk`{yellow Error}: Failed to get color for ${name}: ${e.message}`
@@ -90,12 +101,20 @@ const computeAllCompanyColors = async () => {
 
       try {
         const [h, s, l] = hsl;
-        // execute the mutation
-        await mutateCompanyColor(id, `hsl(${h},${s}%,${l}%)`);
+        const newLogoColor = `hsl(${h},${s}%,${l}%)`;
 
-        console.log(
-          chalk`{green Success}: ${name} updated with color {inverse.hsl(${h},${s},${l}) ${h},${s}%,${l}%}`
-        );
+        // only update logo color if it's changed or it was nonexistent before
+        if (!logoColor || logoColor !== newLogoColor) {
+          await mutateCompanyColor(id); // execute the mutation
+
+          console.log(
+            chalk`{green Success}: ${name} updated with color {inverse.hsl(${h},${s},${l}) ${h},${s}%,${l}%}`
+          );
+        } else {
+          console.log(
+            chalk`{yellow Skipped} update for {hsl(${h},${s},${l}) ${name}} (color unchanged)`
+          );
+        }
       } catch (e) {
         console.log(chalk`{yellow Error}: Failed to update ${name}!`);
       }

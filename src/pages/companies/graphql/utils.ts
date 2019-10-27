@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { ICompanyDetails, IJobCardItem } from "src/types";
-import { GetCompanyDetails_company } from "src/types/generated/GetCompanyDetails";
+import { GetCompanyDetails_company } from "./types/GetCompanyDetails";
 import {
   GetCompanyJobs,
   GetCompanyJobs_company_jobs_items,
-} from "src/types/generated/GetCompanyJobs";
+} from "./types/GetCompanyJobs";
 
-/**
- * TODO: documentation
- */
 export const buildCompanyDetails = (
   company: GetCompanyDetails_company
 ): ICompanyDetails => ({
@@ -16,7 +13,7 @@ export const buildCompanyDetails = (
   desc: company.desc || undefined,
   numRatings: company.reviews ? company.reviews.count : 0,
   avgRating: company.avgRating || 0,
-  logoSrc: company.logoSrc || "",
+  logoSrc: (company.logoImg && company.logoImg.downloadUrl) || "",
   color: company.logoColor || "",
 });
 

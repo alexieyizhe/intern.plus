@@ -14,7 +14,9 @@ export const GET_REVIEW_DETAILS = gql`
       company {
         name
         slug
-        logoSrc
+        logoImg {
+          downloadUrl
+        }
         logoColor
       }
       salary

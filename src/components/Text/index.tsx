@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 
 import { Size, VariantList } from "src/theme/constants";
+import { useSiteContext } from "src/utils/context";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -75,13 +76,15 @@ export const TEXT_VARIANTS: VariantList<ITextProps> = {
 /**
  * Base styled component that applies appropriate styles.
  */
-const BaseText = styled.span<ITextProps>`
+const BaseText = styled.span<ITextProps & { easterEgg: boolean }>`
   margin: 0;
   padding: 0;
 
   color: ${({ color = "", theme }) => theme.color[color] || color || "inherit"};
-  font-family: ${({ heading, theme }) =>
-    theme.fontFamily[heading ? "heading" : "body"]};
+  font-family: ${({ heading, easterEgg, theme }) =>
+    easterEgg
+      ? "Comic Sans MS"
+      : theme.fontFamily[heading ? "heading" : "body"]};
   font-size: ${({ size, theme }) =>
     size ? `${theme.fontSize[size] || size}px` : "inherit"};
 
@@ -102,6 +105,7 @@ const Text: React.FC<ITextProps> = ({
   children,
   ...rest
 }) => {
+  const { state } = useSiteContext();
   /**
    * Calculate the styles that will be applied to the Text component from the provided props.
    * If a variant is supplied, use those styles, and override with other props.
@@ -115,8 +119,9 @@ const Text: React.FC<ITextProps> = ({
     return {
       ...stylesFromVariant,
       ...rest, // override variant if needed
+      easterEgg: state.easterEggActive,
     };
-  }, [rest, variant]);
+  }, [rest, state.easterEggActive, variant]);
 
   return (
     <BaseText as={as} {...propsToApply}>

@@ -16,6 +16,7 @@ import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/utils/constants";
 import { SiteContextProvider } from "src/utils/context";
+import { useEasterEgg } from "src/utils/hooks/useEasterEgg";
 import Analytics from "src/utils/analytics";
 import * as analytics from "src/utils/analytics";
 
@@ -46,6 +47,8 @@ export const AppSwitch: React.FC = () => {
     [location]
   );
 
+  useEasterEgg();
+
   return (
     <>
       <Switch location={calculatedLocation}>
@@ -70,7 +73,7 @@ export const AppSwitch: React.FC = () => {
           <ReviewsPage />
         </Route>
 
-        <Route exact path={RouteName.DESIGN_SYSTEM}>
+        <Route exact path={RouteName.DESIGN}>
           <DesignSystemPage />
         </Route>
 

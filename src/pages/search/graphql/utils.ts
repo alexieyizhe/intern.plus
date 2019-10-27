@@ -10,11 +10,8 @@ import {
   GetAllSearch_companiesList_items,
   GetAllSearch_jobsList_items,
   GetAllSearch_reviewsList_items,
-} from "src/types/generated/GetAllSearch";
+} from "./types/GetAllSearch";
 
-/**
- * TODO: documentation
- */
 export const buildCompanyCard = (
   item: GetAllSearch_companiesList_items
 ): ICompanyCardItem => ({
@@ -23,7 +20,7 @@ export const buildCompanyCard = (
   desc: item.desc || "",
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
-  logoSrc: item.logoSrc || "",
+  logoSrc: (item.logoImg && item.logoImg.downloadUrl) || "",
   color: item.logoColor || "",
 });
 

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { hoverStyles } from "src/theme/snippets";
 
@@ -21,48 +21,57 @@ export interface IJobCardProps extends ICardProps {
 
 const Container = styled(Card)`
   position: relative;
-  display: inline-grid;
-  grid-template-rows: auto 1fr auto auto;
-  grid-template-columns: 1fr auto;
-  grid-template-areas:
-    "title     title"
-    "subtitle  subtitle"
-    "salaryAmt salaryAmt"
-    "ratings   salaryInfo";
-
   ${hoverStyles}
 
-  & > .title {
-    grid-area: title;
+  & > a {
+    position: relative;
+    width: 100%;
+    height: 100%;
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+    display: inline-grid;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "title     title"
+      "subtitle  subtitle"
+      "salaryAmt salaryAmt"
+      "ratings   salaryInfo";
 
-  & > .subtitle {
-    grid-area: subtitle;
-    margin-top: 5px;
+    color: inherit;
+    text-decoration: none;
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+    & > .title {
+      grid-area: title;
 
-  & > .ratings {
-    grid-area: ratings;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
 
-    display: flex;
-    align-items: flex-end;
-  }
+    & > .subtitle {
+      grid-area: subtitle;
+      margin-top: 5px;
 
-  & > .salaryAmt {
-    grid-area: salaryAmt;
-    align-self: flex-end;
-  }
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
 
-  & > .salaryInfo {
-    grid-area: salaryInfo;
+    & > .ratings {
+      grid-area: ratings;
+
+      display: flex;
+      align-items: flex-end;
+    }
+
+    & > .salaryAmt {
+      grid-area: salaryAmt;
+      align-self: flex-end;
+    }
+
+    & > .salaryInfo {
+      grid-area: salaryInfo;
+    }
   }
 `;
 
@@ -77,19 +86,9 @@ const JobCard: React.FC<IJobCardProps> = ({
   linkTo,
   color,
   ...rest
-}) => {
-  const [clicked, setClicked] = useState(false);
-
-  if (clicked) return <Redirect push to={linkTo} />;
-
-  return (
-    <Container
-      color="greyLight"
-      role="link"
-      tabIndex={0}
-      onClick={() => setClicked(true)}
-      {...rest}
-    >
+}) => (
+  <Container color="greyLight" {...rest}>
+    <Link to={linkTo}>
       <Text className="title" variant="heading3" color={color}>
         {title}
       </Text>
@@ -119,8 +118,8 @@ const JobCard: React.FC<IJobCardProps> = ({
         className="salaryInfo"
         variant="heading3"
       >{`${hourlySalaryCurrency}/hr`}</Text>
-    </Container>
-  );
-};
+    </Link>
+  </Container>
+);
 
 export default React.memo(JobCard);

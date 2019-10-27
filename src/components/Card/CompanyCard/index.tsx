@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { hoverStyles } from "src/theme/snippets";
 import { getLightColor, getDarkColor } from "src/utils/getColor";
@@ -50,44 +50,53 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
 
 const Container = styled(Card)`
   position: relative;
-  display: inline-grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 80px;
-  grid-column-gap: 30px;
-  grid-template-areas:
-    "name    logo"
-    "desc    logo"
-    "ratings logo";
-
   ${hoverStyles}
 
-  & > .name {
-    grid-area: name;
-  }
+  & > a {
+    position: relative;
+    width: 100%;
+    height: 100%;
 
-  & > .logo {
-    grid-area: logo;
-    margin-left: auto;
-    max-width: 100%;
-  }
+    display: inline-grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr 80px;
+    grid-column-gap: 30px;
+    grid-template-areas:
+      "name    logo"
+      "desc    logo"
+      "ratings logo";
 
-  & > .desc {
-    grid-area: desc;
-    overflow: hidden;
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 0)
-    );
-  }
+    color: inherit;
+    text-decoration: none;
 
-  & > .ratings {
-    grid-area: ratings;
-    display: flex;
-    align-items: flex-end;
+    & > .name {
+      grid-area: name;
+    }
 
-    margin-top: 15px;
+    & > .logo {
+      grid-area: logo;
+      margin-left: auto;
+      max-width: 100%;
+    }
+
+    & > .desc {
+      grid-area: desc;
+      overflow: hidden;
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0)
+      );
+    }
+
+    & > .ratings {
+      grid-area: ratings;
+      display: flex;
+      align-items: flex-end;
+
+      margin-top: 15px;
+    }
   }
 `;
 
@@ -100,20 +109,9 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   linkTo,
   color,
   ...rest
-}) => {
-  const [clicked, setClicked] = useState(false);
-  if (clicked) {
-    return <Redirect push to={linkTo} />;
-  }
-
-  return (
-    <Container
-      role="link"
-      onClick={() => setClicked(true)}
-      tabIndex={0}
-      color={color ? getLightColor(color) : FALLBACK_BG_COLOR}
-      {...rest}
-    >
+}) => (
+  <Container color={color ? getLightColor(color) : FALLBACK_BG_COLOR} {...rest}>
+    <Link to={linkTo}>
       <Text
         className="name"
         variant="heading2"
@@ -133,8 +131,8 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
       )}
 
       <div className="ratings">{getRatingMarkup(numRatings, avgRating)}</div>
-    </Container>
-  );
-};
+    </Link>
+  </Container>
+);
 
 export default React.memo(CompanyCard);

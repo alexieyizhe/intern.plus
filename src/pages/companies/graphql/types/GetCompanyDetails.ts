@@ -6,6 +6,11 @@
 // GraphQL query operation: GetCompanyDetails
 // ====================================================
 
+export interface GetCompanyDetails_company_logoImg {
+  __typename: "File";
+  downloadUrl: string | null;
+}
+
 export interface GetCompanyDetails_company_jobs_items_company {
   __typename: "Company";
   /**
@@ -69,7 +74,7 @@ export interface GetCompanyDetails_company {
    * Description of a company.
    */
   desc: string | null;
-  logoSrc: string | null;
+  logoImg: GetCompanyDetails_company_logoImg | null;
   /**
    * Average color of the company's logo, in HSL format.
    */

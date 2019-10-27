@@ -129,6 +129,22 @@ const Display = styled.div`
   position: relative;
   padding: 25px 0;
 
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0)
+  );
+
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
     left: -${theme.padding.pageHorizontalMobile}px;
@@ -140,8 +156,14 @@ const Display = styled.div`
 `;
 
 const MiscContentContainer = styled.span`
+  display: inline-block;
+  width: 75vw;
   margin: 50px auto;
   text-align: center;
+
+  & > div {
+    margin: auto;
+  }
 `;
 
 const landingCardStyles = css`

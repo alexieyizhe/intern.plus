@@ -16,6 +16,11 @@ export interface GetReviewDetails_review_job {
   location: string | null;
 }
 
+export interface GetReviewDetails_review_company_logoImg {
+  __typename: "File";
+  downloadUrl: string | null;
+}
+
 export interface GetReviewDetails_review_company {
   __typename: "Company";
   /**
@@ -26,7 +31,7 @@ export interface GetReviewDetails_review_company {
    * Unique slug for a company.
    */
   slug: string | null;
-  logoSrc: string | null;
+  logoImg: GetReviewDetails_review_company_logoImg | null;
   /**
    * Average color of the company's logo, in HSL format.
    */

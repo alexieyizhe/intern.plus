@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { IReviewDetails } from "src/types";
-import { GetReviewDetails_review } from "src/types/generated/GetReviewDetails";
+import { GetReviewDetails_review } from "./types/GetReviewDetails";
 
-/**
- * TODO: documentation
- */
 export const buildReviewDetails = (
   review: GetReviewDetails_review
 ): IReviewDetails => ({
@@ -13,7 +10,7 @@ export const buildReviewDetails = (
   companyName: (review.company && review.company.name) || "",
   companySlug: review.company ? review.company.slug || "" : "",
   location: (review.job && review.job.location) || "",
-  author: review.isLegacy ? "An InternCompass user" : "Anonymous", // TODO: change anonymous to user name
+  author: review.isLegacy ? "An InternCompass user" : "Anonymous",
   body: review.body || "",
   overallRating: review.overallRating || 0,
   meaningfulWorkRating: review.meaningfulWorkRating || 0,
@@ -22,6 +19,10 @@ export const buildReviewDetails = (
   salary: review.salary || 0,
   salaryCurrency: review.salaryCurrency || "",
   salaryPeriod: review.salaryPeriod || "",
-  logoSrc: (review.company && review.company.logoSrc) || "",
+  logoSrc:
+    (review.company &&
+      review.company.logoImg &&
+      review.company.logoImg.downloadUrl) ||
+    "",
   color: (review.company && review.company.logoColor) || "",
 });

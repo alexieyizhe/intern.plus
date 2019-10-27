@@ -4,11 +4,8 @@ import {
   GetCompaniesReviewsLanding,
   GetCompaniesReviewsLanding_companiesList_items,
   GetCompaniesReviewsLanding_reviewsList_items,
-} from "src/types/generated/GetCompaniesReviewsLanding";
+} from "./types/GetCompaniesReviewsLanding";
 
-/**
- * TODO: documentation
- */
 export const buildCompanyCard = (
   item: GetCompaniesReviewsLanding_companiesList_items
 ): ICompanyCardItem => ({
@@ -17,7 +14,7 @@ export const buildCompanyCard = (
   desc: item.desc || "",
   numRatings: item.reviews ? item.reviews.count : 0,
   avgRating: item.avgRating || 0,
-  logoSrc: item.logoSrc || "",
+  logoSrc: (item.logoImg && item.logoImg.downloadUrl) || "",
   color: item.logoColor || "",
 });
 

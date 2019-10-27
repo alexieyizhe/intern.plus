@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
-import { useLocation, useHistory } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { hoverStyles } from "src/theme/snippets";
 import { getDarkColor } from "src/utils/getColor";
@@ -18,48 +18,57 @@ export interface IReviewCardProps extends ICardProps {
 
 const Container = styled(Card)`
   position: relative;
-  display: inline-grid;
-  grid-template-rows: auto auto 1fr;
-  grid-template-columns: 1fr auto;
-  grid-template-areas:
-    "heading    rating"
-    "subheading subheading"
-    "contents   contents";
-
   ${hoverStyles}
 
-  & > .heading {
-    grid-area: heading;
+  & > a {
+    position: relative;
+    width: 100%;
+    height: 100%;
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+    display: inline-grid;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "heading    rating"
+      "subheading subheading"
+      "contents   contents";
 
-  & > .rating {
-    grid-area: rating;
-  }
+    color: inherit;
+    text-decoration: none;
 
-  & > .subheading {
-    grid-area: subheading;
-    padding-top: 5px;
+    & > .heading {
+      grid-area: heading;
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
 
-  & > .contents {
-    grid-area: contents;
-    padding-top: 10px;
+    & > .rating {
+      grid-area: rating;
+    }
 
-    overflow: hidden;
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 0)
-    );
+    & > .subheading {
+      grid-area: subheading;
+      padding-top: 5px;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    & > .contents {
+      grid-area: contents;
+      padding-top: 10px;
+
+      overflow: hidden;
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0)
+      );
+    }
   }
 `;
 
@@ -78,38 +87,32 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
    * background for the review modal.
    */
   const location = useLocation();
-  const history = useHistory();
-  const onClickOpenModal = useCallback(
-    () =>
-      history.push({
-        pathname: linkTo,
-        state: {
-          background: location,
-        },
-      }),
-    [history, linkTo, location]
+  const linkToWithState = useMemo(
+    () => ({
+      pathname: linkTo,
+      state: {
+        background: location,
+      },
+    }),
+    [linkTo, location]
   );
 
   return (
-    <Container
-      color="greyLight"
-      role="link"
-      onClick={onClickOpenModal}
-      tabIndex={0}
-      {...rest}
-    >
-      <Text
-        className="heading"
-        variant="heading3"
-        color={color && getDarkColor(color)}
-      >
-        {heading}
-      </Text>
-      <Text className="subheading" variant="heading4" color="greyDark">
-        {subheading}
-      </Text>
-      <StarRating maxStars={5} filledStars={rating || 0} readOnly />
-      <div className="contents">{children}</div>
+    <Container color="greyLight" {...rest}>
+      <Link to={linkToWithState}>
+        <Text
+          className="heading"
+          variant="heading3"
+          color={color && getDarkColor(color)}
+        >
+          {heading}
+        </Text>
+        <Text className="subheading" variant="heading4" color="greyDark">
+          {subheading}
+        </Text>
+        <StarRating maxStars={5} filledStars={rating || 0} readOnly />
+        <div className="contents">{children}</div>
+      </Link>
     </Container>
   );
 };

@@ -4,7 +4,7 @@ export enum RouteName {
   COMPANIES = "/companies",
   JOBS = "/positions",
   REVIEWS = "/reviews",
-  DESIGN_SYSTEM = "/design-system",
+  DESIGN = "/design",
 }
 
 /**
@@ -22,4 +22,3 @@ export enum SearchFilter {
   QUERY = "q",
   TYPE = "t",
 }
-// TODO: add more filters!

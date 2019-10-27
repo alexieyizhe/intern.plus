@@ -9,7 +9,7 @@ import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
 import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
 import pageCopy from "./copy";
 
-import { GetAllSearch } from "src/types/generated/GetAllSearch";
+import { GetAllSearch } from "./graphql/types/GetAllSearch";
 import {
   GET_ALL_SEARCH,
   GET_COMPANIES_SEARCH,
