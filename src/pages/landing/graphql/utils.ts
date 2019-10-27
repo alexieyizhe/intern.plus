@@ -6,9 +6,6 @@ import {
   GetCompaniesReviewsLanding_reviewsList_items,
 } from "./types/GetCompaniesReviewsLanding";
 
-/**
- * TODO: documentation
- */
 export const buildCompanyCard = (
   item: GetCompaniesReviewsLanding_companiesList_items
 ): ICompanyCardItem => ({

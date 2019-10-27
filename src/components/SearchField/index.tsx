@@ -72,7 +72,6 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   const onInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputVal(e.target.value);
-      // debouncedLastSearchUpdater.current(e.target.value); TODO: add debounce feature
     },
     []
   );
