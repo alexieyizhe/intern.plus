@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { ICompanyDetails, IJobCardItem } from "src/types";
-import { GetCompanyDetails_company } from "src/types/generated/GetCompanyDetails";
+import { GetCompanyDetails_company } from "./types/GetCompanyDetails";
 import {
   GetCompanyJobs,
   GetCompanyJobs_company_jobs_items,
-} from "src/types/generated/GetCompanyJobs";
+} from "./types/GetCompanyJobs";
 
 /**
  * TODO: documentation

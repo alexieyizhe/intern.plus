@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { IReviewDetails } from "src/types";
-import { GetReviewDetails_review } from "src/types/generated/GetReviewDetails";
+import { GetReviewDetails_review } from "./types/GetReviewDetails";
 
 /**
  * TODO: documentation

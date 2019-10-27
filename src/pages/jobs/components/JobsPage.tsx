@@ -9,8 +9,8 @@ import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/utils/constants";
 
 import { IReviewUserCardItem } from "src/types";
-import { GetJobDetails } from "src/types/generated/GetJobDetails";
-import { GetJobReviews } from "src/types/generated/GetJobReviews";
+import { GetJobDetails } from "../graphql/types/GetJobDetails";
+import { GetJobReviews } from "../graphql/types/GetJobReviews";
 import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 

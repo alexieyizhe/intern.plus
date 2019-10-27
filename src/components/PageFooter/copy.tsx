@@ -1,6 +1,7 @@
 import React from "react";
 
 import { LogoSmall } from "src/assets";
+import { RouteName } from "src/utils/constants";
 
 const emojis = [
   { raw: "✨", label: "sparkles" },
@@ -33,16 +34,25 @@ export default {
   },
   sublinks: [
     {
-      to: "https://github.com/alexieyizhe/intern.plus",
-      label: "open source",
+      to: `mailto:${EMAIL}`,
+      label: "get in touch",
+      newTab: false,
     },
     {
       to: FEEDBACK_LINK,
       label: "submit feedback",
+      newTab: true,
+    },
+
+    {
+      to: "https://github.com/alexieyizhe/intern.plus",
+      label: "open source",
+      newTab: true,
     },
     {
-      to: `mailto:${EMAIL}`,
-      label: "get in touch",
+      to: RouteName.DESIGN,
+      label: "design system",
+      newTab: false,
     },
   ],
 };

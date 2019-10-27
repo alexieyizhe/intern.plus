@@ -2,8 +2,9 @@
  * A playground for testing various components and code.
  * Not pretty or well-documented (currently), so venture forth at your own risk.
  */
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import React, { useState, useContext } from "react";
+import styled, { css, ThemeContext } from "styled-components";
+import { Helmet } from "react-helmet";
 
 import {
   Button,
@@ -15,14 +16,19 @@ import {
   InputButtonCombo,
   Link,
   PageContainer,
-  PageFooter,
-  PageHeader,
   StarRating,
   Select,
   Text,
   TextArea,
   TextInput,
+  Icon,
+  IconName,
 } from "src/components";
+import Section from "./components/Section";
+
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 
 const inputOptions = [
   { label: "Option 1", value: "option-1" },
@@ -43,305 +49,265 @@ const landingCardStyles = css`
   height: 180px;
 `;
 
-const resultsCardstyles = css`
-  width: 650px;
-  height: 180px;
-`;
-
 const LandingCompanyCard = styled(CompanyCard)`
   ${landingCardStyles}
-`;
-
-const ResultsCompanyCard = styled(CompanyCard)`
-  ${resultsCardstyles}
 `;
 
 const LandingJobCard = styled(JobCard)`
   ${landingCardStyles}
 `;
 
-const ResultsJobCard = styled(JobCard)`
-  ${resultsCardstyles}
-`;
-
 const LandingReviewCard = styled(ReviewCard)`
   ${landingCardStyles}
 `;
 
-const ResultsReviewCard = styled(ReviewCard)`
-  ${resultsCardstyles}
+const SectionSpacer = styled.div`
+  & > * {
+    margin-right: 15px;
+  }
+`;
+
+const PaletteSquare = styled(Card)`
+  width: 100px;
+  height: 100px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  ${({ theme, color }) =>
+    color === theme.color.white && `border: 2px solid ${theme.color.black}`};
 `;
 
 const DesignSystemPage = () => {
   const [numFilledStars, setNumFilledStars] = useState(3);
   const [checkboxChecked, setChecked] = useState(false);
 
+  const theme = useContext(ThemeContext);
+
   return (
-    <PageContainer>
-      <div>SELECT</div>
-      <Select color="greyLight" variant="body" options={inputOptions} />
-
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <div>TEXTAREA</div>
-      <TextArea color="greyLight" variant="body" />
-
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <div>CHECKBOX</div>
-      <Checkbox
-        checked={checkboxChecked}
-        onChange={e => setChecked(e.target.checked)}
-      >
-        <span>I agree to terms.</span>
-      </Checkbox>
-
-      <Checkbox
-        disabled
-        checked={checkboxChecked}
-        onChange={e => setChecked(e.target.checked)}
-      >
-        <span>I agree to terms.</span>
-      </Checkbox>
-      <br />
-      <br />
-      <br />
-      <br />
-
-      <div>TEXT</div>
-      <Text variant="heading1" as="div">
-        Heading 1
-      </Text>
-      <Text variant="heading2" as="div">
-        Heading 2
-      </Text>
-      <Text variant="heading3" as="div">
-        Heading 3
-      </Text>
-      <Text variant="heading4" as="div">
-        Heading 4
-      </Text>
-      <Text variant="subheading" as="div">
-        Subheading
-      </Text>
-      <Text variant="body" as="div">
-        Body text
-      </Text>
-      <Text variant="body" italic as="div">
-        Italicized body text
-      </Text>
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>BUTTON</div>
-      <Button>
-        <Text variant="body">Regular</Text>
-      </Button>
-
-      <Button color="#9e7fa3">
-        <Text variant="body" color="white">
-          Colored
+    <>
+      <Helmet>
+        <title>intern+ design system</title>
+      </Helmet>
+      <PageContainer>
+        <Text variant="heading1" as="h1">
+          Design System
         </Text>
-      </Button>
 
-      <Button disabled>
-        <Text variant="body">Disabled</Text>
-      </Button>
+        <Section heading="Colors">
+          <SectionSpacer>
+            {(Object.values(theme.color) as string[]).map((color: string) => (
+              <PaletteSquare color={color} key={color}>
+                <Text
+                  variant="subheading"
+                  color={color === theme.color.black ? "white" : "black"}
+                >
+                  {color}
+                </Text>
+              </PaletteSquare>
+            ))}
+          </SectionSpacer>
+        </Section>
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>LINK</div>
-      <Link to="">
-        <Text variant="body" color="burlywood">
-          Here's a link
+        <Section heading="Typeface">
+          <SectionSpacer>
+            <span>
+              <Text heading size={40} as="div">
+                Aa
+              </Text>
+              <Text heading size={20} as="div">
+                Samsung Sharp Sans
+              </Text>
+            </span>
+            <span>
+              <Text size={40} as="div">
+                Aa
+              </Text>
+              <Text size={20} as="div">
+                Roboto
+              </Text>
+            </span>
+          </SectionSpacer>
+        </Section>
+
+        <Text variant="heading1" as="h1">
+          Components
         </Text>
-      </Link>
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>TEXTINPUT</div>
-      <TextInput color="greyLight" variant="body" />
-      <br />
-      <br />
+        <Section heading="Text & Link">
+          <div>
+            <Text variant="heading1" as="div">
+              Heading 1
+            </Text>
+            <Text variant="heading2" as="div">
+              Heading 2
+            </Text>
+            <Text variant="heading3" as="div">
+              Heading 3
+            </Text>
+            <Text variant="heading4" as="div">
+              Heading 4
+            </Text>
+          </div>
+          <div>
+            <Text variant="subheading" as="div">
+              Subheading
+            </Text>
+            <Text variant="body" as="div">
+              Body text
+            </Text>
+            <Text variant="body" italic color="burlywood" as="div">
+              I'm super extra colourful and italicized.
+            </Text>
+            <Link to="https://www.youtube.com/watch?v=dQw4w9WgXcQ" newTab>
+              <Text variant="body">Here's a link.</Text>
+            </Link>
+          </div>
+        </Section>
 
-      <TextInput color="greyLight" placeholder="Some placeholder text" />
-      <br />
-      <br />
+        <Section heading="Icon">
+          <SectionSpacer>
+            <Icon name={IconName.EDIT} size={24} />
+            <Icon name={IconName.STAR_FILLED} size={24} />
+            <Icon name={IconName.X_SQUARE} size={24} />
+            <Icon name={IconName.X} size={24} />
+          </SectionSpacer>
+        </Section>
 
-      <TextInput color="greyLight" disabled placeholder="Disabled" />
-      <br />
-      <br />
+        <Section heading="TextInput">
+          <TextInput color="greyLight" variant="body" />
+          <TextInput color="greyLight" placeholder="I have placeholder text." />
+          <TextInput
+            color="greyLight"
+            disabled
+            placeholder="I'm a disabled input."
+          />
+          <TextInput
+            color="greyLight"
+            variant="heading2"
+            placeholder="I'm a big input."
+          />
+        </Section>
 
-      <TextInput
-        color="greyLight"
-        variant="heading2"
-        placeholder="BIG heading2 input"
-      />
+        <Section>
+          <Section heading="TextArea">
+            <TextArea
+              color="greyLight"
+              variant="body"
+              placeholder="I can hold lots of text."
+            />
+          </Section>
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>SEARCH</div>
-      <InputButtonCombo
-        value="some search value "
-        buttonText="Search"
-        onChange={() => {}}
-        onEnterTrigger={() => console.log("searching with")}
-      />
+          <Section heading="Select">
+            <Select
+              color="greyLight"
+              variant="body"
+              options={inputOptions}
+              placeholder="Go ahead, pick something."
+            />
+          </Section>
+        </Section>
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>STAR RATING</div>
+        <Section heading="Button">
+          <SectionSpacer>
+            <Button color="greyLight">
+              <Text variant="body">Regular</Text>
+            </Button>
+            <Button color="#9e7fa3">
+              <Text variant="body" color="white">
+                Colored
+              </Text>
+            </Button>
+            <Button disabled color="greyLight">
+              <Text variant="body">Disabled</Text>
+            </Button>
+          </SectionSpacer>
+        </Section>
 
-      <div>
-        changeable{" "}
-        <StarRating
-          size={20}
-          maxStars={8}
-          filledStars={numFilledStars}
-          onClickStar={(i: number) => setNumFilledStars(i + 1)}
-        />
-      </div>
+        <Section heading="InputButtonCombo">
+          <InputButtonCombo
+            value="some search value"
+            buttonText="Search"
+            onChange={() => {}}
+            onEnterTrigger={() => alert("enter!")}
+          />
+        </Section>
 
-      <div>
-        read-only large{" "}
-        <StarRating
-          readOnly
-          size={26}
-          maxStars={5}
-          filledStars={numFilledStars}
-          onClickStar={(i: number) => setNumFilledStars(i + 1)}
-        />
-      </div>
+        <Section heading="Checkbox">
+          <SectionSpacer>
+            <Checkbox
+              checked={checkboxChecked}
+              onChange={e => setChecked(e.target.checked)}
+            >
+              <Text variant="subheading">I agree to the terms.</Text>
+            </Checkbox>
+            <Checkbox disabled checked={true}>
+              <Text variant="subheading">I'm a disabled checkbox.</Text>
+            </Checkbox>
+          </SectionSpacer>
+        </Section>
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>CARD</div>
-      <Card color="greyLight" onClick={() => console.log("clicked card")}>
-        sup
-      </Card>
+        <Section heading="StarRating">
+          <SectionSpacer>
+            <StarRating
+              size={20}
+              maxStars={8}
+              filledStars={numFilledStars}
+              onClickStar={(i: number) => setNumFilledStars(i + 1)}
+            />
+            <StarRating
+              readOnly
+              size={26}
+              maxStars={5}
+              filledStars={numFilledStars}
+              onClickStar={(i: number) => setNumFilledStars(i + 1)}
+            />
+          </SectionSpacer>
+        </Section>
 
-      <br />
-      <br />
-
-      <div>COMPANYCARD</div>
-      <LandingCompanyCard
-        name="Google"
-        logoSrc="w"
-        linkTo=""
-        avgRating={4.2}
-        numRatings={130}
-        color="#FFF3E0"
-      />
-      <br />
-      <br />
-
-      <ResultsCompanyCard
-        name="Google"
-        logoSrc="w"
-        linkTo=""
-        desc="Google is a multinational corporation that is specialized in internet-related services and products."
-        avgRating={4.2}
-        numRatings={130}
-        color="#FFF3E0"
-      />
-
-      <br />
-      <br />
-      <div>JOBCARD</div>
-      <LandingJobCard
-        title="Technical Program Manager Intern - Storefronts Team"
-        subtitle="Seattle, Washington"
-        avgRating={4.2}
-        numRatings={22}
-        minHourlySalary={32}
-        maxHourlySalary={48}
-        hourlySalaryCurrency="USD"
-        color="#CAE9ED"
-        linkTo=""
-      />
-
-      <br />
-      <br />
-
-      <ResultsJobCard
-        title="Web Developer"
-        subtitle="Waterloo, Ontario"
-        avgRating={4.2}
-        numRatings={1}
-        minHourlySalary={21}
-        maxHourlySalary={21}
-        hourlySalaryCurrency="CAD"
-        color="#CAE9ED"
-        linkTo=""
-      />
-
-      <br />
-      <br />
-      <div>REVIEWCARD</div>
-
-      <LandingReviewCard
-        heading="Anonymous"
-        subheading="Feb 29, 2019"
-        rating={4}
-        linkTo=""
-        color="#FFE0FC"
-      >
-        <Text variant="body">
-          A quickly changing company going through a lot of growth. When I was
-          interning, teams were still being figured out, but working at such a
-          company will provide a neat learning experience. A quickly changing
-          company going through a lot of growth. When I was interning, teams
-          were still being figured out, but working at such a company will
-          provide a neat learning experience.
-        </Text>
-      </LandingReviewCard>
-
-      <br />
-      <br />
-
-      <ResultsReviewCard
-        heading="Shopify"
-        subheading="Software Engineer Intern"
-        rating={4}
-        linkTo=""
-        color="#FFE0FC"
-      >
-        <Text variant="body">
-          A quickly changing company going through a lot of growth. When I was
-          interning, teams were still being figured out, but working at such a
-          company will provide a neat learning experience.
-        </Text>
-      </ResultsReviewCard>
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <div>HEADER and FOOTER</div>
-      <PageHeader />
-
-      <br />
-      <br />
-      <PageFooter />
-    </PageContainer>
+        <Section heading="Card">
+          <Card color="greyLight" onClick={() => console.log("clicked card")}>
+            <Text variant="heading3" as="div">
+              I'm a normal card.
+            </Text>
+          </Card>
+          <LandingCompanyCard
+            name="Company A"
+            linkTo="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            avgRating={4.2}
+            numRatings={130}
+          />
+          <LandingJobCard
+            title="Technical Program Manager Intern - Storefronts Team"
+            subtitle="Seattle, Washington"
+            avgRating={4.2}
+            numRatings={22}
+            minHourlySalary={32}
+            maxHourlySalary={48}
+            hourlySalaryCurrency="USD"
+            color="#11BBBD"
+            linkTo="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          />
+          <LandingReviewCard
+            heading="Anonymous"
+            subheading="Feb 29, 2019"
+            rating={4}
+            linkTo="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            color="#FFE0FC"
+          >
+            <Text variant="body">
+              A quickly changing company going through a lot of growth. When I
+              was interning, teams were still being figured out, but working at
+              such a company will provide a neat learning experience. A quickly
+              changing company going through a lot of growth. When I was
+              interning, teams were still being figured out, but working at such
+              a company will provide a neat learning experience.
+            </Text>
+          </LandingReviewCard>
+        </Section>
+      </PageContainer>
+    </>
   );
 };
 
