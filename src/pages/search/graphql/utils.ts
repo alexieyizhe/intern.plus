@@ -12,9 +12,6 @@ import {
   GetAllSearch_reviewsList_items,
 } from "./types/GetAllSearch";
 
-/**
- * TODO: documentation
- */
 export const buildCompanyCard = (
   item: GetAllSearch_companiesList_items
 ): ICompanyCardItem => ({

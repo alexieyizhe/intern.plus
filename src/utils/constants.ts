@@ -22,4 +22,3 @@ export enum SearchFilter {
   QUERY = "q",
   TYPE = "t",
 }
-// TODO: add more filters!

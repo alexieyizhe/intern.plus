@@ -14,9 +14,6 @@ TimeAgo.addLocale(en);
 // Create relative date/time formatter.
 const timeAgo = new TimeAgo("en-US");
 
-/**
- * TODO: documentation
- */
 export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
   name: job.name || "",
   companyName: (job.company && job.company.name) || "",
@@ -35,7 +32,7 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
 
 export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
   id: item.id || "",
-  authorName: item.isLegacy ? "An InternCompass user" : "Anonymous", // TODO: change anonymous to user name,
+  authorName: item.isLegacy ? "An InternCompass user" : "Anonymous",
   date: timeAgo.format(
     new Date(
       item.isLegacy

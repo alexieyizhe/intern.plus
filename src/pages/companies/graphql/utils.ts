@@ -6,9 +6,6 @@ import {
   GetCompanyJobs_company_jobs_items,
 } from "./types/GetCompanyJobs";
 
-/**
- * TODO: documentation
- */
 export const buildCompanyDetails = (
   company: GetCompanyDetails_company
 ): ICompanyDetails => ({
