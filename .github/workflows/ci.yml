@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: continuous integration
 # This workflow is triggered on pushes to the repository.
 on: [push]
 
