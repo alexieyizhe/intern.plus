@@ -6,6 +6,11 @@
 // GraphQL fragment: CompanyResult
 // ====================================================
 
+export interface CompanyResult_logoImg {
+  __typename: "File";
+  downloadUrl: string | null;
+}
+
 export interface CompanyResult_reviews {
   __typename: "ReviewListResponse";
   /**
@@ -29,6 +34,7 @@ export interface CompanyResult {
    */
   desc: string | null;
   logoSrc: string | null;
+  logoImg: CompanyResult_logoImg | null;
   /**
    * Average color of the company's logo, in HSL format.
    */

@@ -6,6 +6,9 @@ export const companyResultFragment = gql`
     name
     desc
     logoSrc
+    logoImg {
+      downloadUrl
+    }
     logoColor
     avgRating
     reviews {

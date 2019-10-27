@@ -6,6 +6,11 @@
 // GraphQL query operation: GetAllSearch
 // ====================================================
 
+export interface GetAllSearch_companiesList_items_logoImg {
+  __typename: "File";
+  downloadUrl: string | null;
+}
+
 export interface GetAllSearch_companiesList_items_reviews {
   __typename: "ReviewListResponse";
   /**
@@ -29,6 +34,7 @@ export interface GetAllSearch_companiesList_items {
    */
   desc: string | null;
   logoSrc: string | null;
+  logoImg: GetAllSearch_companiesList_items_logoImg | null;
   /**
    * Average color of the company's logo, in HSL format.
    */
