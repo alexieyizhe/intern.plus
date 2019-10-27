@@ -70,7 +70,7 @@ export const AppSwitch: React.FC = () => {
           <ReviewsPage />
         </Route>
 
-        <Route exact path={RouteName.DESIGN_SYSTEM}>
+        <Route exact path={RouteName.DESIGN}>
           <DesignSystemPage />
         </Route>
 

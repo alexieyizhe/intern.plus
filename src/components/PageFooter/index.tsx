@@ -53,8 +53,8 @@ const Footer = () => (
       {copy.subtext()}
     </Text>
 
-    {copy.sublinks.map(({ label, to }) => (
-      <Link newTab to={to} bare key={label}>
+    {copy.sublinks.map(({ label, to, newTab }) => (
+      <Link newTab={newTab} to={to} bare key={label}>
         <Text variant="body" color="greyMedium">
           {label}
         </Text>
