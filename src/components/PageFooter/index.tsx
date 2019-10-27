@@ -50,7 +50,7 @@ const Footer = () => (
     />
 
     <Text className="subheading" variant="heading4">
-      {copy.subtext()}
+      {copy.getSubtext()}
     </Text>
 
     {copy.sublinks.map(({ label, to, newTab }) => (
