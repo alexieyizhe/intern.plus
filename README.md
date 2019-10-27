@@ -2,7 +2,7 @@
     <img alt="Site logo" src="./src/assets/img/logo-text.svg" width="200" />
 </p>
 <p align="center">
-    <img src="https://github.com/alexieyizhe/intern.plus/workflows/Continuous%20Integration/badge.svg">
+    <img src="https://github.com/alexieyizhe/intern.plus/workflows/continuous%20integration/badge.svg">
 </p>
 
 ## ✨ Design
