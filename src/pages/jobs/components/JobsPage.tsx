@@ -27,7 +27,10 @@ import JobDetailsCard from "./JobDetailsCard";
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (name?: string) => `intern+${name ? ` | ${name}` : ""}`;
+const getTitleMarkup = (jobName?: string, companyName?: string) =>
+  jobName && companyName
+    ? `${jobName} at ${companyName} • intern+`
+    : "Job details • intern+";
 
 const reviewFilterer = (filterBy: string) => (review: IReviewUserCardItem) =>
   review.authorName.toLowerCase().includes(filterBy) ||
@@ -124,7 +127,12 @@ const JobsPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(jobDetails && jobDetails.name)}</title>
+        <title>
+          {getTitleMarkup(
+            jobDetails && jobDetails.name,
+            jobDetails && jobDetails.companyName
+          )}
+        </title>
       </Helmet>
 
       <JobPageContainer>

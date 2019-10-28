@@ -29,9 +29,9 @@ const Container = styled(Card)`
     grid-template-rows: auto auto 1fr;
     grid-template-columns: 1fr auto;
     grid-template-areas:
-      "heading    rating"
-      "subheading subheading"
-      "contents   contents";
+      "heading     rating"
+      "subheading  subheading"
+      "contents    contents";
 
     color: inherit;
     text-decoration: none;

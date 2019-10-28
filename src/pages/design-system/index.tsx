@@ -88,7 +88,7 @@ const DesignSystemPage = () => {
   return (
     <>
       <Helmet>
-        <title>intern+ design system</title>
+        <title>Design system • intern+</title>
       </Helmet>
       <PageContainer>
         <Text variant="heading1" as="h1">

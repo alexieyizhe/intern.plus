@@ -35,8 +35,11 @@ import {
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (query?: string) =>
-  query ? `Search | ${query}` : `intern+ | search`;
+const getTitleMarkup = (query?: string, type?: SearchType) =>
+  query
+    ? `Results for ${query}`
+    : `${(type || "search")[0].toUpperCase() +
+        (type || "search").substr(1).toLowerCase()} • intern+`;
 
 /**
  * Creates markup for the heading when no search is performed yet.
@@ -69,11 +72,11 @@ const useHeadingMarkup = () => {
       break;
 
     case SearchType.JOBS:
-      prefix = "Job ";
+      prefix = "Position ";
       break;
 
     case SearchType.REVIEWS:
-      prefix = "Reviews ";
+      prefix = "Review ";
       break;
   }
 
@@ -184,7 +187,7 @@ const GenericSearchPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(searchQuery)}</title>
+        <title>{getTitleMarkup(searchQuery, searchType)}</title>
       </Helmet>
 
       <PageContainer>

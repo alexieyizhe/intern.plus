@@ -32,8 +32,13 @@ const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this review.";
 const AUTHOR_SUFFIX = "mentioned the following...";
 
-const getTitleMarkup = (jobName?: string) =>
-  `Review${jobName ? ` | ${jobName}` : ""}`;
+/**
+ * Creates markup for the title in the tab bar.
+ */
+const getTitleMarkup = (jobName?: string, companyName?: string) =>
+  jobName && companyName
+    ? `Review for ${jobName} at ${companyName} • intern+`
+    : "Review details • intern+";
 
 /**
  * Converts the stored backend value into a readable
@@ -414,7 +419,12 @@ const ReviewModal: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(review && review.jobName)}</title>
+        <title>
+          {getTitleMarkup(
+            review && review.jobName,
+            review && review.companyName
+          )}
+        </title>
       </Helmet>
       <Background onClick={onExit}>
         <Container color="greyLight" onClick={cardOnClick}>
