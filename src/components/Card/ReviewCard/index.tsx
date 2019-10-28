@@ -10,9 +10,9 @@ import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
 
 export interface IReviewCardProps extends ICardProps {
-  heading: string | null;
-  subheading: string | null;
-  rating: number | null;
+  heading: string;
+  subheading: string;
+  rating: number;
   linkTo: string;
 }
 

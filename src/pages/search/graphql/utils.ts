@@ -29,6 +29,7 @@ export const buildJobCard = (
 ): IJobCardItem => ({
   id: item.id || "",
   slug: item.slug || "",
+  companyName: (item.company && item.company.name) || "",
   companySlug: (item.company && item.company.slug) || "",
   name: item.name || "",
   location: item.location || "",

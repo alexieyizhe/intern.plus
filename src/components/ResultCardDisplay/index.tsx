@@ -124,11 +124,15 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
       />
     );
   } else if (isJobCardItem(result)) {
+    const subheading = result.companyName
+      ? `${result.companyName}  •  ${result.location}`
+      : result.location;
+
     return (
       <ResultJobCard
         key={result.id}
-        title={result.name}
-        subtitle={result.location}
+        heading={result.name}
+        subheading={subheading}
         numRatings={result.numRatings}
         avgRating={result.avgRating}
         minHourlySalary={result.minHourlySalary}

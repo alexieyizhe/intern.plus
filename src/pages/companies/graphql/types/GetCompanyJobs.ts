@@ -9,6 +9,10 @@
 export interface GetCompanyJobs_company_jobs_items_company {
   __typename: "Company";
   /**
+   * Name of a company.
+   */
+  name: string | null;
+  /**
    * Unique slug for a company.
    */
   slug: string | null;
