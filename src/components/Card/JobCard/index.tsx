@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import { hoverStyles } from "src/theme/snippets";
+import { getDarkColor } from "src/utils/getColor";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -89,7 +90,11 @@ const JobCard: React.FC<IJobCardProps> = ({
 }) => (
   <Container color="greyLight" {...rest}>
     <Link to={linkTo}>
-      <Text className="title" variant="heading3" color={color}>
+      <Text
+        className="title"
+        variant="heading3"
+        color={color && getDarkColor(color)}
+      >
         {title}
       </Text>
       <Text className="subtitle" variant="heading4">
