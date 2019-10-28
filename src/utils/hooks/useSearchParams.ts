@@ -17,7 +17,7 @@ export const useSearchParams = () => {
 
   return {
     searchQuery,
-    searchType: searchType as SearchType,
+    searchType: searchType as SearchType | undefined,
     setSearchQuery,
     setSearchType,
   };

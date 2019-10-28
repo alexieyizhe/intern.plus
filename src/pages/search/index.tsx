@@ -5,7 +5,11 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
-import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
+import {
+  useSearch,
+  useSearchAfter,
+  SearchState,
+} from "src/utils/hooks/useSearch";
 import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
 import pageCopy from "./copy";
 
@@ -31,8 +35,11 @@ import {
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (query?: string) =>
-  query ? `Search | ${query}` : `intern+ | search`;
+const getTitleMarkup = (query?: string, type?: SearchType) =>
+  query
+    ? `Results for ${query}`
+    : `${(type || "search")[0].toUpperCase() +
+        (type || "search").substr(1).toLowerCase()} • intern+`;
 
 /**
  * Creates markup for the heading when no search is performed yet.
@@ -40,10 +47,7 @@ const getTitleMarkup = (query?: string) =>
 const getDefaultHeading = (type?: SearchType) =>
   type ? (
     <>
-      <span className="grey">
-        {`${pageCopy.heading.typeInitialHeading}`}&nbsp;
-      </span>
-
+      <span className="grey">{pageCopy.heading.typeInitialHeading}&nbsp;</span>
       <span>{type}</span>
     </>
   ) : (
@@ -68,11 +72,11 @@ const useHeadingMarkup = () => {
       break;
 
     case SearchType.JOBS:
-      prefix = "Job ";
+      prefix = "Position ";
       break;
 
     case SearchType.REVIEWS:
-      prefix = "Reviews ";
+      prefix = "Review ";
       break;
   }
 
@@ -93,13 +97,13 @@ const useHeadingMarkup = () => {
  */
 const getQuery = (type?: SearchType) => {
   switch (type) {
-    case "companies":
+    case SearchType.COMPANIES:
       return GET_COMPANIES_SEARCH;
 
-    case "jobs":
+    case SearchType.JOBS:
       return GET_JOBS_SEARCH;
 
-    case "reviews":
+    case SearchType.REVIEWS:
       return GET_REVIEWS_SEARCH;
 
     default:
@@ -131,16 +135,14 @@ const GenericSearchPage: React.FC = () => {
     searchType,
     page,
 
-    // flags
-    isEndOfResults,
-    isInitialSearch,
-    isDataLoaded,
+    // for displaying results
+    searchState,
 
     // search trigger functions
     onNewSearch,
     onNextBatchSearch,
 
-    ...searchResultsConfig
+    ...rest
   } = useSearch();
 
   const shouldSkipSearch = useMemo(
@@ -149,8 +151,10 @@ const GenericSearchPage: React.FC = () => {
      * all results of that type, not the empty state where we prompt them to
      * type a search query.
      */
-    () => (isInitialSearch && !searchType) || isDataLoaded,
-    [isDataLoaded, isInitialSearch, searchType]
+    () =>
+      (searchState === SearchState.INITIAL && !searchType) ||
+      searchState === SearchState.RESULTS,
+    [searchState, searchType]
   );
 
   /**
@@ -170,10 +174,9 @@ const GenericSearchPage: React.FC = () => {
    * Transforms returned data into generic card list items.
    * This is required for ResultCardDisplay to accept our results.
    */
-  const searchResults = useSearchResults(
-    searchResultsConfig,
-    buildSearchResultCardsList,
-    data
+  const searchResults = useSearchAfter(
+    { data, loading, error: error !== undefined, ...rest },
+    buildSearchResultCardsList
   );
 
   /**
@@ -184,17 +187,14 @@ const GenericSearchPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(searchQuery)}</title>
+        <title>{getTitleMarkup(searchQuery, searchType)}</title>
       </Helmet>
 
       <PageContainer>
         <Heading variant="heading1">{headingMarkup}</Heading>
         <SearchField onTriggerSearch={onNewSearch} />
         <ResultCardDisplay
-          searched={!isInitialSearch}
-          loading={loading}
-          error={error !== undefined}
-          noMoreResults={isEndOfResults}
+          searchState={searchState}
           searchResults={searchResults}
           onResultsEndReached={onNextBatchSearch}
         />

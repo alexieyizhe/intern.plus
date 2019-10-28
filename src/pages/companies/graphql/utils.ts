@@ -22,6 +22,7 @@ export const buildCompanyJobCard = (
 ) => ({
   id: item.id || "",
   slug: item.slug || "",
+  companyName: "", // we don't need to display company name in job card since the company name is evident in the details card at top of page
   companySlug: (item.company && item.company.slug) || "",
   name: item.name || "",
   location: item.location || "",

@@ -23,6 +23,7 @@ export const jobResultFragment = gql`
     name
     location
     company {
+      name
       slug
       logoColor
     }

@@ -14,7 +14,7 @@ export const RESULTS_PER_PAGE = 10;
 
 export enum SearchType {
   COMPANIES = "companies",
-  JOBS = "jobs",
+  JOBS = "positions",
   REVIEWS = "reviews",
 }
 

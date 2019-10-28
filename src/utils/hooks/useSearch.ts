@@ -1,3 +1,11 @@
+/**
+ * Set of hooks for handling search with pagination.
+ * These hooks are agnostic to the actual querying of results,
+ * so you could be fetching results from an API, searching a
+ * predefined list, etc, and it doesn't matter; the hooks
+ * only deal with updating the state of the search and transforming
+ * returned data from whatever fetched data you fetch.
+ */
 import { useState, useCallback, useEffect, useMemo } from "react";
 
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
@@ -5,13 +13,30 @@ import { RESULTS_PER_PAGE } from "src/utils/constants";
 import * as analytics from "src/utils/analytics";
 import { IGenericCardItem } from "src/types";
 
+/*******************************************************************
+ *                             **Types**                           *
+ *******************************************************************/
+
+export enum SearchState {
+  INITIAL,
+  LOADING,
+  ERROR,
+  RESULTS,
+  RESULTS_LOADING, // results exist, but is searching
+  NO_RESULTS,
+  NO_MORE_RESULTS,
+}
+
+/*******************************************************************
+ *                              **Hook**                           *
+ *******************************************************************/
 export const useSearch = () => {
   const { searchQuery, searchType, setSearchQuery } = useSearchParams();
 
   /**
    * Every time the search query is updated, update the search results.
-   * We debounce the onChange call in SearchHandler, so this API
-   * call is not made excessively.
+   * Assuming that updating the search query is debounced or throttled
+   * so it doesn't get updated too ofte, this API call is not made excessively.
    */
   const [page, setPage] = useState(1);
   const [isNewSearch, setIsNewSearch] = useState(false); // whether a search is completely new or just another page of the current search
@@ -59,37 +84,62 @@ export const useSearch = () => {
     // setIsInitialSearch(false);
   }, []);
 
+  const [searchState, setSearchState] = useState(SearchState.INITIAL);
+
   return {
     // filters
     searchQuery,
     searchType,
 
-    // search invariants
+    // search info
     page,
-    isEndOfResults,
+    searchState,
+
+    // callbacks
+    onNewSearch,
+    onNextBatchSearch,
+
+    // part of searchconfig
     isNewSearch,
+    isEndOfResults,
     isInitialSearch,
     isDataLoaded,
 
-    // callbacks
     setIsEndOfResults,
     setIsDataLoaded,
-
-    onNewSearch,
-    onNextBatchSearch,
+    setSearchState,
   };
 };
 
-interface UseSearchResultsConfig {
+interface UseSearchResultsConfig<T> {
+  data?: T;
+  error: boolean;
+  loading: boolean;
+  isEndOfResults: boolean;
   isNewSearch: boolean;
+  isInitialSearch: boolean;
+  isDataLoaded: boolean;
   setIsDataLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEndOfResults: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearchState: React.Dispatch<React.SetStateAction<SearchState>>;
 }
 
-export const useSearchResults = <T>(
-  { isNewSearch, setIsDataLoaded, setIsEndOfResults }: UseSearchResultsConfig,
-  transformData: (data?: T) => IGenericCardItem[],
-  data?: T
+export const useSearchAfter = <T>(
+  {
+    data,
+    error,
+    loading,
+
+    isNewSearch,
+    isEndOfResults,
+    isInitialSearch,
+    isDataLoaded,
+
+    setIsDataLoaded,
+    setIsEndOfResults,
+    setSearchState,
+  }: UseSearchResultsConfig<T>,
+  transformData: (data?: T) => IGenericCardItem[]
 ) => {
   /**
    * After new data is fetched, build the list of new search results.
@@ -131,6 +181,30 @@ export const useSearchResults = <T>(
     setIsEndOfResults,
     setSearchResults,
     transformData,
+  ]);
+
+  useEffect(() => {
+    let newState = SearchState.INITIAL;
+
+    if (error) newState = SearchState.ERROR;
+    else if (searchResults.length === 0 && loading)
+      newState = SearchState.LOADING;
+    else if (searchResults.length === 0 && !isInitialSearch)
+      newState = SearchState.NO_RESULTS;
+    else if (isEndOfResults) newState = SearchState.NO_MORE_RESULTS;
+    else if (searchResults.length > 0 && (!isDataLoaded || loading))
+      newState = SearchState.RESULTS_LOADING;
+    else if (searchResults.length > 0) newState = SearchState.RESULTS;
+
+    setSearchState(newState);
+  }, [
+    error,
+    isDataLoaded,
+    isEndOfResults,
+    isInitialSearch,
+    loading,
+    searchResults.length,
+    setSearchState,
   ]);
 
   return searchResults;
