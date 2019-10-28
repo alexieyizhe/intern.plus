@@ -1,9 +1,9 @@
 name: continuous integration
 
-on: [push]
+on: push
 
 jobs:
-  main:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
