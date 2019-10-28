@@ -3,14 +3,15 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import { hoverStyles } from "src/theme/snippets";
+import { getDarkColor } from "src/utils/getColor";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
 
 export interface IJobCardProps extends ICardProps {
-  title: string;
-  subtitle: string;
+  heading: string;
+  subheading: string;
   numRatings: number;
   avgRating: number;
   minHourlySalary: number;
@@ -32,24 +33,24 @@ const Container = styled(Card)`
     grid-template-rows: auto 1fr auto auto;
     grid-template-columns: 1fr auto;
     grid-template-areas:
-      "title     title"
-      "subtitle  subtitle"
-      "salaryAmt salaryAmt"
-      "ratings   salaryInfo";
+      "heading     heading"
+      "subheading  subheading"
+      "salaryAmt   salaryAmt"
+      "ratings     salaryInfo";
 
     color: inherit;
     text-decoration: none;
 
-    & > .title {
-      grid-area: title;
+    & > .heading {
+      grid-area: heading;
 
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
     }
 
-    & > .subtitle {
-      grid-area: subtitle;
+    & > .subheading {
+      grid-area: subheading;
       margin-top: 5px;
 
       text-overflow: ellipsis;
@@ -76,8 +77,8 @@ const Container = styled(Card)`
 `;
 
 const JobCard: React.FC<IJobCardProps> = ({
-  title,
-  subtitle,
+  heading,
+  subheading,
   avgRating,
   numRatings,
   minHourlySalary,
@@ -89,11 +90,15 @@ const JobCard: React.FC<IJobCardProps> = ({
 }) => (
   <Container color="greyLight" {...rest}>
     <Link to={linkTo}>
-      <Text className="title" variant="heading3" color={color}>
-        {title}
+      <Text
+        className="heading"
+        variant="heading3"
+        color={color && getDarkColor(color)}
+      >
+        {heading}
       </Text>
-      <Text className="subtitle" variant="heading4">
-        {subtitle}
+      <Text className="subheading" variant="heading4" color="greyDark">
+        {subheading}
       </Text>
 
       <div className="ratings">

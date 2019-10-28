@@ -88,7 +88,7 @@ const DesignSystemPage = () => {
   return (
     <>
       <Helmet>
-        <title>intern+ design system</title>
+        <title>Design system • intern+</title>
       </Helmet>
       <PageContainer>
         <Text variant="heading1" as="h1">
@@ -279,8 +279,8 @@ const DesignSystemPage = () => {
             numRatings={130}
           />
           <LandingJobCard
-            title="Technical Program Manager Intern - Storefronts Team"
-            subtitle="Seattle, Washington"
+            heading="Technical Program Manager Intern - Storefronts Team"
+            subheading="Seattle, Washington"
             avgRating={4.2}
             numRatings={22}
             minHourlySalary={32}

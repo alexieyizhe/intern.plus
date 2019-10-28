@@ -165,7 +165,7 @@ const LandingPage = () => {
   return (
     <>
       <Helmet>
-        <title>intern+ | Find your dream internship.</title>
+        <title>intern+</title>
       </Helmet>
       <PageContainer>
         <TitleCard>
