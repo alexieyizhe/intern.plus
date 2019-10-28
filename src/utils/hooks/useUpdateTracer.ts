@@ -1,3 +1,9 @@
+/**
+ * This hook is used in situations where you want to determine the reason
+ * for a componenet re-rendering. Pass in the props of a component to
+ * the hook, and it will tell you when the props change (and which
+ * props have changed).
+ */
 import { useEffect } from "react";
 import { useRef } from "react";
 

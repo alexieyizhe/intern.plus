@@ -135,7 +135,7 @@ const JobsPage: React.FC = () => {
         </title>
       </Helmet>
 
-      <JobPageContainer>
+      <JobPageContainer id="job-page">
         <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}

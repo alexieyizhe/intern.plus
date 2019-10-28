@@ -90,7 +90,8 @@ const DesignSystemPage = () => {
       <Helmet>
         <title>Design system • intern+</title>
       </Helmet>
-      <PageContainer>
+
+      <PageContainer id="design-system-page">
         <Text variant="heading1" as="h1">
           Design System
         </Text>

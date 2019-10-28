@@ -1,9 +1,9 @@
 name: continuous integration
-# This workflow is triggered on pushes to the repository.
-on: [push]
+
+on: push
 
 jobs:
-  ci:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -14,7 +14,5 @@ jobs:
         run: npm ci
       - name: Lint code
         run: npm run lint
-      - name: Run tests
-        run: npm run lint
-      - name: Build & check types
-        run: npm run build
+      - name: Check types
+        run: npm run type-check
