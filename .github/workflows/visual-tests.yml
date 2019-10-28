@@ -17,7 +17,7 @@ jobs:
         run: npm ci
       - name: Build project
         run: npm run build
-      - name: Percy
-        run: npx percy snapshot ./public
+      - name: Run visual tests with Percy
+        run: npx percy exec -- node ./server/scripts/runVisualTests.js
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
