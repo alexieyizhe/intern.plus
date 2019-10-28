@@ -5,7 +5,11 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
+import {
+  useSearch,
+  useSearchAfter,
+  SearchState,
+} from "src/utils/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/utils/constants";
 
 import { IReviewUserCardItem } from "src/types";
@@ -70,18 +74,17 @@ const JobsPage: React.FC = () => {
   const {
     // for fetching results
     searchQuery,
+    searchType,
     page,
 
-    // flags
-    isEndOfResults,
-    isInitialSearch,
-    isDataLoaded,
+    // for displaying results
+    searchState,
 
     // search trigger functions
     onNewSearch,
     onNextBatchSearch,
 
-    ...searchResultsConfig
+    ...rest
   } = useSearch();
 
   const {
@@ -95,17 +98,21 @@ const JobsPage: React.FC = () => {
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
-    skip: isDataLoaded,
+    skip: searchState === SearchState.RESULTS,
   });
 
   /**
    * Transforms returned data into generic card list items.
    * This is required for ResultCardDisplay to accept our results.
    */
-  const jobReviews = useSearchResults(
-    searchResultsConfig,
-    buildJobReviewsCardList,
-    jobReviewsData
+  const jobReviews = useSearchAfter(
+    {
+      data: jobReviewsData,
+      loading: jobReviewsLoading,
+      error: jobReviewsError !== undefined,
+      ...rest,
+    },
+    buildJobReviewsCardList
   ) as IReviewUserCardItem[];
 
   const filteredReviews = useMemo(() => {
@@ -128,10 +135,7 @@ const JobsPage: React.FC = () => {
           onTriggerSearch={onNewSearch}
         />
         <ResultCardDisplay
-          searched={!isInitialSearch}
-          loading={jobReviewsLoading}
-          error={jobReviewsError !== undefined}
-          noMoreResults={isEndOfResults}
+          searchState={searchState}
           searchResults={filteredReviews}
           onResultsEndReached={onNextBatchSearch}
         />

@@ -5,7 +5,11 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
+import {
+  useSearch,
+  useSearchAfter,
+  SearchState,
+} from "src/utils/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/utils/constants";
 
 import { IJobCardItem } from "src/types";
@@ -72,18 +76,17 @@ const CompaniesPage: React.FC = () => {
   const {
     // for fetching results
     searchQuery,
+    searchType,
     page,
 
-    // flags
-    isEndOfResults,
-    isInitialSearch,
-    isDataLoaded,
+    // for displaying results
+    searchState,
 
     // search trigger functions
     onNewSearch,
     onNextBatchSearch,
 
-    ...searchResultsConfig
+    ...rest
   } = useSearch();
 
   const {
@@ -97,13 +100,17 @@ const CompaniesPage: React.FC = () => {
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
     },
-    skip: isDataLoaded,
+    skip: searchState === SearchState.RESULTS,
   });
 
-  const companyJobs = useSearchResults(
-    searchResultsConfig,
-    buildCompanyJobCardsList,
-    companyJobsData
+  const companyJobs = useSearchAfter(
+    {
+      data: companyJobsData,
+      loading: companyJobsLoading,
+      error: companyJobsError !== undefined,
+      ...rest,
+    },
+    buildCompanyJobCardsList
   ) as IJobCardItem[];
 
   const filteredJobs = useMemo(() => {
@@ -126,10 +133,7 @@ const CompaniesPage: React.FC = () => {
           onTriggerSearch={onNewSearch}
         />
         <ResultCardDisplay
-          searched={!isInitialSearch}
-          loading={companyJobsLoading}
-          error={companyJobsError !== undefined}
-          noMoreResults={isEndOfResults}
+          searchState={searchState}
           searchResults={filteredJobs}
           onResultsEndReached={onNextBatchSearch}
         />

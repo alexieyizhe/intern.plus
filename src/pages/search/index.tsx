@@ -5,7 +5,11 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
 import { useSearchParams } from "src/utils/hooks/useSearchParams";
-import { useSearch, useSearchResults } from "src/utils/hooks/useSearch";
+import {
+  useSearch,
+  useSearchAfter,
+  SearchState,
+} from "src/utils/hooks/useSearch";
 import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
 import pageCopy from "./copy";
 
@@ -131,16 +135,14 @@ const GenericSearchPage: React.FC = () => {
     searchType,
     page,
 
-    // flags
-    isEndOfResults,
-    isInitialSearch,
-    isDataLoaded,
+    // for displaying results
+    searchState,
 
     // search trigger functions
     onNewSearch,
     onNextBatchSearch,
 
-    ...searchResultsConfig
+    ...rest
   } = useSearch();
 
   const shouldSkipSearch = useMemo(
@@ -149,8 +151,10 @@ const GenericSearchPage: React.FC = () => {
      * all results of that type, not the empty state where we prompt them to
      * type a search query.
      */
-    () => (isInitialSearch && !searchType) || isDataLoaded,
-    [isDataLoaded, isInitialSearch, searchType]
+    () =>
+      (searchState === SearchState.INITIAL && !searchType) ||
+      searchState === SearchState.RESULTS,
+    [searchState, searchType]
   );
 
   /**
@@ -170,10 +174,9 @@ const GenericSearchPage: React.FC = () => {
    * Transforms returned data into generic card list items.
    * This is required for ResultCardDisplay to accept our results.
    */
-  const searchResults = useSearchResults(
-    searchResultsConfig,
-    buildSearchResultCardsList,
-    data
+  const searchResults = useSearchAfter(
+    { data, loading, error: error !== undefined, ...rest },
+    buildSearchResultCardsList
   );
 
   /**
@@ -191,10 +194,7 @@ const GenericSearchPage: React.FC = () => {
         <Heading variant="heading1">{headingMarkup}</Heading>
         <SearchField onTriggerSearch={onNewSearch} />
         <ResultCardDisplay
-          searched={!isInitialSearch}
-          loading={loading}
-          error={error !== undefined}
-          noMoreResults={isEndOfResults}
+          searchState={searchState}
           searchResults={searchResults}
           onResultsEndReached={onNextBatchSearch}
         />

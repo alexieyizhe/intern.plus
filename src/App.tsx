@@ -83,7 +83,7 @@ export const AppSwitch: React.FC = () => {
         </Route>
       </Switch>
 
-      {/* Modal for reviews and add-review to sit on top of other pages */}
+      {/* Modal for reviews to sit on top of other pages */}
       <Route path={`${RouteName.REVIEWS}/:reviewId`}>
         <ReviewModal />
       </Route>

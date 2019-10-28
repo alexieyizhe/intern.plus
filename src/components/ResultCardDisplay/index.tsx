@@ -4,6 +4,7 @@ import { Planet, KawaiiMood } from "react-kawaii";
 import { Waypoint } from "react-waypoint";
 
 import { RouteName } from "src/utils/constants";
+import { SearchState } from "src/utils/hooks/useSearch";
 import {
   IGenericCardItem,
   isCompanyCardItem,
@@ -21,21 +22,9 @@ import Spinner from "src/components/Spinner";
  *******************************************************************/
 export interface IResultCardDisplayProps
   extends React.ComponentPropsWithoutRef<"section"> {
-  searched: boolean; // has already searched once or more times
-  loading: boolean;
-  error: boolean;
-  noMoreResults: boolean;
+  searchState: SearchState;
   searchResults: IGenericCardItem[];
   onResultsEndReached: () => void;
-}
-
-export enum DisplayState {
-  INITIAL,
-  LOADING,
-  ERROR,
-  RESULTS,
-  NO_RESULTS,
-  NO_MORE_RESULTS,
 }
 
 /*******************************************************************
@@ -56,7 +45,7 @@ const START_SEARCH_TEXT =
  * @param noResults `true` if the search query returned no results
  */
 const getMiscContent = (
-  state: DisplayState
+  state: SearchState
 ): {
   mood: KawaiiMood;
   markup: JSX.Element;
@@ -64,47 +53,40 @@ const getMiscContent = (
   let mood: KawaiiMood = "shocked";
   let markup = <></>;
 
-  switch (state) {
-    case DisplayState.INITIAL:
-      mood = "blissful";
-      markup = (
-        <Text variant="subheading" as="div" align="center" color="greyDark">
-          {START_SEARCH_TEXT}
-        </Text>
-      );
-      break;
-
-    case DisplayState.LOADING:
-      mood = "excited";
-      markup = <Spinner />;
-      break;
-
-    case DisplayState.ERROR:
-      mood = "ko";
-      markup = (
-        <Text variant="subheading" as="div" align="center" color="error">
-          {ERROR_OCCURRED_TEXT}
-        </Text>
-      );
-      break;
-
-    case DisplayState.NO_RESULTS:
-      mood = "sad";
-      markup = (
-        <Text variant="subheading" as="div" align="center" color="greyDark">
-          {NO_RESULTS_TEXT}
-        </Text>
-      );
-      break;
-
-    case DisplayState.NO_MORE_RESULTS:
-      mood = "sad";
-      markup = (
-        <Text variant="subheading" as="div" align="center" color="greyDark">
-          {NO_MORE_RESULTS_TEXT}
-        </Text>
-      );
-      break;
+  if (state === SearchState.INITIAL) {
+    mood = "blissful";
+    markup = (
+      <Text variant="subheading" as="div" align="center" color="greyDark">
+        {START_SEARCH_TEXT}
+      </Text>
+    );
+  } else if (
+    state === SearchState.LOADING ||
+    state === SearchState.RESULTS_LOADING
+  ) {
+    mood = "excited";
+    markup = <Spinner />;
+  } else if (state === SearchState.ERROR) {
+    mood = "ko";
+    markup = (
+      <Text variant="subheading" as="div" align="center" color="error">
+        {ERROR_OCCURRED_TEXT}
+      </Text>
+    );
+  } else if (state === SearchState.NO_RESULTS) {
+    mood = "sad";
+    markup = (
+      <Text variant="subheading" as="div" align="center" color="greyDark">
+        {NO_RESULTS_TEXT}
+      </Text>
+    );
+  } else if (state === SearchState.NO_MORE_RESULTS) {
+    mood = "sad";
+    markup = (
+      <Text variant="subheading" as="div" align="center" color="greyDark">
+        {NO_MORE_RESULTS_TEXT}
+      </Text>
+    );
   }
 
   return { mood, markup };
@@ -232,32 +214,22 @@ const ResultJobCard = styled(JobCard)`
  *                           **Component**                         *
  *******************************************************************/
 const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
-  searched,
-  loading,
-  error,
-  noMoreResults,
+  searchState,
   searchResults,
   onResultsEndReached,
   ...rest
 }) => {
-  const curState = useMemo(() => {
-    if (error) return DisplayState.ERROR;
-    if (loading) return DisplayState.LOADING;
-    if (searchResults.length === 0 && searched) return DisplayState.NO_RESULTS;
-    if (noMoreResults) return DisplayState.NO_MORE_RESULTS;
-    if (searchResults.length > 0) return DisplayState.RESULTS;
-
-    return DisplayState.INITIAL;
-  }, [error, loading, noMoreResults, searchResults.length, searched]);
-
-  const { mood, markup } = useMemo(() => getMiscContent(curState), [curState]);
+  const { mood, markup } = useMemo(() => getMiscContent(searchState), [
+    searchState,
+  ]);
 
   const shouldShowResults = useMemo(
     () =>
       searchResults.length > 0 ||
-      curState === DisplayState.RESULTS ||
-      curState === DisplayState.NO_MORE_RESULTS,
-    [curState, searchResults.length]
+      searchState === SearchState.RESULTS ||
+      searchState === SearchState.RESULTS_LOADING ||
+      searchState === SearchState.NO_MORE_RESULTS,
+    [searchResults.length, searchState]
   );
 
   return (
@@ -270,9 +242,10 @@ const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
 
       {markup}
 
-      {searchResults.length > 0 && !noMoreResults && (
-        <Waypoint onEnter={onResultsEndReached} />
-      )}
+      {searchResults.length > 0 &&
+        searchState !== SearchState.NO_MORE_RESULTS && (
+          <Waypoint onEnter={onResultsEndReached} />
+        )}
     </Container>
   );
 };
