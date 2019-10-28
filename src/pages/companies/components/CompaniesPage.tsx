@@ -126,7 +126,7 @@ const CompaniesPage: React.FC = () => {
         <title>{getTitleMarkup(companyDetails && companyDetails.name)}</title>
       </Helmet>
 
-      <CompanyPageContainer>
+      <CompanyPageContainer id="company-page">
         <CompanyDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}

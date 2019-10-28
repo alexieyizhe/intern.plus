@@ -427,7 +427,7 @@ const ReviewModal: React.FC = () => {
         </title>
       </Helmet>
       <Background onClick={onExit}>
-        <Container color="greyLight" onClick={cardOnClick}>
+        <Container color="greyLight" onClick={cardOnClick} id="review-page">
           {getDetailsMarkup(loading, error !== undefined, review)}
           <CloseButton onClick={onExit} tabIndex={1}>
             <span className="bg" />

@@ -167,7 +167,7 @@ const LandingPage = () => {
       <Helmet>
         <title>intern+</title>
       </Helmet>
-      <PageContainer>
+      <PageContainer id="landing-page">
         <TitleCard>
           <TitleCardLeft>
             <div>
