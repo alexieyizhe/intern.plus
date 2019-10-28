@@ -44,10 +44,7 @@ const getTitleMarkup = (query?: string) =>
 const getDefaultHeading = (type?: SearchType) =>
   type ? (
     <>
-      <span className="grey">
-        {`${pageCopy.heading.typeInitialHeading}`}&nbsp;
-      </span>
-
+      <span className="grey">{pageCopy.heading.typeInitialHeading}&nbsp;</span>
       <span>{type}</span>
     </>
   ) : (
@@ -97,13 +94,13 @@ const useHeadingMarkup = () => {
  */
 const getQuery = (type?: SearchType) => {
   switch (type) {
-    case "companies":
+    case SearchType.COMPANIES:
       return GET_COMPANIES_SEARCH;
 
-    case "jobs":
+    case SearchType.JOBS:
       return GET_JOBS_SEARCH;
 
-    case "reviews":
+    case SearchType.REVIEWS:
       return GET_REVIEWS_SEARCH;
 
     default:
