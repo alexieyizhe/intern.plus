@@ -5,20 +5,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "CI=true react-scripts test",
-    "test:e2e": "cypress open",
+    "test": "cypress open",
+    "test:run": "cypress run",
+    "test:ci": "npm start & wait-on http://localhost:3000; npm run test:run",
     "lint": "eslint src --ext ts,tsx",
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
     "type-check": "tsc --noEmit",
-    "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'",
-    "version:major": "npm version major --force -m \"Version %s\"",
-    "version:minor": "npm version minor --force -m \"Version %s\"",
-    "version:patch": "npm version patch --force -m \"Version %s\"",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "preversion": "npm run test:nowatch && npm run lint",
-    "version": "",
-    "postversion": "git push && git push --tags"
+    "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'"
   },
   "browserslist": {
     "production": [
@@ -80,10 +74,13 @@
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
+    "install": "^0.13.0",
     "json2csv": "^4.5.4",
     "node-vibrant": "^3.1.4",
+    "npm": "^6.12.0",
     "prettier": "^1.18.2",
     "react-router-sitemap": "^1.2.0",
-    "source-map-explorer": "^2.1.0"
+    "source-map-explorer": "^2.1.0",
+    "wait-on": "^3.3.0"
   }
 }

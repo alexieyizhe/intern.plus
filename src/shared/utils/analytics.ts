@@ -12,38 +12,38 @@ const init = (options = {}) => {
       },
       ...options,
     });
-  }
 
-  /**
-   * Track timing of server requests.
-   */
-  if (typeof PerformanceObserver === "function") {
-    const callback: PerformanceObserverCallback = list => {
-      list.getEntries().forEach(entry => {
+    /**
+     * Track timing of server requests.
+     */
+    if (typeof PerformanceObserver === "function") {
+      const callback: PerformanceObserverCallback = list => {
+        list.getEntries().forEach(entry => {
+          timing({
+            category: "Load Performace",
+            variable: "Server latency",
+            value:
+              ((entry as PerformanceNavigationTiming).responseStart -
+                (entry as PerformanceNavigationTiming).requestStart) *
+              1000,
+          });
+        });
+      };
+
+      const observer = new PerformanceObserver(callback);
+      observer.observe({ entryTypes: ["navigation"] });
+    }
+
+    ttiPolyfill.getFirstConsistentlyInteractive().then(tti => {
+      if (tti) {
         timing({
           category: "Load Performace",
-          variable: "Server latency",
-          value:
-            ((entry as PerformanceNavigationTiming).responseStart -
-              (entry as PerformanceNavigationTiming).requestStart) *
-            1000,
+          variable: "Time to interactive",
+          value: tti,
         });
-      });
-    };
-
-    const observer = new PerformanceObserver(callback);
-    observer.observe({ entryTypes: ["navigation"] });
+      }
+    });
   }
-
-  ttiPolyfill.getFirstConsistentlyInteractive().then(tti => {
-    if (tti) {
-      timing({
-        category: "Load Performace",
-        variable: "Time to interactive",
-        value: tti,
-      });
-    }
-  });
 
   // if analytics was initialized or not
   return !!process.env.REACT_APP_GA_TRACKING_ID;
