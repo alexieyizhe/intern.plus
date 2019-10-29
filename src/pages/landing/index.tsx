@@ -180,6 +180,7 @@ const LandingPage = () => {
             </div>
             <div>
               <SearchInput
+                className="landing-search"
                 placeholder="Find something"
                 value={searchVal}
                 onChange={searchOnChange}

@@ -40,6 +40,7 @@
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "apollo-boost": "^0.4.4",
+    "classnames": "^2.2.6",
     "debounce": "^1.2.0",
     "focus-visible": "^5.0.2",
     "graphql": "^14.5.8",
@@ -62,6 +63,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.6.0",
     "@percy/script": "^1.0.2",
+    "@types/classnames": "^2.2.9",
     "@types/debounce": "^1.2.0",
     "@types/react-helmet": "^5.0.12",
     "@types/react-kawaii": "^0.11.0",

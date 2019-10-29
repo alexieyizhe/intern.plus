@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
 import { useSiteContext } from "src/utils/context";
 
@@ -24,7 +25,7 @@ const ModalContainer = styled.div`
     z-index: ${({ theme }) => theme.zIndex.modal};
   }
 
-  &.mobileMenuOpen {
+  &.mobile-menu-open {
     top: ${HEADER_HEIGHT + 130}px;
   }
 `;
@@ -81,10 +82,10 @@ const AddReviewModal: React.FC = () => {
 
   return (
     <ModalContainer
-      className={`
-        ${modalOpen ? "open" : ""} 
-        ${mobileMenuOpen ? "mobileMenuOpen" : ""}
-      `}
+      className={classNames({
+        open: modalOpen,
+        "mobile-menu-open": mobileMenuOpen,
+      })}
     >
       <InnerModalContainer>
         <InnerContainer

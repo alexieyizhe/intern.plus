@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import classNames from "classnames";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/utils/constants";
@@ -51,11 +52,11 @@ const Container = styled.header`
   }
 
   &.scrolled::after,
-  &.mobileMenuOpen::after {
+  &.mobile-menu-open::after {
     opacity: 1;
   }
 
-  &.mobileMenuOpen::after {
+  &.mobile-menu-open::after {
     transform: translateY(120px);
   }
 `;
@@ -249,10 +250,10 @@ const Header: React.FC = () => {
 
   return (
     <Container
-      className={`
-        ${scrolledDown ? "scrolled" : ""} 
-        ${mobileMenuOpen ? "mobileMenuOpen" : ""}
-      `}
+      className={classNames({
+        scrolled: scrolledDown,
+        "mobile-menu-open": mobileMenuOpen,
+      })}
       ref={headerRef}
     >
       <InnerContainer>
