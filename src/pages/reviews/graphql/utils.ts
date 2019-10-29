@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { IReviewDetails } from "src/shared/types";
+import { IReviewDetails } from "../components/ReviewModal";
 import { GetReviewDetails_review } from "./types/GetReviewDetails";
 
 export const buildReviewDetails = (

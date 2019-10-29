@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
-import { ICompanyDetails } from "src/shared/types";
 import { detailsCardStyles } from "src/theme/snippets";
 import { getLightColor } from "src/shared/utils/color";
 
@@ -18,6 +17,15 @@ import {
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
+export interface ICompanyDetails {
+  name: string;
+  desc?: string;
+  numRatings: number;
+  avgRating: number;
+  logoSrc: string;
+  color: string;
+}
+
 export interface ICompanyDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;

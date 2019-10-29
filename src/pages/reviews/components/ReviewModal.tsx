@@ -9,7 +9,6 @@ import { Size } from "src/theme/constants";
 import { RouteName } from "src/shared/constants/routing";
 import { getDarkColor } from "src/shared/utils/color";
 
-import { IReviewDetails } from "src/shared/types";
 import { GetReviewDetails } from "../graphql/types/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
 import { buildReviewDetails } from "../graphql/utils";
@@ -24,6 +23,28 @@ import {
   Spinner,
   UnstyledButton,
 } from "src/components";
+
+/*******************************************************************
+ *                            **Types**                           *
+ *******************************************************************/
+export interface IReviewDetails {
+  jobName: string;
+  jobId: string;
+  companyName: string;
+  companySlug: string;
+  location?: string;
+  author: string;
+  body: string;
+  overallRating: number;
+  meaningfulWorkRating: number;
+  workLifeBalanceRating: number;
+  learningMentorshipRating: number;
+  salary: number;
+  salaryCurrency: string;
+  salaryPeriod: string;
+  logoSrc: string;
+  color: string;
+}
 
 /*******************************************************************
  *                  **Utility functions/constants**                *

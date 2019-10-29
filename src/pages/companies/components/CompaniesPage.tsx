@@ -12,7 +12,7 @@ import {
 } from "src/shared/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
 
-import { IJobCardItem } from "src/shared/types";
+import { IJobCardItem } from "src/shared/constants/card";
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
 import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";

@@ -5,8 +5,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "cypress open",
-    "test:run": "cypress run",
+    "test": "cypress run",
+    "test:open": "cypress open",
     "test:ci": "npm start & wait-on http://localhost:3000; npm run test:run -- --config video=false",
     "lint": "eslint src --ext ts,tsx",
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
@@ -75,6 +75,7 @@
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
+    "faker": "^4.1.0",
     "install": "^0.13.0",
     "json2csv": "^4.5.4",
     "mock-apollo-client": "^0.2.0",

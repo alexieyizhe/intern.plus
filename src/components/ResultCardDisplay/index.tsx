@@ -11,7 +11,7 @@ import {
   isJobCardItem,
   isReviewJobCardItem,
   isReviewUserCardItem,
-} from "src/shared/types";
+} from "src/shared/constants/card";
 
 import Text from "src/components/Text";
 import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";

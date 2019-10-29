@@ -4,7 +4,7 @@ import {
   ICompanyCardItem,
   IJobCardItem,
   IReviewJobCardItem,
-} from "src/shared/types";
+} from "src/shared/constants/card";
 import {
   GetAllSearch,
   GetAllSearch_companiesList_items,

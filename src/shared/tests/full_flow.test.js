@@ -64,6 +64,8 @@ describe("Full flow", () => {
       .first()
       .click();
 
+    cy.wait(1000);
+
     cy.get("#review-page")
       .parent()
       .click("topLeft"); // click outside to close
@@ -75,6 +77,8 @@ describe("Full flow", () => {
     cy.get(".review-card")
       .first()
       .click();
+
+    cy.wait(1000);
 
     cy.get("#review-page")
       .find("button")

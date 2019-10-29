@@ -3,7 +3,6 @@ import styled from "styled-components";
 import classNames from "classnames";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
-import { IJobDetails } from "src/shared/types";
 import { detailsCardStyles } from "src/theme/snippets";
 import { RouteName } from "src/shared/constants/routing";
 import { getDarkColor } from "src/shared/utils/color";
@@ -21,6 +20,22 @@ import {
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
+export interface IJobDetails {
+  name: string;
+  companyName: string;
+  companySlug: string;
+  location?: string;
+  numRatings: number;
+  avgRating: number;
+  avgLearningMentorshipRating: number;
+  avgMeaningfulWorkRating: number;
+  avgWorkLifeBalanceRating: number;
+  minHourlySalary: number;
+  maxHourlySalary: number;
+  hourlySalaryCurrency: string;
+  color: string;
+}
+
 export interface IJobDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;

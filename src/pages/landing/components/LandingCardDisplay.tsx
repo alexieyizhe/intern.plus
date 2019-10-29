@@ -9,7 +9,7 @@ import {
   isJobCardItem,
   isReviewJobCardItem,
   isReviewUserCardItem,
-} from "src/shared/types";
+} from "src/shared/constants/card";
 import pageCopy from "../copy";
 
 import {
