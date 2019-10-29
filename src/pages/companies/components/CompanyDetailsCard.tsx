@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
 import { ICompanyDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
@@ -157,12 +158,14 @@ const Logo = styled.img`
  *                           **Component**                         *
  *******************************************************************/
 const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
+  className,
   loading,
   error,
   companyDetails,
   onTriggerSearch,
 }) => (
   <Container
+    className={classNames("company-details-card", className)}
     color={
       companyDetails &&
       companyDetails.color &&

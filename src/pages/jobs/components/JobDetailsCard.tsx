@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
 import { IJobDetails } from "src/types";
@@ -20,7 +21,7 @@ import {
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
-export interface IJobPageCardProps extends ISearchFieldProps {
+export interface IJobDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;
   jobInfo?: IJobDetails;
@@ -227,13 +228,14 @@ const MiscDetails = styled.div`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const JobPageCard: React.FC<IJobPageCardProps> = ({
+const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
+  className,
   loading,
   error,
   jobInfo,
   onTriggerSearch,
 }) => (
-  <Container>
+  <Container className={classNames("job-details-card", className)}>
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, jobInfo)}
     </MiscContentContainer>
@@ -245,4 +247,4 @@ const JobPageCard: React.FC<IJobPageCardProps> = ({
   </Container>
 );
 
-export default React.memo(JobPageCard);
+export default React.memo(JobDetailsCard);

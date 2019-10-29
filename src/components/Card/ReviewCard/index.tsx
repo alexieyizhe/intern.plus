@@ -101,7 +101,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
 
   return (
     <Container
-      className={classNames("job-card", className)}
+      className={classNames("review-card", className)}
       color="greyLight"
       {...rest}
     >

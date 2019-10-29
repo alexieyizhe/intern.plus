@@ -93,7 +93,7 @@ const Logo = styled.div`
     cursor: pointer;
   }
 
-  & .logoImg {
+  & .logo-img {
     max-height: 35px;
     margin-right: 10px;
   }
@@ -103,7 +103,7 @@ const Logo = styled.div`
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
-    & .logoImg {
+    & .logo-img {
       max-height: 30px;
       margin-right: 3px;
     }
@@ -259,7 +259,7 @@ const Header: React.FC = () => {
       <InnerContainer>
         <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
           <UnstyledButton>
-            <img className="logoImg" src={copy.logo.src} alt={copy.logo.alt} />
+            <img className="logo-img" src={copy.logo.src} alt={copy.logo.alt} />
 
             <img
               className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
