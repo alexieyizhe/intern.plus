@@ -3,10 +3,10 @@ import styled from "styled-components";
 import classNames from "classnames";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
-import { IJobDetails } from "src/types";
+import { IJobDetails } from "src/shared/types";
 import { detailsCardStyles } from "src/theme/snippets";
-import { RouteName } from "src/utils/constants";
-import { getDarkColor } from "src/utils/getColor";
+import { RouteName } from "src/shared/constants/routing";
+import { getDarkColor } from "src/shared/utils/color";
 
 import {
   ISearchFieldProps,

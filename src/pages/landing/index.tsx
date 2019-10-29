@@ -8,8 +8,9 @@ import { GetCompaniesReviewsLanding } from "./graphql/types/GetCompaniesReviewsL
 import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
 import { buildLandingCardsList } from "./graphql/utils";
 
-import { RouteName, SearchFilter } from "src/utils/constants";
-import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
+import { RouteName } from "src/shared/constants/routing";
+import { SearchFilter } from "src/shared/constants/search";
+import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import pageCopy from "./copy";
 
 import {

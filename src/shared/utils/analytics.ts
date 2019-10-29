@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import ReactGA from "react-ga";
 import ttiPolyfill from "tti-polyfill";
 
-export const init = (options = {}) => {
+const init = (options = {}) => {
   if (process.env.REACT_APP_GA_TRACKING_ID) {
     ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID, {
       debug: process.env.REACT_APP_GA_DEBUG === "true",
@@ -49,8 +49,8 @@ export const init = (options = {}) => {
   return !!process.env.REACT_APP_GA_TRACKING_ID;
 };
 
-export const event = (args: ReactGA.EventArgs) => ReactGA.event(args);
-export const timing = (args: ReactGA.TimingArgs) => ReactGA.timing(args);
+const event = (args: ReactGA.EventArgs) => ReactGA.event(args);
+const timing = (args: ReactGA.TimingArgs) => ReactGA.timing(args);
 
 const Analytics: React.FC = () => {
   const location = useLocation();
@@ -67,4 +67,5 @@ const Analytics: React.FC = () => {
   return null;
 };
 
+export const analytics = { init, event, timing };
 export default Analytics;

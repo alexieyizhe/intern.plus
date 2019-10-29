@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ICompanyCardItem, IReviewJobCardItem } from "src/types";
+import { ICompanyCardItem, IReviewJobCardItem } from "src/shared/types";
 import {
   GetCompaniesReviewsLanding,
   GetCompaniesReviewsLanding_companiesList_items,

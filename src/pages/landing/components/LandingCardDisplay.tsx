@@ -2,14 +2,14 @@
 import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 
-import { RouteName } from "src/utils/constants";
+import { RouteName } from "src/shared/constants/routing";
 import {
   IGenericCardItem,
   isCompanyCardItem,
   isJobCardItem,
   isReviewJobCardItem,
   isReviewUserCardItem,
-} from "src/types";
+} from "src/shared/types";
 import pageCopy from "../copy";
 
 import {

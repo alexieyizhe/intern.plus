@@ -3,14 +3,14 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
-import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { useSearchParams } from "src/utils/hooks/useSearchParams";
+import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import {
   useSearch,
   useSearchAfter,
   SearchState,
-} from "src/utils/hooks/useSearch";
-import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
+} from "src/shared/hooks/useSearch";
+import { SearchType, RESULTS_PER_PAGE } from "src/shared/constants/search";
 import pageCopy from "./copy";
 
 import { GetAllSearch } from "./graphql/types/GetAllSearch";

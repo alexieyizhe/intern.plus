@@ -2,9 +2,9 @@ import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
-import { useSearchParams } from "src/utils/hooks/useSearchParams";
-import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
-import { useSiteContext } from "src/utils/context";
+import { useSearchParams } from "src/shared/hooks/useSearchParams";
+import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
+import { useSiteContext } from "src/context";
 
 import InputButtonCombo from "src/components/InputButtonCombo";
 

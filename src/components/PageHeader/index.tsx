@@ -4,13 +4,13 @@ import { useHistory } from "react-router-dom";
 import classNames from "classnames";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
-import { RouteName } from "src/utils/constants";
-import { useSiteContext, ActionType } from "src/utils/context";
+import { RouteName } from "src/shared/constants/routing";
+import { useSiteContext, ActionType } from "src/context";
 import copy from "./copy";
 
-import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
-import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
-import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
+import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
+import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
+import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 
 import { UnstyledButton } from "src/components/Button";
 import Icon from "src/components/Icon";

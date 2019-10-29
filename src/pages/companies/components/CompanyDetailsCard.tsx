@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
-import { ICompanyDetails } from "src/types";
+import { ICompanyDetails } from "src/shared/types";
 import { detailsCardStyles } from "src/theme/snippets";
-import { getLightColor } from "src/utils/getColor";
+import { getLightColor } from "src/shared/utils/color";
 
 import {
   ISearchFieldProps,

@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from "react";
 import styled, { ThemeContext } from "styled-components";
 import classNames from "classnames";
 
-import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
+import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { Size } from "src/theme/constants";
 

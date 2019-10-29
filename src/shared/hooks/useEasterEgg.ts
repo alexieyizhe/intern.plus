@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from "react";
-import { useSiteContext, ActionType } from "src/utils/context";
+import { useSiteContext, ActionType } from "src/context";
 
 const UP = 38;
 const DOWN = 40;

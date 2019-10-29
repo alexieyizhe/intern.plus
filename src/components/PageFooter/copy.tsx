@@ -1,7 +1,7 @@
 import React from "react";
 
 import { LogoSmall } from "src/assets";
-import { RouteName } from "src/utils/constants";
+import { RouteName } from "src/shared/constants/routing";
 
 const emojis = [
   { raw: "✨", label: "sparkles" },

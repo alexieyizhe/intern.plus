@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ICompanyDetails, IJobCardItem } from "src/types";
+import { ICompanyDetails, IJobCardItem } from "src/shared/types";
 import { GetCompanyDetails_company } from "./types/GetCompanyDetails";
 import {
   GetCompanyJobs,

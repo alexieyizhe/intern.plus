@@ -2,7 +2,7 @@
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 
-import { IJobDetails, IReviewUserCardItem } from "src/types";
+import { IJobDetails, IReviewUserCardItem } from "src/shared/types";
 import { GetJobDetails_job } from "./types/GetJobDetails";
 import {
   GetJobReviews,

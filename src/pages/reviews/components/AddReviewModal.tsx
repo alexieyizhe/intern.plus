@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
-import { useSiteContext } from "src/utils/context";
+import { useSiteContext } from "src/context";
 
 import {
   HEADER_HEIGHT,

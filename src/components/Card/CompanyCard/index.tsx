@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 
 import { hoverStyles } from "src/theme/snippets";
-import { getLightColor, getDarkColor } from "src/utils/getColor";
+import { getLightColor, getDarkColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
