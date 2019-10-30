@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  visual_tests:
+  e2e_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -15,12 +15,12 @@ jobs:
           fetch-depth: 1
       - name: Install dependencies
         run: npm ci
-      - name: Run visual tests with Percy
-        run: npx percy exec -- node ./server/scripts/runVisualTests.js
+      - name: Run end to end and visual regression tests
+        run: npm run test:e2e:ci
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
           REACT_APP_DB_GRAPHQL_API_URL: ${{ secrets.REACT_APP_DB_GRAPHQL_API_URL }}
-  functionality_tests:
+  unit_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,5 +29,7 @@ jobs:
           fetch-depth: 1
       - name: Install dependencies
         run: npm ci
-      - name: Run Jest tests
-        run: npm run test:nowatch
+      - name: Run unit tests
+        run: npm run test:unit:ci
+        env:
+          REACT_APP_DB_GRAPHQL_API_URL: ${{ secrets.REACT_APP_DB_GRAPHQL_API_URL }}

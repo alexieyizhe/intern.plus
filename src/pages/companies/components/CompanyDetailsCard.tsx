@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
-import { ICompanyDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
-import { getLightColor } from "src/utils/getColor";
+import { getLightColor } from "src/shared/utils/color";
 
 import {
   ISearchFieldProps,
@@ -17,6 +17,15 @@ import {
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
+export interface ICompanyDetails {
+  name: string;
+  desc?: string;
+  numRatings: number;
+  avgRating: number;
+  logoSrc: string;
+  color: string;
+}
+
 export interface ICompanyDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;
@@ -157,12 +166,14 @@ const Logo = styled.img`
  *                           **Component**                         *
  *******************************************************************/
 const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
+  className,
   loading,
   error,
   companyDetails,
   onTriggerSearch,
 }) => (
   <Container
+    className={classNames("company-details-card", className)}
     color={
       companyDetails &&
       companyDetails.color &&

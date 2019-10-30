@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
-import { IJobDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
-import { RouteName } from "src/utils/constants";
-import { getDarkColor } from "src/utils/getColor";
+import { RouteName } from "src/shared/constants/routing";
+import { getDarkColor } from "src/shared/utils/color";
 
 import {
   ISearchFieldProps,
@@ -20,7 +20,23 @@ import {
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
-export interface IJobPageCardProps extends ISearchFieldProps {
+export interface IJobDetails {
+  name: string;
+  companyName: string;
+  companySlug: string;
+  location?: string;
+  numRatings: number;
+  avgRating: number;
+  avgLearningMentorshipRating: number;
+  avgMeaningfulWorkRating: number;
+  avgWorkLifeBalanceRating: number;
+  minHourlySalary: number;
+  maxHourlySalary: number;
+  hourlySalaryCurrency: string;
+  color: string;
+}
+
+export interface IJobDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;
   jobInfo?: IJobDetails;
@@ -227,13 +243,14 @@ const MiscDetails = styled.div`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const JobPageCard: React.FC<IJobPageCardProps> = ({
+const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
+  className,
   loading,
   error,
   jobInfo,
   onTriggerSearch,
 }) => (
-  <Container>
+  <Container className={classNames("job-details-card", className)}>
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, jobInfo)}
     </MiscContentContainer>
@@ -245,4 +262,4 @@ const JobPageCard: React.FC<IJobPageCardProps> = ({
   </Container>
 );
 
-export default React.memo(JobPageCard);
+export default React.memo(JobDetailsCard);

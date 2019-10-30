@@ -8,10 +8,10 @@
  */
 import { useState, useCallback, useEffect, useMemo } from "react";
 
-import { useSearchParams } from "src/utils/hooks/useSearchParams";
-import { RESULTS_PER_PAGE } from "src/utils/constants";
-import * as analytics from "src/utils/analytics";
-import { IGenericCardItem } from "src/types";
+import { useSearchParams } from "src/shared/hooks/useSearchParams";
+import { RESULTS_PER_PAGE } from "src/shared/constants/search";
+import { analytics } from "src/shared/utils/analytics";
+import { IGenericCardItem } from "src/shared/constants/card";
 
 /*******************************************************************
  *                             **Types**                           *

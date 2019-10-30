@@ -4,7 +4,7 @@ import {
   companyResultFragment,
   jobResultFragment,
   reviewResultJobFragment,
-} from "src/api/fragments";
+} from "src/api/graphql";
 
 // gets all results (company, job, review) matching query
 export const GET_ALL_SEARCH = gql`

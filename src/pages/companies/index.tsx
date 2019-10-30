@@ -7,8 +7,8 @@ import {
   match as Match,
 } from "react-router-dom";
 
-import { RouteName } from "src/utils/constants";
-import { SearchFilter, SearchType } from "src/utils/constants";
+import { RouteName } from "src/shared/constants/routing";
+import { SearchFilter, SearchType } from "src/shared/constants/search";
 
 import CompaniesPage from "./components/CompaniesPage";
 

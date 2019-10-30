@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
 import Icon from "src/components/Icon";
 import { IconName } from "../Icon/icons";
@@ -39,7 +40,7 @@ const Star = styled.span`
   justify-content: center;
   align-items: center;
 
-  &:not(.readOnly) {
+  &:not(.read-only) {
     cursor: pointer;
   }
 
@@ -92,10 +93,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
       <span className="starContainer">
         {stars.map((filled, i) => (
           <Star
-            className={`
-              ${filled ? "filled" : ""}
-              ${readOnly ? " readOnly" : ""}
-            `}
+            className={classNames({ filled, "read-only": readOnly })}
             key={`star${i}${filled ? "filled" : ""}`}
             onClick={internalOnClick(i)}
             onMouseEnter={internalOnMouseHover(i, true)}

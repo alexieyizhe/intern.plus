@@ -3,7 +3,7 @@ import { gql } from "apollo-boost";
 import {
   companyResultFragment,
   reviewResultJobFragment,
-} from "src/api/fragments";
+} from "src/api/graphql";
 
 export const GET_COMPANIES_REVIEWS_LANDING = gql`
   query GetCompaniesReviewsLanding {

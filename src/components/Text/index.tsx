@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 
 import { Size, VariantList } from "src/theme/constants";
-import { useSiteContext } from "src/utils/context";
+import { useSiteContext } from "src/context";
 
 /*******************************************************************
  *                             **Types**                           *

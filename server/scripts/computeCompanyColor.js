@@ -32,7 +32,7 @@ const UPDATE_COMPANY_COLOR = gql`
 const client = new ApolloClient({
   uri: API_URL,
   request: operation => {
-    const token = process.env.REACT_APP_DB_GRAPHQL_API_TOKEN;
+    const token = process.env.SERVER_API_TOKEN;
     operation.setContext({
       headers: {
         authorization: token ? `Bearer ${token}` : "",

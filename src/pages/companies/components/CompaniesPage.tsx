@@ -4,15 +4,15 @@ import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
+import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import {
   useSearch,
   useSearchAfter,
   SearchState,
-} from "src/utils/hooks/useSearch";
-import { RESULTS_PER_PAGE } from "src/utils/constants";
+} from "src/shared/hooks/useSearch";
+import { RESULTS_PER_PAGE } from "src/shared/constants/search";
 
-import { IJobCardItem } from "src/types";
+import { IJobCardItem } from "src/shared/constants/card";
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
 import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";

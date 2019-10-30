@@ -6,10 +6,9 @@ import { Helmet } from "react-helmet";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
 import { Size } from "src/theme/constants";
-import { RouteName } from "src/utils/constants";
-import { getDarkColor } from "src/utils/getColor";
+import { RouteName } from "src/shared/constants/routing";
+import { getDarkColor } from "src/shared/utils/color";
 
-import { IReviewDetails } from "src/types";
 import { GetReviewDetails } from "../graphql/types/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
 import { buildReviewDetails } from "../graphql/utils";
@@ -24,6 +23,28 @@ import {
   Spinner,
   UnstyledButton,
 } from "src/components";
+
+/*******************************************************************
+ *                            **Types**                           *
+ *******************************************************************/
+export interface IReviewDetails {
+  jobName: string;
+  jobId: string;
+  companyName: string;
+  companySlug: string;
+  location?: string;
+  author: string;
+  body: string;
+  overallRating: number;
+  meaningfulWorkRating: number;
+  workLifeBalanceRating: number;
+  learningMentorshipRating: number;
+  salary: number;
+  salaryCurrency: string;
+  salaryPeriod: string;
+  logoSrc: string;
+  color: string;
+}
 
 /*******************************************************************
  *                  **Utility functions/constants**                *

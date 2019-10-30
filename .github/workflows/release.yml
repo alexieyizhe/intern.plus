@@ -1,4 +1,4 @@
-name: tag release version
+name: bump release version
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - release
 
 jobs:
-  version:
+  version_bump:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master

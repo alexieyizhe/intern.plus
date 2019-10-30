@@ -5,19 +5,19 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:nowatch": "CI=true react-scripts test",
     "lint": "eslint src --ext ts,tsx",
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
     "type-check": "tsc --noEmit",
-    "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'",
-    "version:major": "npm version major --force -m \"Version %s\"",
-    "version:minor": "npm version minor --force -m \"Version %s\"",
-    "version:patch": "npm version patch --force -m \"Version %s\"",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "preversion": "npm run test:nowatch && npm run lint",
-    "version": "",
-    "postversion": "git push && git push --tags"
+    "test": "cypress run --config video=false",
+    "test:i": "cypress open",
+    "test:ci": "npm start & wait-on http://localhost:3000; npm run test",
+    "test:unit": "npm run test -- --spec \"src/**/**.unit.test.js\"",
+    "test:e2e": "npm run test -- --spec \"src/**/**.e2e.test.js\"",
+    "test:unit:ci": "npm run test:ci -- -- --spec \"src/**/**.unit.test.js\"",
+    "test:e2e:ci": "npm run test:ci -- -- --spec \"src/**/**.e2e.test.js\"",
+    "api:download-schema": "apollo client:download-schema --endpoint $REACT_APP_DB_GRAPHQL_API_URL",
+    "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'"
   },
   "browserslist": {
     "production": [
@@ -34,11 +34,13 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.2",
     "@sentry/browser": "^5.7.1",
+    "@types/faker": "^4.1.7",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.12",
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "apollo-boost": "^0.4.4",
+    "classnames": "^2.2.6",
     "debounce": "^1.2.0",
     "focus-visible": "^5.0.2",
     "graphql": "^14.5.8",
@@ -61,6 +63,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.6.0",
     "@percy/script": "^1.0.2",
+    "@types/classnames": "^2.2.9",
     "@types/debounce": "^1.2.0",
     "@types/react-helmet": "^5.0.12",
     "@types/react-kawaii": "^0.11.0",
@@ -73,13 +76,19 @@
     "babel-register": "^6.26.0",
     "chalk": "^2.4.2",
     "cross-fetch": "^3.0.4",
+    "cypress": "^3.5.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
+    "faker": "^4.1.0",
+    "install": "^0.13.0",
     "json2csv": "^4.5.4",
+    "mock-apollo-client": "^0.2.0",
     "node-vibrant": "^3.1.4",
+    "npm": "^6.12.0",
     "prettier": "^1.18.2",
     "react-router-sitemap": "^1.2.0",
-    "source-map-explorer": "^2.1.0"
+    "source-map-explorer": "^2.1.0",
+    "wait-on": "^3.3.0"
   }
 }
