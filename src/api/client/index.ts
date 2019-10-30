@@ -7,6 +7,6 @@ const apiClient = new ApolloClient({
   fetch,
 });
 
-const client = process.env.NODE_ENV === "development" ? apiClient : mockClient;
+const client = process.env.NODE_ENV === "production" ? apiClient : mockClient;
 
 export default client;

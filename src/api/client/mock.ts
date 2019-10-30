@@ -1,3 +1,4 @@
+import { getMockCompaniesReviewsLanding } from "src/pages/landing/graphql/mocks";
 import { GET_COMPANIES_REVIEWS_LANDING } from "src/pages/landing/graphql/queries";
 
 import { createMockClient } from "mock-apollo-client";
@@ -11,14 +12,16 @@ export const mockClient = createMockClient();
  * Done
  */
 
-const ALL_QUERIES = [GET_COMPANIES_REVIEWS_LANDING];
+const API_CALLS = [
+  {
+    query: GET_COMPANIES_REVIEWS_LANDING,
+    handler: () =>
+      Promise.resolve({
+        data: getMockCompaniesReviewsLanding(),
+      }),
+  },
+];
 
-ALL_QUERIES.forEach(query => {
-  mockClient.setRequestHandler(query, () =>
-    Promise.resolve({
-      data: {
-        companiesList: { items: [{ name: "a" }, { name: "a" }, { name: "a" }] },
-      },
-    })
-  );
+API_CALLS.forEach(call => {
+  mockClient.setRequestHandler(call.query, call.handler);
 });
