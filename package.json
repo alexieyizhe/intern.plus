@@ -5,13 +5,17 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "cypress run",
-    "test:open": "cypress open",
-    "test:ci": "npm start & wait-on http://localhost:3000; npm run test:run -- --config video=false",
     "lint": "eslint src --ext ts,tsx",
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
     "type-check": "tsc --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "test": "cypress run --config video=false",
+    "test:i": "cypress open",
+    "test:ci": "npm start & wait-on http://localhost:3000; npm run test",
+    "test:unit": "npm run test -- --spec \"src/**/**.unit.test.js\"",
+    "test:e2e": "npm run test -- --spec \"src/**/**.e2e.test.js\"",
+    "test:unit:ci": "npm run test:ci -- -- --spec \"src/**/**.unit.test.js\"",
+    "test:e2e:ci": "npm run test:ci -- -- --spec \"src/**/**.e2e.test.js\"",
     "api:download-schema": "apollo client:download-schema --endpoint $REACT_APP_DB_GRAPHQL_API_URL",
     "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'"
   },
@@ -30,6 +34,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.2",
     "@sentry/browser": "^5.7.1",
+    "@types/faker": "^4.1.7",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.12",
     "@types/react": "16.9.5",
