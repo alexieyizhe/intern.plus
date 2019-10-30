@@ -11,11 +11,11 @@ Check out [the mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/intern?n
 
 ## 🥞 Tech Stack
 
-Created with [React](https://reactjs.org/) and bootstrapped with `create-react-app`.  
+Created with [React](https://reactjs.org/) and bootstrapped with [`create-react-app`](https://create-react-app.dev/).  
 Developed in [TypeScript](https://www.typescriptlang.org/).  
 Powered by [GraphQL](https://graphql.org/) and [Apollo](https://www.apollographql.com/).  
-Made pretty with [styled-components](https://www.styled-components.com).  
-Functionality tested through [Cypress](https://www.cypress.io/) and [Percy](https://percy.io/).  
+Styled with [styled-components](https://www.styled-components.com).  
+Tested through [Cypress](https://www.cypress.io/), [`cypress-react-unit-test`](https://github.com/bahmutov/cypress-react-unit-test) and [Percy](https://percy.io/).  
 Code style enforced with [eslint](https://eslint.org/) and [Prettier](https://prettier.io/).  
 Continuous integration with [Github Actions](https://github.com/features/actions).  
 Deploys through [Netlify](http://netlify.com).
