@@ -43,7 +43,6 @@ const getRatingsText = (numRatings: number) => {
       return `No reviews yet`;
     case 1:
       return `${numRatings} review`;
-
     default:
       return `${numRatings} reviews`;
   }

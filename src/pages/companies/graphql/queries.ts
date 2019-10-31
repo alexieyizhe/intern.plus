@@ -1,5 +1,5 @@
 import { gql } from "apollo-boost";
-import { jobResultFragment } from "src/api/graphql";
+import { jobResultFragment } from "src/api/fragments";
 
 export const GET_COMPANY_DETAILS = gql`
   query GetCompanyDetails($slug: String) {
@@ -10,19 +10,12 @@ export const GET_COMPANY_DETAILS = gql`
         downloadUrl
       }
       logoColor
-      jobs {
-        items {
-          ...JobResult
-        }
-      }
       reviews {
         count
       }
       avgRating
     }
   }
-
-  ${jobResultFragment}
 `;
 
 export const GET_COMPANY_JOBS = gql`
