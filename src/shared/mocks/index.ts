@@ -29,14 +29,14 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
     const companyImgUrl = `https://picsum.photos/seed/${companyId}/256`;
 
     return {
-      __typename: "Company",
+      __typename: "Company" as "Company",
       id: companyId,
       name: companyName,
       slug: faker.helpers.slugify(companyName),
       desc: faker.company.catchPhrase(),
 
       logoImg: {
-        __typename: "File",
+        __typename: "File" as "File",
         downloadUrl: companyImgUrl,
       },
       logoColor: "",
@@ -52,12 +52,12 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
       avgWorkLifeBalanceRating: 0,
 
       jobs: {
-        __typename: "JobListResponse",
+        __typename: "JobListResponse" as "JobListResponse",
         count: 0,
         items: [],
       },
       reviews: {
-        __typename: "ReviewListResponse",
+        __typename: "ReviewListResponse" as "ReviewListResponse",
         count: 0,
         items: [],
       },
@@ -69,7 +69,7 @@ export const MOCK_JOBS_LIST = new Array(NUM_JOBS).fill(null).map(() => {
   const jobName = faker.name.jobTitle();
 
   return {
-    __typename: "Job",
+    __typename: "Job" as "Job",
     id: jobId,
     updatedAt: faker.date.recent(60),
 
@@ -93,10 +93,13 @@ export const MOCK_JOBS_LIST = new Array(NUM_JOBS).fill(null).map(() => {
     avgWorkLifeBalanceRating: 0,
 
     company: {
-      __typename: "Company",
+      __typename: "Company" as "Company",
+      name: "",
+      slug: "",
+      logoColor: "",
     },
     reviews: {
-      __typename: "ReviewListResponse",
+      __typename: "ReviewListResponse" as "ReviewListResponse",
       count: 0,
       items: [],
     },
@@ -117,7 +120,7 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
   } as any)[currencyPeriod];
 
   return {
-    __typename: "Review",
+    __typename: "Review" as "Review",
     id: reviewId,
     createdAt: faker.date.recent(100),
     updatedAt: faker.date.recent(60),
@@ -140,12 +143,13 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
     isAnonymous: faker.random.boolean(),
 
     job: {
-      __typename: "Job",
+      __typename: "Job" as "Job",
       name: "",
     },
     company: {
-      __typename: "Company",
+      __typename: "Company" as "Company",
       name: "",
+      slug: "",
       logoColor: "",
     },
   };

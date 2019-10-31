@@ -247,7 +247,7 @@ const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
       {markup}
 
       {searchResults.length > 0 &&
-        searchState !== SearchState.NO_MORE_RESULTS && (
+        [SearchState.INITIAL, SearchState.RESULTS].includes(searchState) && (
           <Waypoint onEnter={onResultsEndReached} />
         )}
     </Container>

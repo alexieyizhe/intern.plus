@@ -24,6 +24,20 @@ import { getMockCompaniesReviewsLanding } from "src/pages/landing/graphql/mocks"
 import { GET_REVIEW_DETAILS } from "src/pages/reviews/graphql/queries";
 import { getMockReviewDetails } from "src/pages/reviews/graphql/mocks";
 
+import {
+  GET_ALL_SEARCH,
+  GET_COMPANIES_SEARCH,
+  GET_JOBS_SEARCH,
+  GET_REVIEWS_SEARCH,
+} from "src/pages/search/graphql/queries";
+import {
+  getMockAllSearch,
+  getMockCompaniesSearch,
+  getMockJobsSearch,
+  getMockReviewsSearch,
+  ISearchQueryParams,
+} from "src/pages/search/graphql/mocks";
+
 /**
  * Import all queries and their associated mock handlers
  * Loop through all queries and `setRequestHandler` for
@@ -78,6 +92,36 @@ const API_CALLS = [
     handler: ({ id }: { id: string }) =>
       Promise.resolve({
         data: getMockReviewDetails(id),
+      }),
+  },
+
+  // Search page
+  {
+    query: GET_ALL_SEARCH,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockAllSearch(params),
+      }),
+  },
+  {
+    query: GET_COMPANIES_SEARCH,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockCompaniesSearch(params),
+      }),
+  },
+  {
+    query: GET_JOBS_SEARCH,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockJobsSearch(params),
+      }),
+  },
+  {
+    query: GET_REVIEWS_SEARCH,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockReviewsSearch(params),
       }),
   },
 ];
