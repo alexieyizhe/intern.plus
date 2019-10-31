@@ -1,4 +1,7 @@
-import { getMockCompanyResult } from "src/api/graphql/mocks";
+import {
+  getMockCompanyResult,
+  getMockReviewJobResult,
+} from "src/api/graphql/mocks";
 
 import { GetCompaniesReviewsLanding } from "../types/GetCompaniesReviewsLanding";
 import { MAX_LANDING_CARDS } from "../queries";
@@ -6,7 +9,7 @@ import { MAX_LANDING_CARDS } from "../queries";
 export const getMockCompaniesReviewsLanding = (): GetCompaniesReviewsLanding => ({
   reviewsList: {
     __typename: "ReviewListResponse",
-    items: [],
+    items: new Array(MAX_LANDING_CARDS).fill(null).map(getMockReviewJobResult),
   },
   companiesList: {
     __typename: "CompanyListResponse",

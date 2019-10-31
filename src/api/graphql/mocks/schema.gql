@@ -52,17 +52,19 @@ type Job {
   totWorkLifeBalanceRating: Int!
   avgWorkLifeBalanceRating: Float!
 
-  company: [Company!]
+  company: Company
   reviews: [Review!]
 }
 
 type Review {
   id: ID!
   updatedAt: String!
+  legacyUpdatedAt: String
 
   author: String!
   body: String!
   tags: String
+
   salary: Int!
   salaryCurrency: String!
   salaryPeriod: SalaryPeriod!
@@ -74,7 +76,6 @@ type Review {
 
   isLegacy: Boolean!
   isAnonymous: Boolean!
-  legacyUpdatedAt: String
 
   job: Job!
   company: Company!
