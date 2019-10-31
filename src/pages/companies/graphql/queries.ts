@@ -16,8 +16,6 @@ export const GET_COMPANY_DETAILS = gql`
       avgRating
     }
   }
-
-  ${jobResultFragment}
 `;
 
 export const GET_COMPANY_JOBS = gql`
