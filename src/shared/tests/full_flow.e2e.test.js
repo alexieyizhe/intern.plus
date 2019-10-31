@@ -1,4 +1,5 @@
 /* global cy */
+// import { RouteName } from "src/";
 
 /**
  * - Visit landing page
@@ -18,20 +19,17 @@ describe("Full flow", () => {
   it("successfully loads and searches", () => {
     cy.visit("/");
 
-    cy.get(".landing-search > input").type("Google");
+    cy.get(".landing-search > input").type("sons");
     cy.get(".landing-search > button").click();
+    // make sure we're on the search page and showing results
     cy.contains("Results for");
+    cy.url().should("include", "/find");
 
     cy.get(".company-card")
-      .contains("Google")
+      .first()
       .click();
 
     cy.go("back");
-
-    cy.get("input")
-      .clear()
-      .type("Waterloo")
-      .type("{enter}");
 
     // trigger pagination and make sure it works
     cy.scrollTo("bottom");
@@ -47,17 +45,17 @@ describe("Full flow", () => {
       .click();
     cy.get("input")
       .clear()
-      .type("Facebook")
+      .type("sipes")
       .type("{enter}");
 
     // go to fb company page
-    cy.contains(".company-card", "Facebook").click();
+    cy.contains(".company-card", "Sipes Inc").click();
 
     // go to job page
     cy.get("input")
-      .type("toronto")
+      .type("new york")
       .type("{enter}");
-    cy.contains(".job-card", "Toronto").click();
+    cy.contains(".job-card", "New York").click();
 
     // go to review modal
     cy.get(".review-card")
@@ -83,10 +81,7 @@ describe("Full flow", () => {
     cy.get("#review-page")
       .find("button")
       .click(); //  click button to close
-  });
 
-  it("goes to jobs page and gets to a company through a job card", () => {
-    // go to browse jobs page and click the first job
     cy.get("nav")
       .find("a")
       .contains("positions")
@@ -100,5 +95,6 @@ describe("Full flow", () => {
       .find("a")
       .first()
       .click();
+    cy.url().should("include", "/companies");
   });
 });
