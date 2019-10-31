@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import faker from "faker";
 
 export const FAKER_SEED = 1234;
@@ -28,12 +29,14 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
     const companyImgUrl = `https://picsum.photos/seed/${companyId}/256`;
 
     return {
+      __typename: "Company",
       id: companyId,
       name: companyName,
       slug: faker.helpers.slugify(companyName),
       desc: faker.company.catchPhrase(),
 
       logoImg: {
+        __typename: "File",
         downloadUrl: companyImgUrl,
       },
       logoColor: "",
@@ -49,10 +52,12 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
       avgWorkLifeBalanceRating: 0,
 
       jobs: {
+        __typename: "JobListResponse",
         count: 0,
         items: [],
       },
       reviews: {
+        __typename: "ReviewListResponse",
         count: 0,
         items: [],
       },
@@ -64,6 +69,7 @@ export const MOCK_JOBS_LIST = new Array(NUM_JOBS).fill(null).map(() => {
   const jobName = faker.name.jobTitle();
 
   return {
+    __typename: "Job",
     id: jobId,
     updatedAt: faker.date.recent(60),
 
@@ -86,8 +92,11 @@ export const MOCK_JOBS_LIST = new Array(NUM_JOBS).fill(null).map(() => {
     totWorkLifeBalanceRating: 0,
     avgWorkLifeBalanceRating: 0,
 
-    company: {},
+    company: {
+      __typename: "Company",
+    },
     reviews: {
+      __typename: "ReviewListResponse",
       count: 0,
       items: [],
     },
@@ -108,7 +117,9 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
   } as any)[currencyPeriod];
 
   return {
+    __typename: "Review",
     id: reviewId,
+    createdAt: faker.date.recent(100),
     updatedAt: faker.date.recent(60),
     legacyUpdatedAt: faker.date.recent(60),
 
@@ -128,8 +139,15 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
     isLegacy: faker.random.boolean(),
     isAnonymous: faker.random.boolean(),
 
-    job: {},
-    company: {},
+    job: {
+      __typename: "Job",
+      name: "",
+    },
+    company: {
+      __typename: "Company",
+      name: "",
+      logoColor: "",
+    },
   };
 });
 
@@ -144,7 +162,7 @@ MOCK_JOBS_LIST.forEach((job, i) => {
 });
 
 MOCK_REVIEWS_LIST.forEach((review, i) => {
-  const corresJobIdx = i < NUM_JOBS ? i : faker.random.number(NUM_JOBS - 1);
+  const corresJobIdx = i < NUM_JOBS ? i : faker.random.number(NUM_JOBS - 1); // assign each job at least 1 review
 
   // establish job-review connection
   const corresJob = MOCK_JOBS_LIST[corresJobIdx];
@@ -225,7 +243,7 @@ export const MOCK_JOBS = MOCK_JOBS_LIST.reduce(
   {} as any
 );
 
-export const MOCK_REVIEWS = MOCK_COMPANIES_LIST.reduce(
+export const MOCK_REVIEWS = MOCK_REVIEWS_LIST.reduce(
   (acc, curReview) => {
     acc[curReview.id] = curReview;
     return acc;

@@ -10,6 +10,7 @@ import {
 import { CompanyResult } from "../types/CompanyResult";
 import { ReviewResultJob } from "../types/ReviewResultJob";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const getMockCompanyResult = (): CompanyResult => {
   const company = MOCK_COMPANIES_LIST[faker.random.number(NUM_COMPANIES - 1)];
 

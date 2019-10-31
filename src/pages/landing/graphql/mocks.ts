@@ -1,18 +1,26 @@
-import {
-  getMockCompanyResult,
-  getMockReviewJobResult,
-} from "src/api/graphql/mocks";
+/* eslint-disable @typescript-eslint/camelcase */
+import { MOCK_COMPANIES_LIST, MOCK_REVIEWS_LIST } from "src/shared/mocks";
 
-import { GetCompaniesReviewsLanding } from "./types/GetCompaniesReviewsLanding";
+import {
+  GetCompaniesReviewsLanding,
+  GetCompaniesReviewsLanding_companiesList_items,
+  GetCompaniesReviewsLanding_reviewsList_items,
+} from "./types/GetCompaniesReviewsLanding";
 import { MAX_LANDING_CARDS } from "./queries";
 
 export const getMockCompaniesReviewsLanding = (): GetCompaniesReviewsLanding => ({
-  reviewsList: {
-    __typename: "ReviewListResponse",
-    items: new Array(MAX_LANDING_CARDS).fill(null).map(getMockReviewJobResult),
-  },
   companiesList: {
     __typename: "CompanyListResponse",
-    items: new Array(MAX_LANDING_CARDS).fill(null).map(getMockCompanyResult),
+    items: MOCK_COMPANIES_LIST.slice(
+      0,
+      MAX_LANDING_CARDS
+    ) as GetCompaniesReviewsLanding_companiesList_items[],
+  },
+  reviewsList: {
+    __typename: "ReviewListResponse",
+    items: MOCK_REVIEWS_LIST.slice(
+      0,
+      MAX_LANDING_CARDS
+    ) as GetCompaniesReviewsLanding_reviewsList_items[],
   },
 });
