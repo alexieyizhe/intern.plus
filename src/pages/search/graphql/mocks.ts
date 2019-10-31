@@ -3,6 +3,7 @@ import {
   MOCK_COMPANIES_LIST,
   MOCK_JOBS_LIST,
   MOCK_REVIEWS_LIST,
+  ISearchQueryParams,
 } from "src/shared/mocks";
 
 import { GetAllSearch } from "./types/GetAllSearch";
@@ -12,12 +13,6 @@ import {
   GetJobsSearch_jobsList_items,
 } from "./types/GetJobsSearch";
 import { GetReviewsSearch } from "./types/GetReviewsSearch";
-
-export interface ISearchQueryParams {
-  query: string;
-  offset: number;
-  limit: number;
-}
 
 export const getMockCompaniesSearch = ({
   query,

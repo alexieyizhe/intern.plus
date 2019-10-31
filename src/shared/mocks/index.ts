@@ -4,6 +4,20 @@ import faker from "faker";
 export const FAKER_SEED = 1234;
 faker.seed(FAKER_SEED);
 
+export interface IIdQueryParam {
+  id: string;
+}
+
+export interface ISlugQueryParam {
+  slug: string;
+}
+
+export interface ISearchQueryParams {
+  query: string;
+  offset: number;
+  limit: number;
+}
+
 const getHourlySalary = (amt: number, period: string) => {
   switch (period) {
     case "monthly":

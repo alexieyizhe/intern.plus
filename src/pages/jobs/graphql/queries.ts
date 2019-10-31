@@ -1,5 +1,5 @@
 import { gql } from "apollo-boost";
-import { reviewResultUserFragment } from "src/api/graphql";
+import { reviewResultUserFragment } from "src/api/fragments";
 
 // used in positions/:positionId page
 export const GET_JOB_DETAILS = gql`

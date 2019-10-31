@@ -1,6 +1,12 @@
 import { createMockClient } from "mock-apollo-client";
 
 import {
+  ISlugQueryParam,
+  IIdQueryParam,
+  ISearchQueryParams,
+} from "src/shared/mocks";
+
+import {
   GET_COMPANY_DETAILS,
   GET_COMPANY_JOBS,
 } from "src/pages/companies/graphql/queries";
@@ -35,7 +41,6 @@ import {
   getMockCompaniesSearch,
   getMockJobsSearch,
   getMockReviewsSearch,
-  ISearchQueryParams,
 } from "src/pages/search/graphql/mocks";
 
 /**
@@ -57,39 +62,39 @@ const API_CALLS = [
   // Companies page
   {
     query: GET_COMPANY_DETAILS,
-    handler: ({ slug }: { slug: string }) =>
+    handler: ({ slug }: ISlugQueryParam) =>
       Promise.resolve({
         data: getMockCompanyDetails(slug),
       }),
   },
   {
     query: GET_COMPANY_JOBS,
-    handler: ({ slug }: { slug: string }) =>
+    handler: (params: ISlugQueryParam & ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockCompanyJobs(slug),
+        data: getMockCompanyJobs(params),
       }),
   },
 
   // Jobs page
   {
     query: GET_JOB_DETAILS,
-    handler: ({ id }: { id: string }) =>
+    handler: ({ id }: IIdQueryParam) =>
       Promise.resolve({
         data: getMockJobDetails(id),
       }),
   },
   {
     query: GET_JOB_REVIEWS,
-    handler: ({ id }: { id: string }) =>
+    handler: (params: IIdQueryParam & ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockJobReviews(id),
+        data: getMockJobReviews(params),
       }),
   },
 
   // Reviews page
   {
     query: GET_REVIEW_DETAILS,
-    handler: ({ id }: { id: string }) =>
+    handler: ({ id }: IIdQueryParam) =>
       Promise.resolve({
         data: getMockReviewDetails(id),
       }),

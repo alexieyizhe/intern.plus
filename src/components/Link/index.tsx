@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 import { Link as RouterLink } from "react-router-dom";
+import classNames from "classnames";
 
 export interface ILinkProps extends React.ComponentPropsWithoutRef<"a"> {
   newTab?: boolean;
@@ -8,15 +9,22 @@ export interface ILinkProps extends React.ComponentPropsWithoutRef<"a"> {
   bare?: boolean;
 }
 
-const baseLinkStyles = css<{ bare?: boolean }>`
+const baseLinkStyles = css`
   color: inherit;
 
   text-decoration-color: ${({ theme }) => theme.color.greyLight};
-  text-decoration: ${({ bare }) => (bare ? "none" : "underline")};
+  text-decoration: underline;
+  &.bare {
+    text-decoration: none;
+  }
 
   &:hover:not(:disabled),
   &:focus:not(:disabled) {
-    text-decoration: ${({ bare }) => (bare ? "underline" : "none")};
+    text-decoration: none;
+
+    &.bare {
+      text-decoration: underline;
+    }
   }
 `;
 export const BaseLink = styled.a`
@@ -27,11 +35,19 @@ export const BaseRouterLink = styled(RouterLink)`
   ${baseLinkStyles}
 `;
 
-const Link: React.FC<ILinkProps> = ({ newTab, to, children, ...rest }) => {
+const Link: React.FC<ILinkProps> = ({
+  className,
+  newTab,
+  to,
+  children,
+  bare,
+  ...rest
+}) => {
   const isInternalLink = useMemo(() => /^\/(?!\/)/.test(to), [to]);
 
   return isInternalLink ? (
     <BaseRouterLink
+      className={classNames(className, { bare })}
       to={to}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : ""}
@@ -42,6 +58,7 @@ const Link: React.FC<ILinkProps> = ({ newTab, to, children, ...rest }) => {
     </BaseRouterLink>
   ) : (
     <BaseLink
+      className={classNames(className, { bare })}
       href={to}
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : ""}

@@ -3,7 +3,7 @@ import { gql } from "apollo-boost";
 import {
   companyResultFragment,
   reviewResultJobFragment,
-} from "src/api/graphql";
+} from "src/api/fragments";
 
 export const MAX_LANDING_CARDS = 5;
 
