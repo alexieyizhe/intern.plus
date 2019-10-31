@@ -26,7 +26,7 @@ export const getMockCompanyResult = (): CompanyResult => {
     avgRating: company.avgRating,
     reviews: {
       __typename: "ReviewListResponse",
-      count: company.reviews.length,
+      count: company.reviews.count,
     },
   };
 };

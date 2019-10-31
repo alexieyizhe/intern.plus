@@ -3,8 +3,8 @@ import {
   getMockReviewJobResult,
 } from "src/api/graphql/mocks";
 
-import { GetCompaniesReviewsLanding } from "../types/GetCompaniesReviewsLanding";
-import { MAX_LANDING_CARDS } from "../queries";
+import { GetCompaniesReviewsLanding } from "./types/GetCompaniesReviewsLanding";
+import { MAX_LANDING_CARDS } from "./queries";
 
 export const getMockCompaniesReviewsLanding = (): GetCompaniesReviewsLanding => ({
   reviewsList: {
