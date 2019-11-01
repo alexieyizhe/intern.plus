@@ -16,8 +16,7 @@
     "test:e2e": "percy exec -- npm run test -- --spec \"src/**/**.e2e.test.js\"",
     "test:unit:ci": "npm run start:ci && npm run test:unit",
     "test:e2e:ci": "npm run start:ci && npm run test:e2e",
-    "api:download-schema": "apollo client:download-schema --endpoint $REACT_APP_DB_GRAPHQL_API_URL",
-    "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $REACT_APP_DB_GRAPHQL_API_URL --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'"
+    "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $(grep REACT_APP_DB_GRAPHQL_API_URL .env | cut -d '=' -f2) --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'"
   },
   "browserslist": {
     "production": [
@@ -78,6 +77,7 @@
     "chalk": "^2.4.2",
     "cross-fetch": "^3.0.4",
     "cypress": "^3.5.0",
+    "dotenv": "^8.2.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",

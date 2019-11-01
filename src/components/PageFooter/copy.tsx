@@ -53,7 +53,13 @@ const getSubtext = () => {
       return <>{RANKINGS_TEXT}</>;
   }
 
-  const randomEmoji = emojis[Math.floor(Math.random() * 3)];
+  let randomEmoji = emojis[Math.floor(Math.random() * 3)];
+
+  if (process.env.NODE_ENV !== "production") {
+    // stabilize emoji for tests
+    randomEmoji = emojis[0];
+  }
+
   return (
     <>
       built with{" "}
