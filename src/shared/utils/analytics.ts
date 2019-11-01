@@ -49,8 +49,12 @@ const init = (options = {}) => {
   return !!process.env.REACT_APP_GA_TRACKING_ID;
 };
 
-const event = (args: ReactGA.EventArgs) => ReactGA.event(args);
-const timing = (args: ReactGA.TimingArgs) => ReactGA.timing(args);
+const event = (args: ReactGA.EventArgs) => {
+  if (process.env.REACT_APP_GA_TRACKING_ID) ReactGA.event(args);
+};
+const timing = (args: ReactGA.TimingArgs) => {
+  if (process.env.REACT_APP_GA_TRACKING_ID) ReactGA.timing(args);
+};
 
 const Analytics: React.FC = () => {
   const location = useLocation();

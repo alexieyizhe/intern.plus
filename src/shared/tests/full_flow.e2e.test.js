@@ -1,6 +1,3 @@
-/* global cy */
-// import { RouteName } from "src/";
-
 /**
  * - Visit landing page
  * - Type: 'Google' in search input
@@ -18,13 +15,18 @@
 describe("Full flow", () => {
   it("successfully loads and searches", () => {
     cy.visit("/");
+    cy.percySnapshot("Landing page");
 
+    // navigate to search page by searching for `sons` on landing
     cy.get(".landing-search > input").type("sons");
     cy.get(".landing-search > button").click();
+
     // make sure we're on the search page and showing results
     cy.contains("Results for");
     cy.url().should("include", "/find");
+    cy.percySnapshot("Search page");
 
+    // go to a company
     cy.get(".company-card")
       .first()
       .click();
@@ -43,26 +45,31 @@ describe("Full flow", () => {
       .find("a")
       .contains("companies")
       .click();
+    cy.percySnapshot("Browse companies page");
     cy.get("input")
       .clear()
       .type("sipes")
       .type("{enter}");
 
-    // go to fb company page
+    // go to a company's page
     cy.contains(".company-card", "Sipes Inc").click();
+    cy.percySnapshot("Company page");
 
     // go to job page
     cy.get("input")
       .type("new york")
       .type("{enter}");
     cy.contains(".job-card", "New York").click();
+    cy.percySnapshot("Job page");
 
     // go to review modal
     cy.get(".review-card")
       .first()
       .click();
 
-    cy.wait(1000);
+    cy.wait(500);
+    cy.percySnapshot("Review modal");
+    cy.wait(500);
 
     cy.get("#review-page")
       .parent()
