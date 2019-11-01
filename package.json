@@ -9,7 +9,7 @@
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
     "type-check": "tsc --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "test": "cypress run --config video=false",
+    "test": "percy exec -- cypress run --config video=false",
     "test:i": "cypress open",
     "test:ci": "npm start & wait-on http://localhost:3000; npm run test",
     "test:unit": "npm run test -- --spec \"src/**/**.unit.test.js\"",
@@ -62,6 +62,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.6.0",
+    "@percy/cypress": "^2.2.0",
     "@percy/script": "^1.0.2",
     "@types/classnames": "^2.2.9",
     "@types/debounce": "^1.2.0",
