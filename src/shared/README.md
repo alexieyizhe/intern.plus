@@ -1,5 +1,10 @@
 ## Shared code
 
-Any reusable logic or function in the app such as custom hooks or analytics is defined here.
+Any reusable or shared logic in the app such as:
 
-All reusable and data schema-agnostic types are defined here as well.
+- custom hooks
+- analytics
+- data-agnostic types
+- full-site tests
+
+are defined here.
