@@ -48,6 +48,17 @@ export interface IJobDetailsCardProps extends ISearchFieldProps {
 const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this position.";
 
+const getRatingsText = (numRatings: number) => {
+  switch (numRatings) {
+    case 0:
+      return `No reviews yet`;
+    case 1:
+      return `${numRatings} review`;
+    default:
+      return `${numRatings} reviews`;
+  }
+};
+
 /**
  * Creates the markup for displaying the correct state of
  * the job details, whether still loading, etc.
@@ -102,8 +113,11 @@ const getDetailsMarkup = (
               filledStars={Math.round(details.avgRating)}
               readOnly
             >
-              <Text variant="body" className="ratingText" color="black">
+              <Text variant="subheading" className="ratingText" color="black">
                 {details.avgRating.toFixed(1)}
+              </Text>
+              <Text variant="subheading" className="ratingText" color="black">
+                Overall
               </Text>
             </StarRating>
             <StarRating
@@ -115,6 +129,9 @@ const getDetailsMarkup = (
               <Text variant="body" className="ratingText" color="black">
                 {details.avgLearningMentorshipRating.toFixed(1)}
               </Text>
+              <Text variant="body" className="ratingText" color="greyDark">
+                Learning &amp; mentorship
+              </Text>
             </StarRating>
             <StarRating
               className="rating"
@@ -124,6 +141,9 @@ const getDetailsMarkup = (
             >
               <Text variant="body" className="ratingText" color="black">
                 {details.avgMeaningfulWorkRating.toFixed(1)}
+              </Text>
+              <Text variant="body" className="ratingText" color="greyDark">
+                Meaningful work
               </Text>
             </StarRating>
             <StarRating
@@ -135,11 +155,17 @@ const getDetailsMarkup = (
               <Text variant="body" className="ratingText" color="black">
                 {details.avgWorkLifeBalanceRating.toFixed(1)}
               </Text>
+              <Text variant="body" className="ratingText" color="greyDark">
+                Work-life balance
+              </Text>
             </StarRating>
-            <Text variant="subheading" as="div" color="greyDark">
-              {`${details.numRatings} ${
-                details.numRatings === 1 ? "review" : "reviews"
-              }`}
+            <Text
+              variant="subheading"
+              as="div"
+              className="numRatingsText"
+              color="greyDark"
+            >
+              {getRatingsText(details.numRatings)}
             </Text>
           </div>
 
@@ -229,6 +255,10 @@ const MiscDetails = styled.div`
 
   & .ratingText {
     padding: 0 3px;
+  }
+
+  & .numRatingsText {
+    margin-top: 4px;
   }
 
   & > .salary {

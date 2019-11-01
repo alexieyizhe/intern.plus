@@ -78,11 +78,16 @@ const getDetailsMarkup = (
               filledStars={Math.round(details.avgRating)}
               readOnly
             >
-              <Text variant="body" className="ratingText" color="black">
+              <Text variant="subheading" className="ratingText" color="black">
                 {details.avgRating.toFixed(1)}
               </Text>
             </StarRating>
-            <Text variant="subheading" as="div" color="greyDark">
+            <Text
+              variant="subheading"
+              as="div"
+              className="numRatingsText"
+              color="greyDark"
+            >
               {getRatingsText(details.numRatings)}
             </Text>
           </div>
