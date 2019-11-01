@@ -1,6 +1,4 @@
-## Utilities
-
-Any reusable logic or function in the app such as custom hooks or analytics is defined here.
+## Global state
 
 Global and shared state is handled through [React's Context API](https://reactjs.org/docs/context.html). The value passed through context is the global state, as well as a dispatch function. This pattern is provided by the `useReducer` hook, and uses _actions_ to mutate state.
 

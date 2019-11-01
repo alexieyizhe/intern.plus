@@ -3,15 +3,15 @@ import styled, { css } from "styled-components";
 import { Planet, KawaiiMood } from "react-kawaii";
 import { Waypoint } from "react-waypoint";
 
-import { RouteName } from "src/utils/constants";
-import { SearchState } from "src/utils/hooks/useSearch";
+import { RouteName } from "src/shared/constants/routing";
+import { SearchState } from "src/shared/hooks/useSearch";
 import {
   IGenericCardItem,
   isCompanyCardItem,
   isJobCardItem,
   isReviewJobCardItem,
   isReviewUserCardItem,
-} from "src/types";
+} from "src/shared/constants/card";
 
 import Text from "src/components/Text";
 import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
@@ -247,7 +247,7 @@ const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
       {markup}
 
       {searchResults.length > 0 &&
-        searchState !== SearchState.NO_MORE_RESULTS && (
+        [SearchState.INITIAL, SearchState.RESULTS].includes(searchState) && (
           <Waypoint onEnter={onResultsEndReached} />
         )}
     </Container>

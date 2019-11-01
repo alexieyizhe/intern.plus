@@ -1,4 +1,4 @@
-import { SearchType, SearchFilter } from "src/utils/constants";
+import { SearchType, SearchFilter } from "src/shared/constants/search";
 import { useQueryParam, StringParam } from "use-query-params";
 
 export const useSearchParams = () => {

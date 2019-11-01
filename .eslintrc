@@ -39,6 +39,9 @@
       }
     ]
   },
+  "globals": {
+    "cy": "readonly"
+  },
   "settings": {
     "react": {
       "version": "detect"

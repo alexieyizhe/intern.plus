@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 
 import { hoverStyles } from "src/theme/snippets";
-import { getDarkColor } from "src/utils/getColor";
+import { getDarkColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -77,6 +78,7 @@ const Container = styled(Card)`
 `;
 
 const JobCard: React.FC<IJobCardProps> = ({
+  className,
   heading,
   subheading,
   avgRating,
@@ -88,7 +90,11 @@ const JobCard: React.FC<IJobCardProps> = ({
   color,
   ...rest
 }) => (
-  <Container color="greyLight" {...rest}>
+  <Container
+    className={classNames("job-card", className)}
+    color="greyLight"
+    {...rest}
+  >
     <Link to={linkTo}>
       <Text
         className="heading"

@@ -10,19 +10,12 @@ export const GET_COMPANY_DETAILS = gql`
         downloadUrl
       }
       logoColor
-      jobs {
-        items {
-          ...JobResult
-        }
-      }
       reviews {
         count
       }
       avgRating
     }
   }
-
-  ${jobResultFragment}
 `;
 
 export const GET_COMPANY_JOBS = gql`

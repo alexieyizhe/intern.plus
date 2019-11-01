@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 
 import { hoverStyles } from "src/theme/snippets";
-import { getLightColor, getDarkColor } from "src/utils/getColor";
+import { getLightColor, getDarkColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -101,6 +102,7 @@ const Container = styled(Card)`
 `;
 
 const CompanyCard: React.FC<ICompanyCardProps> = ({
+  className,
   name,
   logoSrc,
   desc,
@@ -110,7 +112,11 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   color,
   ...rest
 }) => (
-  <Container color={color ? getLightColor(color) : FALLBACK_BG_COLOR} {...rest}>
+  <Container
+    className={classNames("company-card", className)}
+    color={color ? getLightColor(color) : FALLBACK_BG_COLOR}
+    {...rest}
+  >
     <Link to={linkTo}>
       <Text
         className="name"

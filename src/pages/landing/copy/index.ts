@@ -1,4 +1,4 @@
-import { RouteName } from "src/utils/constants";
+import { RouteName } from "src/shared/constants/routing";
 import { StarCityImg } from "src/assets";
 
 const pageCopy = {

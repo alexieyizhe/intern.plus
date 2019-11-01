@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
-// import { debounce } from "debounce";
+import classNames from "classnames";
 
-import { useSearchParams } from "src/utils/hooks/useSearchParams";
-import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
-import { useSiteContext } from "src/utils/context";
+import { useSearchParams } from "src/shared/hooks/useSearchParams";
+import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
+import { useSiteContext } from "src/context";
 
 import InputButtonCombo from "src/components/InputButtonCombo";
 
@@ -78,10 +78,10 @@ const SearchField: React.FC<ISearchFieldProps> = ({
 
   return (
     <Container
-      className={`
-        ${scrolledDown ? "scrolled" : ""} 
-        ${mobileMenuOpen ? "mobileMenuOpen" : ""}
-      `}
+      className={classNames({
+        scrolled: scrolledDown,
+        "mobile-menu-open": mobileMenuOpen,
+      })}
       placeholder="Find something"
       value={inputVal || ""}
       onChange={onInputChange}

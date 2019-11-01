@@ -1,15 +1,16 @@
 import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import classNames from "classnames";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
-import { RouteName } from "src/utils/constants";
-import { useSiteContext, ActionType } from "src/utils/context";
+import { RouteName } from "src/shared/constants/routing";
+import { useSiteContext, ActionType } from "src/context";
 import copy from "./copy";
 
-import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
-import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
-import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
+import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
+import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
+import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 
 import { UnstyledButton } from "src/components/Button";
 import Icon from "src/components/Icon";
@@ -51,11 +52,11 @@ const Container = styled.header`
   }
 
   &.scrolled::after,
-  &.mobileMenuOpen::after {
+  &.mobile-menu-open::after {
     opacity: 1;
   }
 
-  &.mobileMenuOpen::after {
+  &.mobile-menu-open::after {
     transform: translateY(120px);
   }
 `;
@@ -92,7 +93,7 @@ const Logo = styled.div`
     cursor: pointer;
   }
 
-  & .logoImg {
+  & .logo-img {
     max-height: 35px;
     margin-right: 10px;
   }
@@ -102,7 +103,7 @@ const Logo = styled.div`
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
-    & .logoImg {
+    & .logo-img {
       max-height: 30px;
       margin-right: 3px;
     }
@@ -249,16 +250,16 @@ const Header: React.FC = () => {
 
   return (
     <Container
-      className={`
-        ${scrolledDown ? "scrolled" : ""} 
-        ${mobileMenuOpen ? "mobileMenuOpen" : ""}
-      `}
+      className={classNames({
+        scrolled: scrolledDown,
+        "mobile-menu-open": mobileMenuOpen,
+      })}
       ref={headerRef}
     >
       <InnerContainer>
         <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
           <UnstyledButton>
-            <img className="logoImg" src={copy.logo.src} alt={copy.logo.alt} />
+            <img className="logo-img" src={copy.logo.src} alt={copy.logo.alt} />
 
             <img
               className={`chevron ${mobileMenuOpen ? "up" : "down"}`}

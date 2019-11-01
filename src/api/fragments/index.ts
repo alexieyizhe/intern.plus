@@ -2,6 +2,7 @@ import { gql } from "apollo-boost";
 
 export const companyResultFragment = gql`
   fragment CompanyResult on Company {
+    __typename
     slug
     name
     desc
@@ -18,6 +19,7 @@ export const companyResultFragment = gql`
 
 export const jobResultFragment = gql`
   fragment JobResult on Job {
+    __typename
     id
     slug
     name
@@ -39,6 +41,7 @@ export const jobResultFragment = gql`
 
 export const reviewResultJobFragment = gql`
   fragment ReviewResultJob on Review {
+    __typename
     id
     overallRating
     body
@@ -55,6 +58,7 @@ export const reviewResultJobFragment = gql`
 
 export const reviewResultUserFragment = gql`
   fragment ReviewResultUser on Review {
+    __typename
     id
     overallRating
     body
