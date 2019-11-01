@@ -1,6 +1,3 @@
-/* global cy */
-// import { RouteName } from "src/";
-
 /**
  * - Visit landing page
  * - Type: 'Google' in search input

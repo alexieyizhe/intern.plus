@@ -3,5 +3,5 @@
   "viewportWidth": 1920,
   "viewportHeight": 1080,
   "integrationFolder": "./src",
-  "testFiles": "**/**.test.js"
+  "testFiles": "**/**.test.{js,jsx}"
 }
