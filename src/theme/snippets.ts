@@ -35,6 +35,14 @@ export const hoverStyles = css`
   }
 `;
 
+export const detailsPageStyles = css`
+  overflow: hidden;
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    padding-top: 0;
+  `}
+`;
+
 export const detailsCardStyles = css<{ color?: string }>`
   position: relative;
   width: 100%;
