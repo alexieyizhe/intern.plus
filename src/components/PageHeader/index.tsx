@@ -288,7 +288,10 @@ const Header: React.FC = () => {
         </NavLinks>
 
         <HeaderActionContainer>
-          <UnstyledButton onClick={toggleAddReviewModal}>
+          <UnstyledButton
+            onClick={toggleAddReviewModal}
+            aria-label="Add review button"
+          >
             <Icon
               name={
                 addReviewModalOpen

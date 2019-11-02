@@ -13,9 +13,11 @@ describe("Search autocomplete", () => {
       .type("{enter}");
     cy.get(".company-card").should("not.exist");
 
-    cy.get("input")
-      .type("{downarrow}{downarrow}")
-      .type("{enter}");
+    cy.get("input").type("{downarrow}{downarrow}");
+
+    cy.percySnapshot("Search page (autocomplete open)");
+
+    cy.get("input").type("{enter}");
 
     // go to Sipes Inc company
     cy.get(".company-card")
