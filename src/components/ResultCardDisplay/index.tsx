@@ -175,7 +175,8 @@ const Container = styled.section`
   flex-direction: column;
   align-items: center;
 
-  padding: 30px 60px;
+  padding: ${({ theme }) => theme.padding.display};
+  padding-top: 30px;
 
   & > * {
     margin: 10px auto;
