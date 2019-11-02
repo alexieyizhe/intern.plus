@@ -268,6 +268,15 @@ const MiscDetails = styled.div`
     justify-content: center;
     align-items: flex-end;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    flex-direction: column;
+
+    & > .salary {
+      margin-top: 10px;
+      align-items: flex-start;
+    }
+  `}
 `;
 
 /*******************************************************************
