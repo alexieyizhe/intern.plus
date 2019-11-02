@@ -120,7 +120,7 @@ const Suggestion = styled(Card)`
 const SearchField: React.FC<ISearchFieldProps> = ({
   className,
   onTriggerSearch,
-  fuseOptions,
+  fuseOptions = {},
   suggestions,
   inputProps = { color: "greyLight" },
   buttonProps = {
@@ -174,7 +174,11 @@ const SearchField: React.FC<ISearchFieldProps> = ({
 
   const filteredSuggestions = useMemo(() => {
     if (inputVal) {
-      const fuse = new Fuse(suggestions, fuseOptions || {});
+      const fuse = new Fuse(suggestions, {
+        shouldSort: true,
+        threshold: 0.4,
+        ...fuseOptions,
+      });
       const results = fuse.search(inputVal);
 
       return results
