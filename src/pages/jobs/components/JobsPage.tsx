@@ -11,8 +11,12 @@ import {
   SearchState,
 } from "src/shared/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
-
 import { IReviewUserCardItem } from "src/shared/constants/card";
+
+import { GetSearchSuggestions } from "src/pages/search/graphql/types/GetSearchSuggestions";
+import { GET_SEARCH_SUGGESTIONS } from "src/pages/search/graphql/queries";
+import { buildSearchSuggestions } from "src/pages/search/graphql/utils";
+
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
 import { GetJobReviews } from "../graphql/types/GetJobReviews";
 import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
@@ -50,6 +54,20 @@ const JobPageContainer = styled(PageContainer)`
  *******************************************************************/
 const JobsPage: React.FC = () => {
   useScrollTopOnMount();
+
+  /**
+   * Fetch the data we need for suggestions
+   */
+  const {
+    // loading: suggestionsLoading,
+    // error: suggestionsError,
+    data: suggestionsData,
+  } = useQuery<GetSearchSuggestions>(GET_SEARCH_SUGGESTIONS);
+
+  const allSuggestions = useMemo(
+    () => buildSearchSuggestions(suggestionsData),
+    [suggestionsData]
+  );
 
   /**
    * Fetch the job with the corresponding id.
@@ -139,7 +157,8 @@ const JobsPage: React.FC = () => {
         <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          jobInfo={jobDetails}
+          suggestions={allSuggestions}
+          jobDetails={jobDetails}
           onTriggerSearch={onNewSearch}
         />
         <ResultCardDisplay

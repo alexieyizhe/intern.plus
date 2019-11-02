@@ -11,8 +11,12 @@ import {
   SearchState,
 } from "src/shared/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
-
 import { IJobCardItem } from "src/shared/constants/card";
+
+import { GetSearchSuggestions } from "src/pages/search/graphql/types/GetSearchSuggestions";
+import { GET_SEARCH_SUGGESTIONS } from "src/pages/search/graphql/queries";
+import { buildSearchSuggestions } from "src/pages/search/graphql/utils";
+
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
 import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";
@@ -50,6 +54,20 @@ const CompanyPageContainer = styled(PageContainer)`
  *******************************************************************/
 const CompaniesPage: React.FC = () => {
   useScrollTopOnMount();
+
+  /**
+   * Fetch the data we need for suggestions
+   */
+  const {
+    // loading: suggestionsLoading,
+    // error: suggestionsError,
+    data: suggestionsData,
+  } = useQuery<GetSearchSuggestions>(GET_SEARCH_SUGGESTIONS);
+
+  const allSuggestions = useMemo(
+    () => buildSearchSuggestions(suggestionsData),
+    [suggestionsData]
+  );
 
   /**
    * Fetch the company with the corresponding slug.
@@ -130,6 +148,7 @@ const CompaniesPage: React.FC = () => {
         <CompanyDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
+          suggestions={allSuggestions}
           companyDetails={companyDetails}
           onTriggerSearch={onNewSearch}
         />

@@ -6,6 +6,22 @@ import {
   reviewResultJobFragment,
 } from "src/api/fragments";
 
+export const GET_SEARCH_SUGGESTIONS = gql`
+  query GetSearchSuggestions {
+    companiesList {
+      items {
+        name
+      }
+    }
+
+    jobsList {
+      items {
+        name
+      }
+    }
+  }
+`;
+
 // gets all results (company, job, review) matching query
 export const GET_ALL_SEARCH = gql`
   query GetAllSearch($query: String, $offset: Int, $limit: Int) {

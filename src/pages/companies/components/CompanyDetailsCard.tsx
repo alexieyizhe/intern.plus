@@ -175,6 +175,8 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   error,
   companyDetails,
   onTriggerSearch,
+  suggestions,
+  fuseOptions,
 }) => (
   <Container
     className={classNames("company-details-card", className)}
@@ -189,7 +191,9 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
     </MiscContentContainer>
     <SearchField
       onTriggerSearch={onTriggerSearch}
-      placeholder="Find a position"
+      suggestions={suggestions}
+      fuseOptions={fuseOptions}
+      inputProps={{ placeholder: "Find a position" }}
     />
   </Container>
 );

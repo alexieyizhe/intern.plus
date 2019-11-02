@@ -31,12 +31,14 @@ import { GET_REVIEW_DETAILS } from "src/pages/reviews/graphql/queries";
 import { getMockReviewDetails } from "src/pages/reviews/graphql/mocks";
 
 import {
+  GET_SEARCH_SUGGESTIONS,
   GET_ALL_SEARCH,
   GET_COMPANIES_SEARCH,
   GET_JOBS_SEARCH,
   GET_REVIEWS_SEARCH,
 } from "src/pages/search/graphql/queries";
 import {
+  getMockSearchSuggestions,
   getMockAllSearch,
   getMockCompaniesSearch,
   getMockJobsSearch,
@@ -101,6 +103,13 @@ const API_CALLS = [
   },
 
   // Search page
+  {
+    query: GET_SEARCH_SUGGESTIONS,
+    handler: () =>
+      Promise.resolve({
+        data: getMockSearchSuggestions(),
+      }),
+  },
   {
     query: GET_ALL_SEARCH,
     handler: (params: ISearchQueryParams) =>

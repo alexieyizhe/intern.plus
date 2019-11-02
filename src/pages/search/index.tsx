@@ -13,14 +13,19 @@ import {
 import { SearchType, RESULTS_PER_PAGE } from "src/shared/constants/search";
 import pageCopy from "./copy";
 
+import { GetSearchSuggestions } from "./graphql/types/GetSearchSuggestions";
 import { GetAllSearch } from "./graphql/types/GetAllSearch";
 import {
+  GET_SEARCH_SUGGESTIONS,
   GET_ALL_SEARCH,
   GET_COMPANIES_SEARCH,
   GET_JOBS_SEARCH,
   GET_REVIEWS_SEARCH,
 } from "./graphql/queries";
-import { buildSearchResultCardsList } from "./graphql/utils";
+import {
+  buildSearchSuggestions,
+  buildSearchResultCardsList,
+} from "./graphql/utils";
 
 import {
   ResultCardDisplay,
@@ -129,6 +134,20 @@ export const Heading = styled(Text)`
 const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
+  /**
+   * Fetch the data we need for suggestions
+   */
+  const {
+    // loading: suggestionsLoading,
+    // error: suggestionsError,
+    data: suggestionsData,
+  } = useQuery<GetSearchSuggestions>(GET_SEARCH_SUGGESTIONS);
+
+  const allSuggestions = useMemo(
+    () => buildSearchSuggestions(suggestionsData),
+    [suggestionsData]
+  );
+
   const {
     // for fetching results
     searchQuery,
@@ -192,7 +211,10 @@ const GenericSearchPage: React.FC = () => {
 
       <PageContainer id="search-page">
         <Heading variant="heading1">{headingMarkup}</Heading>
-        <SearchField onTriggerSearch={onNewSearch} />
+        <SearchField
+          suggestions={allSuggestions}
+          onTriggerSearch={onNewSearch}
+        />
         <ResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}
