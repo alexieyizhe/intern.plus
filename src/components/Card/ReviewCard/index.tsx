@@ -95,6 +95,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
       state: {
         background: location,
       },
+      search: location.search,
     }),
     [linkTo, location]
   );
