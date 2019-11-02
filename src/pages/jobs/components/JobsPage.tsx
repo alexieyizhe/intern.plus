@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import {
   useSearch,
   useSearchAfter,
@@ -12,10 +13,6 @@ import {
 } from "src/shared/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
 import { IReviewUserCardItem } from "src/shared/constants/card";
-
-import { GetSearchSuggestions } from "src/pages/search/graphql/types/GetSearchSuggestions";
-import { GET_SEARCH_SUGGESTIONS } from "src/pages/search/graphql/queries";
-import { buildSearchSuggestions } from "src/pages/search/graphql/utils";
 
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
 import { GetJobReviews } from "../graphql/types/GetJobReviews";
@@ -55,19 +52,7 @@ const JobPageContainer = styled(PageContainer)`
 const JobsPage: React.FC = () => {
   useScrollTopOnMount();
 
-  /**
-   * Fetch the data we need for suggestions
-   */
-  const {
-    // loading: suggestionsLoading,
-    // error: suggestionsError,
-    data: suggestionsData,
-  } = useQuery<GetSearchSuggestions>(GET_SEARCH_SUGGESTIONS);
-
-  const allSuggestions = useMemo(
-    () => buildSearchSuggestions(suggestionsData),
-    [suggestionsData]
-  );
+  const searchSuggestions = useSearchSuggestions();
 
   /**
    * Fetch the job with the corresponding id.
@@ -157,7 +142,7 @@ const JobsPage: React.FC = () => {
         <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          suggestions={allSuggestions}
+          suggestions={searchSuggestions}
           jobDetails={jobDetails}
           onTriggerSearch={onNewSearch}
         />

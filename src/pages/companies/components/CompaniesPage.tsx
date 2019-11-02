@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import {
   useSearch,
   useSearchAfter,
@@ -12,10 +13,6 @@ import {
 } from "src/shared/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
 import { IJobCardItem } from "src/shared/constants/card";
-
-import { GetSearchSuggestions } from "src/pages/search/graphql/types/GetSearchSuggestions";
-import { GET_SEARCH_SUGGESTIONS } from "src/pages/search/graphql/queries";
-import { buildSearchSuggestions } from "src/pages/search/graphql/utils";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
@@ -55,19 +52,7 @@ const CompanyPageContainer = styled(PageContainer)`
 const CompaniesPage: React.FC = () => {
   useScrollTopOnMount();
 
-  /**
-   * Fetch the data we need for suggestions
-   */
-  const {
-    // loading: suggestionsLoading,
-    // error: suggestionsError,
-    data: suggestionsData,
-  } = useQuery<GetSearchSuggestions>(GET_SEARCH_SUGGESTIONS);
-
-  const allSuggestions = useMemo(
-    () => buildSearchSuggestions(suggestionsData),
-    [suggestionsData]
-  );
+  const searchSuggestions = useSearchSuggestions();
 
   /**
    * Fetch the company with the corresponding slug.
@@ -148,7 +133,7 @@ const CompaniesPage: React.FC = () => {
         <CompanyDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          suggestions={allSuggestions}
+          suggestions={searchSuggestions}
           companyDetails={companyDetails}
           onTriggerSearch={onNewSearch}
         />

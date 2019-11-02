@@ -31,19 +31,20 @@ import { GET_REVIEW_DETAILS } from "src/pages/reviews/graphql/queries";
 import { getMockReviewDetails } from "src/pages/reviews/graphql/mocks";
 
 import {
-  GET_SEARCH_SUGGESTIONS,
   GET_ALL_SEARCH,
   GET_COMPANIES_SEARCH,
   GET_JOBS_SEARCH,
   GET_REVIEWS_SEARCH,
 } from "src/pages/search/graphql/queries";
 import {
-  getMockSearchSuggestions,
   getMockAllSearch,
   getMockCompaniesSearch,
   getMockJobsSearch,
   getMockReviewsSearch,
 } from "src/pages/search/graphql/mocks";
+
+import { GET_SEARCH_SUGGESTIONS } from "src/shared/hooks/useSearchSuggestions/graphql/queries";
+import { getMockSearchSuggestions } from "src/shared/hooks/useSearchSuggestions/graphql/mocks";
 
 /**
  * Import all queries and their associated mock handlers

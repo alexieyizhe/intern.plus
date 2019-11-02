@@ -6,7 +6,6 @@ import {
   ISearchQueryParams,
 } from "src/shared/mocks";
 
-import { GetSearchSuggestions } from "./types/GetSearchSuggestions";
 import { GetAllSearch } from "./types/GetAllSearch";
 import { GetCompaniesSearch } from "./types/GetCompaniesSearch";
 import {
@@ -14,20 +13,6 @@ import {
   GetJobsSearch_jobsList_items,
 } from "./types/GetJobsSearch";
 import { GetReviewsSearch } from "./types/GetReviewsSearch";
-
-export const getMockSearchSuggestions = (): GetSearchSuggestions => ({
-  companiesList: {
-    __typename: "CompanyListResponse" as "CompanyListResponse",
-    items: MOCK_COMPANIES_LIST.map(company => ({
-      __typename: "Company",
-      name: company.name,
-    })),
-  },
-  jobsList: {
-    __typename: "JobListResponse" as "JobListResponse",
-    items: MOCK_JOBS_LIST.map(job => ({ __typename: "Job", name: job.name })),
-  },
-});
 
 export const getMockCompaniesSearch = ({
   query,
