@@ -84,7 +84,7 @@ The commit name is usually also prefixed with one of the following emojis based 
 - ♻️: refactoring
 - 💄: style changes
 - 🧹: chore-related changes
-- 📚: documentation
+- 📚: documentation & tests
 
 #### Commits into `release` branch (releases)
 
