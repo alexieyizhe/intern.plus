@@ -103,7 +103,7 @@ const JobCard: React.FC<IJobCardProps> = ({
       >
         {heading}
       </Text>
-      <Text className="subheading" variant="heading4" color="greyDark">
+      <Text className="subheading" variant="heading4" as="div" color="greyDark">
         {subheading}
       </Text>
 

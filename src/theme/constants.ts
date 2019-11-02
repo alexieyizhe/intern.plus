@@ -47,6 +47,7 @@ const constants = {
   },
   padding: {
     input: "15px 20px",
+    display: "30px 60px 40px 60px",
     pageVertical: 10,
     pageHorizontal: 100,
     pageHorizontalMobile: 40,

@@ -238,7 +238,7 @@ const Background = styled.div`
 const Container = styled(Card)`
   position: relative;
   max-width: 700px;
-  padding: 40px 60px;
+  padding: ${({ theme }) => theme.padding.display};
   margin: auto;
 
   display: flex;

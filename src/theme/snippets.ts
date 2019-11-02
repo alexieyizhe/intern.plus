@@ -38,7 +38,7 @@ export const hoverStyles = css`
 export const detailsCardStyles = css<{ color?: string }>`
   position: relative;
   width: 100%;
-  padding: 40px 60px;
+  padding: ${({ theme }) => theme.padding.display};
 
   display: flex;
   flex-direction: column;
