@@ -5,14 +5,15 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import {
   useSearch,
   useSearchAfter,
   SearchState,
 } from "src/shared/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
-
 import { IReviewUserCardItem } from "src/shared/constants/card";
+
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
 import { GetJobReviews } from "../graphql/types/GetJobReviews";
 import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
@@ -50,6 +51,8 @@ const JobPageContainer = styled(PageContainer)`
  *******************************************************************/
 const JobsPage: React.FC = () => {
   useScrollTopOnMount();
+
+  const searchSuggestions = useSearchSuggestions();
 
   /**
    * Fetch the job with the corresponding id.
@@ -139,7 +142,8 @@ const JobsPage: React.FC = () => {
         <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          jobInfo={jobDetails}
+          suggestions={searchSuggestions}
+          jobDetails={jobDetails}
           onTriggerSearch={onNewSearch}
         />
         <ResultCardDisplay

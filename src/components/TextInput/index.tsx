@@ -43,7 +43,10 @@ const BaseTextInput = styled.input`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const TextInput: React.FC<ITextInputProps> = ({ variant = "", ...rest }) => {
+const TextInput: React.FC<ITextInputProps> = React.forwardRef<
+  HTMLInputElement,
+  ITextInputProps
+>(({ variant = "", ...rest }, ref) => {
   /**
    * Calculate the styles that will be applied to the Text component from the provided props.
    * If a variant is supplied, use those styles, and override with other props.
@@ -60,6 +63,6 @@ const TextInput: React.FC<ITextInputProps> = ({ variant = "", ...rest }) => {
     };
   }, [rest, variant]);
 
-  return <BaseTextInput {...propsToApply} />;
-};
+  return <BaseTextInput ref={ref} {...propsToApply} />;
+});
 export default TextInput;

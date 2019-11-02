@@ -28,7 +28,6 @@ export const useEasterEgg = () => {
 
   useEffect(() => {
     if (sequenceSoFar === CODE_SEQUENCE.length) {
-      console.log(":0");
       dispatch({ type: ActionType.TOGGLE_EASTER_EGG });
     }
   }, [dispatch, sequenceSoFar]);

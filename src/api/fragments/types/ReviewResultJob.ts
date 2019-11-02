@@ -24,6 +24,7 @@ export interface ReviewResultJob_job {
    * Job title
    */
   name: string | null;
+  location: string | null;
 }
 
 export interface ReviewResultJob {

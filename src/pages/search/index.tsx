@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import {
   useSearch,
@@ -129,6 +130,8 @@ export const Heading = styled(Text)`
 const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
+  const searchSuggestions = useSearchSuggestions();
+
   const {
     // for fetching results
     searchQuery,
@@ -192,7 +195,10 @@ const GenericSearchPage: React.FC = () => {
 
       <PageContainer id="search-page">
         <Heading variant="heading1">{headingMarkup}</Heading>
-        <SearchField onTriggerSearch={onNewSearch} />
+        <SearchField
+          onTriggerSearch={onNewSearch}
+          suggestions={searchSuggestions}
+        />
         <ResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}

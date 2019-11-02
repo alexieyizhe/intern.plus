@@ -5,14 +5,15 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import {
   useSearch,
   useSearchAfter,
   SearchState,
 } from "src/shared/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
-
 import { IJobCardItem } from "src/shared/constants/card";
+
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
 import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";
@@ -50,6 +51,8 @@ const CompanyPageContainer = styled(PageContainer)`
  *******************************************************************/
 const CompaniesPage: React.FC = () => {
   useScrollTopOnMount();
+
+  const searchSuggestions = useSearchSuggestions();
 
   /**
    * Fetch the company with the corresponding slug.
@@ -130,6 +133,7 @@ const CompaniesPage: React.FC = () => {
         <CompanyDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
+          suggestions={searchSuggestions}
           companyDetails={companyDetails}
           onTriggerSearch={onNewSearch}
         />
