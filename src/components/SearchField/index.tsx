@@ -2,15 +2,15 @@ import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 import Fuse from "fuse.js";
-import Autosuggest, { InputProps } from "react-autosuggest";
+import Autosuggest, { InputProps as AutosuggestProps } from "react-autosuggest";
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
 import { useSiteContext } from "src/context";
 
-import Button from "src/components/Button";
+import Button, { IButtonProps } from "src/components/Button";
 import Text from "src/components/Text";
-import TextInput from "src/components/TextInput";
+import TextInput, { ITextInputProps } from "src/components/TextInput";
 import Card from "src/components/Card";
 
 /*******************************************************************
@@ -21,13 +21,15 @@ export interface ISearchFieldProps
   onTriggerSearch: (val: string) => void;
   suggestions: string[];
   fuseOptions?: Fuse.FuseOptions<string>;
-  inputProps?: Omit<Omit<InputProps<string>, "onChange">, "value">;
 
-  inputColor?: string;
-  buttonColor?: string;
-  buttonText?: string;
-  buttonTextColor?: string;
+  inputProps?: ITextInputProps &
+    Omit<Omit<AutosuggestProps<string>, "onChange">, "value">;
+  buttonProps?: IButtonProps & {
+    contents: React.ReactNode;
+  };
 }
+
+const ENTER_KEY_CODE = 13;
 
 const renderSuggestion = (suggestion: string) => (
   <Suggestion color="greyLight">
@@ -108,7 +110,7 @@ const Container = styled.div`
 
 const Suggestion = styled(Card)`
   width: 100%;
-  padding: 15px 20px;
+  padding: ${({ theme }) => theme.padding.input};
   border-radius: 0;
 `;
 
@@ -120,11 +122,15 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   onTriggerSearch,
   fuseOptions,
   suggestions,
-  inputProps,
-  inputColor = "greyLight",
-  buttonColor = "greenDark",
-  buttonText = "Search",
-  buttonTextColor = "white",
+  inputProps = { color: "greyLight" },
+  buttonProps = {
+    color: "greenDark",
+    contents: (
+      <Text variant="body" color="white">
+        Search
+      </Text>
+    ),
+  },
   ...rest
 }) => {
   const {
@@ -145,11 +151,8 @@ const SearchField: React.FC<ISearchFieldProps> = ({
 
   const onInputKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      console.log("key down");
-      // if (onKeyDown) onKeyDown(e); // make sure we don't break default original onKeyDown
-      if (e.keyCode === 13) {
+      if (e.keyCode === ENTER_KEY_CODE) {
         onTriggerSearch(inputVal || "");
-        // (e.target as HTMLInputElement).blur();
       }
     },
     [inputVal, onTriggerSearch]
@@ -196,7 +199,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         suggestions={filteredSuggestions}
         getSuggestionValue={getSuggestionValue}
         renderInputComponent={inputProps => (
-          <TextInput color={inputColor} {...(inputProps as any)} /> // eslint-disable-line
+          <TextInput color={inputProps.color} {...(inputProps as any)} /> // eslint-disable-line
         )}
         renderSuggestion={renderSuggestion}
         inputProps={{
@@ -209,12 +212,10 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         {...rest}
       />
       <Button
-        color={buttonColor}
+        color={buttonProps.color}
         onClick={() => onTriggerSearch(inputVal || "")}
       >
-        <Text variant="body" color="white">
-          {buttonText}
-        </Text>
+        {buttonProps.contents}
       </Button>
     </Container>
   );

@@ -13,11 +13,9 @@ export const useSearchSuggestions = () => {
   /**
    * Fetch the data we need for suggestions
    */
-  const {
-    // loading: suggestionsLoading,
-    // error: suggestionsError,
-    data: suggestionsData,
-  } = useQuery<GetSearchSuggestions>(GET_SEARCH_SUGGESTIONS);
+  const { data: suggestionsData } = useQuery<GetSearchSuggestions>(
+    GET_SEARCH_SUGGESTIONS
+  );
 
   const allSuggestions = useMemo(
     () => buildSearchSuggestions(suggestionsData),

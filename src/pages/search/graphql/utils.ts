@@ -47,6 +47,7 @@ export const buildReviewCard = (
   id: item.id || "",
   companyName: (item.company && item.company.name) || "",
   jobName: item.job ? item.job.name || "" : "",
+  jobLocation: item.job ? item.job.location || "" : "",
   overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",

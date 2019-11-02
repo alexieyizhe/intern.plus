@@ -52,6 +52,7 @@ export const reviewResultJobFragment = gql`
     }
     job {
       name
+      location
     }
   }
 `;

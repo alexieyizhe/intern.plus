@@ -289,9 +289,9 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
 
     <SearchField
       onTriggerSearch={onTriggerSearch}
-      placeholder="Find a review"
       suggestions={suggestions}
       fuseOptions={fuseOptions}
+      inputProps={{ placeholder: "Find a review" }}
     />
   </Container>
 );

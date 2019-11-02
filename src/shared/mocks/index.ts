@@ -159,6 +159,7 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
     job: {
       __typename: "Job" as "Job",
       name: "",
+      location: "",
     },
     company: {
       __typename: "Company" as "Company",

@@ -196,8 +196,8 @@ const GenericSearchPage: React.FC = () => {
       <PageContainer id="search-page">
         <Heading variant="heading1">{headingMarkup}</Heading>
         <SearchField
-          suggestions={searchSuggestions}
           onTriggerSearch={onNewSearch}
+          suggestions={searchSuggestions}
         />
         <ResultCardDisplay
           searchState={searchState}

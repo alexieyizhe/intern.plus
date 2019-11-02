@@ -189,6 +189,7 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, companyDetails)}
     </MiscContentContainer>
+
     <SearchField
       onTriggerSearch={onTriggerSearch}
       suggestions={suggestions}
