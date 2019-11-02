@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { SearchType } from "src/shared/constants/search";
+import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { ChevronImg } from "src/assets";
 
 import { UnstyledButton } from "src/components/Button";
@@ -84,13 +85,17 @@ const SortOptionSelect = styled(Select)`
   min-width: 200px;
 `;
 
-const TypeFilterContainer = styled.div`
+const VerticalAlignContainer = styled.div`
   min-width: 200px;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+
+  & > * {
+    margin-bottom: 5px;
+  }
 `;
 
 const ToggleIndicator = styled(UnstyledButton)`
@@ -110,10 +115,16 @@ const ToggleIndicator = styled(UnstyledButton)`
 `;
 
 const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = () => {
-  const [menuOpen, setMenuOpen] = useState(true); // TODO: mobile shoudl be false by default
+  const { isMobile } = useWindowWidth();
 
+  const [menuOpen, setMenuOpen] = useState(!isMobile);
+
+  /**
+   * Automatically close the side menu if we're scrolling on mobile,
+   * since it obstructs visibility of search results.
+   */
   useEffect(() => {
-    if (menuOpen) {
+    if (menuOpen && isMobile) {
       const closeMenuOnScroll = () => setMenuOpen(false);
       window.addEventListener("scroll", closeMenuOnScroll);
 
@@ -121,7 +132,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = () => {
     }
 
     return () => {};
-  }, [menuOpen]);
+  }, [isMobile, menuOpen]);
+
   return (
     <Container
       color="greyLight"
@@ -144,7 +156,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = () => {
       </CenterContainer>
       <TopContainer>
         <Text variant="heading4">Type</Text>
-        <TypeFilterContainer>
+        <VerticalAlignContainer>
           <Checkbox color="white" checked={true}>
             <Text variant="subheading" color="greyDark">
               companies only
@@ -160,12 +172,12 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = () => {
               reviews only
             </Text>
           </Checkbox>
-        </TypeFilterContainer>
+        </VerticalAlignContainer>
       </TopContainer>
 
       <TopContainer>
         <Text variant="heading4">Rating</Text>
-        <TypeFilterContainer>
+        <VerticalAlignContainer>
           <StarRating maxStars={5} filledStars={3}>
             <Text variant="subheading" color="greyDark">
               min
@@ -176,7 +188,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = () => {
               max
             </Text>
           </StarRating>
-        </TypeFilterContainer>
+        </VerticalAlignContainer>
       </TopContainer>
 
       <CenterContainer>

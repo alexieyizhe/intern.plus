@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { deviceBreakpoints } from "src/theme/mediaQueries";
 
 export const useWindowWidth = () => {
-  const [width, setWidth] = useState(window.innerWidth);
+  const [windowWidth, setWidth] = useState(window.innerWidth);
 
   const handleWindowResize = () => {
     setWidth(window.innerWidth);
@@ -15,5 +16,11 @@ export const useWindowWidth = () => {
     };
   }, []);
 
-  return width;
+  return {
+    windowWidth,
+    isMobile: windowWidth <= deviceBreakpoints.largeMobile,
+    isTablet:
+      windowWidth > deviceBreakpoints.largeMobile &&
+      windowWidth <= deviceBreakpoints.tablet,
+  };
 };
