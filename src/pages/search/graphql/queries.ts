@@ -67,7 +67,7 @@ export const GET_COMPANIES_SEARCH = gql`
   query GetCompaniesSearch($query: String, $offset: Int, $limit: Int) {
     companiesList(
       filter: {
-        OR: [{ name: { contains: $query }, desc: { contains: $query } }]
+        OR: [{ name: { contains: $query } }, { desc: { contains: $query } }]
       }
       sort: { name: ASC }
       skip: $offset
