@@ -24,6 +24,7 @@ export interface GetReviewsSearch_reviewsList_items_job {
    * Job title
    */
   name: string | null;
+  location: string | null;
 }
 
 export interface GetReviewsSearch_reviewsList_items {

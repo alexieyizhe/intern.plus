@@ -16,3 +16,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_OWNER: alexieyizhe
           WITH_V: true
+          RELEASE_BRANCHES: release

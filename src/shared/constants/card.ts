@@ -27,6 +27,7 @@ export interface IReviewJobCardItem {
   id: string;
   companyName: string; // company name
   jobName: string; // role/position
+  jobLocation: string;
   overallRating: number; // score out of 5
   body: string;
   tags: string;

@@ -39,7 +39,7 @@ export interface IJobDetails {
 export interface IJobDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;
-  jobInfo?: IJobDetails;
+  jobDetails?: IJobDetails;
 }
 
 /*******************************************************************
@@ -277,17 +277,21 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
   className,
   loading,
   error,
-  jobInfo,
+  jobDetails,
   onTriggerSearch,
+  suggestions,
+  fuseOptions,
 }) => (
   <Container className={classNames("job-details-card", className)}>
     <MiscContentContainer>
-      {getDetailsMarkup(loading, error, jobInfo)}
+      {getDetailsMarkup(loading, error, jobDetails)}
     </MiscContentContainer>
 
     <SearchField
       onTriggerSearch={onTriggerSearch}
-      placeholder="Find a review"
+      suggestions={suggestions}
+      fuseOptions={fuseOptions}
+      inputProps={{ placeholder: "Find a review" }}
     />
   </Container>
 );

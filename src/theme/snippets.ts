@@ -84,7 +84,7 @@ export interface IInputStyleOptions
 
 export const inputStyles = css<IInputStyleOptions>`
   width: 100%;
-  padding: 15px 20px;
+  padding: ${({ theme }) => theme.padding.input};
 
   color: ${({ textColor = "", theme }) =>
     theme.color[textColor] || textColor || "inherit"};

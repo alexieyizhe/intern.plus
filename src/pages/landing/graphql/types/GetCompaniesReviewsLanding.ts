@@ -71,6 +71,7 @@ export interface GetCompaniesReviewsLanding_reviewsList_items_job {
    * Job title
    */
   name: string | null;
+  location: string | null;
 }
 
 export interface GetCompaniesReviewsLanding_reviewsList_items {

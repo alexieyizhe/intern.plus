@@ -43,6 +43,9 @@ import {
   getMockReviewsSearch,
 } from "src/pages/search/graphql/mocks";
 
+import { GET_SEARCH_SUGGESTIONS } from "src/shared/hooks/useSearchSuggestions/graphql/queries";
+import { getMockSearchSuggestions } from "src/shared/hooks/useSearchSuggestions/graphql/mocks";
+
 /**
  * Import all queries and their associated mock handlers
  * Loop through all queries and `setRequestHandler` for
@@ -101,6 +104,13 @@ const API_CALLS = [
   },
 
   // Search page
+  {
+    query: GET_SEARCH_SUGGESTIONS,
+    handler: () =>
+      Promise.resolve({
+        data: getMockSearchSuggestions(),
+      }),
+  },
   {
     query: GET_ALL_SEARCH,
     handler: (params: ISearchQueryParams) =>
