@@ -12,4 +12,7 @@ export enum SearchType {
 export enum SearchFilter {
   QUERY = "q",
   TYPE = "t",
+  SORT = "s",
+  RATING = "r",
+  LOCATION = "l",
 }

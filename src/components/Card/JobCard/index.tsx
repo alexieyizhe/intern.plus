@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
-import { hoverStyles } from "src/theme/snippets";
+import { hoverStyles, itemCardStyles } from "src/theme/snippets";
 import { getDarkColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
@@ -23,6 +23,7 @@ export interface IJobCardProps extends ICardProps {
 
 const Container = styled(Card)`
   position: relative;
+  ${itemCardStyles}
   ${hoverStyles}
 
   & > a {

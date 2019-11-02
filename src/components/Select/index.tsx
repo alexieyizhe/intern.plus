@@ -13,7 +13,7 @@ export interface ISelectProps extends IInputStyleOptions, CommonProps<any> {}
  * the rest of the input component styles. Use theme constants
  * wherever possible to be more maintainable.
  */
-const customSelectStyles = {
+const customSelectStyles = (color?: string) => ({
   container: (provided: any) => ({
     ...provided,
     fontSize: `${themeConstants.fontSize[Size.SMALL]}px`,
@@ -30,7 +30,7 @@ const customSelectStyles = {
     borderRadius: themeConstants.borderRadius.button,
     padding: themeConstants.padding.input,
     cursor: state.isDisabled ? "not-allowed" : "text",
-    backgroundColor: themeConstants.color.greyLight,
+    backgroundColor: themeConstants.color[color || "greyLight"],
   }),
   input: (provided: any) => ({
     ...provided,
@@ -73,6 +73,10 @@ const customSelectStyles = {
         : themeConstants.color.black,
     padding: themeConstants.padding.input,
   }),
+  noOptionsMessaage: (provided: any) => ({
+    ...provided,
+    padding: themeConstants.padding.input,
+  }),
   valueContainer: (provided: any) => ({
     ...provided,
     padding: 0,
@@ -83,10 +87,10 @@ const customSelectStyles = {
 
     return { ...provided, opacity, transition };
   },
-};
+});
 
-const Select: React.FC<any> = ({ ...rest }) => (
-  <BaseSelect {...rest} styles={customSelectStyles} />
+const Select: React.FC<any> = ({ color, ...rest }) => (
+  <BaseSelect {...rest} styles={customSelectStyles(color)} />
 );
 
 export default Select;

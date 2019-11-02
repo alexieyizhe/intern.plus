@@ -47,6 +47,7 @@ const InnerContainer = styled(Card)`
   margin-left: auto;
   max-height: 85vh;
   max-width: 500px;
+  padding: ${({ theme }) => theme.padding.display};
 
   display: flex;
   flex-direction: column;

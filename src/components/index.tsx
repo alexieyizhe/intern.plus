@@ -31,6 +31,9 @@ export * from "./ResultCardDisplay";
 export { default as SearchField } from "./SearchField";
 export * from "./SearchField";
 
+export { default as SearchOptionsMenu } from "./SearchOptionsMenu";
+export * from "./SearchOptionsMenu";
+
 export { default as Select } from "./Select";
 export * from "./Select";
 
