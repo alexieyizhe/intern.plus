@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import BaseSelect from "react-select";
-import { CommonProps } from "react-select/src/types";
+import { Props } from "react-select/src/Select";
 
 import { IInputStyleOptions } from "src/theme/snippets";
 import themeConstants, { Size } from "src/theme/constants";
 
-export interface ISelectProps extends IInputStyleOptions, CommonProps<any> {}
+export interface ISelectProps extends IInputStyleOptions, Props {}
 
 /**
  * Override the styling provided by `react-select` to match
@@ -89,8 +89,8 @@ const customSelectStyles = (color?: string) => ({
   },
 });
 
-const Select: React.FC<any> = ({ color, ...rest }) => (
-  <BaseSelect {...rest} styles={customSelectStyles(color)} />
+const Select: React.FC<ISelectProps> = ({ color, ...rest }) => (
+  <BaseSelect {...rest} styles={customSelectStyles(color) as any} />
 );
 
 export default Select;

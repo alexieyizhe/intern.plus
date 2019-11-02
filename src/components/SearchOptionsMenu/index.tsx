@@ -21,8 +21,8 @@ export interface ISearchOptionsMenuProps
   };
 
   typeOption?: {
-    value: SearchType;
-    onChange: (value: SearchType) => void;
+    value: SearchType | "";
+    onChange: (value: SearchType | "") => void;
   };
 
   ratingOption?: {
@@ -52,7 +52,7 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
   box-shadow: ${({ theme }) => theme.boxShadow.hover};
   transition: transform 150ms;
   transform: ${({ menuOpen }) =>
-    menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH - 70}px)`};
+    menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH - 65}px)`};
 
   & > * > * {
     opacity: ${({ menuOpen }) => (menuOpen ? 1 : 0)};
@@ -114,9 +114,16 @@ const ToggleIndicator = styled(UnstyledButton)`
   }
 `;
 
-const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = () => {
+const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
+  sortOption,
+  typeOption,
+  ratingOption,
+  locationOption,
+}) => {
+  /**
+   * Tracks if the menu is open.
+   */
   const { isMobile } = useWindowWidth();
-
   const [menuOpen, setMenuOpen] = useState(!isMobile);
 
   /**
@@ -150,51 +157,91 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = () => {
         </ToggleIndicator>
       </CenterContainer>
 
-      <CenterContainer>
-        <Text variant="heading4">Sort</Text>
-        <SortOptionSelect color="white" placeholder="Alphabetically" />
-      </CenterContainer>
-      <TopContainer>
-        <Text variant="heading4">Type</Text>
-        <VerticalAlignContainer>
-          <Checkbox color="white" checked={true}>
-            <Text variant="subheading" color="greyDark">
-              companies only
-            </Text>
-          </Checkbox>
-          <Checkbox color="white" checked={true}>
-            <Text variant="subheading" color="greyDark">
-              positions only
-            </Text>
-          </Checkbox>
-          <Checkbox color="white" checked={true}>
-            <Text variant="subheading" color="greyDark">
-              reviews only
-            </Text>
-          </Checkbox>
-        </VerticalAlignContainer>
-      </TopContainer>
+      {sortOption && (
+        <CenterContainer>
+          <Text variant="heading4">Sort</Text>
+          <SortOptionSelect
+            color="white"
+            placeholder="select..."
+            options={sortOption.options}
+            value={sortOption.value}
+            onChange={sortOption.onChange}
+          />
+        </CenterContainer>
+      )}
 
-      <TopContainer>
-        <Text variant="heading4">Rating</Text>
-        <VerticalAlignContainer>
-          <StarRating maxStars={5} filledStars={3}>
-            <Text variant="subheading" color="greyDark">
-              min
-            </Text>
-          </StarRating>
-          <StarRating maxStars={5} filledStars={3}>
-            <Text variant="subheading" color="greyDark">
-              max
-            </Text>
-          </StarRating>
-        </VerticalAlignContainer>
-      </TopContainer>
+      {typeOption && (
+        <TopContainer>
+          <Text variant="heading4">Type</Text>
+          <VerticalAlignContainer>
+            <Checkbox
+              color="white"
+              checked={typeOption.value === SearchType.COMPANIES}
+              onChange={e =>
+                typeOption.onChange(
+                  e.target.checked ? SearchType.COMPANIES : ""
+                )
+              }
+            >
+              <Text variant="subheading" color="greyDark">
+                companies only
+              </Text>
+            </Checkbox>
+            <Checkbox
+              color="white"
+              checked={typeOption.value === SearchType.JOBS}
+              onChange={e =>
+                typeOption.onChange(e.target.checked ? SearchType.JOBS : "")
+              }
+            >
+              <Text variant="subheading" color="greyDark">
+                positions only
+              </Text>
+            </Checkbox>
+            <Checkbox
+              color="white"
+              checked={typeOption.value === SearchType.REVIEWS}
+              onChange={e =>
+                typeOption.onChange(e.target.checked ? SearchType.REVIEWS : "")
+              }
+            >
+              <Text variant="subheading" color="greyDark">
+                reviews only
+              </Text>
+            </Checkbox>
+          </VerticalAlignContainer>
+        </TopContainer>
+      )}
 
-      <CenterContainer>
-        <Text variant="heading4">Location</Text>
-        <SortOptionSelect color="white" placeholder="California" />
-      </CenterContainer>
+      {ratingOption && (
+        <TopContainer>
+          <Text variant="heading4">Rating</Text>
+          <VerticalAlignContainer>
+            <StarRating maxStars={5} filledStars={ratingOption.valueMin}>
+              <Text variant="subheading" color="greyDark">
+                min
+              </Text>
+            </StarRating>
+            <StarRating maxStars={5} filledStars={ratingOption.valueMax}>
+              <Text variant="subheading" color="greyDark">
+                max
+              </Text>
+            </StarRating>
+          </VerticalAlignContainer>
+        </TopContainer>
+      )}
+
+      {locationOption && (
+        <CenterContainer>
+          <Text variant="heading4">Location</Text>
+          <SortOptionSelect
+            color="white"
+            placeholder="California"
+            options={locationOption.options}
+            onChange={locationOption.onChange}
+          />
+        </CenterContainer>
+      )}
 
       <UnstyledButton>
         <Text variant="subheading" color="greyDark" underline>
