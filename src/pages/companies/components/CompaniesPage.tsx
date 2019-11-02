@@ -13,6 +13,7 @@ import {
 } from "src/shared/hooks/useSearch";
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
 import { IJobCardItem } from "src/shared/constants/card";
+import { detailsPageStyles } from "src/theme/snippets";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
@@ -43,7 +44,7 @@ const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
  *                             **Styles**                          *
  *******************************************************************/
 const CompanyPageContainer = styled(PageContainer)`
-  overflow: hidden;
+  ${detailsPageStyles}
 `;
 
 /*******************************************************************

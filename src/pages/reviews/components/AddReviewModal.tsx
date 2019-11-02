@@ -89,6 +89,7 @@ const AddReviewModal: React.FC = () => {
     >
       <InnerModalContainer>
         <InnerContainer
+          id="add-review-modal"
           className={modalOpen ? "open" : ""}
           aria-hidden={modalOpen ? "false" : "true"}
           color="white"
