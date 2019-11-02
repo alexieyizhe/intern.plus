@@ -176,6 +176,7 @@ const Container = styled.section`
   align-items: center;
 
   padding: ${({ theme }) => theme.padding.display};
+  padding-top: 30px;
 
   & > * {
     margin: 10px auto;
