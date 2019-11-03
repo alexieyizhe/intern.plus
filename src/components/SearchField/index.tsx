@@ -191,7 +191,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
 
   return (
     <Container
-      className={classNames(className, {
+      className={classNames(className, "search-field", {
         scrolled: scrolledDown,
         "mobile-menu-open": mobileMenuOpen,
       })}
