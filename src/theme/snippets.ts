@@ -35,6 +35,10 @@ export const hoverStyles = css`
   }
 `;
 
+export const itemCardStyles = css`
+  padding: 25px 35px;
+`;
+
 export const detailsPageStyles = css`
   overflow: hidden;
 

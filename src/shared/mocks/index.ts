@@ -18,6 +18,15 @@ export interface ISearchQueryParams {
   limit: number;
 }
 
+export const getRandomColor = () =>
+  "hsl(" +
+  faker.random.number(360) +
+  "," +
+  (15 + faker.random.number(60)) +
+  "%," +
+  (45 + faker.random.number(10)) +
+  "%)";
+
 const getHourlySalary = (amt: number, period: string) => {
   switch (period) {
     case "monthly":
@@ -53,7 +62,7 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
         __typename: "File" as "File",
         downloadUrl: companyImgUrl,
       },
-      logoColor: "",
+      logoColor: getRandomColor(),
 
       numRatings: 0,
       totRating: 0,

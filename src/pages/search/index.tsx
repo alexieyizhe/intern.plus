@@ -21,6 +21,7 @@ import { buildSearchResultCardsList } from "./graphql/utils";
 import {
   SearchResultCardDisplay,
   SearchField,
+  SearchOptionsMenu,
   Text,
   PageContainer,
 } from "src/components";
@@ -43,7 +44,7 @@ const getTitleMarkup = (query?: string, type?: SearchType) =>
 const getDefaultHeading = (type?: SearchType) =>
   type ? (
     <>
-      <span className="grey">{pageCopy.heading.typeInitialHeading}&nbsp;</span>
+      <span className="grey">{pageCopy.heading.typeInitialHeading} </span>
       <span>{type}</span>
     </>
   ) : (
@@ -153,10 +154,14 @@ const GenericSearchPage: React.FC = () => {
         <Heading variant="heading1">
           {getHeadingMarkup(searchQuery, searchType)}
         </Heading>
+
         <SearchField
           onTriggerSearch={triggerSearchNew}
           suggestions={searchSuggestions}
         />
+
+        <SearchOptionsMenu />
+
         <SearchResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}

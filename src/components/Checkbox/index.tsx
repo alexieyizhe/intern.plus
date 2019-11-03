@@ -82,7 +82,7 @@ const checkedStyles = css`
 const StyledCheckbox = styled.span`
   ${sharedStyles}
 
-  background-color: ${({ theme }) => theme.color.greyLight};
+  background-color: ${({ theme }) => theme.color.white};
   border-radius: ${({ theme }) => theme.borderRadius.checkbox}px;
   z-index: 1;
 

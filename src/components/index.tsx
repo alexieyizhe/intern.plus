@@ -28,6 +28,9 @@ export * from "./PageHeader";
 export { default as SearchField } from "./SearchField";
 export * from "./SearchField";
 
+export { default as SearchOptionsMenu } from "./SearchOptionsMenu";
+export * from "./SearchOptionsMenu";
+
 export { default as SearchResultCardDisplay } from "./SearchResultCardDisplay";
 export * from "./SearchResultCardDisplay";
 

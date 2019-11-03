@@ -191,10 +191,10 @@ const Header: React.FC = () => {
   /**
    * Used to make the logo toggle the mobile menu if the user is mobile.
    */
-  const width = useWindowWidth();
+  const { windowWidth } = useWindowWidth();
   const isMobileUser = useMemo(
-    () => width <= deviceBreakpoints[MOBILE_MENU_MEDIA_QUERY],
-    [width]
+    () => windowWidth <= deviceBreakpoints[MOBILE_MENU_MEDIA_QUERY],
+    [windowWidth]
   );
 
   /**

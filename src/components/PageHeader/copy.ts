@@ -1,4 +1,4 @@
-import { LogoText, MobileMenuChevronImg } from "src/assets";
+import { LogoText, ChevronImg } from "src/assets";
 
 import { IconName } from "src/components/Icon";
 
@@ -8,7 +8,7 @@ export default {
     alt: "Logo of intern+",
   },
   mobileToggle: {
-    src: MobileMenuChevronImg,
+    src: ChevronImg,
     alt:
       "A chevron, indicating that the logo can be clicked to open mobile menu",
   },

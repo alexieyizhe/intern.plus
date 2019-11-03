@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import BaseSelect from "react-select";
-import { CommonProps } from "react-select/src/types";
+import { Props } from "react-select/src/Select";
 
 import { IInputStyleOptions } from "src/theme/snippets";
 import themeConstants, { Size } from "src/theme/constants";
 
-export interface ISelectProps extends IInputStyleOptions, CommonProps<any> {}
+export interface ISelectProps extends IInputStyleOptions, Props {}
 
 /**
  * Override the styling provided by `react-select` to match
  * the rest of the input component styles. Use theme constants
  * wherever possible to be more maintainable.
  */
-const customSelectStyles = {
+const customSelectStyles = (color?: string) => ({
   container: (provided: any) => ({
     ...provided,
     fontSize: `${themeConstants.fontSize[Size.SMALL]}px`,
@@ -30,7 +30,7 @@ const customSelectStyles = {
     borderRadius: themeConstants.borderRadius.button,
     padding: themeConstants.padding.input,
     cursor: state.isDisabled ? "not-allowed" : "text",
-    backgroundColor: themeConstants.color.greyLight,
+    backgroundColor: themeConstants.color[color || "greyLight"],
   }),
   input: (provided: any) => ({
     ...provided,
@@ -73,6 +73,10 @@ const customSelectStyles = {
         : themeConstants.color.black,
     padding: themeConstants.padding.input,
   }),
+  noOptionsMessaage: (provided: any) => ({
+    ...provided,
+    padding: themeConstants.padding.input,
+  }),
   valueContainer: (provided: any) => ({
     ...provided,
     padding: 0,
@@ -83,10 +87,10 @@ const customSelectStyles = {
 
     return { ...provided, opacity, transition };
   },
-};
+});
 
-const Select: React.FC<any> = ({ ...rest }) => (
-  <BaseSelect {...rest} styles={customSelectStyles} />
+const Select: React.FC<ISelectProps> = ({ color, ...rest }) => (
+  <BaseSelect {...rest} styles={customSelectStyles(color) as any} />
 );
 
 export default Select;

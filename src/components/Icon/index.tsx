@@ -33,7 +33,7 @@ const Icon: React.FC<IconProps> = ({
   color,
   ...rest
 }) => {
-  const windowWidth = useWindowWidth();
+  const { windowWidth } = useWindowWidth();
   const sizeForWidth =
     windowWidth < deviceBreakpoints.largeMobile && mobileSize
       ? mobileSize
