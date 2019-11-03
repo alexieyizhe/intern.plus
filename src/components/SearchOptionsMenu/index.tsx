@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { OptionTypeBase } from "react-select/src/types";
 
 import { SearchType } from "src/shared/constants/search";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { ChevronImg } from "src/assets";
+import { Size } from "src/theme/constants";
 
 import { UnstyledButton } from "src/components/Button";
 import Card from "src/components/Card";
@@ -40,6 +41,7 @@ export interface ISearchOptionsMenuProps
 }
 
 const MENU_WIDTH = 400;
+const MENU_WIDTH_MOBILE = 300;
 
 const Container = styled(Card)<{ menuOpen: boolean }>`
   position: fixed;
@@ -57,7 +59,7 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
 
   & > * > * {
     opacity: ${({ menuOpen }) => (menuOpen ? 1 : 0)};
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 
   & .heading {
@@ -68,6 +70,25 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
     top: ${({ menuOpen }) => (menuOpen ? "unset" : "30px")};
     left: ${({ menuOpen }) => (menuOpen ? "unset" : "-60px")};
   }
+
+  ${({ theme, menuOpen }) => theme.mediaQueries.mobile`
+    width: ${MENU_WIDTH_MOBILE}px;
+    padding: 20px 30px;
+
+    transform: ${
+      menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
+    };
+
+    & > * > * {
+      margin-bottom: 5px;
+    }
+    
+    & .heading {
+      font-size: ${theme.fontSize[Size.MEDIUM]}px;
+      top: ${menuOpen ? "unset" : "25px"};
+      left: ${menuOpen ? "unset" : "-43px"};
+    }
+  `}
 `;
 
 const CenterContainer = styled.div`
@@ -124,15 +145,15 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   /**
    * Tracks if the menu is open.
    */
-  const { isTablet } = useWindowWidth();
-  const [menuOpen, setMenuOpen] = useState(!isTablet);
+  const { isMobile, isTablet } = useWindowWidth();
+  const [menuOpen, setMenuOpen] = useState(!(isTablet || isMobile));
 
   /**
    * Automatically close the side menu if we're scrolling on mobile,
    * since it obstructs visibility of search results.
    */
   useEffect(() => {
-    if (menuOpen && isTablet) {
+    if (menuOpen && (isTablet || isMobile)) {
       const closeMenuOnScroll = () => setMenuOpen(false);
       window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
 
@@ -140,20 +161,29 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     }
 
     return () => {};
-  }, [isTablet, menuOpen]);
+  }, [isMobile, isTablet, menuOpen]);
+
+  const onToggleIndicatorClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      setMenuOpen(prev => !prev);
+    },
+    []
+  );
 
   return (
     <Container
       color="greyLight"
       menuOpen={menuOpen}
       onFocus={() => setMenuOpen(true)}
+      onClick={() => setMenuOpen(true)}
       onMouseEnter={() => setMenuOpen(true)}
     >
       <CenterContainer>
         <Text variant="heading2" as="h2" className="heading">
           Options
         </Text>
-        <ToggleIndicator onClick={() => setMenuOpen(prev => !prev)}>
+        <ToggleIndicator onClick={onToggleIndicatorClick}>
           <img src={ChevronImg} alt="Chevron icon" />
         </ToggleIndicator>
       </CenterContainer>
@@ -162,7 +192,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         <CenterContainer>
           <Text variant="heading4">Sort</Text>
           <SortOptionSelect
-            color="white"
             placeholder="by..."
             options={sortOption.options}
             value={sortOption.value}
