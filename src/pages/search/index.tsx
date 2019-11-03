@@ -1,20 +1,15 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
-import {
-  useSearch,
-  useSearchAfter,
-  SearchState,
-} from "src/shared/hooks/useSearch";
-import { SearchType, RESULTS_PER_PAGE } from "src/shared/constants/search";
+import { useSearch } from "src/shared/hooks/useSearch";
+
+import { SearchType } from "src/shared/constants/search";
 import pageCopy from "./copy";
 
-import { GetAllSearch } from "./graphql/types/GetAllSearch";
 import {
   GET_ALL_SEARCH,
   GET_COMPANIES_SEARCH,
@@ -24,7 +19,7 @@ import {
 import { buildSearchResultCardsList } from "./graphql/utils";
 
 import {
-  ResultCardDisplay,
+  SearchResultCardDisplay,
   SearchField,
   Text,
   PageContainer,
@@ -58,16 +53,14 @@ const getDefaultHeading = (type?: SearchType) =>
 /**
  * Creates markup for the heading based on all search parameters.
  */
-const useHeadingMarkup = () => {
-  const { searchQuery, searchType } = useSearchParams();
-
-  if (!searchQuery) return getDefaultHeading(searchType);
+const getHeadingMarkup = (query?: string, type?: SearchType) => {
+  if (!query) return getDefaultHeading(type);
 
   let prefix = "";
   let start: string = pageCopy.heading.searchedHeading;
 
   // query exists
-  switch (searchType) {
+  switch (type) {
     case SearchType.COMPANIES:
       prefix = "Company ";
       break;
@@ -86,7 +79,7 @@ const useHeadingMarkup = () => {
   return (
     <>
       <span className="grey">{`${prefix}${start} '`}</span>
-      <span>{searchQuery}</span>
+      <span>{query}</span>
       <span className="grey">'</span>
     </>
   );
@@ -130,62 +123,25 @@ export const Heading = styled(Text)`
 const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
+  const { searchQuery, searchType } = useSearchParams();
   const searchSuggestions = useSearchSuggestions();
 
-  const {
-    // for fetching results
-    searchQuery,
-    searchType,
-    page,
-
-    // for displaying results
-    searchState,
-
-    // search trigger functions
-    onNewSearch,
-    onNextBatchSearch,
-
-    ...rest
-  } = useSearch();
-
-  const shouldSkipSearch = useMemo(
-    /**
-     * If search type is provided, the default state is to show them
-     * all results of that type, not the empty state where we prompt them to
-     * type a search query.
-     */
-    () =>
-      (searchState === SearchState.INITIAL && !searchType) ||
-      searchState === SearchState.RESULTS,
-    [searchState, searchType]
-  );
-
-  /**
-   * Query the actual data.
-   */
   const QUERY = useMemo(() => getQuery(searchType), [searchType]);
-  const { loading, error, data } = useQuery<GetAllSearch>(QUERY, {
-    variables: {
-      query: searchQuery || "",
-      offset: (page - 1) * RESULTS_PER_PAGE,
-      limit: RESULTS_PER_PAGE,
-    },
-    skip: shouldSkipSearch, // do not make an API call if search query is empty (on initial load)
-  });
+  const {
+    // search info
+    searchState,
+    searchResults,
 
-  /**
-   * Transforms returned data into generic card list items.
-   * This is required for ResultCardDisplay to accept our results.
-   */
-  const searchResults = useSearchAfter(
-    { data, loading, error: error !== undefined, ...rest },
+    // callbacks
+    triggerSearchNew,
+    triggerSearchNextBatch,
+  } = useSearch(
+    QUERY,
+    {
+      skip: searchQuery === undefined && !searchType, // if searching for a type, show all of that type instead of empty state prompting them to search
+    },
     buildSearchResultCardsList
   );
-
-  /**
-   * Get heading markup/text based on query params.
-   */
-  const headingMarkup = useHeadingMarkup();
 
   return (
     <>
@@ -194,15 +150,17 @@ const GenericSearchPage: React.FC = () => {
       </Helmet>
 
       <PageContainer id="search-page">
-        <Heading variant="heading1">{headingMarkup}</Heading>
+        <Heading variant="heading1">
+          {getHeadingMarkup(searchQuery, searchType)}
+        </Heading>
         <SearchField
-          onTriggerSearch={onNewSearch}
+          onTriggerSearch={triggerSearchNew}
           suggestions={searchSuggestions}
         />
-        <ResultCardDisplay
+        <SearchResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}
-          onResultsEndReached={onNextBatchSearch}
+          onResultsEndReached={triggerSearchNextBatch}
         />
       </PageContainer>
     </>

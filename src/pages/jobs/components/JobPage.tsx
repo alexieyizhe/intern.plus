@@ -6,13 +6,8 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import {
-  useSearch,
-  useSearchAfter,
-  SearchState,
-} from "src/shared/hooks/useSearch";
-import { RESULTS_PER_PAGE } from "src/shared/constants/search";
-import { IReviewUserCardItem } from "src/shared/constants/card";
+import { useSearch } from "src/shared/hooks/useSearch";
+
 import { detailsPageStyles } from "src/theme/snippets";
 
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
@@ -20,7 +15,7 @@ import { GetJobReviews } from "../graphql/types/GetJobReviews";
 import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
-import { PageContainer, ResultCardDisplay } from "src/components";
+import { PageContainer, SearchResultCardDisplay } from "src/components";
 import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
@@ -34,12 +29,6 @@ const getTitleMarkup = (jobName?: string, companyName?: string) =>
     ? `${jobName} at ${companyName} • intern+`
     : "Job details • intern+";
 
-const reviewFilterer = (filterBy: string) => (review: IReviewUserCardItem) =>
-  review.authorName.toLowerCase().includes(filterBy) ||
-  review.date.toLowerCase().includes(filterBy) ||
-  review.body.toLowerCase().includes(filterBy) ||
-  review.tags.toLowerCase().includes(filterBy);
-
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
@@ -50,13 +39,11 @@ const JobPageContainer = styled(PageContainer)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const JobsPage: React.FC = () => {
+const JobPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const searchSuggestions = useSearchSuggestions();
-
   /**
-   * Fetch the job with the corresponding id.
+   * Fetch the details of the job with corresponding id.
    */
   const { jobId } = useParams();
   const {
@@ -76,57 +63,26 @@ const JobsPage: React.FC = () => {
   );
 
   /**
-   * For reviews of the job.
+   * Fetch reviews of the job.
    */
+  const searchSuggestions = useSearchSuggestions();
   const {
-    // for fetching results
-    searchQuery,
-    searchType,
-    page,
-
-    // for displaying results
+    // search info
     searchState,
+    searchResults,
 
-    // search trigger functions
-    onNewSearch,
-    onNextBatchSearch,
-
-    ...rest
-  } = useSearch();
-
-  const {
-    loading: jobReviewsLoading,
-    error: jobReviewsError,
-    data: jobReviewsData,
-  } = useQuery<GetJobReviews>(GET_JOB_REVIEWS, {
-    variables: {
-      id: jobId,
-      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all reviews
-      offset: (page - 1) * RESULTS_PER_PAGE,
-      limit: RESULTS_PER_PAGE,
-    },
-    skip: searchState === SearchState.RESULTS,
-  });
-
-  /**
-   * Transforms returned data into generic card list items.
-   * This is required for ResultCardDisplay to accept our results.
-   */
-  const jobReviews = useSearchAfter(
+    // callbacks
+    triggerSearchNew,
+    triggerSearchNextBatch,
+  } = useSearch<GetJobReviews>(
+    GET_JOB_REVIEWS,
     {
-      data: jobReviewsData,
-      loading: jobReviewsLoading,
-      error: jobReviewsError !== undefined,
-      ...rest,
+      variables: {
+        id: jobId,
+      },
     },
     buildJobReviewsCardList
-  ) as IReviewUserCardItem[];
-
-  const filteredReviews = useMemo(() => {
-    const normalizedQuery = (searchQuery || "").toLowerCase();
-    const filterFn = reviewFilterer(normalizedQuery);
-    return jobReviews.filter(filterFn);
-  }, [jobReviews, searchQuery]);
+  );
 
   return (
     <>
@@ -145,16 +101,16 @@ const JobsPage: React.FC = () => {
           error={detailsError !== undefined}
           suggestions={searchSuggestions}
           jobDetails={jobDetails}
-          onTriggerSearch={onNewSearch}
+          onTriggerSearch={triggerSearchNew}
         />
-        <ResultCardDisplay
+        <SearchResultCardDisplay
           searchState={searchState}
-          searchResults={filteredReviews}
-          onResultsEndReached={onNextBatchSearch}
+          searchResults={searchResults}
+          onResultsEndReached={triggerSearchNextBatch}
         />
       </JobPageContainer>
     </>
   );
 };
 
-export default JobsPage;
+export default JobPage;

@@ -274,7 +274,13 @@ const MiscDetails = styled.div`
 
     & > .salary {
       margin-top: 10px;
+      flex-direction: row;
+      justify-content: flex-start;
       align-items: flex-start;
+
+      & > *:first-child {
+        margin-right: 5px;
+      }
     }
   `}
 `;

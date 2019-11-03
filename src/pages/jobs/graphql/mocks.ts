@@ -18,6 +18,7 @@ export const getMockJobReviews = ({
   const filteredReviews = MOCK_JOBS[id].reviews.items
     .filter(
       (review: IReviewUserCardItem) =>
+        review.author.toLowerCase().includes(normalizedQuery) ||
         review.body.toLowerCase().includes(normalizedQuery) ||
         review.tags.toLowerCase().includes(normalizedQuery)
     )

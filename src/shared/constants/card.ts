@@ -36,7 +36,7 @@ export interface IReviewJobCardItem {
 
 export interface IReviewUserCardItem {
   id: string;
-  authorName: string; // name of the reviewer (or Anonymous)
+  author: string; // name of the reviewer (or Anonymous)
   date: string; // date of the review
   overallRating: number;
   body: string;
@@ -63,4 +63,4 @@ export const isReviewJobCardItem = (
 
 export const isReviewUserCardItem = (
   item: IGenericCardItem
-): item is IReviewUserCardItem => "body" in item && "authorName" in item;
+): item is IReviewUserCardItem => "body" in item && "author" in item;

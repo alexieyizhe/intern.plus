@@ -20,7 +20,7 @@ import Spinner from "src/components/Spinner";
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
-export interface IResultCardDisplayProps
+export interface ISearchResultCardDisplayProps
   extends React.ComponentPropsWithoutRef<"section"> {
   searchState: SearchState;
   searchResults: IGenericCardItem[];
@@ -145,7 +145,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
   } else if (isReviewJobCardItem(result) || isReviewUserCardItem(result)) {
     const heading = isReviewJobCardItem(result)
       ? result.companyName
-      : result.authorName;
+      : result.author;
     const subheading = isReviewJobCardItem(result)
       ? `${result.jobName}  •  ${result.jobLocation}`
       : result.date;
@@ -187,6 +187,11 @@ const Container = styled.section`
   `}
 `;
 
+const MarkupContainer = styled.div`
+  width: 70%;
+  margin: 5px auto;
+`;
+
 const resultCardStyles = css`
   width: 100%;
   height: 180px;
@@ -218,7 +223,7 @@ const ResultJobCard = styled(JobCard)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
+const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
   searchState,
   searchResults,
   onResultsEndReached,
@@ -245,7 +250,7 @@ const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
 
       {searchResults.map(getResultCardMarkup)}
 
-      {markup}
+      <MarkupContainer>{markup}</MarkupContainer>
 
       {searchResults.length > 0 &&
         [SearchState.INITIAL, SearchState.RESULTS].includes(searchState) && (
@@ -255,4 +260,4 @@ const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
   );
 };
 
-export default React.memo(ResultCardDisplay);
+export default React.memo(SearchResultCardDisplay);
