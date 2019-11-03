@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { OptionTypeBase } from "react-select/src/types";
 
 import { SearchType } from "src/shared/constants/search";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
@@ -15,9 +16,9 @@ import StarRating from "src/components/StarRating";
 export interface ISearchOptionsMenuProps
   extends React.ComponentPropsWithoutRef<"div"> {
   sortOption?: {
-    options: string[];
-    value: string;
-    onChange: (value: string) => void;
+    options: OptionTypeBase[];
+    value?: OptionTypeBase;
+    onChange: (value: OptionTypeBase) => void;
   };
 
   typeOption?: {
@@ -32,9 +33,9 @@ export interface ISearchOptionsMenuProps
   };
 
   locationOption?: {
-    options: string[];
-    value: string;
-    onChange: (value: string) => void;
+    options: OptionTypeBase[];
+    value?: OptionTypeBase;
+    onChange: (value: OptionTypeBase) => void;
   };
 }
 
@@ -123,23 +124,23 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   /**
    * Tracks if the menu is open.
    */
-  const { isMobile } = useWindowWidth();
-  const [menuOpen, setMenuOpen] = useState(!isMobile);
+  const { isTablet } = useWindowWidth();
+  const [menuOpen, setMenuOpen] = useState(!isTablet);
 
   /**
    * Automatically close the side menu if we're scrolling on mobile,
    * since it obstructs visibility of search results.
    */
   useEffect(() => {
-    if (menuOpen && isMobile) {
+    if (menuOpen && isTablet) {
       const closeMenuOnScroll = () => setMenuOpen(false);
-      window.addEventListener("scroll", closeMenuOnScroll);
+      window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
 
       return () => window.removeEventListener("scroll", closeMenuOnScroll);
     }
 
     return () => {};
-  }, [isMobile, menuOpen]);
+  }, [isTablet, menuOpen]);
 
   return (
     <Container
@@ -162,7 +163,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <Text variant="heading4">Sort</Text>
           <SortOptionSelect
             color="white"
-            placeholder="select..."
+            placeholder="by..."
             options={sortOption.options}
             value={sortOption.value}
             onChange={sortOption.onChange}
@@ -243,11 +244,11 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         </CenterContainer>
       )}
 
-      <UnstyledButton>
+      {/* <UnstyledButton>
         <Text variant="subheading" color="greyDark" underline>
           clear options
-        </Text>
-      </UnstyledButton>
+        </Text> TODO: get this working
+      </UnstyledButton> */}
     </Container>
   );
 };

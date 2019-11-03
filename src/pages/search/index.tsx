@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
+import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { SearchType } from "src/shared/constants/search";
@@ -99,7 +100,12 @@ const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { searchQuery, searchType, searchSort } = useSearchParams();
+
+  // for SearchField
   const searchSuggestions = useSearchSuggestions();
+
+  // for SearchOptionsMenu
+  const sortOption = useSearchSort();
 
   const QUERY = useMemo(() => buildQuery(searchType, searchSort), [
     searchSort,
@@ -137,7 +143,7 @@ const GenericSearchPage: React.FC = () => {
           suggestions={searchSuggestions}
         />
 
-        <SearchOptionsMenu />
+        <SearchOptionsMenu sortOption={sortOption} />
 
         <SearchResultCardDisplay
           searchState={searchState}

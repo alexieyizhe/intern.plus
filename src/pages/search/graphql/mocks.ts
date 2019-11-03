@@ -21,7 +21,6 @@ export const getMockCompaniesSearch = (
   sort: SearchSort
 ): GetCompaniesSearch => {
   let sortFn;
-  console.log("s", sort);
 
   // TODO: sort ascending and descending
   switch (sort) {
