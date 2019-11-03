@@ -5,7 +5,8 @@ import { Helmet } from "react-helmet";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
-import { useSearch } from "src/shared/hooks/useSearchNew";
+import { useSearch } from "src/shared/hooks/useSearch";
+
 import { SearchType } from "src/shared/constants/search";
 import pageCopy from "./copy";
 

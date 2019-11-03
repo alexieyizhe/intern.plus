@@ -6,13 +6,8 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import {
-  useSearch,
-  useSearchAfter,
-  SearchState,
-} from "src/shared/hooks/useSearch";
-import { RESULTS_PER_PAGE } from "src/shared/constants/search";
-import { IReviewUserCardItem } from "src/shared/constants/card";
+import { useSearch } from "src/shared/hooks/useSearch";
+
 import { detailsPageStyles } from "src/theme/snippets";
 
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
@@ -47,10 +42,8 @@ const JobPageContainer = styled(PageContainer)`
 const JobsPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const searchSuggestions = useSearchSuggestions();
-
   /**
-   * Fetch the job with the corresponding id.
+   * Fetch the details of the job with corresponding id.
    */
   const { jobId } = useParams();
   const {
@@ -70,51 +63,26 @@ const JobsPage: React.FC = () => {
   );
 
   /**
-   * For reviews of the job.
+   * Fetch reviews of the job.
    */
+  const searchSuggestions = useSearchSuggestions();
   const {
-    // for fetching results
-    searchQuery,
-    searchType,
-    page,
-
-    // for displaying results
+    // search info
     searchState,
+    searchResults,
 
-    // search trigger functions
-    onNewSearch,
-    onNextBatchSearch,
-
-    ...rest
-  } = useSearch();
-
-  const {
-    loading: jobReviewsLoading,
-    error: jobReviewsError,
-    data: jobReviewsData,
-  } = useQuery<GetJobReviews>(GET_JOB_REVIEWS, {
-    variables: {
-      id: jobId,
-      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all reviews
-      offset: (page - 1) * RESULTS_PER_PAGE,
-      limit: RESULTS_PER_PAGE,
-    },
-    skip: searchState === SearchState.RESULTS,
-  });
-
-  /**
-   * Transforms returned data into generic card list items.
-   * This is required for SearchResultCardDisplay to accept our results.
-   */
-  const jobReviews = useSearchAfter(
+    // callbacks
+    triggerSearchNew,
+    triggerSearchNextBatch,
+  } = useSearch<GetJobReviews>(
+    GET_JOB_REVIEWS,
     {
-      data: jobReviewsData,
-      loading: jobReviewsLoading,
-      error: jobReviewsError !== undefined,
-      ...rest,
+      variables: {
+        id: jobId,
+      },
     },
     buildJobReviewsCardList
-  ) as IReviewUserCardItem[];
+  );
 
   return (
     <>
@@ -133,12 +101,12 @@ const JobsPage: React.FC = () => {
           error={detailsError !== undefined}
           suggestions={searchSuggestions}
           jobDetails={jobDetails}
-          onTriggerSearch={onNewSearch}
+          onTriggerSearch={triggerSearchNew}
         />
         <SearchResultCardDisplay
           searchState={searchState}
-          searchResults={jobReviews}
-          onResultsEndReached={onNextBatchSearch}
+          searchResults={searchResults}
+          onResultsEndReached={triggerSearchNextBatch}
         />
       </JobPageContainer>
     </>
