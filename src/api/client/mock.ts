@@ -35,12 +35,7 @@ import { GET_REVIEW_DETAILS } from "src/pages/reviews/graphql/queries";
 import { getMockReviewDetails } from "src/pages/reviews/graphql/mocks";
 
 import { getSearchBuilder } from "src/pages/search/graphql/queries";
-import {
-  getMockCompaniesSearch,
-  getMockJobsSearch,
-  getMockReviewsSearch,
-  getMockAllSearch,
-} from "src/pages/search/graphql/mocks";
+import { getMockAllSearch } from "src/pages/search/graphql/mocks";
 
 /**
  * Import all queries and their associated mock handlers
