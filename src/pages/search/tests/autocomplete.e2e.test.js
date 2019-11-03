@@ -7,7 +7,7 @@ describe("Search autocomplete", () => {
     cy.url().should("include", "/find");
   });
 
-  it("will autocomplete a misspelled query", () => {
+  it("should autocomplete a misspelled query", () => {
     cy.get(".search-field input")
       .type("sips")
       .type("{enter}");

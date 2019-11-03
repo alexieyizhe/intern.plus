@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { OptionTypeBase } from "react-select/src/types";
+import classNames from "classnames";
 
 import { SearchType } from "src/shared/constants/search";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
@@ -137,6 +138,7 @@ const ToggleIndicator = styled(UnstyledButton)`
 `;
 
 const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
+  className,
   sortOption,
   typeOption,
   ratingOption,
@@ -173,6 +175,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
 
   return (
     <Container
+      className={classNames("options-menu", className)}
       color="greyLight"
       menuOpen={menuOpen}
       onFocus={() => setMenuOpen(true)}
