@@ -18,7 +18,7 @@ import {
 import { buildSearchResultCardsList } from "./graphql/utils";
 
 import {
-  ResultCardDisplay,
+  SearchResultCardDisplay,
   SearchField,
   Text,
   PageContainer,
@@ -156,7 +156,7 @@ const GenericSearchPage: React.FC = () => {
           onTriggerSearch={triggerSearchNew}
           suggestions={searchSuggestions}
         />
-        <ResultCardDisplay
+        <SearchResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}
           onResultsEndReached={triggerSearchNextBatch}

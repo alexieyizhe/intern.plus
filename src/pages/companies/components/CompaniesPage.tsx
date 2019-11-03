@@ -23,7 +23,7 @@ import {
   buildCompanyJobCardsList,
 } from "../graphql/utils";
 
-import { PageContainer, ResultCardDisplay } from "src/components";
+import { PageContainer, SearchResultCardDisplay } from "src/components";
 import CompanyDetailsCard from "./CompanyDetailsCard";
 
 /*******************************************************************
@@ -138,7 +138,7 @@ const CompaniesPage: React.FC = () => {
           companyDetails={companyDetails}
           onTriggerSearch={onNewSearch}
         />
-        <ResultCardDisplay
+        <SearchResultCardDisplay
           searchState={searchState}
           searchResults={filteredJobs}
           onResultsEndReached={onNextBatchSearch}

@@ -20,7 +20,7 @@ import { GetJobReviews } from "../graphql/types/GetJobReviews";
 import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
-import { PageContainer, ResultCardDisplay } from "src/components";
+import { PageContainer, SearchResultCardDisplay } from "src/components";
 import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
@@ -110,7 +110,7 @@ const JobsPage: React.FC = () => {
 
   /**
    * Transforms returned data into generic card list items.
-   * This is required for ResultCardDisplay to accept our results.
+   * This is required for SearchResultCardDisplay to accept our results.
    */
   const jobReviews = useSearchAfter(
     {
@@ -147,7 +147,7 @@ const JobsPage: React.FC = () => {
           jobDetails={jobDetails}
           onTriggerSearch={onNewSearch}
         />
-        <ResultCardDisplay
+        <SearchResultCardDisplay
           searchState={searchState}
           searchResults={filteredReviews}
           onResultsEndReached={onNextBatchSearch}

@@ -20,7 +20,7 @@ import Spinner from "src/components/Spinner";
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
-export interface IResultCardDisplayProps
+export interface ISearchResultCardDisplayProps
   extends React.ComponentPropsWithoutRef<"section"> {
   searchState: SearchState;
   searchResults: IGenericCardItem[];
@@ -218,7 +218,7 @@ const ResultJobCard = styled(JobCard)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
+const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
   searchState,
   searchResults,
   onResultsEndReached,
@@ -255,4 +255,4 @@ const ResultCardDisplay: React.FC<IResultCardDisplayProps> = ({
   );
 };
 
-export default React.memo(ResultCardDisplay);
+export default React.memo(SearchResultCardDisplay);
