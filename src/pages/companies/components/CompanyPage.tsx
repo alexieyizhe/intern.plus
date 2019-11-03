@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
+import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { detailsPageStyles } from "src/theme/snippets";
@@ -22,7 +23,11 @@ import {
   buildCompanyJobCardsList,
 } from "../graphql/utils";
 
-import { PageContainer, SearchResultCardDisplay } from "src/components";
+import {
+  PageContainer,
+  SearchOptionsMenu,
+  SearchResultCardDisplay,
+} from "src/components";
 import CompanyDetailsCard from "./CompanyDetailsCard";
 
 /*******************************************************************
@@ -49,6 +54,7 @@ const CompanyPage: React.FC = () => {
 
   const { companySlug } = useParams();
   const searchSuggestions = useSearchSuggestions();
+  const sortOption = useSearchSort(); // for SearchOptionsMenu
 
   /**
    * Fetch *details of the company* with the corresponding slug.
@@ -105,6 +111,9 @@ const CompanyPage: React.FC = () => {
           companyDetails={companyDetails}
           onTriggerSearch={triggerSearchNew}
         />
+
+        <SearchOptionsMenu sortOption={sortOption} />
+
         <SearchResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}

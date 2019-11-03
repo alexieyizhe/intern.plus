@@ -7,7 +7,7 @@ describe("Search autocomplete", () => {
     cy.url().should("include", "/find");
   });
 
-  it("should be able to filter by number of ratings", () => {
+  it("should be able to sort by salary", () => {
     cy.get(".search-field input")
       .type("sips")
       .type("{downarrow}{enter}");

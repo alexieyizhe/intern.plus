@@ -7,16 +7,22 @@ import { Helmet } from "react-helmet";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
+import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { detailsPageStyles } from "src/theme/snippets";
+import { availableSortOptions, SearchType } from "src/shared/constants/search";
 
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
 import { GetJobReviews } from "../graphql/types/GetJobReviews";
 import { GET_JOB_DETAILS, getJobReviewsQueryBuilder } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
-import { PageContainer, SearchResultCardDisplay } from "src/components";
+import {
+  PageContainer,
+  SearchOptionsMenu,
+  SearchResultCardDisplay,
+} from "src/components";
 import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
@@ -44,7 +50,8 @@ const JobPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { jobId } = useParams();
-  const searchSuggestions = useSearchSuggestions();
+  const searchSuggestions = useSearchSuggestions(); // for SearchField
+  const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]); // for SearchOptionsMenu
 
   /**
    * Fetch the *details of the job* with corresponding id.
@@ -106,6 +113,9 @@ const JobPage: React.FC = () => {
           jobDetails={jobDetails}
           onTriggerSearch={triggerSearchNew}
         />
+
+        <SearchOptionsMenu sortOption={sortOption} />
+
         <SearchResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}

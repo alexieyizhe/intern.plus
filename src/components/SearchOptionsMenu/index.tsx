@@ -105,7 +105,11 @@ const TopContainer = styled.div`
 `;
 
 const SortOptionSelect = styled(Select)`
-  min-width: 200px;
+  width: 80%;
+
+  & > div {
+    padding: 10px;
+  }
 `;
 
 const VerticalAlignContainer = styled.div`

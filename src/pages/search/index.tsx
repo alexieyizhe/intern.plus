@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
-import { SearchType } from "src/shared/constants/search";
+import { SearchType, availableSortOptions } from "src/shared/constants/search";
 import pageCopy from "./copy";
 
 import { getSearchBuilder } from "./graphql/queries";
@@ -98,16 +98,14 @@ export const Heading = styled(Text)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const GenericSearchPage: React.FC = () => {
+const SearchPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { searchQuery, searchType } = useSearchParams();
-
-  // for SearchField
-  const searchSuggestions = useSearchSuggestions();
-
-  // for SearchOptionsMenu
-  const sortOption = useSearchSort();
+  const searchSuggestions = useSearchSuggestions(); // for SearchField
+  const sortOption = useSearchSort(
+    searchType ? availableSortOptions[searchType] : undefined
+  ); // for SearchOptionsMenu
 
   const { QUERY_DEF } = useSearchQueryDef(getSearchBuilder);
   const {
@@ -154,4 +152,4 @@ const GenericSearchPage: React.FC = () => {
   );
 };
 
-export default React.memo(GenericSearchPage);
+export default React.memo(SearchPage);
