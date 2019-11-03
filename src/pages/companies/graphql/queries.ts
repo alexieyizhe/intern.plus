@@ -29,8 +29,6 @@ export const GET_COMPANY_DETAILS = gql`
  */
 const getSortStr = (sort?: SearchSort) => {
   switch (sort) {
-    case SearchSort.ALPHABETICAL:
-      return `{ name: ASC }`;
     case SearchSort.NUM_REVIEWS:
       return `[{ numRatings: DESC }, { name: ASC }]`;
     case SearchSort.RATING:
@@ -38,6 +36,7 @@ const getSortStr = (sort?: SearchSort) => {
     case SearchSort.SALARY:
       return `[{ avgHourlySalary: DESC }, { name: ASC }]`;
     default:
+      // same as ALPHABETICAL
       return `{ name: ASC }`;
   }
 };

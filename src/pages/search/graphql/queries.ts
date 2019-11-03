@@ -50,7 +50,7 @@ export const GET_ALL_SEARCH_SORT_ALPHA = gql`
           { tags: { contains: $query } }
         ]
       }
-      sort: { company: { name: ASC } }
+      sort: [{ updatedAt: ASC }, { createdAt: ASC }, { legacyUpdatedAt: ASC }]
       skip: $offset
       first: $limit
     ) {
@@ -434,7 +434,7 @@ export const GET_REVIEWS_SEARCH_SORT_ALPHA = gql`
           { tags: { contains: $query } }
         ]
       }
-      sort: { company: { name: ASC } }
+      sort: [{ updatedAt: ASC }, { legacyUpdatedAt: ASC }]
       skip: $offset
       first: $limit
     ) {
@@ -458,7 +458,11 @@ export const GET_REVIEWS_SEARCH_SORT_RATING = gql`
           { tags: { contains: $query } }
         ]
       }
-      sort: [{ overallRating: DESC }, { company: { name: ASC } }]
+      sort: [
+        { overallRating: DESC }
+        { updatedAt: ASC }
+        { legacyUpdatedAt: ASC }
+      ]
       skip: $offset
       first: $limit
     ) {
@@ -486,7 +490,11 @@ export const GET_REVIEWS_SEARCH_SORT_NUM_REVIEWS = gql`
           { tags: { contains: $query } }
         ]
       }
-      sort: { company: { name: ASC } }
+      sort: [
+        { overallRating: DESC }
+        { updatedAt: ASC }
+        { legacyUpdatedAt: ASC }
+      ]
       skip: $offset
       first: $limit
     ) {
@@ -510,7 +518,7 @@ export const GET_REVIEWS_SEARCH_SORT_SALARY = gql`
           { tags: { contains: $query } }
         ]
       }
-      sort: [{ salary: DESC }, { company: { name: ASC } }]
+      sort: [{ salary: DESC }, { updatedAt: ASC }, { legacyUpdatedAt: ASC }]
       skip: $offset
       first: $limit
     ) {

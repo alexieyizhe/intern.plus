@@ -148,7 +148,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
       : result.author;
     const subheading = isReviewJobCardItem(result)
       ? `${result.jobName}  •  ${result.jobLocation}`
-      : result.date;
+      : result.relativeDate;
 
     return (
       <ResultReviewCard

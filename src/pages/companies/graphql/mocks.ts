@@ -23,9 +23,6 @@ export const getMockCompanyJobs = (
   let sortFn;
 
   switch (sort) {
-    case SearchSort.ALPHABETICAL:
-      sortFn = (a: any, b: any) => a.name.localeCompare(b.name);
-      break;
     case SearchSort.NUM_REVIEWS:
       sortFn = (a: any, b: any) => b.reviews.count - a.reviews.count;
       break;
@@ -36,6 +33,7 @@ export const getMockCompanyJobs = (
       sortFn = (a: any, b: any) => b.avgHourlySalary - a.avgHourlySalary;
       break;
     default:
+      // same as ALPHABETICAL
       sortFn = (a: any, b: any) => a.name.localeCompare(b.name);
       break;
   }

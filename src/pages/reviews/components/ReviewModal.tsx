@@ -44,6 +44,8 @@ export interface IReviewDetails {
   salaryPeriod: string;
   logoSrc: string;
   color: string;
+  date: string;
+  relativeDate: string;
 }
 
 /*******************************************************************
@@ -51,7 +53,6 @@ export interface IReviewDetails {
  *******************************************************************/
 const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this review.";
-const AUTHOR_SUFFIX = "mentioned the following...";
 
 /**
  * Creates markup for the title in the tab bar.
@@ -80,6 +81,18 @@ const getSalaryPeriodText = (salaryPeriod: string) => {
       return "";
   }
 };
+
+const getAuthorText = (author: string, date: string, relativeDate: string) => (
+  <>
+    <Text variant="subheading">{author} </Text>
+    <Text variant="subheading" color="greyDark">
+      mentioned the following{" "}
+    </Text>
+    <Text variant="subheading" title={date}>
+      {relativeDate}...
+    </Text>
+  </>
+);
 
 /**
  * Creates the markup for displaying the correct state of
@@ -131,10 +144,7 @@ const getDetailsMarkup = (
         </FlexRowContainer>
 
         <ReviewPrefixContainer>
-          <Text variant="subheading">{details.author}</Text>&nbsp;
-          <Text variant="subheading" color="greyDark">
-            {AUTHOR_SUFFIX}
-          </Text>
+          {getAuthorText(details.author, details.date, details.relativeDate)}
         </ReviewPrefixContainer>
 
         <FlexRowContainer className="miscInfo">

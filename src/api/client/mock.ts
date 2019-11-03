@@ -21,7 +21,7 @@ import {
 
 import {
   GET_JOB_DETAILS,
-  GET_JOB_REVIEWS,
+  getJobReviewsQueryBuilder,
 } from "src/pages/jobs/graphql/queries";
 import {
   getMockJobDetails,
@@ -92,6 +92,7 @@ const API_CALLS = [
       }),
   },
   {
+    // also handles DEFAULT NO SORT options
     query: getCompanyJobsQueryBuilder({ sort: SearchSort.ALPHABETICAL }),
     handler: (params: ISlugQueryParam & ISearchQueryParams) =>
       Promise.resolve({
@@ -130,10 +131,25 @@ const API_CALLS = [
       }),
   },
   {
-    query: GET_JOB_REVIEWS,
+    // also handles DEFAULT NO SORT and NUM_REVIEWS sort options
+    query: getJobReviewsQueryBuilder({ sort: SearchSort.ALPHABETICAL }),
     handler: (params: IIdQueryParam & ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockJobReviews(params),
+        data: getMockJobReviews(params, { sort: SearchSort.ALPHABETICAL }),
+      }),
+  },
+  {
+    query: getJobReviewsQueryBuilder({ sort: SearchSort.RATING }),
+    handler: (params: IIdQueryParam & ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockJobReviews(params, { sort: SearchSort.RATING }),
+      }),
+  },
+  {
+    query: getJobReviewsQueryBuilder({ sort: SearchSort.SALARY }),
+    handler: (params: IIdQueryParam & ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockJobReviews(params, { sort: SearchSort.SALARY }),
       }),
   },
 

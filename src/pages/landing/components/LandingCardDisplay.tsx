@@ -96,7 +96,7 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
       <LandingReviewCard
         key={card.id}
         heading={card.author}
-        subheading={card.date}
+        subheading={card.relativeDate}
         rating={card.overallRating}
         color={card.color}
         linkTo={getReviewCardRoute(card.id)}

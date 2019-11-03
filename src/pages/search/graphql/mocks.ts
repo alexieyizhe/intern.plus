@@ -106,20 +106,19 @@ export const getMockReviewsSearch = (
   let sortFn;
 
   switch (sort) {
-    case SearchSort.ALPHABETICAL:
-      sortFn = (a: any, b: any) => a.job.name.localeCompare(b.job.name);
-      break;
-    case SearchSort.NUM_REVIEWS:
-      sortFn = (a: any, b: any) => a.job.name.localeCompare(b.job.name);
-      break;
     case SearchSort.RATING:
       sortFn = (a: any, b: any) => b.overallRating - a.overallRating;
       break;
     case SearchSort.SALARY:
-      sortFn = (a: any, b: any) => b.salary - a.salary; // TODO: find a way to get avg salary to sort by salary
+      sortFn = (a: any, b: any) => b.salary - a.salary;
       break;
     default:
-      sortFn = (a: any, b: any) => a.name.localeCompare(b.name);
+      // same as ALPHABETICAL, DEFAULT (chronologically) and NUM_REVIEWS (not a valid sort option for reviews)
+      sortFn = (a: any, b: any) =>
+        Number(new Date(b.updatedAt)) - Number(new Date(a.updatedAt)) ||
+        Number(new Date(b.createdAt)) - Number(new Date(a.createdAt)) ||
+        Number(new Date(b.legacyUpdatedAt)) -
+          Number(new Date(a.legacyUpdatedAt));
       break;
   }
 

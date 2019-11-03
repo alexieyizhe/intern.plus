@@ -178,6 +178,7 @@ export const useSearch = <TData>(
     triggerSearchNew(searchQuery, true);
   }, [searchSort]); // eslint-disable-line
 
+  console.log(error);
   return {
     // search info
     searchState,

@@ -47,10 +47,12 @@ const CompanyPageContainer = styled(PageContainer)`
 const CompanyPage: React.FC = () => {
   useScrollTopOnMount();
 
-  /**
-   * Fetch the company with the corresponding slug.
-   */
   const { companySlug } = useParams();
+  const searchSuggestions = useSearchSuggestions();
+
+  /**
+   * Fetch details of the company with the corresponding slug.
+   */
   const {
     loading: detailsLoading,
     error: detailsError,
@@ -70,7 +72,6 @@ const CompanyPage: React.FC = () => {
   /**
    * Fetch jobs at the company.
    */
-  const searchSuggestions = useSearchSuggestions();
   const { QUERY_DEF } = useSearchQueryDef(getCompanyJobsQueryBuilder);
   const {
     // search info
