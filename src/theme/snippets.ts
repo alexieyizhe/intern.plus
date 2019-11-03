@@ -68,6 +68,8 @@ export const detailsCardStyles = css<{ color?: string }>`
     width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
     left: -${theme.padding.pageHorizontalMobile}px;
     padding: ${theme.padding.displayMobile};
+    
+    border-radius: 0;
   `}
 `;
 
