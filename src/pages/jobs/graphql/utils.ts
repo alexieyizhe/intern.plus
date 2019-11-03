@@ -33,7 +33,7 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
 
 export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
   id: item.id || "",
-  authorName: item.isLegacy ? "An InternCompass user" : "Anonymous",
+  author: item.isLegacy ? "An InternCompass user" : "Anonymous",
   date: timeAgo.format(
     new Date(
       item.isLegacy

@@ -25,14 +25,14 @@ export * from "./PageFooter";
 export { default as PageHeader } from "./PageHeader";
 export * from "./PageHeader";
 
-export { default as ResultCardDisplay } from "./ResultCardDisplay";
-export * from "./ResultCardDisplay";
-
 export { default as SearchField } from "./SearchField";
 export * from "./SearchField";
 
 export { default as SearchOptionsMenu } from "./SearchOptionsMenu";
 export * from "./SearchOptionsMenu";
+
+export { default as SearchResultCardDisplay } from "./SearchResultCardDisplay";
+export * from "./SearchResultCardDisplay";
 
 export { default as Select } from "./Select";
 export * from "./Select";

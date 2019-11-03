@@ -10,7 +10,7 @@ import {
 import { RouteName } from "src/shared/constants/routing";
 import { SearchFilter, SearchType } from "src/shared/constants/search";
 
-import CompaniesPage from "./components/CompaniesPage";
+import CompanyPage from "./components/CompanyPage";
 
 /**
  * Page router will either:
@@ -24,7 +24,7 @@ const CompaniesRouteHandler = () => {
     <>
       <Switch>
         <Route path={`${match.path}/:companySlug`}>
-          <CompaniesPage />
+          <CompanyPage />
         </Route>
 
         <Route path={match.path}>

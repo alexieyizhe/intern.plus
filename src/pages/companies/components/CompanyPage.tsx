@@ -6,13 +6,8 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import {
-  useSearch,
-  useSearchAfter,
-  SearchState,
-} from "src/shared/hooks/useSearch";
-import { RESULTS_PER_PAGE } from "src/shared/constants/search";
-import { IJobCardItem } from "src/shared/constants/card";
+import { useSearch } from "src/shared/hooks/useSearch";
+
 import { detailsPageStyles } from "src/theme/snippets";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
@@ -23,7 +18,7 @@ import {
   buildCompanyJobCardsList,
 } from "../graphql/utils";
 
-import { PageContainer, ResultCardDisplay } from "src/components";
+import { PageContainer, SearchResultCardDisplay } from "src/components";
 import CompanyDetailsCard from "./CompanyDetailsCard";
 
 /*******************************************************************
@@ -35,11 +30,6 @@ import CompanyDetailsCard from "./CompanyDetailsCard";
 const getTitleMarkup = (companyName?: string) =>
   companyName ? `${companyName} • intern+` : "Company details • intern+";
 
-const reviewFilterer = (filterBy: string) => (job: IJobCardItem) =>
-  job.name.toLowerCase().includes(filterBy) ||
-  job.location.toLowerCase().includes(filterBy) ||
-  job.hourlySalaryCurrency.toLowerCase().includes(filterBy);
-
 /*******************************************************************
  *                             **Styles**                          *
  *******************************************************************/
@@ -50,10 +40,8 @@ const CompanyPageContainer = styled(PageContainer)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const CompaniesPage: React.FC = () => {
+const CompanyPage: React.FC = () => {
   useScrollTopOnMount();
-
-  const searchSuggestions = useSearchSuggestions();
 
   /**
    * Fetch the company with the corresponding slug.
@@ -76,53 +64,26 @@ const CompaniesPage: React.FC = () => {
   );
 
   /**
-   * For jobs at the company.
+   * Fetch jobs at the company.
    */
+  const searchSuggestions = useSearchSuggestions();
   const {
-    // for fetching results
-    searchQuery,
-    searchType,
-    page,
-
-    // for displaying results
+    // search info
     searchState,
+    searchResults,
 
-    // search trigger functions
-    onNewSearch,
-    onNextBatchSearch,
-
-    ...rest
-  } = useSearch();
-
-  const {
-    loading: companyJobsLoading,
-    error: companyJobsError,
-    data: companyJobsData,
-  } = useQuery<GetCompanyJobs>(GET_COMPANY_JOBS, {
-    variables: {
-      slug: companySlug,
-      query: searchQuery || "", // if query is `undefined`, we're in initial state, so show all jobs
-      offset: (page - 1) * RESULTS_PER_PAGE,
-      limit: RESULTS_PER_PAGE,
-    },
-    skip: searchState === SearchState.RESULTS,
-  });
-
-  const companyJobs = useSearchAfter(
+    // callbacks
+    triggerSearchNew,
+    triggerSearchNextBatch,
+  } = useSearch<GetCompanyJobs>(
+    GET_COMPANY_JOBS,
     {
-      data: companyJobsData,
-      loading: companyJobsLoading,
-      error: companyJobsError !== undefined,
-      ...rest,
+      variables: {
+        slug: companySlug,
+      },
     },
     buildCompanyJobCardsList
-  ) as IJobCardItem[];
-
-  const filteredJobs = useMemo(() => {
-    const normalizedQuery = (searchQuery || "").toLowerCase();
-    const filterFn = reviewFilterer(normalizedQuery);
-    return companyJobs.filter(filterFn);
-  }, [companyJobs, searchQuery]);
+  );
 
   return (
     <>
@@ -136,16 +97,16 @@ const CompaniesPage: React.FC = () => {
           error={detailsError !== undefined}
           suggestions={searchSuggestions}
           companyDetails={companyDetails}
-          onTriggerSearch={onNewSearch}
+          onTriggerSearch={triggerSearchNew}
         />
-        <ResultCardDisplay
+        <SearchResultCardDisplay
           searchState={searchState}
-          searchResults={filteredJobs}
-          onResultsEndReached={onNextBatchSearch}
+          searchResults={searchResults}
+          onResultsEndReached={triggerSearchNextBatch}
         />
       </CompanyPageContainer>
     </>
   );
 };
 
-export default React.memo(CompaniesPage);
+export default React.memo(CompanyPage);

@@ -31,6 +31,7 @@ export const GET_COMPANY_JOBS = gql`
           OR: [
             { name: { contains: $query } }
             { location: { contains: $query } }
+            { hourlySalaryCurrency: { contains: $query } }
           ]
         }
         sort: { name: DESC }
