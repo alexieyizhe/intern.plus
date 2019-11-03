@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import { RouteName } from "src/shared/constants/routing";
-import { SearchFilter, SearchType } from "src/shared/constants/search";
+import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
 import CompanyPage from "./components/CompanyPage";
 
@@ -29,7 +29,7 @@ const CompaniesRouteHandler = () => {
 
         <Route path={match.path}>
           <Redirect
-            to={`${RouteName.SEARCH}?${SearchFilter.TYPE}=${SearchType.COMPANIES}`}
+            to={`${RouteName.SEARCH}?${SearchParamKey.TYPE}=${SearchType.COMPANIES}`}
           />
         </Route>
       </Switch>

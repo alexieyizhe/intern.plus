@@ -9,7 +9,7 @@ import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
 import { buildLandingCardsList } from "./graphql/utils";
 
 import { RouteName } from "src/shared/constants/routing";
-import { SearchFilter } from "src/shared/constants/search";
+import { SearchParamKey } from "src/shared/constants/search";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import pageCopy from "./copy";
 
@@ -157,7 +157,7 @@ const LandingPage = () => {
     return (
       <Redirect
         to={`${RouteName.SEARCH}${
-          searchVal ? `?${SearchFilter.QUERY}=${searchVal}` : ""
+          searchVal ? `?${SearchParamKey.QUERY}=${searchVal}` : ""
         }`}
       />
     );

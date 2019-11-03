@@ -10,13 +10,7 @@ import { useSearch } from "src/shared/hooks/useSearch";
 import { SearchType } from "src/shared/constants/search";
 import pageCopy from "./copy";
 
-import {
-  GET_ALL_SEARCH,
-  GET_COMPANIES_SEARCH,
-  GET_JOBS_SEARCH,
-  GET_REVIEWS_SEARCH,
-} from "./graphql/queries";
-import { buildSearchResultCardsList } from "./graphql/utils";
+import { buildQuery, buildSearchResultCardsList } from "./graphql/utils";
 
 import {
   SearchResultCardDisplay,
@@ -86,26 +80,6 @@ const getHeadingMarkup = (query?: string, type?: SearchType) => {
   );
 };
 
-/**
- * Gets the correct graphQL query based on the type of search
- * @param type type of search being performed
- */
-const getQuery = (type?: SearchType) => {
-  switch (type) {
-    case SearchType.COMPANIES:
-      return GET_COMPANIES_SEARCH;
-
-    case SearchType.JOBS:
-      return GET_JOBS_SEARCH;
-
-    case SearchType.REVIEWS:
-      return GET_REVIEWS_SEARCH;
-
-    default:
-      return GET_ALL_SEARCH;
-  }
-};
-
 /*******************************************************************
  *                             **Styles**                           *
  *******************************************************************/
@@ -124,10 +98,13 @@ export const Heading = styled(Text)`
 const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const { searchQuery, searchType } = useSearchParams();
+  const { searchQuery, searchType, searchSort } = useSearchParams();
   const searchSuggestions = useSearchSuggestions();
 
-  const QUERY = useMemo(() => getQuery(searchType), [searchType]);
+  const QUERY = useMemo(() => buildQuery(searchType, searchSort), [
+    searchSort,
+    searchType,
+  ]);
   const {
     // search info
     searchState,

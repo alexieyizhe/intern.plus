@@ -1,4 +1,8 @@
-import { SearchType, SearchFilter } from "src/shared/constants/search";
+import {
+  SearchParamKey,
+  SearchType,
+  SearchSort,
+} from "src/shared/constants/search";
 import { useQueryParam, StringParam } from "use-query-params";
 
 export const useSearchParams = () => {
@@ -6,19 +10,28 @@ export const useSearchParams = () => {
    * Query parameter stores the value of the search query.
    */
   const [searchQuery, setSearchQuery] = useQueryParam(
-    SearchFilter.QUERY,
+    SearchParamKey.QUERY,
     StringParam
   );
 
   const [searchType, setSearchType] = useQueryParam(
-    SearchFilter.TYPE,
+    SearchParamKey.TYPE,
+    StringParam
+  );
+
+  const [searchSort, setSearchSort] = useQueryParam(
+    SearchParamKey.SORT,
     StringParam
   );
 
   return {
     searchQuery,
-    searchType: searchType as SearchType | undefined,
     setSearchQuery,
+
+    searchType: searchType as SearchType | undefined,
     setSearchType,
+
+    searchSort: searchSort as SearchSort | undefined,
+    setSearchSort,
   };
 };

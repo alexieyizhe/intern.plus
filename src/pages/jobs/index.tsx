@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import { RouteName } from "src/shared/constants/routing";
-import { SearchFilter, SearchType } from "src/shared/constants/search";
+import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
 import JobPage from "./components/JobPage";
 
@@ -29,7 +29,7 @@ const JobsRouteHandler = () => {
 
         <Route path={match.path}>
           <Redirect
-            to={`${RouteName.SEARCH}?${SearchFilter.TYPE}=${SearchType.JOBS}`}
+            to={`${RouteName.SEARCH}?${SearchParamKey.TYPE}=${SearchType.JOBS}`}
           />
         </Route>
       </Switch>
