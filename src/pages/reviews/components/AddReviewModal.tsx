@@ -4,12 +4,12 @@ import classNames from "classnames";
 
 import { useSiteContext } from "src/context";
 
+import { Card, Text } from "src/components";
 import {
   HEADER_HEIGHT,
+  MOBILE_MENU_HEIGHT,
   MOBILE_MENU_MEDIA_QUERY,
-  Card,
-  Text,
-} from "src/components";
+} from "src/components/PageHeader";
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -26,7 +26,7 @@ const ModalContainer = styled.div`
   }
 
   &.mobile-menu-open {
-    top: ${HEADER_HEIGHT + 130}px;
+    top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 10}px;
   }
 `;
 

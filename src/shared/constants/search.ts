@@ -7,8 +7,8 @@ export enum SearchParamKey {
   QUERY = "q",
   TYPE = "t",
   SORT = "s",
-  RATING = "r",
-  LOCATION = "l",
+  RATING_FILTER = "fr",
+  LOCATION_FILTER = "fl",
 }
 
 export enum SearchType {
@@ -23,3 +23,12 @@ export enum SearchSort {
   RATING = "rating",
   SALARY = "salary",
 }
+
+export const availableSortOptions: { [key: string]: SearchSort[] } = {
+  [SearchType.REVIEWS]: [SearchSort.RATING, SearchSort.SALARY],
+  [SearchType.COMPANIES]: [
+    SearchSort.ALPHABETICAL,
+    SearchSort.NUM_REVIEWS,
+    SearchSort.RATING,
+  ],
+};

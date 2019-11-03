@@ -5,17 +5,24 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
+import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { detailsPageStyles } from "src/theme/snippets";
+import { availableSortOptions, SearchType } from "src/shared/constants/search";
 
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
 import { GetJobReviews } from "../graphql/types/GetJobReviews";
-import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
+import { GET_JOB_DETAILS, getJobReviewsQueryBuilder } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
-import { PageContainer, SearchResultCardDisplay } from "src/components";
+import {
+  PageContainer,
+  SearchOptionsMenu,
+  SearchResultCardDisplay,
+} from "src/components";
 import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
@@ -42,10 +49,13 @@ const JobPageContainer = styled(PageContainer)`
 const JobPage: React.FC = () => {
   useScrollTopOnMount();
 
-  /**
-   * Fetch the details of the job with corresponding id.
-   */
   const { jobId } = useParams();
+  const searchSuggestions = useSearchSuggestions(); // for SearchField
+  const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]); // for SearchOptionsMenu
+
+  /**
+   * Fetch the *details of the job* with corresponding id.
+   */
   const {
     loading: detailsLoading,
     error: detailsError,
@@ -63,9 +73,9 @@ const JobPage: React.FC = () => {
   );
 
   /**
-   * Fetch reviews of the job.
+   * Fetch *reviews of the job*.
    */
-  const searchSuggestions = useSearchSuggestions();
+  const { QUERY_DEF } = useSearchQueryDef(getJobReviewsQueryBuilder);
   const {
     // search info
     searchState,
@@ -75,7 +85,7 @@ const JobPage: React.FC = () => {
     triggerSearchNew,
     triggerSearchNextBatch,
   } = useSearch<GetJobReviews>(
-    GET_JOB_REVIEWS,
+    QUERY_DEF,
     {
       variables: {
         id: jobId,
@@ -103,6 +113,9 @@ const JobPage: React.FC = () => {
           jobDetails={jobDetails}
           onTriggerSearch={triggerSearchNew}
         />
+
+        <SearchOptionsMenu sortOption={sortOption} />
+
         <SearchResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}

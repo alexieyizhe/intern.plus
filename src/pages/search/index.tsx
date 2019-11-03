@@ -1,17 +1,19 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
-import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
+import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
+import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
-import { SearchType } from "src/shared/constants/search";
+import { SearchType, availableSortOptions } from "src/shared/constants/search";
 import pageCopy from "./copy";
 
-import { buildQuery, buildSearchResultCardsList } from "./graphql/utils";
+import { getSearchBuilder } from "./graphql/queries";
+import { buildSearchResultCardsList } from "./graphql/utils";
 
 import {
   SearchResultCardDisplay,
@@ -96,21 +98,16 @@ export const Heading = styled(Text)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const GenericSearchPage: React.FC = () => {
+const SearchPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const { searchQuery, searchType, searchSort } = useSearchParams();
+  const { searchQuery, searchType } = useSearchParams();
+  const searchSuggestions = useSearchSuggestions(); // for SearchField
+  const sortOption = useSearchSort(
+    searchType ? availableSortOptions[searchType] : undefined
+  ); // for SearchOptionsMenu
 
-  // for SearchField
-  const searchSuggestions = useSearchSuggestions();
-
-  // for SearchOptionsMenu
-  const sortOption = useSearchSort();
-
-  const QUERY = useMemo(() => buildQuery(searchType, searchSort), [
-    searchSort,
-    searchType,
-  ]);
+  const { QUERY_DEF } = useSearchQueryDef(getSearchBuilder);
   const {
     // search info
     searchState,
@@ -120,7 +117,7 @@ const GenericSearchPage: React.FC = () => {
     triggerSearchNew,
     triggerSearchNextBatch,
   } = useSearch(
-    QUERY,
+    QUERY_DEF,
     {
       skip: searchQuery === undefined && !searchType, // if searching for a type, show all of that type instead of empty state prompting them to search
     },
@@ -155,4 +152,4 @@ const GenericSearchPage: React.FC = () => {
   );
 };
 
-export default React.memo(GenericSearchPage);
+export default React.memo(SearchPage);

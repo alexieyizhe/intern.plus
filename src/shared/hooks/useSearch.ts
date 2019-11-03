@@ -11,9 +11,9 @@ import { DocumentNode } from "graphql";
 import { QueryHookOptions, useQuery } from "@apollo/react-hooks";
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
+
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
 import { IGenericCardItem } from "src/shared/constants/card";
-
 import { analytics } from "src/shared/utils/analytics";
 
 /*******************************************************************
