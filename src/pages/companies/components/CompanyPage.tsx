@@ -53,7 +53,7 @@ const CompanyPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { companySlug } = useParams();
-  const searchSuggestions = useSearchSuggestions();
+  const searchSuggestions = useSearchSuggestions({ companySlug });
   const sortOption = useSearchSort(); // for SearchOptionsMenu
 
   /**

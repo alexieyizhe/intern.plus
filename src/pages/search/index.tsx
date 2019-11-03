@@ -102,7 +102,7 @@ const SearchPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { searchQuery, searchType } = useSearchParams();
-  const searchSuggestions = useSearchSuggestions(); // for SearchField
+  const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
   const sortOption = useSearchSort(
     searchType ? availableSortOptions[searchType] : undefined
   ); // for SearchOptionsMenu

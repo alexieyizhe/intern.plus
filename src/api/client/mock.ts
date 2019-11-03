@@ -7,8 +7,14 @@ import {
 } from "src/shared/mocks";
 import { SearchType, SearchSort } from "src/shared/constants/search";
 
-import { GET_SEARCH_SUGGESTIONS } from "src/shared/hooks/useSearchSuggestions/graphql/queries";
-import { getMockSearchSuggestions } from "src/shared/hooks/useSearchSuggestions/graphql/mocks";
+import {
+  GET_SEARCH_SUGGESTIONS,
+  GET_SEARCH_SUGGESTIONS_COMPANY,
+} from "src/shared/hooks/useSearchSuggestions/graphql/queries";
+import {
+  getMockSearchSuggestions,
+  getMockSearchSuggestionsCompany,
+} from "src/shared/hooks/useSearchSuggestions/graphql/mocks";
 
 import {
   GET_COMPANY_DETAILS,
@@ -49,6 +55,13 @@ const API_CALLS = [
     handler: () =>
       Promise.resolve({
         data: getMockSearchSuggestions(),
+      }),
+  },
+  {
+    query: GET_SEARCH_SUGGESTIONS_COMPANY,
+    handler: ({ slug }: ISlugQueryParam) =>
+      Promise.resolve({
+        data: getMockSearchSuggestionsCompany(slug),
       }),
   },
 

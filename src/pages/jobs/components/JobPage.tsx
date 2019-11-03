@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
-import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
@@ -50,7 +49,6 @@ const JobPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { jobId } = useParams();
-  const searchSuggestions = useSearchSuggestions(); // for SearchField
   const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]); // for SearchOptionsMenu
 
   /**
@@ -109,7 +107,6 @@ const JobPage: React.FC = () => {
         <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          suggestions={searchSuggestions}
           jobDetails={jobDetails}
           onTriggerSearch={triggerSearchNew}
         />
