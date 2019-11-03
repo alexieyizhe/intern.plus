@@ -23,13 +23,10 @@ export interface IJobCardProps extends ICardProps {
 
 const Container = styled(Card)`
   position: relative;
-  ${itemCardStyles}
   ${hoverStyles}
 
   & > a {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    ${itemCardStyles}
 
     display: inline-grid;
     grid-template-rows: auto 1fr auto auto;
@@ -96,7 +93,7 @@ const JobCard: React.FC<IJobCardProps> = ({
     color="greyLight"
     {...rest}
   >
-    <Link to={linkTo}>
+    <Link to={linkTo} tabIndex={0}>
       <Text
         className="heading"
         variant="heading3"

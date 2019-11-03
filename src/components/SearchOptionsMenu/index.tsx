@@ -46,15 +46,24 @@ export interface ISearchOptionsMenuProps
 const MENU_WIDTH = 400;
 const MENU_WIDTH_MOBILE = 300;
 
-const Parent = styled.div`
+const Parent = styled.div<{ menuOpen: boolean }>`
   position: fixed;
   right: 0;
   padding-top: 40px;
 
   z-index: 2;
+  transition: transform 150ms;
+  transform: ${({ menuOpen }) =>
+    menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH - 65}px)`};
 
   ${({ theme }) => theme.mediaQueries.tablet`
     padding-top: 30px;
+  `}
+
+  ${({ theme, menuOpen }) => theme.mediaQueries.largeMobile`
+    transform: ${
+      menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
+    };
   `}
 `;
 
@@ -67,9 +76,6 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
 
   cursor: ${({ menuOpen }) => (menuOpen ? "initial" : "pointer")};
   box-shadow: ${({ theme }) => theme.boxShadow.hover};
-  transition: transform 150ms;
-  transform: ${({ menuOpen }) =>
-    menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH - 65}px)`};
 
   &.mobile-menu-open {
     top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
@@ -97,13 +103,11 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
     left: ${({ menuOpen }) => (menuOpen ? "unset" : "-60px")};
   }
 
-  ${({ theme, menuOpen }) => theme.mediaQueries.mobile`
+  ${({ theme, menuOpen }) => theme.mediaQueries.largeMobile`
     width: ${MENU_WIDTH_MOBILE}px;
     padding: 20px 30px;
 
-    transform: ${
-      menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
-    };
+    
 
     & > * {
       margin-bottom: 5px;
@@ -207,7 +211,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   );
 
   return (
-    <Parent>
+    <Parent menuOpen={menuOpen}>
       <Container
         className={classNames("options-menu", className, {
           "mobile-menu-open": mobileMenuOpen,
@@ -222,13 +226,16 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <Text variant="heading2" as="h2" className="heading">
             Options
           </Text>
-          <ToggleIndicator onClick={onToggleIndicatorClick}>
+          <ToggleIndicator
+            onClick={onToggleIndicatorClick}
+            tabIndex={menuOpen ? 0 : -1}
+          >
             <img src={ChevronImg} alt="Chevron icon" />
           </ToggleIndicator>
         </CenterContainer>
 
         {sortOption && (
-          <CenterContainer>
+          <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Sort</Text>
             <SortOptionSelect
               color="white"
@@ -236,12 +243,13 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               options={sortOption.options}
               value={sortOption.value}
               onChange={sortOption.onChange}
+              tabIndex={menuOpen ? 0 : -1}
             />
           </CenterContainer>
         )}
 
         {typeOption && (
-          <TopContainer>
+          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Type</Text>
             <VerticalAlignContainer>
               <Checkbox
@@ -252,6 +260,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                     e.target.checked ? SearchType.COMPANIES : ""
                   )
                 }
+                tabIndex={menuOpen ? 0 : -1}
               >
                 <Text variant="subheading" color="greyDark">
                   companies only
@@ -263,6 +272,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 onChange={e =>
                   typeOption.onChange(e.target.checked ? SearchType.JOBS : "")
                 }
+                tabIndex={menuOpen ? 0 : -1}
               >
                 <Text variant="subheading" color="greyDark">
                   positions only
@@ -276,6 +286,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                     e.target.checked ? SearchType.REVIEWS : ""
                   )
                 }
+                tabIndex={menuOpen ? 0 : -1}
               >
                 <Text variant="subheading" color="greyDark">
                   reviews only
@@ -286,7 +297,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         )}
 
         {ratingOption && (
-          <TopContainer>
+          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Rating</Text>
             <VerticalAlignContainer>
               <StarRating maxStars={5} filledStars={ratingOption.valueMin}>
@@ -304,13 +315,14 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         )}
 
         {locationOption && (
-          <CenterContainer>
+          <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Location</Text>
             <SortOptionSelect
               color="white"
               placeholder="California"
               options={locationOption.options}
               onChange={locationOption.onChange}
+              tabIndex={menuOpen ? 0 : -1}
             />
           </CenterContainer>
         )}

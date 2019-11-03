@@ -277,11 +277,12 @@ const Container = styled(Card)`
   `}
 
   ${({ theme }) => theme.mediaQueries.tablet`
+    padding: ${theme.padding.displayMobile};
+    
     & > .miscInfo {
       flex-direction: column;
     }
   `}
-
   ${({ theme }) => theme.mediaQueries.xlMobile`
     top: 5%;
     max-width: 90%;

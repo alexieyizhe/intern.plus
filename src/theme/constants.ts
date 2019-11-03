@@ -48,6 +48,7 @@ const constants: { [style: string]: { [key: string]: string | number } } = {
   padding: {
     input: "12px 20px",
     display: "60px 80px",
+    displayMobile: "30px 40px",
     pageVertical: 10,
     pageHorizontal: 100,
     pageHorizontalMobile: 40,

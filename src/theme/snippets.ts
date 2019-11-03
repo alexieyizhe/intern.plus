@@ -37,6 +37,9 @@ export const hoverStyles = css`
 `;
 
 export const itemCardStyles = css`
+  position: relative;
+  width: 100%;
+  height: 100%;
   padding: 25px 35px;
 `;
 
@@ -64,7 +67,7 @@ export const detailsCardStyles = css<{ color?: string }>`
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
     left: -${theme.padding.pageHorizontalMobile}px;
-    padding: ${theme.padding.display};
+    padding: ${theme.padding.displayMobile};
   `}
 `;
 

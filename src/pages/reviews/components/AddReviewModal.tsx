@@ -66,6 +66,10 @@ const InnerContainer = styled(Card)`
     max-width: 80%;
   `}
 
+  ${({ theme }) => theme.mediaQueries.tablet`
+    padding: ${theme.padding.displayMobile};
+  `}
+
   ${({ theme }) => theme.mediaQueries.xlMobile`
     margin: auto;  
     right: unset;
