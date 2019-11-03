@@ -1,6 +1,12 @@
 import { gql } from "apollo-boost";
-import { jobResultFragment } from "src/api/fragments";
 
+import { jobResultFragment } from "src/api/fragments";
+import { SearchSort } from "src/shared/constants/search";
+import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
+
+/**
+ * For *details of a company.*
+ */
 export const GET_COMPANY_DETAILS = gql`
   query GetCompanyDetails($slug: String) {
     company(slug: $slug) {
@@ -18,7 +24,25 @@ export const GET_COMPANY_DETAILS = gql`
   }
 `;
 
-export const GET_COMPANY_JOBS = gql`
+/**
+ * For *jobs at a company.*
+ */
+const getSortStr = (sort?: SearchSort) => {
+  switch (sort) {
+    case SearchSort.ALPHABETICAL:
+      return `{ name: ASC }`;
+    case SearchSort.NUM_REVIEWS:
+      return `[{ numRatings: DESC }, { name: ASC }]`;
+    case SearchSort.RATING:
+      return `[{ avgRating: DESC }, { name: ASC }]`;
+    case SearchSort.SALARY:
+      return `[{ avgHourlySalary: DESC }, { name: ASC }]`;
+    default:
+      return `{ name: ASC }`;
+  }
+};
+
+export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
   query GetCompanyJobs(
     $slug: String
     $query: String
@@ -34,7 +58,7 @@ export const GET_COMPANY_JOBS = gql`
             { hourlySalaryCurrency: { contains: $query } }
           ]
         }
-        sort: { name: DESC }
+        sort: ${getSortStr(sort)}
         skip: $offset
         first: $limit
       ) {

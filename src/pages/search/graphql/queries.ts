@@ -106,7 +106,7 @@ export const GET_ALL_SEARCH_SORT_RATING = gql`
           { tags: { contains: $query } }
         ]
       }
-      sort: [{ avgRating: DESC }, { name: ASC }]
+      sort: [{ overallRating: DESC }, { company: { name: ASC } }]
       skip: $offset
       first: $limit
     ) {
@@ -218,7 +218,7 @@ export const GET_ALL_SEARCH_SORT_SALARY = gql`
           { tags: { contains: $query } }
         ]
       }
-      sort: [{ salary: DESC }, { name: ASC }]
+      sort: [{ salary: DESC }, { company: { name: ASC } }]
       skip: $offset
       first: $limit
     ) {

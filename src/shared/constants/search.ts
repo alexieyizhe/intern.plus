@@ -7,8 +7,8 @@ export enum SearchParamKey {
   QUERY = "q",
   TYPE = "t",
   SORT = "s",
-  RATING = "r",
-  LOCATION = "l",
+  RATING_FILTER = "fr",
+  LOCATION_FILTER = "fl",
 }
 
 export enum SearchType {

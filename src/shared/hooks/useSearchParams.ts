@@ -3,7 +3,12 @@ import {
   SearchType,
   SearchSort,
 } from "src/shared/constants/search";
-import { useQueryParam, StringParam } from "use-query-params";
+import {
+  useQueryParam,
+  StringParam,
+  ArrayParam,
+  NumericArrayParam,
+} from "use-query-params";
 
 export const useSearchParams = () => {
   /**
@@ -24,6 +29,16 @@ export const useSearchParams = () => {
     StringParam
   );
 
+  const [searchRatingFilter, setSearchRatingFilter] = useQueryParam(
+    SearchParamKey.RATING_FILTER,
+    NumericArrayParam
+  );
+
+  const [searchLocationFilter, setSearchLocationFilter] = useQueryParam(
+    SearchParamKey.RATING_FILTER,
+    ArrayParam
+  );
+
   return {
     searchQuery,
     setSearchQuery,
@@ -33,5 +48,11 @@ export const useSearchParams = () => {
 
     searchSort: searchSort as SearchSort | undefined,
     setSearchSort,
+
+    searchRatingFilter,
+    setSearchRatingFilter,
+
+    searchLocationFilter,
+    setSearchLocationFilter,
   };
 };

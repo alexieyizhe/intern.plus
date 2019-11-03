@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearch } from "src/shared/hooks/useSearch";
 
@@ -12,7 +13,10 @@ import { detailsPageStyles } from "src/theme/snippets";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
-import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";
+import {
+  GET_COMPANY_DETAILS,
+  getCompanyJobsQueryBuilder,
+} from "../graphql/queries";
 import {
   buildCompanyDetails,
   buildCompanyJobCardsList,
@@ -67,6 +71,7 @@ const CompanyPage: React.FC = () => {
    * Fetch jobs at the company.
    */
   const searchSuggestions = useSearchSuggestions();
+  const { QUERY_DEF } = useSearchQueryDef(getCompanyJobsQueryBuilder);
   const {
     // search info
     searchState,
@@ -76,7 +81,7 @@ const CompanyPage: React.FC = () => {
     triggerSearchNew,
     triggerSearchNextBatch,
   } = useSearch<GetCompanyJobs>(
-    GET_COMPANY_JOBS,
+    QUERY_DEF,
     {
       variables: {
         slug: companySlug,

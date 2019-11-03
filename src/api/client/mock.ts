@@ -12,7 +12,7 @@ import { getMockSearchSuggestions } from "src/shared/hooks/useSearchSuggestions/
 
 import {
   GET_COMPANY_DETAILS,
-  GET_COMPANY_JOBS,
+  getCompanyJobsQueryBuilder,
 } from "src/pages/companies/graphql/queries";
 import {
   getMockCompanyDetails,
@@ -92,10 +92,32 @@ const API_CALLS = [
       }),
   },
   {
-    query: GET_COMPANY_JOBS,
+    query: getCompanyJobsQueryBuilder({ sort: SearchSort.ALPHABETICAL }),
     handler: (params: ISlugQueryParam & ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockCompanyJobs(params),
+        data: getMockCompanyJobs(params, { sort: SearchSort.ALPHABETICAL }),
+      }),
+  },
+
+  {
+    query: getCompanyJobsQueryBuilder({ sort: SearchSort.NUM_REVIEWS }),
+    handler: (params: ISlugQueryParam & ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockCompanyJobs(params, { sort: SearchSort.NUM_REVIEWS }),
+      }),
+  },
+  {
+    query: getCompanyJobsQueryBuilder({ sort: SearchSort.RATING }),
+    handler: (params: ISlugQueryParam & ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockCompanyJobs(params, { sort: SearchSort.RATING }),
+      }),
+  },
+  {
+    query: getCompanyJobsQueryBuilder({ sort: SearchSort.SALARY }),
+    handler: (params: ISlugQueryParam & ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockCompanyJobs(params, { sort: SearchSort.SALARY }),
       }),
   },
 
