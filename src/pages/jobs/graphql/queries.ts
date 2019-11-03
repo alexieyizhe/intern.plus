@@ -31,7 +31,11 @@ export const GET_JOB_REVIEWS = gql`
     job(id: $id) {
       reviews(
         filter: {
-          OR: [{ body: { contains: $query } }, { tags: { contains: $query } }]
+          OR: [
+            { author: { contains: $query } }
+            { body: { contains: $query } }
+            { tags: { contains: $query } }
+          ]
         }
         sort: { updatedAt: DESC }
         skip: $offset

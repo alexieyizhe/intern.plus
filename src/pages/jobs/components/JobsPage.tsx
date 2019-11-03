@@ -34,12 +34,6 @@ const getTitleMarkup = (jobName?: string, companyName?: string) =>
     ? `${jobName} at ${companyName} • intern+`
     : "Job details • intern+";
 
-const reviewFilterer = (filterBy: string) => (review: IReviewUserCardItem) =>
-  review.authorName.toLowerCase().includes(filterBy) ||
-  review.date.toLowerCase().includes(filterBy) ||
-  review.body.toLowerCase().includes(filterBy) ||
-  review.tags.toLowerCase().includes(filterBy);
-
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
@@ -122,12 +116,6 @@ const JobsPage: React.FC = () => {
     buildJobReviewsCardList
   ) as IReviewUserCardItem[];
 
-  const filteredReviews = useMemo(() => {
-    const normalizedQuery = (searchQuery || "").toLowerCase();
-    const filterFn = reviewFilterer(normalizedQuery);
-    return jobReviews.filter(filterFn);
-  }, [jobReviews, searchQuery]);
-
   return (
     <>
       <Helmet>
@@ -149,7 +137,7 @@ const JobsPage: React.FC = () => {
         />
         <SearchResultCardDisplay
           searchState={searchState}
-          searchResults={filteredReviews}
+          searchResults={jobReviews}
           onResultsEndReached={onNextBatchSearch}
         />
       </JobPageContainer>

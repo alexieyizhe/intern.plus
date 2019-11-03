@@ -145,7 +145,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
   } else if (isReviewJobCardItem(result) || isReviewUserCardItem(result)) {
     const heading = isReviewJobCardItem(result)
       ? result.companyName
-      : result.authorName;
+      : result.author;
     const subheading = isReviewJobCardItem(result)
       ? `${result.jobName}  •  ${result.jobLocation}`
       : result.date;
