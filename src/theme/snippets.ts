@@ -1,5 +1,6 @@
 import { css, keyframes } from "styled-components";
 import { Size } from "src/theme/constants";
+import { MOBILE_MENU_MEDIA_QUERY } from "src/components/PageHeader/index";
 
 export const spin = keyframes`
   0% {
@@ -40,8 +41,6 @@ export const itemCardStyles = css`
 `;
 
 export const detailsPageStyles = css`
-  overflow: hidden;
-
   ${({ theme }) => theme.mediaQueries.tablet`
     padding-top: 0;
   `}
@@ -62,10 +61,10 @@ export const detailsCardStyles = css<{ color?: string }>`
     background-color: white;
   }
 
-  ${({ theme }) => theme.mediaQueries.tablet`
-    width: 300%;
-    left: -100%;
-    padding: 40px 100%;
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
+    left: -${theme.padding.pageHorizontalMobile}px;
+    padding: ${theme.padding.display};
   `}
 `;
 

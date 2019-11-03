@@ -6,6 +6,7 @@ import classNames from "classnames";
 import { SearchType } from "src/shared/constants/search";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { ChevronImg } from "src/assets";
+import { useSiteContext } from "src/context";
 import { Size } from "src/theme/constants";
 
 import { UnstyledButton } from "src/components/Button";
@@ -14,6 +15,7 @@ import Text from "src/components/Text";
 import Select from "src/components/Select";
 import Checkbox from "src/components/Checkbox";
 import StarRating from "src/components/StarRating";
+import { HEADER_HEIGHT, MOBILE_MENU_HEIGHT } from "src/components/PageHeader";
 
 export interface ISearchOptionsMenuProps
   extends React.ComponentPropsWithoutRef<"div"> {
@@ -44,23 +46,46 @@ export interface ISearchOptionsMenuProps
 const MENU_WIDTH = 400;
 const MENU_WIDTH_MOBILE = 300;
 
-const Container = styled(Card)<{ menuOpen: boolean }>`
+const Parent = styled.div`
   position: fixed;
-  top: 230px;
   right: 0;
+  padding-top: 40px;
+
+  z-index: 2;
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    padding-top: 30px;
+  `}
+`;
+
+const Container = styled(Card)<{ menuOpen: boolean }>`
+  position: sticky;
+  top: ${HEADER_HEIGHT + 20}px;
 
   width: ${MENU_WIDTH}px;
   padding: 30px 45px;
 
-  z-index: 2;
+  cursor: ${({ menuOpen }) => (menuOpen ? "initial" : "pointer")};
   box-shadow: ${({ theme }) => theme.boxShadow.hover};
   transition: transform 150ms;
   transform: ${({ menuOpen }) =>
     menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH - 65}px)`};
 
-  & > * > * {
-    opacity: ${({ menuOpen }) => (menuOpen ? 1 : 0)};
-    margin-bottom: 15px;
+  &.mobile-menu-open {
+    top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
+  }
+
+  & > * {
+    margin-top: 15px;
+
+    &:first-child {
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    & > * {
+      opacity: ${({ menuOpen }) => (menuOpen ? 1 : 0)};
+    }
   }
 
   & .heading {
@@ -68,7 +93,7 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
     transform: ${({ menuOpen }) => (menuOpen ? "" : "rotate(-90deg)")};
 
     position: relative;
-    top: ${({ menuOpen }) => (menuOpen ? "unset" : "30px")};
+    top: ${({ menuOpen }) => (menuOpen ? "unset" : "25px")};
     left: ${({ menuOpen }) => (menuOpen ? "unset" : "-60px")};
   }
 
@@ -77,16 +102,16 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
     padding: 20px 30px;
 
     transform: ${
-      menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
+      menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
     };
 
-    & > * > * {
+    & > * {
       margin-bottom: 5px;
     }
     
     & .heading {
+      opacity: 1;
       font-size: ${theme.fontSize[Size.MEDIUM]}px;
-      top: ${menuOpen ? "unset" : "25px"};
       left: ${menuOpen ? "unset" : "-43px"};
     }
   `}
@@ -148,6 +173,10 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   ratingOption,
   locationOption,
 }) => {
+  const {
+    state: { mobileMenuOpen },
+  } = useSiteContext();
+
   /**
    * Tracks if the menu is open.
    */
@@ -178,114 +207,121 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   );
 
   return (
-    <Container
-      className={classNames("options-menu", className)}
-      color="greyLight"
-      menuOpen={menuOpen}
-      onFocus={() => setMenuOpen(true)}
-      onClick={() => setMenuOpen(true)}
-      onMouseEnter={() => setMenuOpen(true)}
-    >
-      <CenterContainer>
-        <Text variant="heading2" as="h2" className="heading">
-          Options
-        </Text>
-        <ToggleIndicator onClick={onToggleIndicatorClick}>
-          <img src={ChevronImg} alt="Chevron icon" />
-        </ToggleIndicator>
-      </CenterContainer>
-
-      {sortOption && (
+    <Parent>
+      <Container
+        className={classNames("options-menu", className, {
+          "mobile-menu-open": mobileMenuOpen,
+        })}
+        color="greyLight"
+        menuOpen={menuOpen}
+        onFocus={() => setMenuOpen(true)}
+        onClick={() => setMenuOpen(true)}
+        onMouseEnter={() => setMenuOpen(true)}
+      >
         <CenterContainer>
-          <Text variant="heading4">Sort</Text>
-          <SortOptionSelect
-            placeholder="by..."
-            options={sortOption.options}
-            value={sortOption.value}
-            onChange={sortOption.onChange}
-          />
+          <Text variant="heading2" as="h2" className="heading">
+            Options
+          </Text>
+          <ToggleIndicator onClick={onToggleIndicatorClick}>
+            <img src={ChevronImg} alt="Chevron icon" />
+          </ToggleIndicator>
         </CenterContainer>
-      )}
 
-      {typeOption && (
-        <TopContainer>
-          <Text variant="heading4">Type</Text>
-          <VerticalAlignContainer>
-            <Checkbox
+        {sortOption && (
+          <CenterContainer>
+            <Text variant="heading4">Sort</Text>
+            <SortOptionSelect
               color="white"
-              checked={typeOption.value === SearchType.COMPANIES}
-              onChange={e =>
-                typeOption.onChange(
-                  e.target.checked ? SearchType.COMPANIES : ""
-                )
-              }
-            >
-              <Text variant="subheading" color="greyDark">
-                companies only
-              </Text>
-            </Checkbox>
-            <Checkbox
+              placeholder="by..."
+              options={sortOption.options}
+              value={sortOption.value}
+              onChange={sortOption.onChange}
+            />
+          </CenterContainer>
+        )}
+
+        {typeOption && (
+          <TopContainer>
+            <Text variant="heading4">Type</Text>
+            <VerticalAlignContainer>
+              <Checkbox
+                color="white"
+                checked={typeOption.value === SearchType.COMPANIES}
+                onChange={e =>
+                  typeOption.onChange(
+                    e.target.checked ? SearchType.COMPANIES : ""
+                  )
+                }
+              >
+                <Text variant="subheading" color="greyDark">
+                  companies only
+                </Text>
+              </Checkbox>
+              <Checkbox
+                color="white"
+                checked={typeOption.value === SearchType.JOBS}
+                onChange={e =>
+                  typeOption.onChange(e.target.checked ? SearchType.JOBS : "")
+                }
+              >
+                <Text variant="subheading" color="greyDark">
+                  positions only
+                </Text>
+              </Checkbox>
+              <Checkbox
+                color="white"
+                checked={typeOption.value === SearchType.REVIEWS}
+                onChange={e =>
+                  typeOption.onChange(
+                    e.target.checked ? SearchType.REVIEWS : ""
+                  )
+                }
+              >
+                <Text variant="subheading" color="greyDark">
+                  reviews only
+                </Text>
+              </Checkbox>
+            </VerticalAlignContainer>
+          </TopContainer>
+        )}
+
+        {ratingOption && (
+          <TopContainer>
+            <Text variant="heading4">Rating</Text>
+            <VerticalAlignContainer>
+              <StarRating maxStars={5} filledStars={ratingOption.valueMin}>
+                <Text variant="subheading" color="greyDark">
+                  min
+                </Text>
+              </StarRating>
+              <StarRating maxStars={5} filledStars={ratingOption.valueMax}>
+                <Text variant="subheading" color="greyDark">
+                  max
+                </Text>
+              </StarRating>
+            </VerticalAlignContainer>
+          </TopContainer>
+        )}
+
+        {locationOption && (
+          <CenterContainer>
+            <Text variant="heading4">Location</Text>
+            <SortOptionSelect
               color="white"
-              checked={typeOption.value === SearchType.JOBS}
-              onChange={e =>
-                typeOption.onChange(e.target.checked ? SearchType.JOBS : "")
-              }
-            >
-              <Text variant="subheading" color="greyDark">
-                positions only
-              </Text>
-            </Checkbox>
-            <Checkbox
-              color="white"
-              checked={typeOption.value === SearchType.REVIEWS}
-              onChange={e =>
-                typeOption.onChange(e.target.checked ? SearchType.REVIEWS : "")
-              }
-            >
-              <Text variant="subheading" color="greyDark">
-                reviews only
-              </Text>
-            </Checkbox>
-          </VerticalAlignContainer>
-        </TopContainer>
-      )}
+              placeholder="California"
+              options={locationOption.options}
+              onChange={locationOption.onChange}
+            />
+          </CenterContainer>
+        )}
 
-      {ratingOption && (
-        <TopContainer>
-          <Text variant="heading4">Rating</Text>
-          <VerticalAlignContainer>
-            <StarRating maxStars={5} filledStars={ratingOption.valueMin}>
-              <Text variant="subheading" color="greyDark">
-                min
-              </Text>
-            </StarRating>
-            <StarRating maxStars={5} filledStars={ratingOption.valueMax}>
-              <Text variant="subheading" color="greyDark">
-                max
-              </Text>
-            </StarRating>
-          </VerticalAlignContainer>
-        </TopContainer>
-      )}
-
-      {locationOption && (
-        <CenterContainer>
-          <Text variant="heading4">Location</Text>
-          <SortOptionSelect
-            color="white"
-            placeholder="California"
-            options={locationOption.options}
-            onChange={locationOption.onChange}
-          />
-        </CenterContainer>
-      )}
-
-      {/* <UnstyledButton>
+        {/* <UnstyledButton>
         <Text variant="subheading" color="greyDark" underline>
           clear options
         </Text> TODO: get this working
       </UnstyledButton> */}
-    </Container>
+      </Container>
+    </Parent>
   );
 };
 

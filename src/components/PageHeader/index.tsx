@@ -21,6 +21,7 @@ import Text from "src/components/Text";
  *                  **Utility functions/constants**                *
  *******************************************************************/
 export const HEADER_HEIGHT = 75;
+export const MOBILE_MENU_HEIGHT = 120;
 export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // width at which the mobile menu is activated
 
 /*******************************************************************
@@ -57,7 +58,7 @@ const Container = styled.header`
   }
 
   &.mobile-menu-open::after {
-    transform: translateY(120px);
+    transform: translateY(${MOBILE_MENU_HEIGHT}px);
   }
 `;
 
