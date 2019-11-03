@@ -2,7 +2,10 @@ import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 import Fuse from "fuse.js";
-import Autosuggest, { InputProps as AutosuggestProps } from "react-autosuggest";
+import Autosuggest, {
+  InputProps as AutosuggestProps,
+  OnSuggestionSelected,
+} from "react-autosuggest";
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
@@ -19,7 +22,7 @@ import Card from "src/components/Card";
 export interface ISearchFieldProps
   extends React.ComponentPropsWithoutRef<"div"> {
   onTriggerSearch: (val: string) => void;
-  suggestions: string[];
+  suggestions?: string[];
   fuseOptions?: Fuse.FuseOptions<string>;
 
   inputProps?: ITextInputProps &
@@ -165,28 +168,41 @@ const SearchField: React.FC<ISearchFieldProps> = ({
     []
   );
 
-  const onSuggestionSelected = useCallback(
-    (e, { suggestion }) => setInputVal(suggestion),
-    []
-  );
+  const {
+    onSuggestionSelected,
+    getSuggestionValue,
+    filteredSuggestions,
+  } = useMemo(() => {
+    const getSuggestionValue = (suggestedVal: string) => suggestedVal;
 
-  const getSuggestionValue = useCallback(suggestedVal => suggestedVal, []);
+    if (suggestions) {
+      const onSuggestionSelected: OnSuggestionSelected<string> = (
+        e,
+        { suggestion }
+      ) => setInputVal(suggestion);
 
-  const filteredSuggestions = useMemo(() => {
-    if (inputVal) {
-      const fuse = new Fuse(suggestions, {
-        shouldSort: true,
-        threshold: 0.4,
-        ...fuseOptions,
-      });
-      const results = fuse.search(inputVal);
+      let filteredSuggestions: string[] = [];
+      if (inputVal) {
+        const fuse = new Fuse(suggestions, {
+          shouldSort: true,
+          threshold: 0.4,
+          ...fuseOptions,
+        });
+        const results = fuse.search(inputVal);
 
-      return results
-        .map(result => suggestions[(result as unknown) as number])
-        .slice(0, 5) as string[];
+        filteredSuggestions = results
+          .map(result => suggestions[(result as unknown) as number])
+          .slice(0, 5) as string[];
+      }
+
+      return { onSuggestionSelected, getSuggestionValue, filteredSuggestions };
+    } else {
+      return {
+        onSuggestionSelected: () => {},
+        getSuggestionValue,
+        filteredSuggestions: [],
+      };
     }
-
-    return [];
   }, [fuseOptions, inputVal, suggestions]);
 
   return (

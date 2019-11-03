@@ -4,18 +4,20 @@ import { Redirect, useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
+import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
+
+import { RouteName } from "src/shared/constants/routing";
+import { SearchParamKey } from "src/shared/constants/search";
+import pageCopy from "./copy";
+
 import { GetCompaniesReviewsLanding } from "./graphql/types/GetCompaniesReviewsLanding";
 import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
 import { buildLandingCardsList } from "./graphql/utils";
 
-import { RouteName } from "src/shared/constants/routing";
-import { SearchParamKey } from "src/shared/constants/search";
-import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
-import pageCopy from "./copy";
-
 import {
   PageContainer as BasePageContainer,
-  InputButtonCombo,
+  SearchField,
   Text,
   Button,
 } from "src/components";
@@ -34,8 +36,6 @@ const TitleCard = styled.div`
 
   display: flex;
   justify-content: space-between;
-
-  overflow: hidden;
 
   ${({ theme }) => theme.mediaQueries.medium`
     height: auto;
@@ -65,11 +65,14 @@ const TitleCardLeft = styled.div`
     height: 45%;
     padding: 10px 0;
 
-    text-align: center;
     align-items: center;
-
+    
     & h3 {
       margin-bottom: 20px;
+    }
+
+    & h1, & h3 {
+      text-align: center;
     }
   `}
 
@@ -103,7 +106,7 @@ const TitleCardRight = styled.div`
   `}
 `;
 
-const SearchInput = styled(InputButtonCombo)`
+const SearchInput = styled(SearchField)`
   display: flex;
   width: 100%;
 
@@ -127,6 +130,9 @@ const LandingPage = () => {
   useScrollTopOnMount();
 
   const history = useHistory();
+
+  const searchSuggestions = useSearchSuggestions(); // for SearchField
+
   /**
    * Fetch companies and reviews that are displayed on the
    * landing page.
@@ -145,19 +151,17 @@ const LandingPage = () => {
    * being attempted, redirect to the search page with the
    * query provided by the user pre-filled in.
    */
-  const [searchStarted, setSearchStarted] = useState(false);
-  const [searchVal, setSearchVal] = useState("");
-  const searchOnChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => setSearchVal(e.target.value),
+  const [searchStarted, setSearchStarted] = useState<string | false>(false);
+  const triggerSearchNew = useCallback(
+    (val: string) => setSearchStarted(val),
     []
   );
-  const searchOnStart = useCallback(() => setSearchStarted(true), []);
 
-  if (searchStarted) {
+  if (searchStarted !== false) {
     return (
       <Redirect
         to={`${RouteName.SEARCH}${
-          searchVal ? `?${SearchParamKey.QUERY}=${searchVal}` : ""
+          searchStarted ? `?${SearchParamKey.QUERY}=${searchStarted}` : ""
         }`}
       />
     );
@@ -183,11 +187,17 @@ const LandingPage = () => {
               <SearchInput
                 className="landing-search"
                 placeholder="Find something"
+                onTriggerSearch={triggerSearchNew}
+                suggestions={searchSuggestions}
+              />
+              {/* <SearchInput
+                className="landing-search"
+                placeholder="Find something"
                 value={searchVal}
                 onChange={searchOnChange}
                 onEnterTrigger={searchOnStart}
                 buttonText="Search"
-              />
+              /> */}
               <SearchButton
                 onClick={() => history.push(RouteName.SEARCH)}
                 color="greenDark"

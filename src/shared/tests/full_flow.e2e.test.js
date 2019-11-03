@@ -18,8 +18,8 @@ describe("Full flow", () => {
     cy.percySnapshot("Landing page");
 
     // navigate to search page by searching for `sons` on landing
-    cy.get(".landing-search > input").type("sons");
-    cy.get(".landing-search > button").click();
+    cy.get(".landing-search input").type("sons");
+    cy.get(".landing-search button").click();
 
     // make sure we're on the search page and showing results
     cy.contains("Results for");

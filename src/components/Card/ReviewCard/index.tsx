@@ -19,13 +19,10 @@ export interface IReviewCardProps extends ICardProps {
 
 const Container = styled(Card)`
   position: relative;
-  ${itemCardStyles}
   ${hoverStyles}
 
   & > a {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    ${itemCardStyles}
 
     display: inline-grid;
     grid-template-rows: auto auto 1fr;
@@ -107,7 +104,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
       color="greyLight"
       {...rest}
     >
-      <Link to={linkToWithState}>
+      <Link to={linkToWithState} tabIndex={0}>
         <Text
           className="heading"
           variant="heading3"

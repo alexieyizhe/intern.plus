@@ -51,8 +51,6 @@ export interface GetReviewDetails_review {
   learningMentorshipRating: number | null;
   meaningfulWorkRating: number | null;
   workLifeBalanceRating: number | null;
-  createdAt: string | null;
-  updatedAt: string | null;
   /**
    * Whether or not this review was imported from old internCompass data. If true, use legacyUpdatedAt info.
    */
@@ -61,6 +59,8 @@ export interface GetReviewDetails_review {
    * Date of original review
    */
   legacyUpdatedAt: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
 export interface GetReviewDetails {

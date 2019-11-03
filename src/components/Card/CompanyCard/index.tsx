@@ -51,13 +51,10 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
 
 const Container = styled(Card)`
   position: relative;
-  ${itemCardStyles}
   ${hoverStyles}
 
   & > a {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    ${itemCardStyles}
 
     display: inline-grid;
     grid-template-rows: auto 1fr auto;
@@ -118,7 +115,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
     color={color ? getLightColor(color) : FALLBACK_BG_COLOR}
     {...rest}
   >
-    <Link to={linkTo}>
+    <Link to={linkTo} tabIndex={0}>
       <Text
         className="name"
         variant="heading2"

@@ -15,3 +15,16 @@ export const GET_SEARCH_SUGGESTIONS = gql`
     }
   }
 `;
+
+export const GET_SEARCH_SUGGESTIONS_COMPANY = gql`
+  query GetSearchSuggestionsCompany($slug: String) {
+    company(slug: $slug) {
+      name
+      jobs {
+        items {
+          name
+        }
+      }
+    }
+  }
+`;
