@@ -185,6 +185,8 @@ const LandingPage = () => {
             </div>
             <div>
               <SearchInput
+                className="landing-search"
+                placeholder="Find something"
                 onTriggerSearch={triggerSearchNew}
                 suggestions={searchSuggestions}
               />
