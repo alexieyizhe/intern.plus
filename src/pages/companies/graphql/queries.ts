@@ -27,7 +27,7 @@ export const GET_COMPANY_DETAILS = gql`
 /**
  * For *jobs at a company.*
  */
-const getSortStr = (sort?: SearchSort) => {
+const getSort = (sort?: SearchSort) => {
   switch (sort) {
     case SearchSort.NUM_REVIEWS:
       return `[{ numRatings: DESC }, { name: ASC }]`;
@@ -57,7 +57,7 @@ export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
             { hourlySalaryCurrency: { contains: $query } }
           ]
         }
-        sort: ${getSortStr(sort)}
+        sort: ${getSort(sort)}
         skip: $offset
         first: $limit
       ) {

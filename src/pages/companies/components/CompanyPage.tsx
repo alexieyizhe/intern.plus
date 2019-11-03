@@ -51,7 +51,7 @@ const CompanyPage: React.FC = () => {
   const searchSuggestions = useSearchSuggestions();
 
   /**
-   * Fetch details of the company with the corresponding slug.
+   * Fetch *details of the company* with the corresponding slug.
    */
   const {
     loading: detailsLoading,
@@ -70,7 +70,7 @@ const CompanyPage: React.FC = () => {
   );
 
   /**
-   * Fetch jobs at the company.
+   * Fetch *jobs at the company*.
    */
   const { QUERY_DEF } = useSearchQueryDef(getCompanyJobsQueryBuilder);
   const {

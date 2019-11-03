@@ -47,7 +47,7 @@ const JobPage: React.FC = () => {
   const searchSuggestions = useSearchSuggestions();
 
   /**
-   * Fetch the details of the job with corresponding id.
+   * Fetch the *details of the job* with corresponding id.
    */
   const {
     loading: detailsLoading,
@@ -65,9 +65,8 @@ const JobPage: React.FC = () => {
     [detailsData]
   );
 
-  console.log(jobId);
   /**
-   * Fetch reviews of the job.
+   * Fetch *reviews of the job*.
    */
   const { QUERY_DEF } = useSearchQueryDef(getJobReviewsQueryBuilder);
   const {

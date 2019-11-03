@@ -6,42 +6,39 @@ import {
   MOCK_REVIEWS_LIST,
   ISearchQueryParams,
 } from "src/shared/mocks";
+import { ISearchQueryBuilderOptions } from "src/shared/hooks/useSearchQueryDef";
 import { SearchSort } from "src/shared/constants/search";
 
 import { GetAllSearch } from "./types/GetAllSearch";
 import { GetCompaniesSearch } from "./types/GetCompaniesSearch";
-import {
-  GetJobsSearch,
-  GetJobsSearch_jobsList_items,
-} from "./types/GetJobsSearch";
+import { GetJobsSearch } from "./types/GetJobsSearch";
 import { GetReviewsSearch } from "./types/GetReviewsSearch";
 
 export const getMockCompaniesSearch = (
   { query, offset, limit }: ISearchQueryParams,
-  sort: SearchSort
+  { sort }: ISearchQueryBuilderOptions
 ): GetCompaniesSearch => {
   let sortFn;
 
-  // TODO: sort ascending and descending
   switch (sort) {
-    case SearchSort.ALPHABETICAL:
-      sortFn = (a: any, b: any) => a.name.localeCompare(b.name);
-      break;
     case SearchSort.NUM_REVIEWS:
       sortFn = (a: any, b: any) => b.reviews.count - a.reviews.count;
       break;
     case SearchSort.RATING:
       sortFn = (a: any, b: any) => b.avgRating - a.avgRating;
       break;
-    case SearchSort.SALARY:
-      sortFn = (a: any, b: any) => b.jobs.count - a.jobs.count; // TODO: find a way to get avg salary to sort by salary
-      break;
+    // TODO: get this working
+    // case SearchSort.SALARY:
+    //   sortFn = (a: any, b: any) => b.medianHourlySalary - a.medianHourlySalary;
+    //   break;
     default:
+      // same as ALPHABETICAL
       sortFn = (a: any, b: any) => a.name.localeCompare(b.name);
       break;
   }
+
   const normalizedQuery = query.toLowerCase();
-  const foundCompanies = MOCK_COMPANIES_LIST.filter(
+  const filteredCompanies = MOCK_COMPANIES_LIST.filter(
     company =>
       company.name.toLowerCase().includes(normalizedQuery) ||
       company.desc.toLowerCase().includes(normalizedQuery)
@@ -52,21 +49,18 @@ export const getMockCompaniesSearch = (
   return {
     companiesList: {
       __typename: "CompanyListResponse" as "CompanyListResponse",
-      items: foundCompanies,
+      items: filteredCompanies,
     },
   };
 };
 
 export const getMockJobsSearch = (
   { query, offset, limit }: ISearchQueryParams,
-  sort: SearchSort
+  { sort }: ISearchQueryBuilderOptions
 ): GetJobsSearch => {
   let sortFn;
 
   switch (sort) {
-    case SearchSort.ALPHABETICAL:
-      sortFn = (a: any, b: any) => a.name.localeCompare(b.name);
-      break;
     case SearchSort.NUM_REVIEWS:
       sortFn = (a: any, b: any) => b.reviews.count - a.reviews.count;
       break;
@@ -77,12 +71,13 @@ export const getMockJobsSearch = (
       sortFn = (a: any, b: any) => b.avgHourlySalary - a.avgHourlySalary;
       break;
     default:
+      // same as ALPHABETICAL
       sortFn = (a: any, b: any) => a.name.localeCompare(b.name);
       break;
   }
 
   const normalizedQuery = query.toLowerCase();
-  const foundJobs = MOCK_JOBS_LIST.filter(
+  const filteredJobs = MOCK_JOBS_LIST.filter(
     job =>
       job.name.toLowerCase().includes(normalizedQuery) ||
       job.company.name.toLowerCase().includes(normalizedQuery) ||
@@ -94,14 +89,14 @@ export const getMockJobsSearch = (
   return {
     jobsList: {
       __typename: "JobListResponse" as "JobListResponse",
-      items: foundJobs as GetJobsSearch_jobsList_items[],
+      items: filteredJobs,
     },
   };
 };
 
 export const getMockReviewsSearch = (
   { query, offset, limit }: ISearchQueryParams,
-  sort: SearchSort
+  { sort }: ISearchQueryBuilderOptions
 ): GetReviewsSearch => {
   let sortFn;
 
@@ -116,14 +111,13 @@ export const getMockReviewsSearch = (
       // same as ALPHABETICAL, DEFAULT (chronologically) and NUM_REVIEWS (not a valid sort option for reviews)
       sortFn = (a: any, b: any) =>
         Number(new Date(b.updatedAt)) - Number(new Date(a.updatedAt)) ||
-        Number(new Date(b.createdAt)) - Number(new Date(a.createdAt)) ||
         Number(new Date(b.legacyUpdatedAt)) -
           Number(new Date(a.legacyUpdatedAt));
       break;
   }
 
   const normalizedQuery = query.toLowerCase();
-  const foundReviews = MOCK_REVIEWS_LIST.filter(
+  const filteredReviews = MOCK_REVIEWS_LIST.filter(
     review =>
       review.company.name.toLowerCase().includes(normalizedQuery) ||
       review.job.name.toLowerCase().includes(normalizedQuery) ||
@@ -136,16 +130,16 @@ export const getMockReviewsSearch = (
   return {
     reviewsList: {
       __typename: "ReviewListResponse" as "ReviewListResponse",
-      items: foundReviews,
+      items: filteredReviews,
     },
   };
 };
 
 export const getMockAllSearch = (
   params: ISearchQueryParams,
-  sort: SearchSort
+  options: ISearchQueryBuilderOptions
 ): GetAllSearch => ({
-  ...getMockCompaniesSearch(params, sort),
-  ...getMockJobsSearch(params, sort),
-  ...getMockReviewsSearch(params, sort),
+  ...getMockCompaniesSearch(params, options),
+  ...getMockJobsSearch(params, options),
+  ...getMockReviewsSearch(params, options),
 });
