@@ -5,6 +5,10 @@ import {
   IIdQueryParam,
   ISearchQueryParams,
 } from "src/shared/mocks";
+import { SearchSort } from "src/shared/constants/search";
+
+import { GET_SEARCH_SUGGESTIONS } from "src/shared/hooks/useSearchSuggestions/graphql/queries";
+import { getMockSearchSuggestions } from "src/shared/hooks/useSearchSuggestions/graphql/mocks";
 
 import {
   GET_COMPANY_DETAILS,
@@ -31,10 +35,22 @@ import { GET_REVIEW_DETAILS } from "src/pages/reviews/graphql/queries";
 import { getMockReviewDetails } from "src/pages/reviews/graphql/mocks";
 
 import {
-  GET_ALL_SEARCH,
-  GET_COMPANIES_SEARCH,
-  GET_JOBS_SEARCH,
-  GET_REVIEWS_SEARCH,
+  GET_ALL_SEARCH_SORT_ALPHA,
+  GET_ALL_SEARCH_SORT_NUM_REVIEWS,
+  GET_ALL_SEARCH_SORT_RATING,
+  GET_ALL_SEARCH_SORT_SALARY,
+  GET_COMPANIES_SEARCH_SORT_ALPHA,
+  GET_COMPANIES_SEARCH_SORT_NUM_REVIEWS,
+  GET_COMPANIES_SEARCH_SORT_RATING,
+  GET_COMPANIES_SEARCH_SORT_SALARY,
+  GET_JOBS_SEARCH_SORT_ALPHA,
+  GET_JOBS_SEARCH_SORT_NUM_REVIEWS,
+  GET_JOBS_SEARCH_SORT_RATING,
+  GET_JOBS_SEARCH_SORT_SALARY,
+  GET_REVIEWS_SEARCH_SORT_ALPHA,
+  GET_REVIEWS_SEARCH_SORT_NUM_REVIEWS,
+  GET_REVIEWS_SEARCH_SORT_RATING,
+  GET_REVIEWS_SEARCH_SORT_SALARY,
 } from "src/pages/search/graphql/queries";
 import {
   getMockAllSearch,
@@ -43,9 +59,6 @@ import {
   getMockReviewsSearch,
 } from "src/pages/search/graphql/mocks";
 
-import { GET_SEARCH_SUGGESTIONS } from "src/shared/hooks/useSearchSuggestions/graphql/queries";
-import { getMockSearchSuggestions } from "src/shared/hooks/useSearchSuggestions/graphql/mocks";
-
 /**
  * Import all queries and their associated mock handlers
  * Loop through all queries and `setRequestHandler` for
@@ -53,6 +66,14 @@ import { getMockSearchSuggestions } from "src/shared/hooks/useSearchSuggestions/
  * Done
  */
 const API_CALLS = [
+  {
+    query: GET_SEARCH_SUGGESTIONS,
+    handler: () =>
+      Promise.resolve({
+        data: getMockSearchSuggestions(),
+      }),
+  },
+
   // landing page
   {
     query: GET_COMPANIES_REVIEWS_LANDING,
@@ -105,38 +126,115 @@ const API_CALLS = [
 
   // Search page
   {
-    query: GET_SEARCH_SUGGESTIONS,
-    handler: () =>
+    query: GET_ALL_SEARCH_SORT_ALPHA,
+    handler: (params: ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockSearchSuggestions(),
+        data: getMockAllSearch(params, SearchSort.ALPHABETICAL),
       }),
   },
   {
-    query: GET_ALL_SEARCH,
+    query: GET_ALL_SEARCH_SORT_NUM_REVIEWS,
     handler: (params: ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockAllSearch(params),
+        data: getMockAllSearch(params, SearchSort.NUM_REVIEWS),
       }),
   },
   {
-    query: GET_COMPANIES_SEARCH,
+    query: GET_ALL_SEARCH_SORT_RATING,
     handler: (params: ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockCompaniesSearch(params),
+        data: getMockAllSearch(params, SearchSort.RATING),
       }),
   },
   {
-    query: GET_JOBS_SEARCH,
+    query: GET_ALL_SEARCH_SORT_SALARY,
     handler: (params: ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockJobsSearch(params),
+        data: getMockAllSearch(params, SearchSort.SALARY),
       }),
   },
   {
-    query: GET_REVIEWS_SEARCH,
+    query: GET_COMPANIES_SEARCH_SORT_ALPHA,
     handler: (params: ISearchQueryParams) =>
       Promise.resolve({
-        data: getMockReviewsSearch(params),
+        data: getMockCompaniesSearch(params, SearchSort.ALPHABETICAL),
+      }),
+  },
+  {
+    query: GET_COMPANIES_SEARCH_SORT_NUM_REVIEWS,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockCompaniesSearch(params, SearchSort.NUM_REVIEWS),
+      }),
+  },
+  {
+    query: GET_COMPANIES_SEARCH_SORT_RATING,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockCompaniesSearch(params, SearchSort.RATING),
+      }),
+  },
+  {
+    query: GET_COMPANIES_SEARCH_SORT_SALARY,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockCompaniesSearch(params, SearchSort.SALARY),
+      }),
+  },
+  {
+    query: GET_JOBS_SEARCH_SORT_ALPHA,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockJobsSearch(params, SearchSort.ALPHABETICAL),
+      }),
+  },
+  {
+    query: GET_JOBS_SEARCH_SORT_NUM_REVIEWS,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockJobsSearch(params, SearchSort.NUM_REVIEWS),
+      }),
+  },
+  {
+    query: GET_JOBS_SEARCH_SORT_RATING,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockJobsSearch(params, SearchSort.RATING),
+      }),
+  },
+  {
+    query: GET_JOBS_SEARCH_SORT_SALARY,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockJobsSearch(params, SearchSort.SALARY),
+      }),
+  },
+  {
+    query: GET_REVIEWS_SEARCH_SORT_ALPHA,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockReviewsSearch(params, SearchSort.ALPHABETICAL),
+      }),
+  },
+  {
+    query: GET_REVIEWS_SEARCH_SORT_NUM_REVIEWS,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockReviewsSearch(params, SearchSort.NUM_REVIEWS),
+      }),
+  },
+  {
+    query: GET_REVIEWS_SEARCH_SORT_RATING,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockReviewsSearch(params, SearchSort.RATING),
+      }),
+  },
+  {
+    query: GET_REVIEWS_SEARCH_SORT_SALARY,
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockReviewsSearch(params, SearchSort.SALARY),
       }),
   },
 ];

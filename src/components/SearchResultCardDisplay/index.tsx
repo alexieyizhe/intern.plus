@@ -190,6 +190,11 @@ const Container = styled.section`
 const MarkupContainer = styled.div`
   width: 70%;
   margin: 5px auto;
+
+  display: flex;
+  & > * {
+    margin: auto;
+  }
 `;
 
 const resultCardStyles = css`

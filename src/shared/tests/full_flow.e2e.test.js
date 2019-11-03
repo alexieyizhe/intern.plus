@@ -46,7 +46,7 @@ describe("Full flow", () => {
       .contains("companies")
       .click();
     cy.percySnapshot("Browse companies page");
-    cy.get("input")
+    cy.get(".search-field input")
       .clear()
       .type("sipes")
       .type("{enter}");
@@ -56,7 +56,7 @@ describe("Full flow", () => {
     cy.percySnapshot("Company page");
 
     // go to job page
-    cy.get("input")
+    cy.get(".search-field input")
       .type("new york")
       .type("{enter}");
     cy.contains(".job-card", "New York").click();

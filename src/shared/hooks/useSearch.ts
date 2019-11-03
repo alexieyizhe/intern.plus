@@ -38,7 +38,7 @@ export const useSearch = <TData>(
   options: QueryHookOptions<TData>,
   transformData: (data?: TData) => IGenericCardItem[]
 ) => {
-  const { searchQuery, setSearchQuery } = useSearchParams();
+  const { searchQuery, searchSort, setSearchQuery } = useSearchParams();
   const [searchState, setSearchState] = useState(SearchState.INITIAL);
 
   const [page, setPage] = useState(1); // most recent page fetched for query
@@ -136,8 +136,8 @@ export const useSearch = <TData>(
    * Create *callbacks for triggering search*.
    */
   const triggerSearchNew = useCallback(
-    (newVal?: string) => {
-      if (newVal !== undefined && newVal !== searchQuery) {
+    (newVal?: string, force?: boolean) => {
+      if (force || (newVal !== undefined && newVal !== searchQuery)) {
         analytics.event({
           category: "Search",
           action: "Started new search",
@@ -170,6 +170,13 @@ export const useSearch = <TData>(
     // indicate that a search has started
     setIsDataLoaded(false);
   }, []);
+
+  /**
+   * *Start new search if sort has changed.*
+   */
+  useEffect(() => {
+    triggerSearchNew(searchQuery, true);
+  }, [searchSort]); // eslint-disable-line
 
   return {
     // search info

@@ -7,17 +7,17 @@ describe("Search autocomplete", () => {
     cy.url().should("include", "/find");
   });
 
-  it("will autocomplete a misspelled query", () => {
-    cy.get("input")
+  it("should autocomplete a misspelled query", () => {
+    cy.get(".search-field input")
       .type("sips")
       .type("{enter}");
     cy.get(".company-card").should("not.exist");
 
-    cy.get("input").type("{downarrow}{downarrow}");
+    cy.get(".search-field input").type("{downarrow}{downarrow}");
 
     cy.percySnapshot("Search page (autocomplete open)");
 
-    cy.get("input").type("{enter}");
+    cy.get(".search-field input").type("{enter}");
 
     // go to Sipes Inc company
     cy.get(".company-card")

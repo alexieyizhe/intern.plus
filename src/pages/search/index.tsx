@@ -5,18 +5,13 @@ import { Helmet } from "react-helmet";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
+import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { SearchType } from "src/shared/constants/search";
 import pageCopy from "./copy";
 
-import {
-  GET_ALL_SEARCH,
-  GET_COMPANIES_SEARCH,
-  GET_JOBS_SEARCH,
-  GET_REVIEWS_SEARCH,
-} from "./graphql/queries";
-import { buildSearchResultCardsList } from "./graphql/utils";
+import { buildQuery, buildSearchResultCardsList } from "./graphql/utils";
 
 import {
   SearchResultCardDisplay,
@@ -86,26 +81,6 @@ const getHeadingMarkup = (query?: string, type?: SearchType) => {
   );
 };
 
-/**
- * Gets the correct graphQL query based on the type of search
- * @param type type of search being performed
- */
-const getQuery = (type?: SearchType) => {
-  switch (type) {
-    case SearchType.COMPANIES:
-      return GET_COMPANIES_SEARCH;
-
-    case SearchType.JOBS:
-      return GET_JOBS_SEARCH;
-
-    case SearchType.REVIEWS:
-      return GET_REVIEWS_SEARCH;
-
-    default:
-      return GET_ALL_SEARCH;
-  }
-};
-
 /*******************************************************************
  *                             **Styles**                           *
  *******************************************************************/
@@ -124,10 +99,18 @@ export const Heading = styled(Text)`
 const GenericSearchPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const { searchQuery, searchType } = useSearchParams();
+  const { searchQuery, searchType, searchSort } = useSearchParams();
+
+  // for SearchField
   const searchSuggestions = useSearchSuggestions();
 
-  const QUERY = useMemo(() => getQuery(searchType), [searchType]);
+  // for SearchOptionsMenu
+  const sortOption = useSearchSort();
+
+  const QUERY = useMemo(() => buildQuery(searchType, searchSort), [
+    searchSort,
+    searchType,
+  ]);
   const {
     // search info
     searchState,
@@ -160,7 +143,7 @@ const GenericSearchPage: React.FC = () => {
           suggestions={searchSuggestions}
         />
 
-        <SearchOptionsMenu />
+        <SearchOptionsMenu sortOption={sortOption} />
 
         <SearchResultCardDisplay
           searchState={searchState}

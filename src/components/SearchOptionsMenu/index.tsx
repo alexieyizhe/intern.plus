@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
+import { OptionTypeBase } from "react-select/src/types";
+import classNames from "classnames";
 
 import { SearchType } from "src/shared/constants/search";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { ChevronImg } from "src/assets";
+import { Size } from "src/theme/constants";
 
 import { UnstyledButton } from "src/components/Button";
 import Card from "src/components/Card";
@@ -15,9 +18,9 @@ import StarRating from "src/components/StarRating";
 export interface ISearchOptionsMenuProps
   extends React.ComponentPropsWithoutRef<"div"> {
   sortOption?: {
-    options: string[];
-    value: string;
-    onChange: (value: string) => void;
+    options: OptionTypeBase[];
+    value?: OptionTypeBase;
+    onChange: (value: OptionTypeBase) => void;
   };
 
   typeOption?: {
@@ -32,13 +35,14 @@ export interface ISearchOptionsMenuProps
   };
 
   locationOption?: {
-    options: string[];
-    value: string;
-    onChange: (value: string) => void;
+    options: OptionTypeBase[];
+    value?: OptionTypeBase;
+    onChange: (value: OptionTypeBase) => void;
   };
 }
 
 const MENU_WIDTH = 400;
+const MENU_WIDTH_MOBILE = 300;
 
 const Container = styled(Card)<{ menuOpen: boolean }>`
   position: fixed;
@@ -56,7 +60,7 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
 
   & > * > * {
     opacity: ${({ menuOpen }) => (menuOpen ? 1 : 0)};
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 
   & .heading {
@@ -67,6 +71,25 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
     top: ${({ menuOpen }) => (menuOpen ? "unset" : "30px")};
     left: ${({ menuOpen }) => (menuOpen ? "unset" : "-60px")};
   }
+
+  ${({ theme, menuOpen }) => theme.mediaQueries.mobile`
+    width: ${MENU_WIDTH_MOBILE}px;
+    padding: 20px 30px;
+
+    transform: ${
+      menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
+    };
+
+    & > * > * {
+      margin-bottom: 5px;
+    }
+    
+    & .heading {
+      font-size: ${theme.fontSize[Size.MEDIUM]}px;
+      top: ${menuOpen ? "unset" : "25px"};
+      left: ${menuOpen ? "unset" : "-43px"};
+    }
+  `}
 `;
 
 const CenterContainer = styled.div`
@@ -115,6 +138,7 @@ const ToggleIndicator = styled(UnstyledButton)`
 `;
 
 const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
+  className,
   sortOption,
   typeOption,
   ratingOption,
@@ -123,36 +147,46 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   /**
    * Tracks if the menu is open.
    */
-  const { isMobile } = useWindowWidth();
-  const [menuOpen, setMenuOpen] = useState(!isMobile);
+  const { isMobile, isTablet } = useWindowWidth();
+  const [menuOpen, setMenuOpen] = useState(!(isTablet || isMobile));
 
   /**
    * Automatically close the side menu if we're scrolling on mobile,
    * since it obstructs visibility of search results.
    */
   useEffect(() => {
-    if (menuOpen && isMobile) {
+    if (menuOpen && (isTablet || isMobile)) {
       const closeMenuOnScroll = () => setMenuOpen(false);
-      window.addEventListener("scroll", closeMenuOnScroll);
+      window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
 
       return () => window.removeEventListener("scroll", closeMenuOnScroll);
     }
 
     return () => {};
-  }, [isMobile, menuOpen]);
+  }, [isMobile, isTablet, menuOpen]);
+
+  const onToggleIndicatorClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      setMenuOpen(prev => !prev);
+    },
+    []
+  );
 
   return (
     <Container
+      className={classNames("options-menu", className)}
       color="greyLight"
       menuOpen={menuOpen}
       onFocus={() => setMenuOpen(true)}
+      onClick={() => setMenuOpen(true)}
       onMouseEnter={() => setMenuOpen(true)}
     >
       <CenterContainer>
         <Text variant="heading2" as="h2" className="heading">
           Options
         </Text>
-        <ToggleIndicator onClick={() => setMenuOpen(prev => !prev)}>
+        <ToggleIndicator onClick={onToggleIndicatorClick}>
           <img src={ChevronImg} alt="Chevron icon" />
         </ToggleIndicator>
       </CenterContainer>
@@ -161,8 +195,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         <CenterContainer>
           <Text variant="heading4">Sort</Text>
           <SortOptionSelect
-            color="white"
-            placeholder="select..."
+            placeholder="by..."
             options={sortOption.options}
             value={sortOption.value}
             onChange={sortOption.onChange}
@@ -243,11 +276,11 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         </CenterContainer>
       )}
 
-      <UnstyledButton>
+      {/* <UnstyledButton>
         <Text variant="subheading" color="greyDark" underline>
           clear options
-        </Text>
-      </UnstyledButton>
+        </Text> TODO: get this working
+      </UnstyledButton> */}
     </Container>
   );
 };
