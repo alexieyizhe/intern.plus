@@ -23,6 +23,6 @@ describe("Search autocomplete", () => {
     cy.get(".company-card")
       .first()
       .click();
-    cy.contains("Sipes and Sons");
+    cy.contains("Sipes, Leffler");
   });
 });

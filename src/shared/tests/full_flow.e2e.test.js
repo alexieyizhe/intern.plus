@@ -52,7 +52,7 @@ describe("Full flow", () => {
       .type("{enter}");
 
     // go to a company's page
-    cy.contains(".company-card", "Sipes Inc").click();
+    cy.contains(".company-card", "Price, Sipes").click();
     cy.percySnapshot("Company page");
 
     // go to job page
