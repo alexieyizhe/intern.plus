@@ -7,18 +7,16 @@ import { Helmet } from "react-helmet";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearch } from "src/shared/hooks/useSearch";
+
 import { detailsPageStyles } from "src/theme/snippets";
 
-import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
-import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
-import { GET_COMPANY_DETAILS, GET_COMPANY_JOBS } from "../graphql/queries";
-import {
-  buildCompanyDetails,
-  buildCompanyJobCardsList,
-} from "../graphql/utils";
+import { GetJobDetails } from "../graphql/types/GetJobDetails";
+import { GetJobReviews } from "../graphql/types/GetJobReviews";
+import { GET_JOB_DETAILS, GET_JOB_REVIEWS } from "../graphql/queries";
+import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
 import { PageContainer, SearchResultCardDisplay } from "src/components";
-import CompanyDetailsCard from "./CompanyDetailsCard";
+import JobDetailsCard from "./JobDetailsCard";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -26,44 +24,46 @@ import CompanyDetailsCard from "./CompanyDetailsCard";
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (companyName?: string) =>
-  companyName ? `${companyName} • intern+` : "Company details • intern+";
+const getTitleMarkup = (jobName?: string, companyName?: string) =>
+  jobName && companyName
+    ? `${jobName} at ${companyName} • intern+`
+    : "Job details • intern+";
 
 /*******************************************************************
- *                             **Styles**                          *
+ *                            **Styles**                           *
  *******************************************************************/
-const CompanyPageContainer = styled(PageContainer)`
+const JobPageContainer = styled(PageContainer)`
   ${detailsPageStyles}
 `;
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const CompaniesPage: React.FC = () => {
+const JobPage: React.FC = () => {
   useScrollTopOnMount();
 
   /**
-   * Fetch the company with the corresponding slug.
+   * Fetch the details of the job with corresponding id.
    */
-  const { companySlug } = useParams();
+  const { jobId } = useParams();
   const {
     loading: detailsLoading,
     error: detailsError,
     data: detailsData,
-  } = useQuery<GetCompanyDetails>(GET_COMPANY_DETAILS, {
-    variables: { slug: companySlug },
+  } = useQuery<GetJobDetails>(GET_JOB_DETAILS, {
+    variables: { id: jobId },
   });
 
-  const companyDetails = useMemo(
+  const jobDetails = useMemo(
     () =>
-      detailsData && detailsData.company
-        ? buildCompanyDetails(detailsData.company)
+      detailsData && detailsData.job
+        ? buildJobDetails(detailsData.job)
         : undefined,
     [detailsData]
   );
 
   /**
-   * Fetch jobs at the company.
+   * Fetch reviews of the job.
    */
   const searchSuggestions = useSearchSuggestions();
   const {
@@ -74,28 +74,33 @@ const CompaniesPage: React.FC = () => {
     // callbacks
     triggerSearchNew,
     triggerSearchNextBatch,
-  } = useSearch<GetCompanyJobs>(
-    GET_COMPANY_JOBS,
+  } = useSearch<GetJobReviews>(
+    GET_JOB_REVIEWS,
     {
       variables: {
-        slug: companySlug,
+        id: jobId,
       },
     },
-    buildCompanyJobCardsList
+    buildJobReviewsCardList
   );
 
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(companyDetails && companyDetails.name)}</title>
+        <title>
+          {getTitleMarkup(
+            jobDetails && jobDetails.name,
+            jobDetails && jobDetails.companyName
+          )}
+        </title>
       </Helmet>
 
-      <CompanyPageContainer id="company-page">
-        <CompanyDetailsCard
+      <JobPageContainer id="job-page">
+        <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
           suggestions={searchSuggestions}
-          companyDetails={companyDetails}
+          jobDetails={jobDetails}
           onTriggerSearch={triggerSearchNew}
         />
         <SearchResultCardDisplay
@@ -103,9 +108,9 @@ const CompaniesPage: React.FC = () => {
           searchResults={searchResults}
           onResultsEndReached={triggerSearchNextBatch}
         />
-      </CompanyPageContainer>
+      </JobPageContainer>
     </>
   );
 };
 
-export default React.memo(CompaniesPage);
+export default JobPage;

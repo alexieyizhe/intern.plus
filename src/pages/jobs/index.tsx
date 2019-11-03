@@ -10,7 +10,7 @@ import {
 import { RouteName } from "src/shared/constants/routing";
 import { SearchFilter, SearchType } from "src/shared/constants/search";
 
-import JobsPage from "./components/JobsPage";
+import JobPage from "./components/JobPage";
 
 /**
  * Page router will either:
@@ -24,7 +24,7 @@ const JobsRouteHandler = () => {
     <>
       <Switch>
         <Route path={`${match.path}/:jobId`}>
-          <JobsPage />
+          <JobPage />
         </Route>
 
         <Route path={match.path}>
