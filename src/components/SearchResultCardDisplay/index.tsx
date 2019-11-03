@@ -187,6 +187,11 @@ const Container = styled.section`
   `}
 `;
 
+const MarkupContainer = styled.div`
+  width: 70%;
+  margin: 5px auto;
+`;
+
 const resultCardStyles = css`
   width: 100%;
   height: 180px;
@@ -245,7 +250,7 @@ const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
 
       {searchResults.map(getResultCardMarkup)}
 
-      {markup}
+      <MarkupContainer>{markup}</MarkupContainer>
 
       {searchResults.length > 0 &&
         [SearchState.INITIAL, SearchState.RESULTS].includes(searchState) && (
