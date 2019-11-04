@@ -6,6 +6,7 @@ export interface ICompanyCardItem {
   avgRating: number; // score out of 5
   logoSrc: string;
   color: string;
+  jobLocations: string[];
 }
 
 export interface IJobCardItem {
@@ -37,6 +38,7 @@ export interface IReviewJobCardItem {
 export interface IReviewUserCardItem {
   id: string;
   author: string; // name of the reviewer (or Anonymous)
+  jobLocation: string;
   relativeDate: string; // relative date of the review
   overallRating: number;
   body: string;

@@ -14,6 +14,7 @@ export interface ISlugQueryParam {
 
 export interface ISearchQueryParams {
   query: string;
+  locations: string[];
   offset: number;
   limit: number;
 }
@@ -277,4 +278,11 @@ export const MOCK_REVIEWS = MOCK_REVIEWS_LIST.reduce(
     return acc;
   },
   {} as any
+);
+
+export const MOCK_LOCATIONS = Array.from(
+  MOCK_JOBS_LIST.reduce((acc, cur) => {
+    acc.add(cur.location);
+    return acc;
+  }, new Set<string>())
 );

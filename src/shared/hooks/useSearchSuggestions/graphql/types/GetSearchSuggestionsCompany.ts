@@ -24,6 +24,10 @@ export interface GetSearchSuggestionsCompany_company_jobs {
 
 export interface GetSearchSuggestionsCompany_company {
   __typename: "Company";
+  /**
+   * Name of a company.
+   */
+  name: string | null;
   jobs: GetSearchSuggestionsCompany_company_jobs | null;
 }
 

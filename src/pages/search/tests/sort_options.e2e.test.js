@@ -12,12 +12,14 @@ describe("Search autocomplete", () => {
       .type("sips")
       .type("{downarrow}{enter}");
 
+    cy.get(".options-menu").click({ force: true });
+
     cy.get(".job-card")
       .first()
       .find(".salaryAmt")
       .should("have.text", "33");
 
-    cy.get(".options-menu input")
+    cy.get(".options-menu .sort-select input")
       .click()
       .type("salary{downarrow}{enter}");
 
@@ -38,7 +40,9 @@ describe("Search autocomplete", () => {
       .contains("(2)")
       .should("exist");
 
-    cy.get(".options-menu input")
+    cy.get(".options-menu").click({ force: true });
+
+    cy.get(".options-menu .sort-select input")
       .click()
       .type("review count{downarrow}{enter}");
 
@@ -58,8 +62,10 @@ describe("Search autocomplete", () => {
       .contains("3.0")
       .should("exist");
 
-    cy.get(".options-menu input")
-      .click()
+    cy.get(".options-menu").click({ force: true });
+
+    cy.get(".options-menu .sort-select input")
+      .click({ force: true })
       .type("rating{downarrow}{enter}");
 
     cy.get(".job-card")

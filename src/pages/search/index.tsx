@@ -6,7 +6,9 @@ import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
+import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
+import { useSearchType } from "src/shared/hooks/useSearchType";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { SearchType, availableSortOptions } from "src/shared/constants/search";
@@ -103,15 +105,16 @@ const SearchPage: React.FC = () => {
 
   const { searchQuery, searchType } = useSearchParams();
   const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
-  const sortOption = useSearchSort(
-    searchType ? availableSortOptions[searchType] : undefined
-  ); // for SearchOptionsMenu
 
+  /**
+   * For fetching results
+   */
   const { QUERY_DEF } = useSearchQueryDef(getSearchBuilder);
   const {
     // search info
     searchState,
     searchResults,
+    unfilteredResults,
 
     // callbacks
     triggerSearchNew,
@@ -123,6 +126,15 @@ const SearchPage: React.FC = () => {
     },
     buildSearchResultCardsList
   );
+
+  /**
+   * For search options menu
+   */
+  const sortOption = useSearchSort(
+    searchType ? availableSortOptions[searchType] : undefined
+  );
+  const typeOption = useSearchType();
+  const locationOption = useSearchLocationFilter(unfilteredResults);
 
   return (
     <>
@@ -140,7 +152,11 @@ const SearchPage: React.FC = () => {
           suggestions={searchSuggestions}
         />
 
-        <SearchOptionsMenu sortOption={sortOption} />
+        <SearchOptionsMenu
+          sortOption={sortOption}
+          typeOption={typeOption}
+          locationOption={locationOption}
+        />
 
         <SearchResultCardDisplay
           searchState={searchState}

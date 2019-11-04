@@ -49,7 +49,6 @@ const JobPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { jobId } = useParams();
-  const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]); // for SearchOptionsMenu
 
   /**
    * Fetch the *details of the job* with corresponding id.
@@ -91,6 +90,11 @@ const JobPage: React.FC = () => {
     },
     buildJobReviewsCardList
   );
+
+  /**
+   * For search options menu
+   */
+  const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]);
 
   return (
     <>

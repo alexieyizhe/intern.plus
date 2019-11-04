@@ -8,6 +8,7 @@ import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
+import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { detailsPageStyles } from "src/theme/snippets";
@@ -54,7 +55,6 @@ const CompanyPage: React.FC = () => {
 
   const { companySlug } = useParams();
   const searchSuggestions = useSearchSuggestions({ companySlug });
-  const sortOption = useSearchSort(); // for SearchOptionsMenu
 
   /**
    * Fetch *details of the company* with the corresponding slug.
@@ -83,6 +83,7 @@ const CompanyPage: React.FC = () => {
     // search info
     searchState,
     searchResults,
+    unfilteredResults,
 
     // callbacks
     triggerSearchNew,
@@ -96,6 +97,12 @@ const CompanyPage: React.FC = () => {
     },
     buildCompanyJobCardsList
   );
+
+  /**
+   * For search options menu
+   */
+  const sortOption = useSearchSort();
+  const locationOption = useSearchLocationFilter(unfilteredResults);
 
   return (
     <>
@@ -112,7 +119,10 @@ const CompanyPage: React.FC = () => {
           onTriggerSearch={triggerSearchNew}
         />
 
-        <SearchOptionsMenu sortOption={sortOption} />
+        <SearchOptionsMenu
+          sortOption={sortOption}
+          locationOption={locationOption}
+        />
 
         <SearchResultCardDisplay
           searchState={searchState}

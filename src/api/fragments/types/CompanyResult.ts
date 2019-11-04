@@ -19,6 +19,19 @@ export interface CompanyResult_reviews {
   count: number;
 }
 
+export interface CompanyResult_jobs_items {
+  __typename: "Job";
+  location: string | null;
+}
+
+export interface CompanyResult_jobs {
+  __typename: "JobListResponse";
+  /**
+   * List items
+   */
+  items: CompanyResult_jobs_items[];
+}
+
 export interface CompanyResult {
   __typename: "Company";
   /**
@@ -43,4 +56,5 @@ export interface CompanyResult {
    */
   avgRating: number | null;
   reviews: CompanyResult_reviews | null;
+  jobs: CompanyResult_jobs | null;
 }

@@ -14,6 +14,11 @@ export const companyResultFragment = gql`
     reviews {
       count
     }
+    jobs {
+      items {
+        location
+      }
+    }
   }
 `;
 
@@ -68,5 +73,8 @@ export const reviewResultUserFragment = gql`
     updatedAt
     isLegacy
     legacyUpdatedAt
+    job {
+      location
+    }
   }
 `;

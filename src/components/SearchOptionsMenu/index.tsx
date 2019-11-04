@@ -26,8 +26,8 @@ export interface ISearchOptionsMenuProps
   };
 
   typeOption?: {
-    value: SearchType | "";
-    onChange: (value: SearchType | "") => void;
+    value?: SearchType;
+    onChange: (value?: SearchType) => void;
   };
 
   ratingOption?: {
@@ -36,10 +36,16 @@ export interface ISearchOptionsMenuProps
     onChange: (valueMin: number, valueMax: number) => void;
   };
 
+  salaryOption?: {
+    valueMin: number;
+    valueMax: number;
+    onChange: (valueMin: number, valueMax: number) => void;
+  };
+
   locationOption?: {
     options: OptionTypeBase[];
     value?: OptionTypeBase;
-    onChange: (value: OptionTypeBase) => void;
+    onChange: (value: OptionTypeBase[]) => void;
   };
 }
 
@@ -105,9 +111,7 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
 
   ${({ theme, menuOpen }) => theme.mediaQueries.largeMobile`
     width: ${MENU_WIDTH_MOBILE}px;
-    padding: 20px 30px;
-
-    
+    padding: 20px 30px;    
 
     & > * {
       margin-bottom: 5px;
@@ -134,7 +138,7 @@ const TopContainer = styled.div`
 `;
 
 const SortOptionSelect = styled(Select)`
-  width: 80%;
+  width: 70%;
 
   & > div {
     padding: 10px;
@@ -142,7 +146,7 @@ const SortOptionSelect = styled(Select)`
 `;
 
 const VerticalAlignContainer = styled.div`
-  min-width: 200px;
+  width: 70%;
 
   display: flex;
   flex-direction: column;
@@ -150,7 +154,7 @@ const VerticalAlignContainer = styled.div`
   align-items: flex-start;
 
   & > * {
-    margin-bottom: 5px;
+    margin-bottom: 7px;
   }
 `;
 
@@ -175,6 +179,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   sortOption,
   typeOption,
   ratingOption,
+  salaryOption,
   locationOption,
 }) => {
   const {
@@ -185,7 +190,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
    * Tracks if the menu is open.
    */
   const { isMobile, isTablet } = useWindowWidth();
-  const [menuOpen, setMenuOpen] = useState(!(isTablet || isMobile));
+  const [menuOpen, setMenuOpen] = useState(false);
 
   /**
    * Automatically close the side menu if we're scrolling on mobile,
@@ -238,6 +243,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Sort</Text>
             <SortOptionSelect
+              className="sort-select"
               color="white"
               placeholder="by..."
               options={sortOption.options}
@@ -253,11 +259,12 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             <Text variant="heading4">Type</Text>
             <VerticalAlignContainer>
               <Checkbox
+                className="type-checkbox-companies"
                 color="white"
                 checked={typeOption.value === SearchType.COMPANIES}
                 onChange={e =>
                   typeOption.onChange(
-                    e.target.checked ? SearchType.COMPANIES : ""
+                    e.target.checked ? SearchType.COMPANIES : undefined
                   )
                 }
                 tabIndex={menuOpen ? 0 : -1}
@@ -267,10 +274,13 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 </Text>
               </Checkbox>
               <Checkbox
+                className="type-checkbox-jobs"
                 color="white"
                 checked={typeOption.value === SearchType.JOBS}
                 onChange={e =>
-                  typeOption.onChange(e.target.checked ? SearchType.JOBS : "")
+                  typeOption.onChange(
+                    e.target.checked ? SearchType.JOBS : undefined
+                  )
                 }
                 tabIndex={menuOpen ? 0 : -1}
               >
@@ -279,11 +289,12 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 </Text>
               </Checkbox>
               <Checkbox
+                className="type-checkbox-reviews"
                 color="white"
                 checked={typeOption.value === SearchType.REVIEWS}
                 onChange={e =>
                   typeOption.onChange(
-                    e.target.checked ? SearchType.REVIEWS : ""
+                    e.target.checked ? SearchType.REVIEWS : undefined
                   )
                 }
                 tabIndex={menuOpen ? 0 : -1}
@@ -300,12 +311,20 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Rating</Text>
             <VerticalAlignContainer>
-              <StarRating maxStars={5} filledStars={ratingOption.valueMin}>
+              <StarRating
+                maxStars={5}
+                filledStars={ratingOption.valueMin}
+                className="rating-min"
+              >
                 <Text variant="subheading" color="greyDark">
                   min
                 </Text>
               </StarRating>
-              <StarRating maxStars={5} filledStars={ratingOption.valueMax}>
+              <StarRating
+                maxStars={5}
+                filledStars={ratingOption.valueMax}
+                className="rating-max"
+              >
                 <Text variant="subheading" color="greyDark">
                   max
                 </Text>
@@ -314,12 +333,33 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           </TopContainer>
         )}
 
+        {/* {salaryOption && ( TODO: get this implemented
+          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
+            <Text variant="heading4">Rating</Text>
+            <VerticalAlignContainer>
+              <StarRating maxStars={5} filledStars={salaryOption.valueMin}>
+                <Text variant="subheading" color="greyDark">
+                  min
+                </Text>
+              </StarRating>
+              <StarRating maxStars={5} filledStars={salaryOption.valueMax}>
+                <Text variant="subheading" color="greyDark">
+                  max
+                </Text>
+              </StarRating>
+            </VerticalAlignContainer>
+          </TopContainer>
+        )} */}
+
         {locationOption && (
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Location</Text>
             <SortOptionSelect
+              className="location-select"
               color="white"
               placeholder="California"
+              isMulti
+              value={locationOption.value}
               options={locationOption.options}
               onChange={locationOption.onChange}
               tabIndex={menuOpen ? 0 : -1}
