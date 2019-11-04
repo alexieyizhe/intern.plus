@@ -1,7 +1,8 @@
 import React, { useContext, useMemo } from "react";
 import styled, { ThemeContext } from "styled-components";
+import classNames from "classnames";
 
-import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
+import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { Size } from "src/theme/constants";
 
@@ -32,7 +33,7 @@ const Icon: React.FC<IconProps> = ({
   color,
   ...rest
 }) => {
-  const windowWidth = useWindowWidth();
+  const { windowWidth } = useWindowWidth();
   const sizeForWidth =
     windowWidth < deviceBreakpoints.largeMobile && mobileSize
       ? mobileSize
@@ -55,7 +56,7 @@ const Icon: React.FC<IconProps> = ({
           name={name}
           size={iconSize}
           color={iconColor}
-          className={`Icon--Unknown--${name} ${className || ""}`}
+          className={classNames(`Icon--Unknown--${name}`, className)}
           {...rest}
         />
       ),

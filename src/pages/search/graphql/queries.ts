@@ -6,125 +6,161 @@ import {
   reviewResultJobFragment,
 } from "src/api/fragments";
 
-// gets all results (company, job, review) matching query
-export const GET_ALL_SEARCH = gql`
-  query GetAllSearch($query: String, $offset: Int, $limit: Int) {
-    companiesList(
-      filter: {
-        OR: [{ name: { contains: $query } }, { desc: { contains: $query } }]
-      }
-      sort: { name: ASC }
-      skip: $offset
-      first: $limit
-    ) {
-      items {
-        ...CompanyResult
-      }
-    }
+import { SearchType, SearchSort } from "src/shared/constants/search";
+import {
+  ISearchQueryBuilderOptions,
+  SearchQueryBuilder,
+} from "src/shared/hooks/useSearchQueryDef";
 
-    jobsList(
-      filter: {
-        OR: [
-          { name: { contains: $query } }
-          { company: { name: { contains: $query } } }
-          { location: { contains: $query } }
-        ]
-      }
-      sort: { name: ASC }
-      skip: $offset
-      first: $limit
-    ) {
-      items {
-        ...JobResult
-      }
-    }
+const getCompaniesSort = (sort?: SearchSort) => {
+  switch (sort) {
+    case SearchSort.NUM_REVIEWS:
+      return `[{ numRatings: DESC }, { name: ASC }]`;
+    case SearchSort.RATING:
+      return `[{ avgRating: DESC }, { name: ASC }]`;
+    // TODO: finish this functionality by adding field to company
+    // case SearchSort.SALARY:
+    //   return `[{ medianHourlySalary: DESC }, { name: ASC }]`;
+    default:
+      // same as ALPHABETICAL
+      return `{ name: ASC }`;
+  }
+};
 
-    reviewsList(
-      filter: {
-        OR: [
-          { company: { name: { contains: $query } } }
-          { job: { name: { contains: $query } } }
-          { body: { contains: $query } }
-          { tags: { contains: $query } }
-        ]
-      }
-      sort: { job: { name: ASC } }
-      skip: $offset
-      first: $limit
-    ) {
-      items {
-        ...ReviewResultJob
-      }
+const companiesQuery = ({ sort }: ISearchQueryBuilderOptions) => `
+  companiesList(
+    filter: {
+      OR: [
+        { name: { contains: $query } }, 
+        { desc: { contains: $query } }, 
+        { desc: { in: $locations } }
+      ]
+    }
+    sort: ${getCompaniesSort(sort)}
+    skip: $offset
+    first: $limit
+  ) {
+    items {
+      ...CompanyResult
     }
   }
-
-  ${companyResultFragment}
-  ${jobResultFragment}
-  ${reviewResultJobFragment}
 `;
 
-export const GET_COMPANIES_SEARCH = gql`
-  query GetCompaniesSearch($query: String, $offset: Int, $limit: Int) {
-    companiesList(
-      filter: {
-        OR: [{ name: { contains: $query }, desc: { contains: $query } }]
-      }
-      sort: { name: ASC }
-      skip: $offset
-      first: $limit
-    ) {
-      items {
-        ...CompanyResult
-      }
+const getJobsSort = (sort?: SearchSort) => {
+  switch (sort) {
+    case SearchSort.NUM_REVIEWS:
+      return `[{ numRatings: DESC }, { name: ASC }]`;
+    case SearchSort.RATING:
+      return `[{ avgRating: DESC }, { name: ASC }]`;
+    case SearchSort.SALARY:
+      return `[{ avgHourlySalary: DESC }, { name: ASC }]`;
+    default:
+      // same as ALPHABETICAL
+      return `{ name: ASC }`;
+  }
+};
+const jobsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
+  jobsList(
+    filter: {
+      AND: [
+        { location: { in: $locations } }
+        {
+          OR: [
+            { name: { contains: $query } }
+            { company: { name: { contains: $query } } }
+            { location: { contains: $query } }
+          ]
+        },
+      ]
+    }
+    sort: ${getJobsSort(sort)}
+    skip: $offset
+    first: $limit
+  ) {
+    items {
+      ...JobResult
     }
   }
-
-  ${companyResultFragment}
 `;
 
-export const GET_JOBS_SEARCH = gql`
-  query GetJobsSearch($query: String, $offset: Int, $limit: Int) {
-    jobsList(
-      filter: {
-        OR: [
-          { name: { contains: $query } }
-          { company: { name: { contains: $query } } }
-          { location: { contains: $query } }
-        ]
-      }
-      sort: { name: ASC }
-      skip: $offset
-      first: $limit
-    ) {
-      items {
-        ...JobResult
-      }
+const getReviewsSort = (sort?: SearchSort) => {
+  switch (sort) {
+    case SearchSort.RATING:
+      return `[{ overallRating: DESC }, { company: { name: ASC } }, { job: { name: ASC } }]`;
+    case SearchSort.SALARY:
+      return `[{ salary: DESC }, { company: { name: ASC } }, { job: { name: ASC } }]`;
+    default:
+      // same as ALPHABETICAL, DEFAULT (chronologically) and NUM_REVIEWS (not a valid sort option for reviews)
+      return `[{ updatedAt: DESC }, { legacyUpdatedAt: DESC }]`;
+  }
+};
+const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
+  reviewsList(
+    filter: {
+      AND: [
+        { job: { location: { in: $locations } } }
+        {
+          OR: [
+            { company: { name: { contains: $query } } }
+            { job: { name: { contains: $query } } }
+            { body: { contains: $query } }
+            { tags: { contains: $query } }
+          ]
+        },
+      ]
+    }
+    sort: ${getReviewsSort(sort)}
+    skip: $offset
+    first: $limit
+  ) {
+    items {
+      ...ReviewResultJob
     }
   }
-
-  ${jobResultFragment}
 `;
 
-export const GET_REVIEWS_SEARCH = gql`
-  query GetReviewsSearch($query: String, $offset: Int, $limit: Int) {
-    reviewsList(
-      filter: {
-        OR: [
-          { company: { name: { contains: $query } } }
-          { job: { name: { contains: $query } } }
-          { body: { contains: $query } }
-          { tags: { contains: $query } }
-        ]
-      }
-      sort: { job: { name: ASC } }
-      skip: $offset
-      first: $limit
-    ) {
-      items {
-        ...ReviewResultJob
-      }
-    }
+const allQuery = (options: ISearchQueryBuilderOptions) => `
+  ${companiesQuery(options)}
+  ${jobsQuery(options)}
+  ${reviewsQuery(options)}
+`;
+
+const getQueryForType = (type?: SearchType) => {
+  switch (type) {
+    case SearchType.COMPANIES:
+      return companiesQuery;
+    case SearchType.JOBS:
+      return jobsQuery;
+    case SearchType.REVIEWS:
+      return reviewsQuery;
+    default:
+      return allQuery;
   }
+};
 
-  ${reviewResultJobFragment}
-`;
+export const getSearchBuilder: SearchQueryBuilder = options => {
+  const queryForType = getQueryForType(options.type);
+  const QUERY_DEF = gql`
+    query GetSearch($query: String, $locations: [String!], $offset: Int, $limit: Int) {
+      ${queryForType(options)}
+    }
+
+    ${
+      [undefined, SearchType.COMPANIES].includes(options.type)
+        ? companyResultFragment
+        : ""
+    }
+    ${
+      [undefined, SearchType.JOBS].includes(options.type)
+        ? jobResultFragment
+        : ""
+    }
+    ${
+      [undefined, SearchType.REVIEWS].includes(options.type)
+        ? reviewResultJobFragment
+        : ""
+    }
+  `;
+
+  return QUERY_DEF;
+};

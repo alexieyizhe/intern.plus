@@ -27,6 +27,9 @@ export const GET_REVIEW_DETAILS = gql`
       meaningfulWorkRating
       workLifeBalanceRating
       isLegacy
+      legacyUpdatedAt
+      createdAt
+      updatedAt
     }
   }
 `;

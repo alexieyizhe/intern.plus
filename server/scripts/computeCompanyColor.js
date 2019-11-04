@@ -3,6 +3,8 @@ const ApolloClient = require("apollo-boost").default; // eslint-disable-line
 const { gql } = require("apollo-boost"); // eslint-disable-line
 const Vibrant = require("node-vibrant"); // eslint-disable-line
 const chalk = require("chalk"); // eslint-disable-line
+const dotenv = require("dotenv"); // eslint-disable-line
+dotenv.config();
 
 const API_URL = process.env.REACT_APP_DB_GRAPHQL_API_URL;
 const GET_COMPANY_LOGO_URLS = gql`
@@ -32,7 +34,7 @@ const UPDATE_COMPANY_COLOR = gql`
 const client = new ApolloClient({
   uri: API_URL,
   request: operation => {
-    const token = process.env.REACT_APP_DB_GRAPHQL_API_TOKEN;
+    const token = process.env.SERVER_API_TOKEN;
     operation.setContext({
       headers: {
         authorization: token ? `Bearer ${token}` : "",
@@ -86,7 +88,7 @@ const mutateCompanyColor = async (id, color) => {
 const computeAllCompanyColors = async () => {
   const data = await getAllCompanies();
   if (data && data.companiesList && data.companiesList.items) {
-    const allCompanies = data.companiesList.items.slice(0, 2);
+    const allCompanies = data.companiesList.items;
 
     for (const { id, name, logoImg, logoColor } of allCompanies) {
       let hsl;

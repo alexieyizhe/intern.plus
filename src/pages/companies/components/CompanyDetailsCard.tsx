@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
-import { ICompanyDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
-import { getLightColor } from "src/utils/getColor";
+import { getLightColor } from "src/shared/utils/color";
 
 import {
   ISearchFieldProps,
@@ -17,6 +17,15 @@ import {
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
+export interface ICompanyDetails {
+  name: string;
+  desc?: string;
+  numRatings: number;
+  avgRating: number;
+  logoSrc: string;
+  color: string;
+}
+
 export interface ICompanyDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;
@@ -34,7 +43,6 @@ const getRatingsText = (numRatings: number) => {
       return `No reviews yet`;
     case 1:
       return `${numRatings} review`;
-
     default:
       return `${numRatings} reviews`;
   }
@@ -61,7 +69,12 @@ const getDetailsMarkup = (
           <Text variant="heading1" as="div">
             {details.name}
           </Text>
-          <Text className="subheading" variant="subheading" as="div">
+          <Text
+            className="subheading"
+            variant="subheading"
+            color="greyDark"
+            as="div"
+          >
             {details.desc}
           </Text>
           <div className="rating">
@@ -70,11 +83,16 @@ const getDetailsMarkup = (
               filledStars={Math.round(details.avgRating)}
               readOnly
             >
-              <Text variant="body" className="ratingText" color="black">
+              <Text variant="subheading" className="ratingText" color="black">
                 {details.avgRating.toFixed(1)}
               </Text>
             </StarRating>
-            <Text variant="subheading" as="div" color="greyDark">
+            <Text
+              variant="subheading"
+              as="div"
+              className="numRatingsText"
+              color="greyDark"
+            >
               {getRatingsText(details.numRatings)}
             </Text>
           </div>
@@ -157,12 +175,16 @@ const Logo = styled.img`
  *                           **Component**                         *
  *******************************************************************/
 const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
+  className,
   loading,
   error,
   companyDetails,
   onTriggerSearch,
+  suggestions,
+  fuseOptions,
 }) => (
   <Container
+    className={classNames("company-details-card", className)}
     color={
       companyDetails &&
       companyDetails.color &&
@@ -172,9 +194,12 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
     <MiscContentContainer>
       {getDetailsMarkup(loading, error, companyDetails)}
     </MiscContentContainer>
+
     <SearchField
       onTriggerSearch={onTriggerSearch}
-      placeholder="Find a position"
+      suggestions={suggestions}
+      fuseOptions={fuseOptions}
+      inputProps={{ placeholder: "Find a position" }}
     />
   </Container>
 );

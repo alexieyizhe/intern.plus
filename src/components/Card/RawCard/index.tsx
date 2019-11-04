@@ -6,7 +6,6 @@ export interface ICardProps extends React.ComponentPropsWithRef<"div"> {
 }
 const BaseCard = styled.div`
   display: inline-block;
-  padding: 25px 35px;
 
   border-radius: ${({ theme }) => theme.borderRadius.button}px;
   background-color: ${({ color = "", theme }) =>

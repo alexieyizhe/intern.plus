@@ -1,9 +1,10 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
+import classNames from "classnames";
 
-import { hoverStyles } from "src/theme/snippets";
-import { getDarkColor } from "src/utils/getColor";
+import { hoverStyles, itemCardStyles } from "src/theme/snippets";
+import { getDarkColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -21,9 +22,7 @@ const Container = styled(Card)`
   ${hoverStyles}
 
   & > a {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    ${itemCardStyles}
 
     display: inline-grid;
     grid-template-rows: auto auto 1fr;
@@ -73,6 +72,7 @@ const Container = styled(Card)`
 `;
 
 const ReviewCard: React.FC<IReviewCardProps> = ({
+  className,
   heading,
   subheading,
   rating,
@@ -93,13 +93,18 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
       state: {
         background: location,
       },
+      search: location.search,
     }),
     [linkTo, location]
   );
 
   return (
-    <Container color="greyLight" {...rest}>
-      <Link to={linkToWithState}>
+    <Container
+      className={classNames("review-card", className)}
+      color="greyLight"
+      {...rest}
+    >
+      <Link to={linkToWithState} tabIndex={0}>
         <Text
           className="heading"
           variant="heading3"

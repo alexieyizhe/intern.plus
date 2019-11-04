@@ -1,30 +1,26 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
-import { useScrollTopOnMount } from "src/utils/hooks/useScrollTopOnMount";
-import { useSearchParams } from "src/utils/hooks/useSearchParams";
-import {
-  useSearch,
-  useSearchAfter,
-  SearchState,
-} from "src/utils/hooks/useSearch";
-import { SearchType, RESULTS_PER_PAGE } from "src/utils/constants";
+import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+import { useSearchParams } from "src/shared/hooks/useSearchParams";
+import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
+import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
+import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
+import { useSearchSort } from "src/shared/hooks/useSearchSort";
+import { useSearchType } from "src/shared/hooks/useSearchType";
+import { useSearch } from "src/shared/hooks/useSearch";
+
+import { SearchType, availableSortOptions } from "src/shared/constants/search";
 import pageCopy from "./copy";
 
-import { GetAllSearch } from "./graphql/types/GetAllSearch";
-import {
-  GET_ALL_SEARCH,
-  GET_COMPANIES_SEARCH,
-  GET_JOBS_SEARCH,
-  GET_REVIEWS_SEARCH,
-} from "./graphql/queries";
+import { getSearchBuilder } from "./graphql/queries";
 import { buildSearchResultCardsList } from "./graphql/utils";
 
 import {
-  ResultCardDisplay,
+  SearchResultCardDisplay,
   SearchField,
+  SearchOptionsMenu,
   Text,
   PageContainer,
 } from "src/components";
@@ -47,7 +43,7 @@ const getTitleMarkup = (query?: string, type?: SearchType) =>
 const getDefaultHeading = (type?: SearchType) =>
   type ? (
     <>
-      <span className="grey">{pageCopy.heading.typeInitialHeading}&nbsp;</span>
+      <span className="grey">{pageCopy.heading.typeInitialHeading} </span>
       <span>{type}</span>
     </>
   ) : (
@@ -57,16 +53,14 @@ const getDefaultHeading = (type?: SearchType) =>
 /**
  * Creates markup for the heading based on all search parameters.
  */
-const useHeadingMarkup = () => {
-  const { searchQuery, searchType } = useSearchParams();
-
-  if (!searchQuery) return getDefaultHeading(searchType);
+const getHeadingMarkup = (query?: string, type?: SearchType) => {
+  if (!query) return getDefaultHeading(type);
 
   let prefix = "";
   let start: string = pageCopy.heading.searchedHeading;
 
   // query exists
-  switch (searchType) {
+  switch (type) {
     case SearchType.COMPANIES:
       prefix = "Company ";
       break;
@@ -85,30 +79,10 @@ const useHeadingMarkup = () => {
   return (
     <>
       <span className="grey">{`${prefix}${start} '`}</span>
-      <span>{searchQuery}</span>
+      <span>{query}</span>
       <span className="grey">'</span>
     </>
   );
-};
-
-/**
- * Gets the correct graphQL query based on the type of search
- * @param type type of search being performed
- */
-const getQuery = (type?: SearchType) => {
-  switch (type) {
-    case SearchType.COMPANIES:
-      return GET_COMPANIES_SEARCH;
-
-    case SearchType.JOBS:
-      return GET_JOBS_SEARCH;
-
-    case SearchType.REVIEWS:
-      return GET_REVIEWS_SEARCH;
-
-    default:
-      return GET_ALL_SEARCH;
-  }
 };
 
 /*******************************************************************
@@ -126,63 +100,41 @@ export const Heading = styled(Text)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const GenericSearchPage: React.FC = () => {
+const SearchPage: React.FC = () => {
   useScrollTopOnMount();
 
+  const { searchQuery, searchType } = useSearchParams();
+  const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
+
+  /**
+   * For fetching results
+   */
+  const { QUERY_DEF } = useSearchQueryDef(getSearchBuilder);
   const {
-    // for fetching results
-    searchQuery,
-    searchType,
-    page,
-
-    // for displaying results
+    // search info
     searchState,
+    searchResults,
+    unfilteredResults,
 
-    // search trigger functions
-    onNewSearch,
-    onNextBatchSearch,
-
-    ...rest
-  } = useSearch();
-
-  const shouldSkipSearch = useMemo(
-    /**
-     * If search type is provided, the default state is to show them
-     * all results of that type, not the empty state where we prompt them to
-     * type a search query.
-     */
-    () =>
-      (searchState === SearchState.INITIAL && !searchType) ||
-      searchState === SearchState.RESULTS,
-    [searchState, searchType]
-  );
-
-  /**
-   * Query the actual data.
-   */
-  const QUERY = useMemo(() => getQuery(searchType), [searchType]);
-  const { loading, error, data } = useQuery<GetAllSearch>(QUERY, {
-    variables: {
-      query: searchQuery || "",
-      offset: (page - 1) * RESULTS_PER_PAGE,
-      limit: RESULTS_PER_PAGE,
+    // callbacks
+    triggerSearchNew,
+    triggerSearchNextBatch,
+  } = useSearch(
+    QUERY_DEF,
+    {
+      skip: searchQuery === undefined && !searchType, // if searching for a type, show all of that type instead of empty state prompting them to search
     },
-    skip: shouldSkipSearch, // do not make an API call if search query is empty (on initial load)
-  });
-
-  /**
-   * Transforms returned data into generic card list items.
-   * This is required for ResultCardDisplay to accept our results.
-   */
-  const searchResults = useSearchAfter(
-    { data, loading, error: error !== undefined, ...rest },
     buildSearchResultCardsList
   );
 
   /**
-   * Get heading markup/text based on query params.
+   * For search options menu
    */
-  const headingMarkup = useHeadingMarkup();
+  const sortOption = useSearchSort(
+    searchType ? availableSortOptions[searchType] : undefined
+  );
+  const typeOption = useSearchType();
+  const locationOption = useSearchLocationFilter(unfilteredResults);
 
   return (
     <>
@@ -190,17 +142,30 @@ const GenericSearchPage: React.FC = () => {
         <title>{getTitleMarkup(searchQuery, searchType)}</title>
       </Helmet>
 
-      <PageContainer>
-        <Heading variant="heading1">{headingMarkup}</Heading>
-        <SearchField onTriggerSearch={onNewSearch} />
-        <ResultCardDisplay
+      <PageContainer id="search-page">
+        <Heading variant="heading1">
+          {getHeadingMarkup(searchQuery, searchType)}
+        </Heading>
+
+        <SearchField
+          onTriggerSearch={triggerSearchNew}
+          suggestions={searchSuggestions}
+        />
+
+        <SearchOptionsMenu
+          sortOption={sortOption}
+          typeOption={typeOption}
+          locationOption={locationOption}
+        />
+
+        <SearchResultCardDisplay
           searchState={searchState}
           searchResults={searchResults}
-          onResultsEndReached={onNextBatchSearch}
+          onResultsEndReached={triggerSearchNextBatch}
         />
       </PageContainer>
     </>
   );
 };
 
-export default React.memo(GenericSearchPage);
+export default React.memo(SearchPage);

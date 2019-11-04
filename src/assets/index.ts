@@ -10,7 +10,7 @@ export { ReactComponent as XSquareIcon } from "./img/icons/x-square.svg";
 export { ReactComponent as StarEmptyIcon } from "./img/icons/star-empty.svg";
 export { ReactComponent as StarFilledIcon } from "./img/icons/star-filled.svg";
 
-export { default as MobileMenuChevronImg } from "./img/mobilemenu-chevron.svg";
+export { default as ChevronImg } from "./img/mobilemenu-chevron.svg";
 
 // Original image attributed to Nerman and Glaze stock photos at https://www.glazestock.com/image/qlEEZvejP
 export { default as StarCityImg } from "./img/star-city.png";

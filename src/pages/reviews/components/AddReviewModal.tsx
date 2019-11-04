@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
-import { useSiteContext } from "src/utils/context";
+import { useSiteContext } from "src/context";
 
+import { Card, Text } from "src/components";
 import {
   HEADER_HEIGHT,
+  MOBILE_MENU_HEIGHT,
   MOBILE_MENU_MEDIA_QUERY,
-  Card,
-  Text,
-} from "src/components";
+} from "src/components/PageHeader";
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -24,8 +25,8 @@ const ModalContainer = styled.div`
     z-index: ${({ theme }) => theme.zIndex.modal};
   }
 
-  &.mobileMenuOpen {
-    top: ${HEADER_HEIGHT + 130}px;
+  &.mobile-menu-open {
+    top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 10}px;
   }
 `;
 
@@ -46,6 +47,7 @@ const InnerContainer = styled(Card)`
   margin-left: auto;
   max-height: 85vh;
   max-width: 500px;
+  padding: ${({ theme }) => theme.padding.display};
 
   display: flex;
   flex-direction: column;
@@ -62,6 +64,10 @@ const InnerContainer = styled(Card)`
 
   ${({ theme }) => theme.mediaQueries.medium`
     max-width: 80%;
+  `}
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    padding: ${theme.padding.displayMobile};
   `}
 
   ${({ theme }) => theme.mediaQueries.xlMobile`
@@ -81,13 +87,14 @@ const AddReviewModal: React.FC = () => {
 
   return (
     <ModalContainer
-      className={`
-        ${modalOpen ? "open" : ""} 
-        ${mobileMenuOpen ? "mobileMenuOpen" : ""}
-      `}
+      className={classNames({
+        open: modalOpen,
+        "mobile-menu-open": mobileMenuOpen,
+      })}
     >
       <InnerModalContainer>
         <InnerContainer
+          id="add-review-modal"
           className={modalOpen ? "open" : ""}
           aria-hidden={modalOpen ? "false" : "true"}
           color="white"

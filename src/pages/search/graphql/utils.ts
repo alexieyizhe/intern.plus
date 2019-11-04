@@ -4,7 +4,8 @@ import {
   ICompanyCardItem,
   IJobCardItem,
   IReviewJobCardItem,
-} from "src/types";
+} from "src/shared/constants/card";
+
 import {
   GetAllSearch,
   GetAllSearch_companiesList_items,
@@ -22,6 +23,11 @@ export const buildCompanyCard = (
   avgRating: item.avgRating || 0,
   logoSrc: (item.logoImg && item.logoImg.downloadUrl) || "",
   color: item.logoColor || "",
+  jobLocations:
+    ((item.jobs &&
+      item.jobs.items
+        .map(item => item.location)
+        .filter(item => item !== null)) as string[]) || [],
 });
 
 export const buildJobCard = (
@@ -47,6 +53,7 @@ export const buildReviewCard = (
   id: item.id || "",
   companyName: (item.company && item.company.name) || "",
   jobName: item.job ? item.job.name || "" : "",
+  jobLocation: item.job ? item.job.location || "" : "",
   overallRating: item.overallRating || 0,
   body: item.body || "",
   tags: item.tags || "",

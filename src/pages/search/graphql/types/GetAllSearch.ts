@@ -5,6 +5,18 @@
 // ====================================================
 // GraphQL query operation: GetAllSearch
 // ====================================================
+export interface GetAllSearch_companiesList_items_jobs_items {
+  __typename: "Job";
+  location: string | null;
+}
+
+export interface GetAllSearch_companiesList_items_jobs {
+  __typename: "JobListResponse";
+  /**
+   * List items
+   */
+  items: GetAllSearch_companiesList_items_jobs_items[];
+}
 
 export interface GetAllSearch_companiesList_items_logoImg {
   __typename: "File";
@@ -43,6 +55,7 @@ export interface GetAllSearch_companiesList_items {
    */
   avgRating: number | null;
   reviews: GetAllSearch_companiesList_items_reviews | null;
+  jobs: GetAllSearch_companiesList_items_jobs | null;
 }
 
 export interface GetAllSearch_companiesList {
@@ -120,6 +133,7 @@ export interface GetAllSearch_reviewsList_items_job {
    * Job title
    */
   name: string | null;
+  location: string | null;
 }
 
 export interface GetAllSearch_reviewsList_items {

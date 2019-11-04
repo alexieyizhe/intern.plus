@@ -1,10 +1,12 @@
-name: tag release version
+name: bump release version
+
 on:
   push:
     branches:
       - release
+
 jobs:
-  build:
+  version_bump:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -14,3 +16,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_OWNER: alexieyizhe
           WITH_V: true
+          RELEASE_BRANCHES: release

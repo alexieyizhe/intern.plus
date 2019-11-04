@@ -6,6 +6,19 @@
 // GraphQL query operation: GetCompaniesReviewsLanding
 // ====================================================
 
+export interface GetCompaniesReviewsLanding_companiesList_items_jobs_items {
+  __typename: "Job";
+  location: string | null;
+}
+
+export interface GetCompaniesReviewsLanding_companiesList_items_jobs {
+  __typename: "JobListResponse";
+  /**
+   * List items
+   */
+  items: GetCompaniesReviewsLanding_companiesList_items_jobs_items[];
+}
+
 export interface GetCompaniesReviewsLanding_companiesList_items_logoImg {
   __typename: "File";
   downloadUrl: string | null;
@@ -43,6 +56,7 @@ export interface GetCompaniesReviewsLanding_companiesList_items {
    */
   avgRating: number | null;
   reviews: GetCompaniesReviewsLanding_companiesList_items_reviews | null;
+  jobs: GetCompaniesReviewsLanding_companiesList_items_jobs | null;
 }
 
 export interface GetCompaniesReviewsLanding_companiesList {
@@ -71,6 +85,7 @@ export interface GetCompaniesReviewsLanding_reviewsList_items_job {
    * Job title
    */
   name: string | null;
+  location: string | null;
 }
 
 export interface GetCompaniesReviewsLanding_reviewsList_items {

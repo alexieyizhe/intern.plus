@@ -1,7 +1,10 @@
 import { gql } from "apollo-boost";
 import { reviewResultUserFragment } from "src/api/fragments";
-
-// used in positions/:positionId page
+import { SearchSort } from "src/shared/constants/search";
+import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
+/**
+ * For *details of a job.*
+ */
 export const GET_JOB_DETAILS = gql`
   query GetJobDetails($id: ID) {
     job(id: $id) {
@@ -26,14 +29,32 @@ export const GET_JOB_DETAILS = gql`
   }
 `;
 
-export const GET_JOB_REVIEWS = gql`
+/**
+ * For *reviews of a job.*
+ */
+const getSortStr = (sort?: SearchSort) => {
+  switch (sort) {
+    case SearchSort.RATING:
+      return `[{ overallRating: DESC }, { company: { name: ASC } }, { job: { name: ASC } }]`;
+    case SearchSort.SALARY:
+      return `[{ salary: DESC }, { company: { name: ASC } }, { job: { name: ASC } }]`;
+    default:
+      // same as ALPHABETICAL, DEFAULT (chronologically) and NUM_REVIEWS (not a valid sort option for reviews)
+      return `[{ updatedAt: DESC }, { legacyUpdatedAt: DESC }]`;
+  }
+};
+
+export const getJobReviewsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
   query GetJobReviews($id: ID, $query: String, $offset: Int, $limit: Int) {
     job(id: $id) {
       reviews(
         filter: {
-          OR: [{ body: { contains: $query } }, { tags: { contains: $query } }]
+          OR: [
+            { body: { contains: $query } }
+            { tags: { contains: $query } }
+          ]
         }
-        sort: { updatedAt: DESC }
+        sort: ${getSortStr(sort)}
         skip: $offset
         first: $limit
       ) {

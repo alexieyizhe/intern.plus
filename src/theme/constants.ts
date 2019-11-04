@@ -10,7 +10,7 @@ export interface VariantList<T> {
   [variant: string]: Partial<T>;
 }
 
-const constants = {
+const constants: { [style: string]: { [key: string]: string | number } } = {
   color: {
     black: "#000000",
     greyDark: "#787878",
@@ -46,7 +46,9 @@ const constants = {
     header: 100,
   },
   padding: {
-    input: "15px 20px",
+    input: "12px 20px",
+    display: "60px 80px",
+    displayMobile: "30px 40px",
     pageVertical: 10,
     pageHorizontal: 100,
     pageHorizontalMobile: 40,

@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
-import { IJobDetails } from "src/types";
 import { detailsCardStyles } from "src/theme/snippets";
-import { RouteName } from "src/utils/constants";
-import { getDarkColor } from "src/utils/getColor";
+import { RouteName } from "src/shared/constants/routing";
+import { getDarkColor } from "src/shared/utils/color";
 
 import {
   ISearchFieldProps,
@@ -20,10 +20,26 @@ import {
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
-export interface IJobPageCardProps extends ISearchFieldProps {
+export interface IJobDetails {
+  name: string;
+  companyName: string;
+  companySlug: string;
+  location?: string;
+  numRatings: number;
+  avgRating: number;
+  avgLearningMentorshipRating: number;
+  avgMeaningfulWorkRating: number;
+  avgWorkLifeBalanceRating: number;
+  minHourlySalary: number;
+  maxHourlySalary: number;
+  hourlySalaryCurrency: string;
+  color: string;
+}
+
+export interface IJobDetailsCardProps extends ISearchFieldProps {
   loading: boolean;
   error: boolean;
-  jobInfo?: IJobDetails;
+  jobDetails?: IJobDetails;
 }
 
 /*******************************************************************
@@ -31,6 +47,17 @@ export interface IJobPageCardProps extends ISearchFieldProps {
  *******************************************************************/
 const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this position.";
+
+const getRatingsText = (numRatings: number) => {
+  switch (numRatings) {
+    case 0:
+      return `No reviews yet`;
+    case 1:
+      return `${numRatings} review`;
+    default:
+      return `${numRatings} reviews`;
+  }
+};
 
 /**
  * Creates the markup for displaying the correct state of
@@ -86,8 +113,11 @@ const getDetailsMarkup = (
               filledStars={Math.round(details.avgRating)}
               readOnly
             >
-              <Text variant="body" className="ratingText" color="black">
+              <Text variant="subheading" className="ratingText" color="black">
                 {details.avgRating.toFixed(1)}
+              </Text>
+              <Text variant="subheading" className="ratingText" color="black">
+                Overall
               </Text>
             </StarRating>
             <StarRating
@@ -99,6 +129,9 @@ const getDetailsMarkup = (
               <Text variant="body" className="ratingText" color="black">
                 {details.avgLearningMentorshipRating.toFixed(1)}
               </Text>
+              <Text variant="body" className="ratingText" color="greyDark">
+                Learning &amp; mentorship
+              </Text>
             </StarRating>
             <StarRating
               className="rating"
@@ -108,6 +141,9 @@ const getDetailsMarkup = (
             >
               <Text variant="body" className="ratingText" color="black">
                 {details.avgMeaningfulWorkRating.toFixed(1)}
+              </Text>
+              <Text variant="body" className="ratingText" color="greyDark">
+                Meaningful work
               </Text>
             </StarRating>
             <StarRating
@@ -119,11 +155,17 @@ const getDetailsMarkup = (
               <Text variant="body" className="ratingText" color="black">
                 {details.avgWorkLifeBalanceRating.toFixed(1)}
               </Text>
+              <Text variant="body" className="ratingText" color="greyDark">
+                Work-life balance
+              </Text>
             </StarRating>
-            <Text variant="subheading" as="div" color="greyDark">
-              {`${details.numRatings} ${
-                details.numRatings === 1 ? "review" : "reviews"
-              }`}
+            <Text
+              variant="subheading"
+              as="div"
+              className="numRatingsText"
+              color="greyDark"
+            >
+              {getRatingsText(details.numRatings)}
             </Text>
           </div>
 
@@ -215,6 +257,10 @@ const MiscDetails = styled.div`
     padding: 0 3px;
   }
 
+  & .numRatingsText {
+    margin-top: 4px;
+  }
+
   & > .salary {
     display: flex;
     margin-top: auto;
@@ -222,27 +268,47 @@ const MiscDetails = styled.div`
     justify-content: center;
     align-items: flex-end;
   }
+
+  ${({ theme }) => theme.mediaQueries.largeMobile`
+    flex-direction: column;
+
+    & > .salary {
+      margin-top: 10px;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+
+      & > *:first-child {
+        margin-right: 5px;
+      }
+    }
+  `}
 `;
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const JobPageCard: React.FC<IJobPageCardProps> = ({
+const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
+  className,
   loading,
   error,
-  jobInfo,
+  jobDetails,
   onTriggerSearch,
+  suggestions,
+  fuseOptions,
 }) => (
-  <Container>
+  <Container className={classNames("job-details-card", className)}>
     <MiscContentContainer>
-      {getDetailsMarkup(loading, error, jobInfo)}
+      {getDetailsMarkup(loading, error, jobDetails)}
     </MiscContentContainer>
 
     <SearchField
       onTriggerSearch={onTriggerSearch}
-      placeholder="Find a review"
+      suggestions={suggestions}
+      fuseOptions={fuseOptions}
+      inputProps={{ placeholder: "Find a review" }}
     />
   </Container>
 );
 
-export default React.memo(JobPageCard);
+export default React.memo(JobDetailsCard);

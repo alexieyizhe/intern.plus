@@ -6,6 +6,19 @@
 // GraphQL query operation: GetCompaniesSearch
 // ====================================================
 
+export interface GetCompaniesSearch_companiesList_items_jobs_items {
+  __typename: "Job";
+  location: string | null;
+}
+
+export interface GetCompaniesSearch_companiesList_items_jobs {
+  __typename: "JobListResponse";
+  /**
+   * List items
+   */
+  items: GetCompaniesSearch_companiesList_items_jobs_items[];
+}
+
 export interface GetCompaniesSearch_companiesList_items_logoImg {
   __typename: "File";
   downloadUrl: string | null;
@@ -43,6 +56,7 @@ export interface GetCompaniesSearch_companiesList_items {
    */
   avgRating: number | null;
   reviews: GetCompaniesSearch_companiesList_items_reviews | null;
+  jobs: GetCompaniesSearch_companiesList_items_jobs | null;
 }
 
 export interface GetCompaniesSearch_companiesList {

@@ -1,15 +1,16 @@
 import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import classNames from "classnames";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
-import { RouteName } from "src/utils/constants";
-import { useSiteContext, ActionType } from "src/utils/context";
+import { RouteName } from "src/shared/constants/routing";
+import { useSiteContext, ActionType } from "src/context";
 import copy from "./copy";
 
-import { useWindowScrollPos } from "src/utils/hooks/useWindowScrollPos";
-import { useWindowWidth } from "src/utils/hooks/useWindowWidth";
-import { useOnClickOutside } from "src/utils/hooks/useOnClickOutside";
+import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
+import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
+import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 
 import { UnstyledButton } from "src/components/Button";
 import Icon from "src/components/Icon";
@@ -20,6 +21,7 @@ import Text from "src/components/Text";
  *                  **Utility functions/constants**                *
  *******************************************************************/
 export const HEADER_HEIGHT = 75;
+export const MOBILE_MENU_HEIGHT = 120;
 export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // width at which the mobile menu is activated
 
 /*******************************************************************
@@ -51,12 +53,12 @@ const Container = styled.header`
   }
 
   &.scrolled::after,
-  &.mobileMenuOpen::after {
+  &.mobile-menu-open::after {
     opacity: 1;
   }
 
-  &.mobileMenuOpen::after {
-    transform: translateY(120px);
+  &.mobile-menu-open::after {
+    transform: translateY(${MOBILE_MENU_HEIGHT}px);
   }
 `;
 
@@ -92,7 +94,7 @@ const Logo = styled.div`
     cursor: pointer;
   }
 
-  & .logoImg {
+  & .logo-img {
     max-height: 35px;
     margin-right: 10px;
   }
@@ -102,7 +104,7 @@ const Logo = styled.div`
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
-    & .logoImg {
+    & .logo-img {
       max-height: 30px;
       margin-right: 3px;
     }
@@ -190,10 +192,10 @@ const Header: React.FC = () => {
   /**
    * Used to make the logo toggle the mobile menu if the user is mobile.
    */
-  const width = useWindowWidth();
+  const { windowWidth } = useWindowWidth();
   const isMobileUser = useMemo(
-    () => width <= deviceBreakpoints[MOBILE_MENU_MEDIA_QUERY],
-    [width]
+    () => windowWidth <= deviceBreakpoints[MOBILE_MENU_MEDIA_QUERY],
+    [windowWidth]
   );
 
   /**
@@ -249,16 +251,16 @@ const Header: React.FC = () => {
 
   return (
     <Container
-      className={`
-        ${scrolledDown ? "scrolled" : ""} 
-        ${mobileMenuOpen ? "mobileMenuOpen" : ""}
-      `}
+      className={classNames({
+        scrolled: scrolledDown,
+        "mobile-menu-open": mobileMenuOpen,
+      })}
       ref={headerRef}
     >
       <InnerContainer>
         <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
           <UnstyledButton>
-            <img className="logoImg" src={copy.logo.src} alt={copy.logo.alt} />
+            <img className="logo-img" src={copy.logo.src} alt={copy.logo.alt} />
 
             <img
               className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
@@ -287,7 +289,10 @@ const Header: React.FC = () => {
         </NavLinks>
 
         <HeaderActionContainer>
-          <UnstyledButton onClick={toggleAddReviewModal}>
+          <UnstyledButton
+            onClick={toggleAddReviewModal}
+            aria-label="Add review button"
+          >
             <Icon
               name={
                 addReviewModalOpen

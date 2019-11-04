@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 
-import { hoverStyles } from "src/theme/snippets";
-import { getDarkColor } from "src/utils/getColor";
+import { hoverStyles, itemCardStyles } from "src/theme/snippets";
+import { getDarkColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -25,9 +26,7 @@ const Container = styled(Card)`
   ${hoverStyles}
 
   & > a {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    ${itemCardStyles}
 
     display: inline-grid;
     grid-template-rows: auto 1fr auto auto;
@@ -77,6 +76,7 @@ const Container = styled(Card)`
 `;
 
 const JobCard: React.FC<IJobCardProps> = ({
+  className,
   heading,
   subheading,
   avgRating,
@@ -88,8 +88,12 @@ const JobCard: React.FC<IJobCardProps> = ({
   color,
   ...rest
 }) => (
-  <Container color="greyLight" {...rest}>
-    <Link to={linkTo}>
+  <Container
+    className={classNames("job-card", className)}
+    color="greyLight"
+    {...rest}
+  >
+    <Link to={linkTo} tabIndex={0}>
       <Text
         className="heading"
         variant="heading3"
@@ -97,14 +101,14 @@ const JobCard: React.FC<IJobCardProps> = ({
       >
         {heading}
       </Text>
-      <Text className="subheading" variant="heading4" color="greyDark">
+      <Text className="subheading" variant="heading4" as="div" color="greyDark">
         {subheading}
       </Text>
 
       <div className="ratings">
         <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly>
           <Text variant="body" color="black">
-            {avgRating}
+            {avgRating.toFixed(1)}
           </Text>
           &nbsp;
           <Text variant="body" color="greyDark">

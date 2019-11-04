@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 
-import { hoverStyles } from "src/theme/snippets";
-import { getLightColor, getDarkColor } from "src/utils/getColor";
+import { hoverStyles, itemCardStyles } from "src/theme/snippets";
+import { getLightColor, getDarkColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
@@ -53,9 +54,7 @@ const Container = styled(Card)`
   ${hoverStyles}
 
   & > a {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    ${itemCardStyles}
 
     display: inline-grid;
     grid-template-rows: auto 1fr auto;
@@ -101,6 +100,7 @@ const Container = styled(Card)`
 `;
 
 const CompanyCard: React.FC<ICompanyCardProps> = ({
+  className,
   name,
   logoSrc,
   desc,
@@ -110,8 +110,12 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   color,
   ...rest
 }) => (
-  <Container color={color ? getLightColor(color) : FALLBACK_BG_COLOR} {...rest}>
-    <Link to={linkTo}>
+  <Container
+    className={classNames("company-card", className)}
+    color={color ? getLightColor(color) : FALLBACK_BG_COLOR}
+    {...rest}
+  >
+    <Link to={linkTo} tabIndex={0}>
       <Text
         className="name"
         variant="heading2"

@@ -55,6 +55,12 @@ export interface GetReviewDetails_review {
    * Whether or not this review was imported from old internCompass data. If true, use legacyUpdatedAt info.
    */
   isLegacy: boolean | null;
+  /**
+   * Date of original review
+   */
+  legacyUpdatedAt: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
 export interface GetReviewDetails {

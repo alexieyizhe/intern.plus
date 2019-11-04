@@ -7,10 +7,10 @@ import {
   match as Match,
 } from "react-router-dom";
 
-import { RouteName } from "src/utils/constants";
-import { SearchFilter, SearchType } from "src/utils/constants";
+import { RouteName } from "src/shared/constants/routing";
+import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
-import CompaniesPage from "./components/CompaniesPage";
+import CompanyPage from "./components/CompanyPage";
 
 /**
  * Page router will either:
@@ -24,12 +24,12 @@ const CompaniesRouteHandler = () => {
     <>
       <Switch>
         <Route path={`${match.path}/:companySlug`}>
-          <CompaniesPage />
+          <CompanyPage />
         </Route>
 
         <Route path={match.path}>
           <Redirect
-            to={`${RouteName.SEARCH}?${SearchFilter.TYPE}=${SearchType.COMPANIES}`}
+            to={`${RouteName.SEARCH}?${SearchParamKey.TYPE}=${SearchType.COMPANIES}`}
           />
         </Route>
       </Switch>

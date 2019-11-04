@@ -2,7 +2,8 @@
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 
-import { IJobDetails, IReviewUserCardItem } from "src/types";
+import { IReviewUserCardItem } from "src/shared/constants/card";
+import { IJobDetails } from "../components/JobDetailsCard";
 import { GetJobDetails_job } from "./types/GetJobDetails";
 import {
   GetJobReviews,
@@ -32,8 +33,9 @@ export const buildJobDetails = (job: GetJobDetails_job): IJobDetails => ({
 
 export const buildJobReviewsCard = (item: GetJobReviews_job_reviews_items) => ({
   id: item.id || "",
-  authorName: item.isLegacy ? "An InternCompass user" : "Anonymous",
-  date: timeAgo.format(
+  author: item.isLegacy ? "An InternCompass user" : "Anonymous",
+  jobLocation: (item.job && item.job.location) || "",
+  relativeDate: timeAgo.format(
     new Date(
       item.isLegacy
         ? item.legacyUpdatedAt || ""

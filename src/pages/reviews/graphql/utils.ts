@@ -1,28 +1,46 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { IReviewDetails } from "src/types";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+
+import { IReviewDetails } from "../components/ReviewModal";
 import { GetReviewDetails_review } from "./types/GetReviewDetails";
 
+TimeAgo.addLocale(en);
+
+// Create relative date/time formatter.
+const timeAgo = new TimeAgo("en-US");
+
 export const buildReviewDetails = (
-  review: GetReviewDetails_review
+  item: GetReviewDetails_review
 ): IReviewDetails => ({
-  jobName: (review.job && review.job.name) || "",
-  jobId: (review.job && review.job.id) || "",
-  companyName: (review.company && review.company.name) || "",
-  companySlug: review.company ? review.company.slug || "" : "",
-  location: (review.job && review.job.location) || "",
-  author: review.isLegacy ? "An InternCompass user" : "Anonymous",
-  body: review.body || "",
-  overallRating: review.overallRating || 0,
-  meaningfulWorkRating: review.meaningfulWorkRating || 0,
-  workLifeBalanceRating: review.workLifeBalanceRating || 0,
-  learningMentorshipRating: review.learningMentorshipRating || 0,
-  salary: review.salary || 0,
-  salaryCurrency: review.salaryCurrency || "",
-  salaryPeriod: review.salaryPeriod || "",
+  jobName: (item.job && item.job.name) || "",
+  jobId: (item.job && item.job.id) || "",
+  companyName: (item.company && item.company.name) || "",
+  companySlug: item.company ? item.company.slug || "" : "",
+  location: (item.job && item.job.location) || "",
+  author: item.isLegacy ? "An InternCompass user" : "Anonymous",
+  body: item.body || "",
+  overallRating: item.overallRating || 0,
+  meaningfulWorkRating: item.meaningfulWorkRating || 0,
+  workLifeBalanceRating: item.workLifeBalanceRating || 0,
+  learningMentorshipRating: item.learningMentorshipRating || 0,
+  salary: item.salary || 0,
+  salaryCurrency: item.salaryCurrency || "",
+  salaryPeriod: item.salaryPeriod || "",
   logoSrc:
-    (review.company &&
-      review.company.logoImg &&
-      review.company.logoImg.downloadUrl) ||
+    (item.company &&
+      item.company.logoImg &&
+      item.company.logoImg.downloadUrl) ||
     "",
-  color: (review.company && review.company.logoColor) || "",
+  color: (item.company && item.company.logoColor) || "",
+  date: item.isLegacy
+    ? item.legacyUpdatedAt || ""
+    : item.updatedAt || item.createdAt || "",
+  relativeDate: timeAgo.format(
+    new Date(
+      item.isLegacy
+        ? item.legacyUpdatedAt || ""
+        : item.updatedAt || item.createdAt || ""
+    )
+  ),
 });

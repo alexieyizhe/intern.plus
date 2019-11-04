@@ -2,14 +2,14 @@
 import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 
-import { RouteName } from "src/utils/constants";
+import { RouteName } from "src/shared/constants/routing";
 import {
   IGenericCardItem,
   isCompanyCardItem,
   isJobCardItem,
   isReviewJobCardItem,
   isReviewUserCardItem,
-} from "src/types";
+} from "src/shared/constants/card";
 import pageCopy from "../copy";
 
 import {
@@ -95,8 +95,8 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
     return (
       <LandingReviewCard
         key={card.id}
-        heading={card.authorName}
-        subheading={card.date}
+        heading={card.author}
+        subheading={card.relativeDate}
         rating={card.overallRating}
         color={card.color}
         linkTo={getReviewCardRoute(card.id)}

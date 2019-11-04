@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import { Ghost } from "react-kawaii";
 
-import { RouteName } from "src/utils/constants";
+import { RouteName } from "src/shared/constants/routing";
 
 import { PageContainer, Text } from "src/components";
 

@@ -64,8 +64,8 @@ const focusedStyles = css`
 
 const hoveredStyles = css`
   ${HiddenCheckbox}:not(:disabled):checked:hover + & {
-    border: 1.5px solid ${({ theme }) => theme.color.black};
-    background-color: ${({ theme }) => theme.color.greyLight};
+    border: 1.5px solid ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.black};
   }
 
   ${HiddenCheckbox}:not(:disabled):not(:checked):hover + & {
@@ -82,7 +82,7 @@ const checkedStyles = css`
 const StyledCheckbox = styled.span`
   ${sharedStyles}
 
-  background-color: ${({ theme }) => theme.color.greyLight};
+  background-color: ${({ theme }) => theme.color.white};
   border-radius: ${({ theme }) => theme.borderRadius.checkbox}px;
   z-index: 1;
 

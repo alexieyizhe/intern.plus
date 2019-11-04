@@ -1,5 +1,6 @@
 import { css, keyframes } from "styled-components";
 import { Size } from "src/theme/constants";
+import { MOBILE_MENU_MEDIA_QUERY } from "src/components/PageHeader/index";
 
 export const spin = keyframes`
   0% {
@@ -35,10 +36,23 @@ export const hoverStyles = css`
   }
 `;
 
+export const itemCardStyles = css`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 25px 35px;
+`;
+
+export const detailsPageStyles = css`
+  ${({ theme }) => theme.mediaQueries.tablet`
+    padding-top: 0;
+  `}
+`;
+
 export const detailsCardStyles = css<{ color?: string }>`
   position: relative;
   width: 100%;
-  padding: 40px 60px;
+  padding: ${({ theme }) => theme.padding.display};
 
   display: flex;
   flex-direction: column;
@@ -50,10 +64,12 @@ export const detailsCardStyles = css<{ color?: string }>`
     background-color: white;
   }
 
-  ${({ theme }) => theme.mediaQueries.tablet`
-    width: 300%;
-    left: -100%;
-    padding: 40px 100%;
+  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
+    width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
+    left: -${theme.padding.pageHorizontalMobile}px;
+    padding: ${theme.padding.displayMobile};
+    
+    border-radius: 0;
   `}
 `;
 
@@ -84,7 +100,7 @@ export interface IInputStyleOptions
 
 export const inputStyles = css<IInputStyleOptions>`
   width: 100%;
-  padding: 15px 20px;
+  padding: ${({ theme }) => theme.padding.input};
 
   color: ${({ textColor = "", theme }) =>
     theme.color[textColor] || textColor || "inherit"};

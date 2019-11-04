@@ -6,10 +6,9 @@ import { Helmet } from "react-helmet";
 
 // TODO: REFACTOR (especially the styles and getMarkup)
 import { Size } from "src/theme/constants";
-import { RouteName } from "src/utils/constants";
-import { getDarkColor } from "src/utils/getColor";
+import { RouteName } from "src/shared/constants/routing";
+import { getDarkColor } from "src/shared/utils/color";
 
-import { IReviewDetails } from "src/types";
 import { GetReviewDetails } from "../graphql/types/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
 import { buildReviewDetails } from "../graphql/utils";
@@ -26,11 +25,34 @@ import {
 } from "src/components";
 
 /*******************************************************************
+ *                            **Types**                           *
+ *******************************************************************/
+export interface IReviewDetails {
+  jobName: string;
+  jobId: string;
+  companyName: string;
+  companySlug: string;
+  location?: string;
+  author: string;
+  body: string;
+  overallRating: number;
+  meaningfulWorkRating: number;
+  workLifeBalanceRating: number;
+  learningMentorshipRating: number;
+  salary: number;
+  salaryCurrency: string;
+  salaryPeriod: string;
+  logoSrc: string;
+  color: string;
+  date: string;
+  relativeDate: string;
+}
+
+/*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const ERROR_OCCURRED_TEXT =
   "An error occurred while getting details for this review.";
-const AUTHOR_SUFFIX = "mentioned the following...";
 
 /**
  * Creates markup for the title in the tab bar.
@@ -59,6 +81,18 @@ const getSalaryPeriodText = (salaryPeriod: string) => {
       return "";
   }
 };
+
+const getAuthorText = (author: string, date: string, relativeDate: string) => (
+  <>
+    <Text variant="subheading">{author} </Text>
+    <Text variant="subheading" color="greyDark">
+      mentioned the following{" "}
+    </Text>
+    <Text variant="subheading" title={date}>
+      {relativeDate}...
+    </Text>
+  </>
+);
 
 /**
  * Creates the markup for displaying the correct state of
@@ -110,10 +144,7 @@ const getDetailsMarkup = (
         </FlexRowContainer>
 
         <ReviewPrefixContainer>
-          <Text variant="subheading">{details.author}</Text>&nbsp;
-          <Text variant="subheading" color="greyDark">
-            {AUTHOR_SUFFIX}
-          </Text>
+          {getAuthorText(details.author, details.date, details.relativeDate)}
         </ReviewPrefixContainer>
 
         <FlexRowContainer className="miscInfo">
@@ -217,7 +248,7 @@ const Background = styled.div`
 const Container = styled(Card)`
   position: relative;
   max-width: 700px;
-  padding: 40px 60px;
+  padding: ${({ theme }) => theme.padding.display};
   margin: auto;
 
   display: flex;
@@ -246,11 +277,12 @@ const Container = styled(Card)`
   `}
 
   ${({ theme }) => theme.mediaQueries.tablet`
+    padding: ${theme.padding.displayMobile};
+    
     & > .miscInfo {
       flex-direction: column;
     }
   `}
-
   ${({ theme }) => theme.mediaQueries.xlMobile`
     top: 5%;
     max-width: 90%;
@@ -427,7 +459,7 @@ const ReviewModal: React.FC = () => {
         </title>
       </Helmet>
       <Background onClick={onExit}>
-        <Container color="greyLight" onClick={cardOnClick}>
+        <Container color="greyLight" onClick={cardOnClick} id="review-page">
           {getDetailsMarkup(loading, error !== undefined, review)}
           <CloseButton onClick={onExit} tabIndex={1}>
             <span className="bg" />
