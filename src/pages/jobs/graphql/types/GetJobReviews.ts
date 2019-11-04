@@ -6,6 +6,11 @@
 // GraphQL query operation: GetJobReviews
 // ====================================================
 
+export interface GetJobReviews_job_reviews_job {
+  __typename: "Job";
+  location: string | null;
+}
+
 export interface GetJobReviews_job_reviews_items {
   __typename: "Review";
   id: string | null;
@@ -22,6 +27,7 @@ export interface GetJobReviews_job_reviews_items {
    * Date of original review
    */
   legacyUpdatedAt: string | null;
+  job: GetJobReviews_job_reviews_job | null;
 }
 
 export interface GetJobReviews_job_reviews {

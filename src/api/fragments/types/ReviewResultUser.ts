@@ -6,6 +6,11 @@
 // GraphQL fragment: ReviewResultUser
 // ====================================================
 
+export interface ReviewResultUser_job {
+  __typename: "Job";
+  location: string | null;
+}
+
 export interface ReviewResultUser {
   __typename: "Review";
   id: string | null;
@@ -22,4 +27,5 @@ export interface ReviewResultUser {
    * Date of original review
    */
   legacyUpdatedAt: string | null;
+  job: ReviewResultUser_job | null;
 }

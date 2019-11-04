@@ -68,5 +68,8 @@ export const reviewResultUserFragment = gql`
     updatedAt
     isLegacy
     legacyUpdatedAt
+    job {
+      location
+    }
   }
 `;

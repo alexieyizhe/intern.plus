@@ -7,7 +7,6 @@ import { SearchType, SearchSort } from "src/shared/constants/search";
 export interface ISearchQueryBuilderOptions {
   sort?: SearchSort; // TODO: change these key to be SearchParamKey
   type?: SearchType;
-  location?: string[];
 }
 
 export type SearchQueryBuilder = (

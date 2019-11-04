@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
@@ -8,6 +8,7 @@ import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
+import { useSearchType } from "src/shared/hooks/useSearchType";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { SearchType, availableSortOptions } from "src/shared/constants/search";
@@ -23,6 +24,7 @@ import {
   Text,
   PageContainer,
 } from "src/components";
+import { isJobCardItem, isReviewJobCardItem } from "src/shared/constants/card";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -106,23 +108,14 @@ const SearchPage: React.FC = () => {
   const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
 
   /**
-   * For search options menu
+   * For fetching results
    */
-  const sortOption = useSearchSort(
-    searchType ? availableSortOptions[searchType] : undefined
-  );
-
-  const locationOption = useSearchLocationFilter();
-  const locationSearchVariable = useMemo(
-    () => locationOption.value && locationOption.value.map(val => val.label),
-    [locationOption.value]
-  );
-
   const { QUERY_DEF } = useSearchQueryDef(getSearchBuilder);
   const {
     // search info
     searchState,
     searchResults,
+    unfilteredResults,
 
     // callbacks
     triggerSearchNew,
@@ -130,13 +123,33 @@ const SearchPage: React.FC = () => {
   } = useSearch(
     QUERY_DEF,
     {
-      variables: {
-        locations: locationSearchVariable,
-      },
       skip: searchQuery === undefined && !searchType, // if searching for a type, show all of that type instead of empty state prompting them to search
     },
     buildSearchResultCardsList
   );
+
+  /**
+   * For search options menu
+   */
+  const sortOption = useSearchSort(
+    searchType ? availableSortOptions[searchType] : undefined
+  );
+  const typeOption = useSearchType();
+
+  const locationSuggestions =
+    unfilteredResults.length > 0
+      ? (unfilteredResults
+          .map(item => {
+            if (isJobCardItem(item)) {
+              return item.location;
+            } else if (isReviewJobCardItem(item)) {
+              return item.jobLocation;
+            }
+            return null;
+          })
+          .filter(item => !!item) as string[])
+      : undefined;
+  const locationOption = useSearchLocationFilter(locationSuggestions);
 
   return (
     <>
@@ -156,7 +169,10 @@ const SearchPage: React.FC = () => {
 
         <SearchOptionsMenu
           sortOption={sortOption}
-          locationOption={locationOption}
+          typeOption={typeOption}
+          locationOption={
+            searchType === SearchType.COMPANIES ? undefined : locationOption
+          }
         />
 
         <SearchResultCardDisplay

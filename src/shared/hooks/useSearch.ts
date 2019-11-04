@@ -11,10 +11,17 @@ import { DocumentNode } from "graphql";
 import { QueryHookOptions, useQuery } from "@apollo/react-hooks";
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
+import { LOCATION_MAP } from "src/shared/hooks/useSearchLocationFilter";
 
 import { RESULTS_PER_PAGE } from "src/shared/constants/search";
-import { IGenericCardItem } from "src/shared/constants/card";
+import {
+  IGenericCardItem,
+  isJobCardItem,
+  isReviewJobCardItem,
+  isReviewUserCardItem,
+} from "src/shared/constants/card";
 import { analytics } from "src/shared/utils/analytics";
+import { slugify } from "src/shared/utils/misc";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -41,6 +48,7 @@ export const useSearch = <TData>(
   const {
     searchQuery,
     searchSort,
+    searchType,
     searchLocationFilter,
     setSearchQuery,
   } = useSearchParams();
@@ -64,6 +72,9 @@ export const useSearch = <TData>(
     ...options,
     variables: {
       query: searchQuery || "",
+      locations:
+        searchLocationFilter &&
+        searchLocationFilter.map(val => LOCATION_MAP[val].label),
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
       ...(options.variables || {}),
@@ -75,7 +86,9 @@ export const useSearch = <TData>(
    * After new data is fetched, *build list of new results*.
    * Update other info accordingly.
    */
-  const [searchResults, setSearchResults] = useState<IGenericCardItem[]>([]);
+  const [unfilteredResults, setUnfilteredResults] = useState<
+    IGenericCardItem[]
+  >([]);
   useEffect(() => {
     const resultsFetched = data !== undefined;
 
@@ -83,10 +96,10 @@ export const useSearch = <TData>(
       const newResults = transformData(data);
 
       if (isNewSearch) {
-        setSearchResults(newResults);
+        setUnfilteredResults(newResults);
       } else {
         if (newResults.length > 0) {
-          setSearchResults(prevResults => [...prevResults, ...newResults]);
+          setUnfilteredResults(prevResults => [...prevResults, ...newResults]);
         }
       }
 
@@ -106,35 +119,8 @@ export const useSearch = <TData>(
     isNewSearch,
     setIsDataLoaded,
     setIsEndOfResults,
-    setSearchResults,
+    setUnfilteredResults,
     transformData,
-  ]);
-
-  /**
-   * *Track the state of searching*.
-   */
-  useEffect(() => {
-    let newState = SearchState.INITIAL;
-
-    if (error) newState = SearchState.ERROR;
-    else if (searchResults.length === 0 && loading)
-      newState = SearchState.LOADING;
-    else if (searchResults.length === 0 && searchQuery !== undefined)
-      newState = SearchState.NO_RESULTS;
-    else if (isEndOfResults) newState = SearchState.NO_MORE_RESULTS;
-    else if (searchResults.length > 0 && (!isDataLoaded || loading))
-      newState = SearchState.RESULTS_LOADING;
-    else if (searchResults.length > 0) newState = SearchState.RESULTS;
-
-    setSearchState(newState);
-  }, [
-    error,
-    isDataLoaded,
-    isEndOfResults,
-    loading,
-    searchQuery,
-    searchResults.length,
-    setSearchState,
   ]);
 
   /**
@@ -177,16 +163,61 @@ export const useSearch = <TData>(
   }, []);
 
   /**
-   * *Start new search if sort has changed.*
+   * *Get new results if sort has changed.*
    */
+  const searchResults = useMemo(() => {
+    let results: IGenericCardItem[] = unfilteredResults;
+
+    if (searchLocationFilter) {
+      results = results.filter(item => {
+        if (isJobCardItem(item)) {
+          return searchLocationFilter.includes(slugify(item.location));
+        } else if (isReviewJobCardItem(item) || isReviewUserCardItem(item)) {
+          return searchLocationFilter.includes(slugify(item.jobLocation));
+        }
+        return true;
+      });
+    }
+
+    return results;
+  }, [searchLocationFilter, unfilteredResults]);
+
   useEffect(() => {
     triggerSearchNew(searchQuery, true);
-  }, [searchSort, searchLocationFilter]); // eslint-disable-line
+  }, [searchSort, searchType]); // eslint-disable-line
+
+  /**
+   * *Track the state of searching*.
+   */
+  useEffect(() => {
+    let newState = SearchState.INITIAL;
+
+    if (error) newState = SearchState.ERROR;
+    else if (searchResults.length === 0 && loading)
+      newState = SearchState.LOADING;
+    else if (searchResults.length === 0 && searchQuery !== undefined)
+      newState = SearchState.NO_RESULTS;
+    else if (isEndOfResults) newState = SearchState.NO_MORE_RESULTS;
+    else if (searchResults.length > 0 && (!isDataLoaded || loading))
+      newState = SearchState.RESULTS_LOADING;
+    else if (searchResults.length > 0) newState = SearchState.RESULTS;
+
+    setSearchState(newState);
+  }, [
+    error,
+    isDataLoaded,
+    isEndOfResults,
+    loading,
+    searchQuery,
+    searchResults.length,
+    setSearchState,
+  ]);
 
   return {
     // search info
     searchState,
     searchResults,
+    unfilteredResults,
 
     // callbacks
     triggerSearchNew,

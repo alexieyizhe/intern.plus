@@ -37,6 +37,7 @@ export interface IReviewJobCardItem {
 export interface IReviewUserCardItem {
   id: string;
   author: string; // name of the reviewer (or Anonymous)
+  jobLocation: string;
   relativeDate: string; // relative date of the review
   overallRating: number;
   body: string;

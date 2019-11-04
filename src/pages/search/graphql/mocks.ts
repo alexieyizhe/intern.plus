@@ -55,7 +55,7 @@ export const getMockCompaniesSearch = (
 };
 
 export const getMockJobsSearch = (
-  { query, offset, limit }: ISearchQueryParams,
+  { query, locations, offset, limit }: ISearchQueryParams,
   { sort }: ISearchQueryBuilderOptions
 ): GetJobsSearch => {
   let sortFn;
@@ -79,9 +79,10 @@ export const getMockJobsSearch = (
   const normalizedQuery = query.toLowerCase();
   const filteredJobs = MOCK_JOBS_LIST.filter(
     job =>
-      job.name.toLowerCase().includes(normalizedQuery) ||
-      job.company.name.toLowerCase().includes(normalizedQuery) ||
-      job.location.toLowerCase().includes(normalizedQuery)
+      (!locations || locations.includes(job.location)) &&
+      (job.name.toLowerCase().includes(normalizedQuery) ||
+        job.company.name.toLowerCase().includes(normalizedQuery) ||
+        job.location.toLowerCase().includes(normalizedQuery))
   )
     .sort(sortFn)
     .slice(offset, offset + limit);
@@ -95,7 +96,7 @@ export const getMockJobsSearch = (
 };
 
 export const getMockReviewsSearch = (
-  { query, offset, limit }: ISearchQueryParams,
+  { query, locations, offset, limit }: ISearchQueryParams,
   { sort }: ISearchQueryBuilderOptions
 ): GetReviewsSearch => {
   let sortFn;
@@ -119,10 +120,11 @@ export const getMockReviewsSearch = (
   const normalizedQuery = query.toLowerCase();
   const filteredReviews = MOCK_REVIEWS_LIST.filter(
     review =>
-      review.company.name.toLowerCase().includes(normalizedQuery) ||
-      review.job.name.toLowerCase().includes(normalizedQuery) ||
-      review.body.toLowerCase().includes(normalizedQuery) ||
-      review.tags.toLowerCase().includes(normalizedQuery)
+      (!locations || locations.includes(review.job.location)) &&
+      (review.company.name.toLowerCase().includes(normalizedQuery) ||
+        review.job.name.toLowerCase().includes(normalizedQuery) ||
+        review.body.toLowerCase().includes(normalizedQuery) ||
+        review.tags.toLowerCase().includes(normalizedQuery))
   )
     .sort(sortFn)
     .slice(offset, offset + limit);

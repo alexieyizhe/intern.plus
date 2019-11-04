@@ -26,8 +26,8 @@ export interface ISearchOptionsMenuProps
   };
 
   typeOption?: {
-    value: SearchType | "";
-    onChange: (value: SearchType | "") => void;
+    value?: SearchType;
+    onChange: (value?: SearchType) => void;
   };
 
   ratingOption?: {
@@ -140,7 +140,7 @@ const SortOptionSelect = styled(Select)`
 `;
 
 const VerticalAlignContainer = styled.div`
-  min-width: 200px;
+  width: 70%;
 
   display: flex;
   flex-direction: column;
@@ -148,7 +148,7 @@ const VerticalAlignContainer = styled.div`
   align-items: flex-start;
 
   & > * {
-    margin-bottom: 5px;
+    margin-bottom: 7px;
   }
 `;
 
@@ -183,7 +183,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
    * Tracks if the menu is open.
    */
   const { isMobile, isTablet } = useWindowWidth();
-  const [menuOpen, setMenuOpen] = useState(!(isTablet || isMobile));
+  const [menuOpen, setMenuOpen] = useState(false);
 
   /**
    * Automatically close the side menu if we're scrolling on mobile,
@@ -255,7 +255,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 checked={typeOption.value === SearchType.COMPANIES}
                 onChange={e =>
                   typeOption.onChange(
-                    e.target.checked ? SearchType.COMPANIES : ""
+                    e.target.checked ? SearchType.COMPANIES : undefined
                   )
                 }
                 tabIndex={menuOpen ? 0 : -1}
@@ -268,7 +268,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 color="white"
                 checked={typeOption.value === SearchType.JOBS}
                 onChange={e =>
-                  typeOption.onChange(e.target.checked ? SearchType.JOBS : "")
+                  typeOption.onChange(
+                    e.target.checked ? SearchType.JOBS : undefined
+                  )
                 }
                 tabIndex={menuOpen ? 0 : -1}
               >
@@ -281,7 +283,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 checked={typeOption.value === SearchType.REVIEWS}
                 onChange={e =>
                   typeOption.onChange(
-                    e.target.checked ? SearchType.REVIEWS : ""
+                    e.target.checked ? SearchType.REVIEWS : undefined
                   )
                 }
                 tabIndex={menuOpen ? 0 : -1}
