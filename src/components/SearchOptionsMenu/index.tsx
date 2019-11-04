@@ -13,6 +13,7 @@ import { UnstyledButton } from "src/components/Button";
 import Card from "src/components/Card";
 import Text from "src/components/Text";
 import TextInput from "src/components/TextInput";
+import Tooltip from "src/components/Tooltip";
 import Select from "src/components/Select";
 import Checkbox from "src/components/Checkbox";
 import StarRating from "src/components/StarRating";
@@ -108,6 +109,10 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
     position: relative;
     top: ${({ menuOpen }) => (menuOpen ? "unset" : "25px")};
     left: ${({ menuOpen }) => (menuOpen ? "unset" : "-60px")};
+  }
+
+  & .tooltip {
+    margin-left: 5px;
   }
 
   ${({ theme, menuOpen }) => theme.mediaQueries.largeMobile`
@@ -248,6 +253,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         {sortOption && (
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Sort</Text>
+
             <SortOptionSelect
               className="sort select"
               color="white"
@@ -342,7 +348,15 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         {salaryOption && (
           <div>
             <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
-              <Text variant="heading4">Salary</Text>
+              <CenterContainer>
+                <Text variant="heading4">Salary</Text>
+                <Tooltip color="greyMedium">
+                  <Text variant="body">
+                    Minimum and maximum hourly salary of any currency to display
+                    in search results.
+                  </Text>
+                </Tooltip>
+              </CenterContainer>
               <VerticalAlignContainer>
                 <TextInput
                   type="number"
