@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
@@ -24,7 +24,11 @@ import {
   Text,
   PageContainer,
 } from "src/components";
-import { isJobCardItem, isReviewJobCardItem } from "src/shared/constants/card";
+import {
+  isJobCardItem,
+  isReviewJobCardItem,
+  IGenericCardItem,
+} from "src/shared/constants/card";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -86,6 +90,20 @@ const getHeadingMarkup = (query?: string, type?: SearchType) => {
   );
 };
 
+const getLocationSuggestions = (results: IGenericCardItem[]) =>
+  results.length > 0
+    ? (results
+        .map(item => {
+          if (isJobCardItem(item)) {
+            return item.location;
+          } else if (isReviewJobCardItem(item)) {
+            return item.jobLocation;
+          }
+          return null;
+        })
+        .filter(item => !!item) as string[])
+    : undefined;
+
 /*******************************************************************
  *                             **Styles**                           *
  *******************************************************************/
@@ -135,20 +153,10 @@ const SearchPage: React.FC = () => {
     searchType ? availableSortOptions[searchType] : undefined
   );
   const typeOption = useSearchType();
-
-  const locationSuggestions =
-    unfilteredResults.length > 0
-      ? (unfilteredResults
-          .map(item => {
-            if (isJobCardItem(item)) {
-              return item.location;
-            } else if (isReviewJobCardItem(item)) {
-              return item.jobLocation;
-            }
-            return null;
-          })
-          .filter(item => !!item) as string[])
-      : undefined;
+  const locationSuggestions = useMemo(
+    () => getLocationSuggestions(unfilteredResults),
+    [unfilteredResults]
+  );
   const locationOption = useSearchLocationFilter(locationSuggestions);
 
   return (
