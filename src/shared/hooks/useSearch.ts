@@ -154,7 +154,6 @@ export const useSearch = <TData>(
       category: "Search",
       action: "Loaded more search results",
     });
-    console.log("more");
 
     // increment page since we fetched a page
     setPage(prevPage => prevPage + 1);
@@ -183,7 +182,6 @@ export const useSearch = <TData>(
         return true;
       });
     }
-    console.log(unfilteredResults, results);
 
     return results;
   }, [searchLocationFilter, unfilteredResults]);
