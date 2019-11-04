@@ -19,7 +19,7 @@ describe("Search autocomplete", () => {
       .find(".salaryAmt")
       .should("have.text", "33");
 
-    cy.get(".options-menu .sort-select input")
+    cy.get(".options-menu .sort.select input")
       .click()
       .type("salary{downarrow}{enter}");
 
@@ -42,7 +42,7 @@ describe("Search autocomplete", () => {
 
     cy.get(".options-menu").click({ force: true });
 
-    cy.get(".options-menu .sort-select input")
+    cy.get(".options-menu .sort.select input")
       .click()
       .type("review count{downarrow}{enter}");
 
@@ -64,7 +64,7 @@ describe("Search autocomplete", () => {
 
     cy.get(".options-menu").click({ force: true });
 
-    cy.get(".options-menu .sort-select input")
+    cy.get(".options-menu .sort.select input")
       .click({ force: true })
       .type("rating{downarrow}{enter}");
 

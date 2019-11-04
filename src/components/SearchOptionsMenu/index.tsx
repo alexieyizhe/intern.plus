@@ -12,6 +12,7 @@ import { Size } from "src/theme/constants";
 import { UnstyledButton } from "src/components/Button";
 import Card from "src/components/Card";
 import Text from "src/components/Text";
+import TextInput from "src/components/TextInput";
 import Select from "src/components/Select";
 import Checkbox from "src/components/Checkbox";
 import StarRating from "src/components/StarRating";
@@ -147,15 +148,12 @@ const SortOptionSelect = styled(Select)`
 
 const VerticalAlignContainer = styled.div`
   width: 70%;
+  margin-left: auto;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-
-  & > * {
-    margin-bottom: 7px;
-  }
 `;
 
 const ToggleIndicator = styled(UnstyledButton)`
@@ -172,6 +170,14 @@ const ToggleIndicator = styled(UnstyledButton)`
     width: 20px;
     transform: rotate(-90deg);
   }
+`;
+
+const TypeCheckbox = styled(Checkbox)`
+  margin-bottom: 7px;
+`;
+
+const SalaryInput = styled(TextInput)`
+  margin-top: 7px;
 `;
 
 const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
@@ -243,7 +249,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Sort</Text>
             <SortOptionSelect
-              className="sort-select"
+              className="sort select"
               color="white"
               placeholder="by..."
               options={sortOption.options}
@@ -258,8 +264,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Type</Text>
             <VerticalAlignContainer>
-              <Checkbox
-                className="type-checkbox-companies"
+              <TypeCheckbox
+                className="type checkbox companies"
                 color="white"
                 checked={typeOption.value === SearchType.COMPANIES}
                 onChange={e =>
@@ -272,9 +278,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 <Text variant="subheading" color="greyDark">
                   companies only
                 </Text>
-              </Checkbox>
-              <Checkbox
-                className="type-checkbox-jobs"
+              </TypeCheckbox>
+              <TypeCheckbox
+                className="type checkbox jobs"
                 color="white"
                 checked={typeOption.value === SearchType.JOBS}
                 onChange={e =>
@@ -287,9 +293,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 <Text variant="subheading" color="greyDark">
                   positions only
                 </Text>
-              </Checkbox>
-              <Checkbox
-                className="type-checkbox-reviews"
+              </TypeCheckbox>
+              <TypeCheckbox
+                className="type checkbox reviews"
                 color="white"
                 checked={typeOption.value === SearchType.REVIEWS}
                 onChange={e =>
@@ -302,7 +308,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 <Text variant="subheading" color="greyDark">
                   reviews only
                 </Text>
-              </Checkbox>
+              </TypeCheckbox>
             </VerticalAlignContainer>
           </TopContainer>
         )}
@@ -314,7 +320,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               <StarRating
                 maxStars={5}
                 filledStars={ratingOption.valueMin}
-                className="rating-min"
+                className="rating min"
               >
                 <Text variant="subheading" color="greyDark">
                   min
@@ -323,7 +329,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               <StarRating
                 maxStars={5}
                 filledStars={ratingOption.valueMax}
-                className="rating-max"
+                className="rating max"
               >
                 <Text variant="subheading" color="greyDark">
                   max
@@ -333,29 +339,37 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           </TopContainer>
         )}
 
-        {/* {salaryOption && ( TODO: get this implemented
-          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
-            <Text variant="heading4">Rating</Text>
+        {salaryOption && (
+          <div>
+            <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
+              <Text variant="heading4">Salary</Text>
+              <VerticalAlignContainer>
+                <TextInput
+                  type="number"
+                  min={0}
+                  color="white"
+                  placeholder="min"
+                  className="salaryMin input"
+                />
+              </VerticalAlignContainer>
+            </CenterContainer>
             <VerticalAlignContainer>
-              <StarRating maxStars={5} filledStars={salaryOption.valueMin}>
-                <Text variant="subheading" color="greyDark">
-                  min
-                </Text>
-              </StarRating>
-              <StarRating maxStars={5} filledStars={salaryOption.valueMax}>
-                <Text variant="subheading" color="greyDark">
-                  max
-                </Text>
-              </StarRating>
+              <SalaryInput
+                type="number"
+                min={0}
+                color="white"
+                placeholder="max"
+                className="salaryMax input"
+              />
             </VerticalAlignContainer>
-          </TopContainer>
-        )} */}
+          </div>
+        )}
 
         {locationOption && (
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Location</Text>
             <SortOptionSelect
-              className="location-select"
+              className="location select"
               color="white"
               placeholder="California"
               isMulti
