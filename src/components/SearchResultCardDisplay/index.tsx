@@ -259,7 +259,12 @@ const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
 
       {searchResults.length > 0 &&
         [SearchState.INITIAL, SearchState.RESULTS].includes(searchState) && (
-          <Waypoint onEnter={onResultsEndReached} />
+          <Waypoint
+            onEnter={() => {
+              console.log("trigger waypoint");
+              onResultsEndReached();
+            }}
+          />
         )}
     </Container>
   );

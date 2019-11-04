@@ -14,6 +14,11 @@ export const companyResultFragment = gql`
     reviews {
       count
     }
+    jobs {
+      items {
+        location
+      }
+    }
   }
 `;
 

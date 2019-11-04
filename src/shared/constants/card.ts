@@ -6,6 +6,7 @@ export interface ICompanyCardItem {
   avgRating: number; // score out of 5
   logoSrc: string;
   color: string;
+  jobLocations: string[];
 }
 
 export interface IJobCardItem {

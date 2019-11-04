@@ -36,6 +36,12 @@ export interface ISearchOptionsMenuProps
     onChange: (valueMin: number, valueMax: number) => void;
   };
 
+  salaryOption?: {
+    valueMin: number;
+    valueMax: number;
+    onChange: (valueMin: number, valueMax: number) => void;
+  };
+
   locationOption?: {
     options: OptionTypeBase[];
     value?: OptionTypeBase;
@@ -173,6 +179,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   sortOption,
   typeOption,
   ratingOption,
+  salaryOption,
   locationOption,
 }) => {
   const {
@@ -313,6 +320,24 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             </VerticalAlignContainer>
           </TopContainer>
         )}
+
+        {/* {salaryOption && ( TODO: get this implemented
+          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
+            <Text variant="heading4">Rating</Text>
+            <VerticalAlignContainer>
+              <StarRating maxStars={5} filledStars={salaryOption.valueMin}>
+                <Text variant="subheading" color="greyDark">
+                  min
+                </Text>
+              </StarRating>
+              <StarRating maxStars={5} filledStars={salaryOption.valueMax}>
+                <Text variant="subheading" color="greyDark">
+                  max
+                </Text>
+              </StarRating>
+            </VerticalAlignContainer>
+          </TopContainer>
+        )} */}
 
         {locationOption && (
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>

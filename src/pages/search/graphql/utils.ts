@@ -23,6 +23,11 @@ export const buildCompanyCard = (
   avgRating: item.avgRating || 0,
   logoSrc: (item.logoImg && item.logoImg.downloadUrl) || "",
   color: item.logoColor || "",
+  jobLocations:
+    ((item.jobs &&
+      item.jobs.items
+        .map(item => item.location)
+        .filter(item => item !== null)) as string[]) || [],
 });
 
 export const buildJobCard = (

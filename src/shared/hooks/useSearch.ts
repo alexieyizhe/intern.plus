@@ -1,3 +1,4 @@
+import { isCompanyCardItem } from "./../constants/card";
 /**
  * Set of hooks for handling search with pagination.
  * These hooks are agnostic to the actual querying of results,
@@ -153,6 +154,7 @@ export const useSearch = <TData>(
       category: "Search",
       action: "Loaded more search results",
     });
+    console.log("more");
 
     // increment page since we fetched a page
     setPage(prevPage => prevPage + 1);
@@ -167,10 +169,13 @@ export const useSearch = <TData>(
    */
   const searchResults = useMemo(() => {
     let results: IGenericCardItem[] = unfilteredResults;
-
     if (searchLocationFilter) {
       results = results.filter(item => {
-        if (isJobCardItem(item)) {
+        if (isCompanyCardItem(item)) {
+          return searchLocationFilter.some(filterLoc =>
+            item.jobLocations.some(jobLoc => slugify(jobLoc) === filterLoc)
+          );
+        } else if (isJobCardItem(item)) {
           return searchLocationFilter.includes(slugify(item.location));
         } else if (isReviewJobCardItem(item) || isReviewUserCardItem(item)) {
           return searchLocationFilter.includes(slugify(item.jobLocation));
@@ -178,6 +183,7 @@ export const useSearch = <TData>(
         return true;
       });
     }
+    console.log(unfilteredResults, results);
 
     return results;
   }, [searchLocationFilter, unfilteredResults]);
@@ -197,9 +203,9 @@ export const useSearch = <TData>(
       newState = SearchState.LOADING;
     else if (searchResults.length === 0 && searchQuery !== undefined)
       newState = SearchState.NO_RESULTS;
-    else if (isEndOfResults) newState = SearchState.NO_MORE_RESULTS;
     else if (searchResults.length > 0 && (!isDataLoaded || loading))
       newState = SearchState.RESULTS_LOADING;
+    else if (isEndOfResults) newState = SearchState.NO_MORE_RESULTS;
     else if (searchResults.length > 0) newState = SearchState.RESULTS;
 
     setSearchState(newState);

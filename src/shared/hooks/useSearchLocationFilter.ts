@@ -1,9 +1,15 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { OptionTypeBase } from "react-select/src/types";
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { slugify } from "src/shared/utils/misc";
 import { MOCK_LOCATIONS } from "src/shared/mocks";
+import {
+  isCompanyCardItem,
+  isJobCardItem,
+  isReviewJobCardItem,
+  IGenericCardItem,
+} from "src/shared/constants/card";
 
 const MAX_OPTIONS = 5;
 const LOCATIONS =
@@ -110,6 +116,26 @@ const buildOptions = (options: string[]): OptionTypeBase[] =>
 
 const DEFAULT_LOCATION_OPTIONS = buildOptions(LOCATIONS);
 
+const getLocationSuggestions = (results: IGenericCardItem[]) =>
+  Array.from(
+    results
+      .flatMap(item => {
+        if (isCompanyCardItem(item)) {
+          return item.jobLocations;
+        } else if (isJobCardItem(item)) {
+          return item.location;
+        } else if (isReviewJobCardItem(item)) {
+          return item.jobLocation;
+        }
+        return null;
+      })
+      .filter(item => !!item)
+      .reduce((acc, cur) => {
+        acc.add(cur);
+        return acc;
+      }, new Set())
+  ) as string[];
+
 export const LOCATION_MAP = DEFAULT_LOCATION_OPTIONS.reduce(
   (acc, cur) => {
     acc[cur.value] = cur;
@@ -118,8 +144,16 @@ export const LOCATION_MAP = DEFAULT_LOCATION_OPTIONS.reduce(
   {} as { [key: string]: OptionTypeBase }
 );
 
-export const useSearchLocationFilter = (options?: string[]) => {
+export const useSearchLocationFilter = (results?: IGenericCardItem[]) => {
   const { searchLocationFilter, setSearchLocationFilter } = useSearchParams();
+
+  const options = useMemo(
+    () =>
+      results && results.length > 0
+        ? buildOptions(getLocationSuggestions(results))
+        : DEFAULT_LOCATION_OPTIONS,
+    [results]
+  );
 
   const onChange = useCallback(
     (newOptions: OptionTypeBase[]) => {
@@ -139,7 +173,7 @@ export const useSearchLocationFilter = (options?: string[]) => {
   );
 
   return {
-    options: options ? buildOptions(options) : DEFAULT_LOCATION_OPTIONS,
+    options,
     value:
       searchLocationFilter &&
       searchLocationFilter.map(val => LOCATION_MAP[val]),
