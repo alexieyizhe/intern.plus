@@ -48,8 +48,6 @@ export const useSearch = <TData>(
 ) => {
   const {
     searchQuery,
-    searchSort,
-    searchType,
     searchLocationFilter,
     setSearchQuery,
   } = useSearchParams();
@@ -143,7 +141,7 @@ export const useSearch = <TData>(
         setIsDataLoaded(false);
 
         // perform the new search
-        setSearchQuery(newVal);
+        setSearchQuery(newVal || searchQuery);
       }
     },
     [searchQuery, setSearchQuery]
@@ -186,9 +184,9 @@ export const useSearch = <TData>(
     return results;
   }, [searchLocationFilter, unfilteredResults]);
 
-  useEffect(() => {
-    triggerSearchNew(searchQuery, true);
-  }, [searchSort, searchType]); // eslint-disable-line
+  // useEffect(() => {
+  //   triggerSearchNew(searchQuery, true);
+  // }, [searchSort, searchType]); // eslint-disable-line
 
   /**
    * *Track the state of searching*.

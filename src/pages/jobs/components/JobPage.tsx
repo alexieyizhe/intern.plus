@@ -115,7 +115,10 @@ const JobPage: React.FC = () => {
           onTriggerSearch={triggerSearchNew}
         />
 
-        <SearchOptionsMenu sortOption={sortOption} />
+        <SearchOptionsMenu
+          sortOption={sortOption}
+          onOptionChange={() => triggerSearchNew(undefined, true)}
+        />
 
         <SearchResultCardDisplay
           searchState={searchState}

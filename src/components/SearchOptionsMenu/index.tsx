@@ -9,7 +9,7 @@ import { ChevronImg } from "src/assets";
 import { useSiteContext } from "src/context";
 import { Size } from "src/theme/constants";
 
-import { UnstyledButton } from "src/components/Button";
+import Button, { UnstyledButton } from "src/components/Button";
 import Card from "src/components/Card";
 import Text from "src/components/Text";
 import TextInput from "src/components/TextInput";
@@ -24,7 +24,7 @@ export interface ISearchOptionsMenuProps
   sortOption?: {
     options: OptionTypeBase[];
     value?: OptionTypeBase;
-    onChange: (value: OptionTypeBase) => void;
+    onChange: (value?: OptionTypeBase) => void;
   };
 
   typeOption?: {
@@ -33,26 +33,26 @@ export interface ISearchOptionsMenuProps
   };
 
   ratingOption?: {
-    valueMin: number;
-    valueMax: number;
-    onChange: (valueMin: number, valueMax: number) => void;
+    value: (number | "")[];
+    onChange: (value: (number | "")[]) => void;
   };
 
   salaryOption?: {
-    valueMin: number;
-    valueMax: number;
-    onChange: (valueMin: number, valueMax: number) => void;
+    value: (number | "")[];
+    onChange: (value: (number | "")[]) => void;
   };
 
   locationOption?: {
     options: OptionTypeBase[];
-    value?: OptionTypeBase;
+    value?: OptionTypeBase[];
     onChange: (value: OptionTypeBase[]) => void;
   };
+
+  onOptionChange: () => void;
 }
 
 const MENU_WIDTH = 400;
-const MENU_WIDTH_MOBILE = 300;
+const MENU_WIDTH_MOBILE = 320;
 
 const Parent = styled.div<{ menuOpen: boolean }>`
   position: fixed;
@@ -192,6 +192,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   ratingOption,
   salaryOption,
   locationOption,
+  onOptionChange,
 }) => {
   const {
     state: { mobileMenuOpen },
@@ -204,7 +205,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   const [menuOpen, setMenuOpen] = useState(false);
 
   /**
-   * Automatically close the side menu if we're scrolling on mobile,
+   * Automatically close the side menu if we're scrolling on smaller screens,
    * since it obstructs visibility of search results.
    */
   useEffect(() => {
@@ -225,6 +226,60 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     },
     []
   );
+
+  const [internalSortOptionVal, setInternalSortOptionVal] = useState(
+    sortOption && sortOption.value
+  );
+
+  const [internalTypeOptionVal, setInternalTypeOptionVal] = useState(
+    typeOption && typeOption.value
+  );
+
+  const [
+    internalRatingFilterOptionVal,
+    setInternalRatingFilterOptionVal,
+  ] = useState((ratingOption && ratingOption.value) || []);
+
+  const [
+    internalSalaryFilterOptionVal,
+    setInternalSalaryFilterOptionVal,
+  ] = useState((salaryOption && salaryOption.value) || []);
+  const [
+    internalLocationFilterOptionVal,
+    setInternalLocationFilterOptionVal,
+  ] = useState((locationOption && locationOption.value) || []);
+
+  const apply = () => {
+    let optionsChanged = false;
+    if (sortOption && internalSortOptionVal !== sortOption.value) {
+      optionsChanged = true;
+      setTimeout(() => sortOption.onChange(internalSortOptionVal), 0);
+    }
+    if (typeOption && internalTypeOptionVal !== typeOption.value) {
+      optionsChanged = true;
+      setTimeout(() => typeOption.onChange(internalTypeOptionVal), 0);
+    }
+    if (ratingOption && internalRatingFilterOptionVal !== ratingOption.value) {
+      optionsChanged = true;
+      setTimeout(() => ratingOption.onChange(internalRatingFilterOptionVal), 0);
+    }
+    if (salaryOption && internalSalaryFilterOptionVal !== salaryOption.value) {
+      optionsChanged = true;
+      setTimeout(() => salaryOption.onChange(internalSalaryFilterOptionVal), 0);
+    }
+    if (
+      locationOption &&
+      internalLocationFilterOptionVal !== locationOption.value
+    ) {
+      optionsChanged = true;
+      setTimeout(
+        () => locationOption.onChange(internalLocationFilterOptionVal),
+        0
+      );
+    }
+
+    if (optionsChanged) onOptionChange();
+  };
 
   return (
     <Parent menuOpen={menuOpen}>
@@ -259,8 +314,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               color="white"
               placeholder="by..."
               options={sortOption.options}
-              value={sortOption.value}
-              onChange={sortOption.onChange}
+              value={internalSortOptionVal}
+              onChange={setInternalSortOptionVal}
               tabIndex={menuOpen ? 0 : -1}
             />
           </CenterContainer>
@@ -273,9 +328,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               <TypeCheckbox
                 className="type checkbox companies"
                 color="white"
-                checked={typeOption.value === SearchType.COMPANIES}
+                checked={internalTypeOptionVal === SearchType.COMPANIES}
                 onChange={e =>
-                  typeOption.onChange(
+                  setInternalTypeOptionVal(
                     e.target.checked ? SearchType.COMPANIES : undefined
                   )
                 }
@@ -288,9 +343,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               <TypeCheckbox
                 className="type checkbox jobs"
                 color="white"
-                checked={typeOption.value === SearchType.JOBS}
+                checked={internalTypeOptionVal === SearchType.JOBS}
                 onChange={e =>
-                  typeOption.onChange(
+                  setInternalTypeOptionVal(
                     e.target.checked ? SearchType.JOBS : undefined
                   )
                 }
@@ -303,9 +358,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               <TypeCheckbox
                 className="type checkbox reviews"
                 color="white"
-                checked={typeOption.value === SearchType.REVIEWS}
+                checked={internalTypeOptionVal === SearchType.REVIEWS}
                 onChange={e =>
-                  typeOption.onChange(
+                  setInternalTypeOptionVal(
                     e.target.checked ? SearchType.REVIEWS : undefined
                   )
                 }
@@ -319,13 +374,13 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           </TopContainer>
         )}
 
-        {ratingOption && (
+        {/* {ratingOption && (
           <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Rating</Text>
             <VerticalAlignContainer>
               <StarRating
                 maxStars={5}
-                filledStars={ratingOption.valueMin}
+                filledStars={ratingOption.value[0] || 0}
                 className="rating min"
               >
                 <Text variant="subheading" color="greyDark">
@@ -334,7 +389,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               </StarRating>
               <StarRating
                 maxStars={5}
-                filledStars={ratingOption.valueMax}
+                filledStars={ratingOption.value[1] || 0}
                 className="rating max"
               >
                 <Text variant="subheading" color="greyDark">
@@ -343,7 +398,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               </StarRating>
             </VerticalAlignContainer>
           </TopContainer>
-        )}
+        )} */}
 
         {salaryOption && (
           <div>
@@ -352,8 +407,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 <Text variant="heading4">Salary</Text>
                 <Tooltip color="greyMedium">
                   <Text variant="body">
-                    Minimum and maximum hourly salary of any currency to display
-                    in search results.
+                    A range of hourly salary to search for.
                   </Text>
                 </Tooltip>
               </CenterContainer>
@@ -361,6 +415,16 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 <TextInput
                   type="number"
                   min={0}
+                  value={internalSalaryFilterOptionVal[0]}
+                  onChange={e => {
+                    const val = parseInt(e.target.value);
+                    if (!isNaN(val) || !e.target.value) {
+                      setInternalSalaryFilterOptionVal(prevVal => [
+                        val,
+                        prevVal[1],
+                      ]);
+                    }
+                  }}
                   color="white"
                   placeholder="min"
                   className="salaryMin input"
@@ -371,6 +435,16 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               <SalaryInput
                 type="number"
                 min={0}
+                value={internalSalaryFilterOptionVal[1]}
+                onChange={e => {
+                  const val = parseInt(e.target.value);
+                  if (!isNaN(val)) {
+                    setInternalSalaryFilterOptionVal(prevVal => [
+                      val,
+                      prevVal[0],
+                    ]);
+                  }
+                }}
                 color="white"
                 placeholder="max"
                 className="salaryMax input"
@@ -387,19 +461,21 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               color="white"
               placeholder="California"
               isMulti
-              value={locationOption.value}
+              value={internalLocationFilterOptionVal}
               options={locationOption.options}
-              onChange={locationOption.onChange}
+              onChange={setInternalLocationFilterOptionVal}
               tabIndex={menuOpen ? 0 : -1}
             />
           </CenterContainer>
         )}
 
-        {/* <UnstyledButton>
-        <Text variant="subheading" color="greyDark" underline>
-          clear options
-        </Text> TODO: get this working
-      </UnstyledButton> */}
+        <VerticalAlignContainer>
+          <Button onClick={apply} color="greenDark">
+            <Text variant="subheading" color="white">
+              apply
+            </Text>
+          </Button>
+        </VerticalAlignContainer>
       </Container>
     </Parent>
   );

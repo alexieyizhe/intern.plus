@@ -7,6 +7,7 @@ import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
+import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearchType } from "src/shared/hooks/useSearchType";
 import { useSearch } from "src/shared/hooks/useSearch";
@@ -134,6 +135,7 @@ const SearchPage: React.FC = () => {
     searchType ? availableSortOptions[searchType] : undefined
   );
   const typeOption = useSearchType();
+  const salaryOption = useSearchSalaryFilter();
   const locationOption = useSearchLocationFilter(unfilteredResults);
 
   return (
@@ -155,7 +157,9 @@ const SearchPage: React.FC = () => {
         <SearchOptionsMenu
           sortOption={sortOption}
           typeOption={typeOption}
+          salaryOption={salaryOption}
           locationOption={locationOption}
+          onOptionChange={() => triggerSearchNew(searchQuery, true)}
         />
 
         <SearchResultCardDisplay

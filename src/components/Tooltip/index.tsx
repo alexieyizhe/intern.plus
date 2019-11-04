@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
@@ -89,18 +89,14 @@ const Tooltip: React.FC<ITooltipProps> = ({
   color,
   children,
   ...rest
-}) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <Indicator
-      className={classNames(className, "tooltip")}
-      color={color}
-      {...rest}
-    >
-      <div>{children}</div>
-    </Indicator>
-  );
-};
+}) => (
+  <Indicator
+    className={classNames(className, "tooltip")}
+    color={color}
+    {...rest}
+  >
+    <div>{children}</div>
+  </Indicator>
+);
 
 export default Tooltip;

@@ -27,6 +27,7 @@ export const useSearchSort = (availableSort?: SearchSort[]) => {
   return {
     options,
     value: searchSort && getOptionFromValue(options, searchSort),
-    onChange: (option: OptionTypeBase) => setSearchSort(option.value),
+    onChange: (option?: OptionTypeBase) =>
+      setSearchSort(option && option.value),
   };
 };

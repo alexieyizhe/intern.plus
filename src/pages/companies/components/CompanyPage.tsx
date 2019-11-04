@@ -122,6 +122,7 @@ const CompanyPage: React.FC = () => {
         <SearchOptionsMenu
           sortOption={sortOption}
           locationOption={locationOption}
+          onOptionChange={() => triggerSearchNew(undefined, true)}
         />
 
         <SearchResultCardDisplay
