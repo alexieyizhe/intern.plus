@@ -39,7 +39,7 @@ export interface ISearchOptionsMenuProps
   locationOption?: {
     options: OptionTypeBase[];
     value?: OptionTypeBase;
-    onChange: (value: OptionTypeBase) => void;
+    onChange: (value: OptionTypeBase[]) => void;
   };
 }
 
@@ -105,9 +105,7 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
 
   ${({ theme, menuOpen }) => theme.mediaQueries.largeMobile`
     width: ${MENU_WIDTH_MOBILE}px;
-    padding: 20px 30px;
-
-    
+    padding: 20px 30px;    
 
     & > * {
       margin-bottom: 5px;
@@ -134,7 +132,7 @@ const TopContainer = styled.div`
 `;
 
 const SortOptionSelect = styled(Select)`
-  width: 80%;
+  width: 70%;
 
   & > div {
     padding: 10px;
@@ -320,6 +318,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             <SortOptionSelect
               color="white"
               placeholder="California"
+              isMulti
+              value={locationOption.value}
               options={locationOption.options}
               onChange={locationOption.onChange}
               tabIndex={menuOpen ? 0 : -1}

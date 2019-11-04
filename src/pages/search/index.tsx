@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
@@ -6,6 +6,7 @@ import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
+import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearch } from "src/shared/hooks/useSearch";
 
@@ -103,9 +104,19 @@ const SearchPage: React.FC = () => {
 
   const { searchQuery, searchType } = useSearchParams();
   const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
+
+  /**
+   * For search options menu
+   */
   const sortOption = useSearchSort(
     searchType ? availableSortOptions[searchType] : undefined
-  ); // for SearchOptionsMenu
+  );
+
+  const locationOption = useSearchLocationFilter();
+  const locationSearchVariable = useMemo(
+    () => locationOption.value && locationOption.value.map(val => val.label),
+    [locationOption.value]
+  );
 
   const { QUERY_DEF } = useSearchQueryDef(getSearchBuilder);
   const {
@@ -119,6 +130,9 @@ const SearchPage: React.FC = () => {
   } = useSearch(
     QUERY_DEF,
     {
+      variables: {
+        locations: locationSearchVariable,
+      },
       skip: searchQuery === undefined && !searchType, // if searching for a type, show all of that type instead of empty state prompting them to search
     },
     buildSearchResultCardsList
@@ -140,7 +154,10 @@ const SearchPage: React.FC = () => {
           suggestions={searchSuggestions}
         />
 
-        <SearchOptionsMenu sortOption={sortOption} />
+        <SearchOptionsMenu
+          sortOption={sortOption}
+          locationOption={locationOption}
+        />
 
         <SearchResultCardDisplay
           searchState={searchState}

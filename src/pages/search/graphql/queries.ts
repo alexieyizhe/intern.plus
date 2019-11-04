@@ -30,7 +30,11 @@ const getCompaniesSort = (sort?: SearchSort) => {
 const companiesQuery = ({ sort }: ISearchQueryBuilderOptions) => `
   companiesList(
     filter: {
-      OR: [{ name: { contains: $query } }, { desc: { contains: $query } }]
+      OR: [
+        { name: { contains: $query } }, 
+        { desc: { contains: $query } }, 
+        { desc: { in: $locations } }
+      ]
     }
     sort: ${getCompaniesSort(sort)}
     skip: $offset
@@ -58,10 +62,15 @@ const getJobsSort = (sort?: SearchSort) => {
 const jobsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
   jobsList(
     filter: {
-      OR: [
-        { name: { contains: $query } }
-        { company: { name: { contains: $query } } }
-        { location: { contains: $query } }
+      AND: [
+        { location: { in: $locations } }
+        {
+          OR: [
+            { name: { contains: $query } }
+            { company: { name: { contains: $query } } }
+            { location: { contains: $query } }
+          ]
+        },
       ]
     }
     sort: ${getJobsSort(sort)}
@@ -88,11 +97,16 @@ const getReviewsSort = (sort?: SearchSort) => {
 const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
   reviewsList(
     filter: {
-      OR: [
-        { company: { name: { contains: $query } } }
-        { job: { name: { contains: $query } } }
-        { body: { contains: $query } }
-        { tags: { contains: $query } }
+      AND: [
+        { job: { location: { in: $locations } } }
+        {
+          OR: [
+            { company: { name: { contains: $query } } }
+            { job: { name: { contains: $query } } }
+            { body: { contains: $query } }
+            { tags: { contains: $query } }
+          ]
+        },
       ]
     }
     sort: ${getReviewsSort(sort)}
@@ -127,7 +141,7 @@ const getQueryForType = (type?: SearchType) => {
 export const getSearchBuilder: SearchQueryBuilder = options => {
   const queryForType = getQueryForType(options.type);
   const QUERY_DEF = gql`
-    query GetSearch($query: String, $offset: Int, $limit: Int) {
+    query GetSearch($query: String, $locations: [String!], $offset: Int, $limit: Int) {
       ${queryForType(options)}
     }
 

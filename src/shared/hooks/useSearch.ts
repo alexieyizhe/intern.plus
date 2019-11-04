@@ -38,7 +38,12 @@ export const useSearch = <TData>(
   options: QueryHookOptions<TData>,
   transformData: (data?: TData) => IGenericCardItem[]
 ) => {
-  const { searchQuery, searchSort, setSearchQuery } = useSearchParams();
+  const {
+    searchQuery,
+    searchSort,
+    searchLocationFilter,
+    setSearchQuery,
+  } = useSearchParams();
   const [searchState, setSearchState] = useState(SearchState.INITIAL);
 
   const [page, setPage] = useState(1); // most recent page fetched for query
@@ -176,7 +181,7 @@ export const useSearch = <TData>(
    */
   useEffect(() => {
     triggerSearchNew(searchQuery, true);
-  }, [searchSort]); // eslint-disable-line
+  }, [searchSort, searchLocationFilter]); // eslint-disable-line
 
   return {
     // search info
