@@ -243,6 +243,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Sort</Text>
             <SortOptionSelect
+              className="sort-select"
               color="white"
               placeholder="by..."
               options={sortOption.options}
@@ -258,6 +259,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             <Text variant="heading4">Type</Text>
             <VerticalAlignContainer>
               <Checkbox
+                className="type-checkbox-companies"
                 color="white"
                 checked={typeOption.value === SearchType.COMPANIES}
                 onChange={e =>
@@ -272,6 +274,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 </Text>
               </Checkbox>
               <Checkbox
+                className="type-checkbox-jobs"
                 color="white"
                 checked={typeOption.value === SearchType.JOBS}
                 onChange={e =>
@@ -286,6 +289,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 </Text>
               </Checkbox>
               <Checkbox
+                className="type-checkbox-reviews"
                 color="white"
                 checked={typeOption.value === SearchType.REVIEWS}
                 onChange={e =>
@@ -307,12 +311,20 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Rating</Text>
             <VerticalAlignContainer>
-              <StarRating maxStars={5} filledStars={ratingOption.valueMin}>
+              <StarRating
+                maxStars={5}
+                filledStars={ratingOption.valueMin}
+                className="rating-min"
+              >
                 <Text variant="subheading" color="greyDark">
                   min
                 </Text>
               </StarRating>
-              <StarRating maxStars={5} filledStars={ratingOption.valueMax}>
+              <StarRating
+                maxStars={5}
+                filledStars={ratingOption.valueMax}
+                className="rating-max"
+              >
                 <Text variant="subheading" color="greyDark">
                   max
                 </Text>
@@ -343,6 +355,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <Text variant="heading4">Location</Text>
             <SortOptionSelect
+              className="location-select"
               color="white"
               placeholder="California"
               isMulti
