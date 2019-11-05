@@ -125,8 +125,8 @@ const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
         { job: { location: { in: $locations } } }
         {
           AND: [
-            { salary: { lte: $minSalary } }
-            { salary: { gte: $maxSalary } }
+            { salary: { gte: $minSalary } }
+            { salary: { lte: $maxSalary } }
           ]
         },
       ]
