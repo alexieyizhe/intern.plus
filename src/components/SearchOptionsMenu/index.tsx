@@ -338,7 +338,19 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
 
         {sortOption && (
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
-            <Text variant="heading4">Sort</Text>
+            <CenterContainer>
+              <Text variant="heading4">Sort</Text>
+              <Tooltip color="greyMedium">
+                <Text variant="body" as="div">
+                  When sorting by salary: companies are sorted by their median,
+                  whereas jobs are sorted by their average review salary.
+                </Text>
+                <br />
+                <Text variant="body" as="div">
+                  By default, reviews are sorted chronologically.
+                </Text>
+              </Tooltip>
+            </CenterContainer>
 
             <SortOptionSelect
               className="sort select"
