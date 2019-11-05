@@ -45,6 +45,9 @@ export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
   query GetCompanyJobs(
     $slug: String
     $query: String
+    $locations: [String!]
+    $minSalary: Int
+    $maxSalary: Int
     $offset: Int
     $limit: Int
   ) {

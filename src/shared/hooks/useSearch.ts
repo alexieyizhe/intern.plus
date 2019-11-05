@@ -214,6 +214,8 @@ export const useSearch = <TData>(
     setSearchState,
   ]);
 
+  console.log(error);
+
   return {
     // search info
     searchState,

@@ -56,7 +56,7 @@ const MENU_WIDTH_MOBILE = 320;
 
 const Parent = styled.div<{ menuOpen: boolean }>`
   position: absolute;
-  height: 100%;
+  height: 60%;
   right: 0;
   padding-top: 40px;
 
@@ -475,9 +475,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         )}
 
         <VerticalAlignContainer>
-          <Button onClick={apply} color="greenDark">
+          <Button onClick={apply} color="greenDark" className="apply-button">
             <Text variant="subheading" color="white">
-              apply
+              Apply
             </Text>
           </Button>
         </VerticalAlignContainer>
