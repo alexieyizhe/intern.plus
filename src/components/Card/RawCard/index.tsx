@@ -12,8 +12,12 @@ const BaseCard = styled.div`
     theme.color[color] || color || "inherit"};
 `;
 
-const Card: React.FC<ICardProps> = ({ children, ...rest }) => (
-  <BaseCard {...rest}>{children}</BaseCard>
+const Card: React.FC<ICardProps> = React.forwardRef<HTMLDivElement, ICardProps>(
+  ({ children, ...rest }, ref) => (
+    <BaseCard {...rest} ref={ref}>
+      {children}
+    </BaseCard>
+  )
 );
 
 export default Card;

@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 import { OptionTypeBase } from "react-select/src/types";
 import classNames from "classnames";
 
+import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 import { SearchType } from "src/shared/constants/search";
-import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
+import { Size } from "src/theme/constants";
+
 import { ChevronImg } from "src/assets";
 import { useSiteContext } from "src/context";
-import { Size } from "src/theme/constants";
 
 import Button, { UnstyledButton } from "src/components/Button";
 import Card from "src/components/Card";
@@ -56,7 +57,7 @@ const MENU_WIDTH_MOBILE = 320;
 
 const Parent = styled.div<{ menuOpen: boolean }>`
   position: absolute;
-  height: 60%;
+  height: 100%;
   right: 0;
   padding-top: 40px;
 
@@ -202,23 +203,25 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   /**
    * Tracks if the menu is open.
    */
-  const { isMobile, isTablet } = useWindowWidth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   /**
-   * Automatically close the side menu if we're scrolling on smaller screens,
+   * Automatically close the side menu when clicking outside,
    * since it obstructs visibility of search results.
    */
-  useEffect(() => {
-    if (menuOpen && (isTablet || isMobile)) {
-      const closeMenuOnScroll = () => setMenuOpen(false);
-      window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  useOnClickOutside(menuRef, () => setMenuOpen(false));
 
-      return () => window.removeEventListener("scroll", closeMenuOnScroll);
-    }
+  // useEffect(() => {
+  //   if (menuOpen && (isTablet || isMobile)) {
+  //     const closeMenuOnScroll = ;
+  //     window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
 
-    return () => {};
-  }, [isMobile, isTablet, menuOpen]);
+  //     return () => window.removeEventListener("scroll", closeMenuOnScroll);
+  //   }
+
+  //   return () => {};
+  // }, [isMobile, isTablet, menuOpen]);
 
   const onToggleIndicatorClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -293,6 +296,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         onFocus={() => setMenuOpen(true)}
         onClick={() => setMenuOpen(true)}
         onMouseEnter={() => setMenuOpen(true)}
+        ref={menuRef}
       >
         <CenterContainer>
           <Text variant="heading2" as="h2" className="heading">
