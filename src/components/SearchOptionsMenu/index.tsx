@@ -412,7 +412,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 <Text variant="heading4">Salary</Text>
                 <Tooltip color="greyMedium">
                   <Text variant="body">
-                    A range of hourly salary to search for.
+                    The minimum and maximum hourly salary to search for.
                   </Text>
                 </Tooltip>
               </CenterContainer>

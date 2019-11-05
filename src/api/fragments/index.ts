@@ -53,6 +53,9 @@ export const reviewResultJobFragment = gql`
     overallRating
     body
     tags
+    isLegacy
+    legacyUpdatedAt
+    updatedAt
     company {
       name
       logoColor

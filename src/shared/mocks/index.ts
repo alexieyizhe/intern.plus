@@ -152,9 +152,9 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
   return {
     __typename: "Review" as "Review",
     id: reviewId,
-    createdAt: faker.date.recent(100),
-    updatedAt: faker.date.recent(60),
-    legacyUpdatedAt: faker.date.recent(60),
+    createdAt: faker.date.recent(100).toString(),
+    updatedAt: faker.date.recent(60).toString(),
+    legacyUpdatedAt: faker.date.recent(60).toString(),
 
     author: faker.name.findName(),
     body: faker.hacker.phrase(),
