@@ -9,6 +9,7 @@ export enum SearchParamKey {
   SORT = "s",
   RATING_FILTER = "fr",
   LOCATION_FILTER = "fl",
+  SALARY_FILTER = "fs",
 }
 
 export enum SearchType {
@@ -30,5 +31,6 @@ export const availableSortOptions: { [key: string]: SearchSort[] } = {
     SearchSort.ALPHABETICAL,
     SearchSort.NUM_REVIEWS,
     SearchSort.RATING,
+    SearchSort.SALARY,
   ],
 };

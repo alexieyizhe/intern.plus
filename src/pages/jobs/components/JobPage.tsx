@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
+import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { detailsPageStyles } from "src/theme/snippets";
@@ -95,6 +96,7 @@ const JobPage: React.FC = () => {
    * For search options menu
    */
   const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]);
+  const salaryOption = useSearchSalaryFilter();
 
   return (
     <>
@@ -115,7 +117,11 @@ const JobPage: React.FC = () => {
           onTriggerSearch={triggerSearchNew}
         />
 
-        <SearchOptionsMenu sortOption={sortOption} />
+        <SearchOptionsMenu
+          sortOption={sortOption}
+          salaryOption={salaryOption}
+          onOptionChange={() => triggerSearchNew(undefined, true)}
+        />
 
         <SearchResultCardDisplay
           searchState={searchState}

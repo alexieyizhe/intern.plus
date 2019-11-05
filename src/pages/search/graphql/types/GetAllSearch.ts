@@ -45,6 +45,8 @@ export interface GetAllSearch_companiesList_items {
    * Description of a company.
    */
   desc: string | null;
+  minHourlySalary: number | null;
+  maxHourlySalary: number | null;
   logoImg: GetAllSearch_companiesList_items_logoImg | null;
   /**
    * Average color of the company's logo, in HSL format.
@@ -142,6 +144,15 @@ export interface GetAllSearch_reviewsList_items {
   overallRating: number | null;
   body: string | null;
   tags: string | null;
+  /**
+   * Whether or not this review was imported from old internCompass data. If true, use legacyUpdatedAt info.
+   */
+  isLegacy: boolean | null;
+  /**
+   * Date of original review
+   */
+  legacyUpdatedAt: string | null;
+  updatedAt: string | null;
   company: GetAllSearch_reviewsList_items_company | null;
   job: GetAllSearch_reviewsList_items_job | null;
 }

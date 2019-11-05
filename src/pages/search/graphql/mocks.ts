@@ -15,7 +15,7 @@ import { GetJobsSearch } from "./types/GetJobsSearch";
 import { GetReviewsSearch } from "./types/GetReviewsSearch";
 
 export const getMockCompaniesSearch = (
-  { query, offset, limit }: ISearchQueryParams,
+  { query, minSalary, maxSalary, offset, limit }: ISearchQueryParams,
   { sort }: ISearchQueryBuilderOptions
 ): GetCompaniesSearch => {
   let sortFn;
@@ -27,10 +27,9 @@ export const getMockCompaniesSearch = (
     case SearchSort.RATING:
       sortFn = (a: any, b: any) => b.avgRating - a.avgRating;
       break;
-    // TODO: get this working
-    // case SearchSort.SALARY:
-    //   sortFn = (a: any, b: any) => b.medianHourlySalary - a.medianHourlySalary;
-    //   break;
+    case SearchSort.SALARY:
+      sortFn = (a: any, b: any) => b.medianHourlySalary - a.medianHourlySalary;
+      break;
     default:
       // same as ALPHABETICAL
       sortFn = (a: any, b: any) => a.name.localeCompare(b.name);
@@ -40,8 +39,10 @@ export const getMockCompaniesSearch = (
   const normalizedQuery = query.toLowerCase();
   const filteredCompanies = MOCK_COMPANIES_LIST.filter(
     company =>
-      company.name.toLowerCase().includes(normalizedQuery) ||
-      company.desc.toLowerCase().includes(normalizedQuery)
+      company.minHourlySalary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
+      company.maxHourlySalary > (minSalary || Number.MIN_SAFE_INTEGER) &&
+      (company.name.toLowerCase().includes(normalizedQuery) ||
+        company.desc.toLowerCase().includes(normalizedQuery))
   )
     .sort(sortFn)
     .slice(offset, offset + limit);
@@ -55,7 +56,7 @@ export const getMockCompaniesSearch = (
 };
 
 export const getMockJobsSearch = (
-  { query, locations, offset, limit }: ISearchQueryParams,
+  { query, locations, minSalary, maxSalary, offset, limit }: ISearchQueryParams,
   { sort }: ISearchQueryBuilderOptions
 ): GetJobsSearch => {
   let sortFn;
@@ -79,6 +80,8 @@ export const getMockJobsSearch = (
   const normalizedQuery = query.toLowerCase();
   const filteredJobs = MOCK_JOBS_LIST.filter(
     job =>
+      job.minHourlySalary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
+      job.maxHourlySalary > (minSalary || Number.MIN_SAFE_INTEGER) &&
       (!locations || locations.includes(job.location)) &&
       (job.name.toLowerCase().includes(normalizedQuery) ||
         job.company.name.toLowerCase().includes(normalizedQuery) ||
@@ -96,7 +99,7 @@ export const getMockJobsSearch = (
 };
 
 export const getMockReviewsSearch = (
-  { query, locations, offset, limit }: ISearchQueryParams,
+  { query, locations, minSalary, maxSalary, offset, limit }: ISearchQueryParams,
   { sort }: ISearchQueryBuilderOptions
 ): GetReviewsSearch => {
   let sortFn;
@@ -120,6 +123,8 @@ export const getMockReviewsSearch = (
   const normalizedQuery = query.toLowerCase();
   const filteredReviews = MOCK_REVIEWS_LIST.filter(
     review =>
+      review.salary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
+      review.salary >= (minSalary || Number.MIN_SAFE_INTEGER) &&
       (!locations || locations.includes(review.job.location)) &&
       (review.company.name.toLowerCase().includes(normalizedQuery) ||
         review.job.name.toLowerCase().includes(normalizedQuery) ||

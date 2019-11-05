@@ -1,14 +1,10 @@
+import { useMemo } from "react";
 import {
   SearchParamKey,
   SearchType,
   SearchSort,
 } from "src/shared/constants/search";
-import {
-  useQueryParam,
-  StringParam,
-  ArrayParam,
-  NumericArrayParam,
-} from "use-query-params";
+import { useQueryParam, StringParam, ArrayParam } from "use-query-params";
 
 export const useSearchParams = () => {
   /**
@@ -29,9 +25,42 @@ export const useSearchParams = () => {
     StringParam
   );
 
-  const [searchRatingFilter, setSearchRatingFilter] = useQueryParam(
+  const [ratingFilterStrArr, setratingFilterStrArr] = useQueryParam(
     SearchParamKey.RATING_FILTER,
-    NumericArrayParam
+    StringParam
+  );
+  const { searchRatingFilter, setSearchRatingFilter } = useMemo(
+    () => ({
+      searchRatingFilter: ratingFilterStrArr
+        ? ratingFilterStrArr.split(",").map(n => (n ? parseInt(n) : undefined))
+        : undefined,
+      setSearchRatingFilter: (value?: (number | undefined)[]) =>
+        setratingFilterStrArr(
+          value && (value[0] || value[1])
+            ? `${value[0] || ""},${value[1] || ""}`
+            : undefined
+        ),
+    }),
+    [ratingFilterStrArr, setratingFilterStrArr]
+  );
+
+  const [salaryFilterStrArr, setSalaryFilterStrArr] = useQueryParam(
+    SearchParamKey.SALARY_FILTER,
+    StringParam
+  );
+  const { searchSalaryFilter, setSearchSalaryFilter } = useMemo(
+    () => ({
+      searchSalaryFilter: salaryFilterStrArr
+        ? salaryFilterStrArr.split(",").map(n => (n ? parseInt(n) : undefined))
+        : undefined,
+      setSearchSalaryFilter: (value?: (number | undefined)[]) =>
+        setSalaryFilterStrArr(
+          value && (value[0] || value[1])
+            ? `${value[0] || ""},${value[1] || ""}`
+            : undefined
+        ),
+    }),
+    [salaryFilterStrArr, setSalaryFilterStrArr]
   );
 
   const [searchLocationFilter, setSearchLocationFilter] = useQueryParam(
@@ -51,6 +80,9 @@ export const useSearchParams = () => {
 
     searchRatingFilter,
     setSearchRatingFilter,
+
+    searchSalaryFilter,
+    setSearchSalaryFilter,
 
     searchLocationFilter,
     setSearchLocationFilter,

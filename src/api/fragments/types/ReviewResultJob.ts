@@ -33,6 +33,15 @@ export interface ReviewResultJob {
   overallRating: number | null;
   body: string | null;
   tags: string | null;
+  /**
+   * Whether or not this review was imported from old internCompass data. If true, use legacyUpdatedAt info.
+   */
+  isLegacy: boolean | null;
+  /**
+   * Date of original review
+   */
+  legacyUpdatedAt: string | null;
+  updatedAt: string | null;
   company: ReviewResultJob_company | null;
   job: ReviewResultJob_job | null;
 }
