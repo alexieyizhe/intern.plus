@@ -101,7 +101,7 @@ describe("Full flow", () => {
     cy.get(".job-details-card")
       .find("a")
       .first()
-      .click();
+      .click({ force: true });
     cy.url().should("include", "/companies");
   });
 });
