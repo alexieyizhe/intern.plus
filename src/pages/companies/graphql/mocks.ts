@@ -7,7 +7,6 @@ import {
 
 import { ISearchQueryBuilderOptions } from "src/shared/hooks/useSearchQueryDef";
 import { SearchSort } from "src/shared/constants/search";
-import { IJobCardItem } from "src/shared/constants/card";
 
 import { GetCompanyDetails } from "./types/GetCompanyDetails";
 import { GetCompanyJobs } from "./types/GetCompanyJobs";
@@ -17,7 +16,15 @@ export const getMockCompanyDetails = (slug: string): GetCompanyDetails => ({
 });
 
 export const getMockCompanyJobs = (
-  { slug, query, offset, limit }: ISlugQueryParam & ISearchQueryParams,
+  {
+    slug,
+    query,
+    locations,
+    minSalary,
+    maxSalary,
+    offset,
+    limit,
+  }: ISlugQueryParam & ISearchQueryParams,
   { sort }: ISearchQueryBuilderOptions
 ): GetCompanyJobs => {
   let sortFn;
@@ -41,9 +48,13 @@ export const getMockCompanyJobs = (
   const normalizedQuery = query.toLowerCase();
   const filteredJobs = MOCK_COMPANIES[slug].jobs.items
     .filter(
-      (job: IJobCardItem) =>
-        job.name.toLowerCase().includes(normalizedQuery) ||
-        job.location.toLowerCase().includes(normalizedQuery)
+      (job: any) =>
+        job.minHourlySalary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
+        job.maxHourlySalary > (minSalary || Number.MIN_SAFE_INTEGER) &&
+        (!locations || locations.includes(job.location)) &&
+        (job.name.toLowerCase().includes(normalizedQuery) ||
+          job.location.toLowerCase().includes(normalizedQuery) ||
+          job.hourlySalaryCurrency.toLowerCase().includes(normalizedQuery))
     )
     .sort(sortFn)
     .slice(offset, offset + limit);

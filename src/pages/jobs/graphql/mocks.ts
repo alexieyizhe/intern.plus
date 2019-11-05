@@ -2,7 +2,6 @@
 import { ISearchQueryBuilderOptions } from "src/shared/hooks/useSearchQueryDef";
 import { SearchSort } from "src/shared/constants/search";
 
-import { IReviewUserCardItem } from "src/shared/constants/card";
 import { MOCK_JOBS, IIdQueryParam, ISearchQueryParams } from "src/shared/mocks";
 
 import { GetJobDetails } from "./types/GetJobDetails";
@@ -13,7 +12,14 @@ export const getMockJobDetails = (id: string): GetJobDetails => ({
 });
 
 export const getMockJobReviews = (
-  { id, query, offset, limit }: IIdQueryParam & ISearchQueryParams,
+  {
+    id,
+    query,
+    minSalary,
+    maxSalary,
+    offset,
+    limit,
+  }: IIdQueryParam & ISearchQueryParams,
   { sort }: ISearchQueryBuilderOptions
 ): GetJobReviews => {
   let sortFn;
@@ -37,12 +43,15 @@ export const getMockJobReviews = (
   const normalizedQuery = query.toLowerCase();
   const filteredReviews = MOCK_JOBS[id].reviews.items
     .filter(
-      (review: IReviewUserCardItem) =>
-        review.body.toLowerCase().includes(normalizedQuery) ||
-        review.tags.toLowerCase().includes(normalizedQuery)
+      (review: any) =>
+        review.salary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
+        review.salary >= (minSalary || Number.MIN_SAFE_INTEGER) &&
+        (review.body.toLowerCase().includes(normalizedQuery) ||
+          review.tags.toLowerCase().includes(normalizedQuery))
     )
     .sort(sortFn)
     .slice(offset, offset + limit);
+
   return {
     job: {
       __typename: "Job",

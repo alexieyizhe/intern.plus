@@ -9,6 +9,7 @@ export enum SearchParamKey {
   SORT = "s",
   RATING_FILTER = "fr",
   LOCATION_FILTER = "fl",
+  SALARY_FILTER = "fs",
 }
 
 export enum SearchType {

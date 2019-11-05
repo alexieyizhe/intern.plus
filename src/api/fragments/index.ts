@@ -6,6 +6,8 @@ export const companyResultFragment = gql`
     slug
     name
     desc
+    minHourlySalary
+    maxHourlySalary
     logoImg {
       downloadUrl
     }
@@ -29,6 +31,9 @@ export const jobResultFragment = gql`
     slug
     name
     location
+    minHourlySalary
+    maxHourlySalary
+    hourlySalaryCurrency
     company {
       name
       slug
@@ -38,9 +43,6 @@ export const jobResultFragment = gql`
     reviews {
       count
     }
-    minHourlySalary
-    maxHourlySalary
-    hourlySalaryCurrency
   }
 `;
 

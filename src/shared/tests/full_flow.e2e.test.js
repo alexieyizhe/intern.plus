@@ -52,14 +52,14 @@ describe("Full flow", () => {
       .type("{enter}");
 
     // go to a company's page
-    cy.contains(".company-card", "Price, Sipes").click();
+    cy.contains(".company-card", "Sipes - Labadie").click();
     cy.percySnapshot("Company page");
 
     // go to job page
     cy.get(".search-field input")
-      .type("new york")
+      .type("iow")
       .type("{enter}");
-    cy.contains(".job-card", "New York").click();
+    cy.contains(".job-card", "Iowa").click();
     cy.percySnapshot("Job page");
 
     // go to review modal

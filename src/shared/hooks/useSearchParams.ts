@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   SearchParamKey,
   SearchType,
@@ -39,6 +40,25 @@ export const useSearchParams = () => {
     ArrayParam
   );
 
+  const [salaryFilterStrArr, setSalaryFilterStrArr] = useQueryParam(
+    SearchParamKey.SALARY_FILTER,
+    StringParam
+  );
+  const { searchSalaryFilter, setSearchSalaryFilter } = useMemo(
+    () => ({
+      searchSalaryFilter: salaryFilterStrArr
+        ? salaryFilterStrArr.split(",").map(n => (n ? parseInt(n) : undefined))
+        : undefined,
+      setSearchSalaryFilter: (value?: (number | undefined)[]) =>
+        setSalaryFilterStrArr(
+          value && (value[0] || value[1])
+            ? `${value[0] || ""},${value[1] || ""}`
+            : undefined
+        ),
+    }),
+    [salaryFilterStrArr, setSalaryFilterStrArr]
+  );
+
   return {
     searchQuery,
     setSearchQuery,
@@ -54,5 +74,8 @@ export const useSearchParams = () => {
 
     searchLocationFilter,
     setSearchLocationFilter,
+
+    searchSalaryFilter,
+    setSearchSalaryFilter,
   };
 };

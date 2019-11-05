@@ -39,10 +39,10 @@ export interface JobResult {
    */
   name: string | null;
   location: string | null;
-  company: JobResult_company | null;
-  avgRating: number | null;
-  reviews: JobResult_reviews | null;
   minHourlySalary: number | null;
   maxHourlySalary: number | null;
   hourlySalaryCurrency: string | null;
+  company: JobResult_company | null;
+  avgRating: number | null;
+  reviews: JobResult_reviews | null;
 }
