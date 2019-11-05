@@ -15,9 +15,9 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  body {
+  .App {
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden;
   }
   
   *, *:before, *:after {
