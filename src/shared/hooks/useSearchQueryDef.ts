@@ -14,7 +14,7 @@ export type SearchQueryBuilder = (
 ) => DocumentNode;
 
 export const useSearchQueryDef = (queryBuilder: SearchQueryBuilder) => {
-  const { searchType, searchSort } = useSearchParams(); // TODO: support filtering
+  const { searchType, searchSort } = useSearchParams();
 
   /**
    * The queryBuilder should be defined close to where the query is being used.

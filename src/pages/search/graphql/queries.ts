@@ -18,9 +18,8 @@ const getCompaniesSort = (sort?: SearchSort) => {
       return `[{ numRatings: DESC }, { name: ASC }]`;
     case SearchSort.RATING:
       return `[{ avgRating: DESC }, { name: ASC }]`;
-    // TODO: finish this functionality by adding field to company
-    // case SearchSort.SALARY:
-    //   return `[{ medianHourlySalary: DESC }, { name: ASC }]`;
+    case SearchSort.SALARY:
+      return `[{ medianHourlySalary: DESC }, { name: ASC }]`;
     default:
       // same as ALPHABETICAL
       return `{ name: ASC }`;

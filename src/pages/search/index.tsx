@@ -138,6 +138,7 @@ const SearchPage: React.FC = () => {
   const salaryOption = useSearchSalaryFilter();
   const locationOption = useSearchLocationFilter(unfilteredResults);
 
+  console.log(unfilteredResults);
   return (
     <>
       <Helmet>

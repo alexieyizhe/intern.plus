@@ -219,20 +219,19 @@ const API_CALLS = [
         }),
       }),
   },
-  // TODO: salary is same query as alphabetical for now
-  // {
-  //   query: getSearchBuilder({
-  //     type: SearchType.COMPANIES,
-  //     sort: SearchSort.SALARY,
-  //   }),
-  //   handler: (params: ISearchQueryParams) =>
-  //     Promise.resolve({
-  //       data: getMockAllSearch(params, {
-  //         type: SearchType.COMPANIES,
-  //         sort: SearchSort.SALARY,
-  //       }),
-  //     }),
-  // },
+  {
+    query: getSearchBuilder({
+      type: SearchType.COMPANIES,
+      sort: SearchSort.SALARY,
+    }),
+    handler: (params: ISearchQueryParams) =>
+      Promise.resolve({
+        data: getMockAllSearch(params, {
+          type: SearchType.COMPANIES,
+          sort: SearchSort.SALARY,
+        }),
+      }),
+  },
 
   // JOBS
   {
