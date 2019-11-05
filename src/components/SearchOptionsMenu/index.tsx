@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 import { OptionTypeBase } from "react-select/src/types";
 import classNames from "classnames";
 
-import { SearchType } from "src/shared/constants/search";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
+import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
+import { SearchType } from "src/shared/constants/search";
+import { Size } from "src/theme/constants";
+
 import { ChevronImg } from "src/assets";
 import { useSiteContext } from "src/context";
-import { Size } from "src/theme/constants";
 
 import Button, { UnstyledButton } from "src/components/Button";
 import Card from "src/components/Card";
@@ -53,17 +55,18 @@ export interface ISearchOptionsMenuProps
 
 const MENU_WIDTH = 400;
 const MENU_WIDTH_MOBILE = 320;
+const MIN_WIDTH_TO_DISABLE_COLLAPSE = 1800;
 
 const Parent = styled.div<{ menuOpen: boolean }>`
   position: absolute;
-  height: 60%;
+  height: 100%;
   right: 0;
   padding-top: 40px;
 
   z-index: 2;
   transition: transform 150ms;
   transform: ${({ menuOpen }) =>
-    menuOpen ? "translateY(0)" : `translateX(${MENU_WIDTH - 65}px)`};
+    menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH - 65}px)`};
 
   ${({ theme }) => theme.mediaQueries.tablet`
     padding-top: 30px;
@@ -74,6 +77,22 @@ const Parent = styled.div<{ menuOpen: boolean }>`
       menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
     };
   `}
+
+  @media (min-width: ${MIN_WIDTH_TO_DISABLE_COLLAPSE}px) {
+    transform: ${({ menuOpen }) =>
+      menuOpen ? `translateX(240px)` : `translateX(${MENU_WIDTH - 65}px)`};
+
+    & .close-indicator {
+      display: none;
+    }
+  }
+
+  @media (min-width: 2000px) {
+    transform: ${({ menuOpen }) =>
+      menuOpen
+        ? `translateX(${MENU_WIDTH - 65}px)`
+        : `translateX(${MENU_WIDTH - 65}px)`};
+  }
 `;
 
 const Container = styled(Card)<{ menuOpen: boolean }>`
@@ -162,7 +181,7 @@ const VerticalAlignContainer = styled.div`
   align-items: flex-start;
 `;
 
-const ToggleIndicator = styled(UnstyledButton)`
+const CloseIndicator = styled(UnstyledButton)`
   transition: transform 150ms;
   transform: scale(0.9);
   cursor: pointer;
@@ -198,34 +217,43 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   const {
     state: { mobileMenuOpen },
   } = useSiteContext();
+  const { windowWidth } = useWindowWidth();
 
   /**
    * Tracks if the menu is open.
    */
-  const { isMobile, isTablet } = useWindowWidth();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(
+    windowWidth >= MIN_WIDTH_TO_DISABLE_COLLAPSE
+  );
+  const closeMenu = useCallback(
+    () => setMenuOpen(windowWidth >= MIN_WIDTH_TO_DISABLE_COLLAPSE),
+    [windowWidth]
+  );
 
   /**
-   * Automatically close the side menu if we're scrolling on smaller screens,
+   * Automatically close the side menu when clicking outside,
    * since it obstructs visibility of search results.
    */
-  useEffect(() => {
-    if (menuOpen && (isTablet || isMobile)) {
-      const closeMenuOnScroll = () => setMenuOpen(false);
-      window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  useOnClickOutside(menuRef, closeMenu);
 
-      return () => window.removeEventListener("scroll", closeMenuOnScroll);
-    }
+  // useEffect(() => {
+  //   if (menuOpen && (isTablet || isMobile)) {
+  //     const closeMenuOnScroll = ;
+  //     window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
 
-    return () => {};
-  }, [isMobile, isTablet, menuOpen]);
+  //     return () => window.removeEventListener("scroll", closeMenuOnScroll);
+  //   }
 
-  const onToggleIndicatorClick = useCallback(
+  //   return () => {};
+  // }, [isMobile, isTablet, menuOpen]);
+
+  const onCloseIndicatorClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      setMenuOpen(prev => !prev);
+      closeMenu();
     },
-    []
+    [closeMenu]
   );
 
   const [internalSortOptionVal, setInternalSortOptionVal] = useState(
@@ -293,22 +321,36 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         onFocus={() => setMenuOpen(true)}
         onClick={() => setMenuOpen(true)}
         onMouseEnter={() => setMenuOpen(true)}
+        ref={menuRef}
       >
         <CenterContainer>
           <Text variant="heading2" as="h2" className="heading">
             Options
           </Text>
-          <ToggleIndicator
-            onClick={onToggleIndicatorClick}
+          <CloseIndicator
+            className="close-indicator"
+            onClick={onCloseIndicatorClick}
             tabIndex={menuOpen ? 0 : -1}
           >
             <img src={ChevronImg} alt="Chevron icon" />
-          </ToggleIndicator>
+          </CloseIndicator>
         </CenterContainer>
 
         {sortOption && (
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
-            <Text variant="heading4">Sort</Text>
+            <CenterContainer>
+              <Text variant="heading4">Sort</Text>
+              <Tooltip color="greyMedium">
+                <Text variant="body" as="div">
+                  When sorting by salary: companies are sorted by their median,
+                  whereas jobs are sorted by their average review salary.
+                </Text>
+                <br />
+                <Text variant="body" as="div">
+                  By default, reviews are sorted chronologically.
+                </Text>
+              </Tooltip>
+            </CenterContainer>
 
             <SortOptionSelect
               className="sort select"
@@ -375,32 +417,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           </TopContainer>
         )}
 
-        {/* {ratingOption && (
-          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
-            <Text variant="heading4">Rating</Text>
-            <VerticalAlignContainer>
-              <StarRating
-                maxStars={5}
-                filledStars={ratingOption.value[0] || 0}
-                className="rating min"
-              >
-                <Text variant="subheading" color="greyDark">
-                  min
-                </Text>
-              </StarRating>
-              <StarRating
-                maxStars={5}
-                filledStars={ratingOption.value[1] || 0}
-                className="rating max"
-              >
-                <Text variant="subheading" color="greyDark">
-                  max
-                </Text>
-              </StarRating>
-            </VerticalAlignContainer>
-          </TopContainer>
-        )} */}
-
         {salaryOption && (
           <div>
             <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
@@ -408,7 +424,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 <Text variant="heading4">Salary</Text>
                 <Tooltip color="greyMedium">
                   <Text variant="body">
-                    A range of hourly salary to search for.
+                    The minimum and maximum hourly salary to search for.
                   </Text>
                 </Tooltip>
               </CenterContainer>
@@ -472,6 +488,44 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               tabIndex={menuOpen ? 0 : -1}
             />
           </CenterContainer>
+        )}
+
+        {ratingOption && (
+          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
+            <Text variant="heading4">Rating</Text>
+            <VerticalAlignContainer>
+              <StarRating
+                className="rating min"
+                maxStars={5}
+                filledStars={internalRatingFilterOptionVal[0] || 0}
+                onClickStar={i =>
+                  setInternalRatingFilterOptionVal(prevVal => [
+                    i + 1,
+                    prevVal[1],
+                  ])
+                }
+              >
+                <Text variant="subheading" color="greyDark">
+                  min
+                </Text>
+              </StarRating>
+              <StarRating
+                className="rating max"
+                maxStars={5}
+                filledStars={internalRatingFilterOptionVal[1] || 0}
+                onClickStar={i =>
+                  setInternalRatingFilterOptionVal(prevVal => [
+                    prevVal[0],
+                    i + 1,
+                  ])
+                }
+              >
+                <Text variant="subheading" color="greyDark">
+                  max
+                </Text>
+              </StarRating>
+            </VerticalAlignContainer>
+          </TopContainer>
         )}
 
         <VerticalAlignContainer>

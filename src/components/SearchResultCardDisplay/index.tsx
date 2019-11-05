@@ -11,6 +11,8 @@ import {
   isJobCardItem,
   isReviewJobCardItem,
   isReviewUserCardItem,
+  IReviewJobCardItem,
+  IReviewUserCardItem,
 } from "src/shared/constants/card";
 
 import Text from "src/components/Text";
@@ -35,6 +37,8 @@ const NO_MORE_RESULTS_TEXT = "All results have been shown.";
 const ERROR_OCCURRED_TEXT = "An error occurred while searching.";
 const START_SEARCH_TEXT =
   "There's nothing here. Type something to get started!";
+const REVIEW_IS_NEW_THRESHOLD = 77760000000; // 2.5 years (30 months) in ms TODO: tweak this
+
 /**
  * Determines the mood of the planet illustration
  * that should be displayed in situations when normal
@@ -91,6 +95,17 @@ const getMiscContent = (
 
   return { mood, markup };
 };
+
+const getReviewCardTags = (review: IReviewJobCardItem | IReviewUserCardItem) =>
+  isReviewJobCardItem(review)
+    ? [
+        { label: "Review", bgColor: "greyMedium" },
+        ...(Number(new Date()) - Number(new Date(review.date)) <
+        REVIEW_IS_NEW_THRESHOLD
+          ? [{ label: "New", bgColor: "#ffdc76" }]
+          : []),
+      ]
+    : undefined;
 
 /**
  * Gets the unique routes for each type of card for navigating to details of that card
@@ -149,6 +164,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
     const subheading = isReviewJobCardItem(result)
       ? `${result.jobName}  •  ${result.jobLocation}`
       : result.relativeDate;
+    const tags = getReviewCardTags(result);
 
     return (
       <ResultReviewCard
@@ -158,6 +174,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
         rating={result.overallRating}
         color={result.color}
         linkTo={getReviewCardRoute(result.id)}
+        tags={tags}
       >
         <Text variant="body">{result.body}</Text>
       </ResultReviewCard>

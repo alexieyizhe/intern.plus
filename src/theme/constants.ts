@@ -23,6 +23,7 @@ const constants: { [style: string]: { [key: string]: string | number } } = {
     error: "#FF6166",
   },
   fontSize: {
+    [Size.XSMALL]: 12,
     [Size.SMALL]: 14,
     [Size.MEDIUM]: 18,
     [Size.LARGE]: 24,

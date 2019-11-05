@@ -61,6 +61,7 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
       slug: faker.helpers.slugify(companyName),
       desc: faker.company.catchPhrase(),
 
+      medianHourlySalary: NaN,
       minHourlySalary: Number.MAX_SAFE_INTEGER,
       maxHourlySalary: Number.MIN_SAFE_INTEGER,
       hourlySalaryCurrency: faker.random.arrayElement(["CAD", "USD", "EUR"]),
@@ -70,6 +71,7 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
         downloadUrl: companyImgUrl,
       },
       logoColor: getRandomColor(),
+      websiteUrl: faker.internet.url,
 
       numRatings: 0,
       totRating: 0,
@@ -152,9 +154,9 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
   return {
     __typename: "Review" as "Review",
     id: reviewId,
-    createdAt: faker.date.recent(100),
-    updatedAt: faker.date.recent(60),
-    legacyUpdatedAt: faker.date.recent(60),
+    createdAt: faker.date.recent(100).toString(),
+    updatedAt: faker.date.recent(60).toString(),
+    legacyUpdatedAt: faker.date.recent(60).toString(),
 
     author: faker.name.findName(),
     body: faker.hacker.phrase(),
@@ -270,6 +272,40 @@ MOCK_REVIEWS_LIST.forEach((review, i) => {
   corresCompany.avgWorkLifeBalanceRating = Math.round(
     corresCompany.totWorkLifeBalanceRating / corresCompany.reviews.count
   );
+});
+
+MOCK_COMPANIES_LIST.forEach((company, i) => {
+  const sortedHourlySalaries = (company.reviews.items as any).map(
+    (review: any) => {
+      let curHourlySalary;
+      if (review.salaryPeriod === "hourly") {
+        curHourlySalary = Math.round(review.salary);
+      } else if (review.salaryPeriod === "weekly") {
+        curHourlySalary = Math.round(review.salary / 40);
+      } else if (review.salaryPeriod === "monthly") {
+        curHourlySalary = Math.round(review.salary / 160);
+      }
+
+      return curHourlySalary;
+    }
+  );
+  sortedHourlySalaries.sort((a: number, b: number) => a - b);
+
+  let medianHourlySalary;
+
+  if (sortedHourlySalaries.length <= 0) {
+    medianHourlySalary = 0;
+  } else {
+    medianHourlySalary = Math.round(
+      sortedHourlySalaries.length % 2
+        ? sortedHourlySalaries[(sortedHourlySalaries.length - 1) / 2]
+        : (sortedHourlySalaries[sortedHourlySalaries.length / 2 - 1] +
+            sortedHourlySalaries[sortedHourlySalaries.length / 2]) /
+            2
+    );
+  }
+
+  company.medianHourlySalary = medianHourlySalary;
 });
 
 export const MOCK_COMPANIES = MOCK_COMPANIES_LIST.reduce(

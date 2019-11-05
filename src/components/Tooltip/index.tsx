@@ -26,7 +26,7 @@ const Indicator = styled.div`
     color: #fff;
   }
 
-  &:hover div {
+  &:hover > div {
     @keyframes fadeIn {
       0% {
         opacity: 0;
@@ -43,7 +43,7 @@ const Indicator = styled.div`
     animation: fadeIn 150ms ease-in-out;
   }
 
-  & div {
+  & > div {
     /* The tooltip */
     display: none;
     text-align: left;
@@ -61,7 +61,7 @@ const Indicator = styled.div`
     line-height: 1.4;
   }
 
-  & div:before {
+  & > div:before {
     display: none; /* get rid of this to show pointer */
     position: absolute;
     content: "";
@@ -73,7 +73,7 @@ const Indicator = styled.div`
     top: -12px;
   }
 
-  & div:after {
+  & > div:after {
     /* Prevents the tooltip from being hidden */
     width: 100%;
     height: 40px;
