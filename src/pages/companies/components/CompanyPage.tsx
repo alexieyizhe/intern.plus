@@ -9,6 +9,7 @@ import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
+import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { detailsPageStyles } from "src/theme/snippets";
@@ -102,6 +103,7 @@ const CompanyPage: React.FC = () => {
    * For search options menu
    */
   const sortOption = useSearchSort();
+  const salaryOption = useSearchSalaryFilter();
   const locationOption = useSearchLocationFilter(unfilteredResults);
 
   return (
@@ -122,6 +124,7 @@ const CompanyPage: React.FC = () => {
         <SearchOptionsMenu
           sortOption={sortOption}
           locationOption={locationOption}
+          salaryOption={salaryOption}
           onOptionChange={() => triggerSearchNew(undefined, true)}
         />
 

@@ -51,10 +51,21 @@ export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
     company(slug: $slug) {
       jobs(
         filter: {
-          OR: [
-            { name: { contains: $query } }
-            { location: { contains: $query } }
-            { hourlySalaryCurrency: { contains: $query } }
+          AND: [
+            {
+              OR: [
+                { name: { contains: $query } }
+                { location: { contains: $query } }
+                { hourlySalaryCurrency: { contains: $query } }
+              ]
+            },
+            { location: { in: $locations } }
+            {
+              AND: [
+                { minHourlySalary: { lte: $maxSalary } }
+                { maxHourlySalary: { gt: $minSalary } }
+              ]
+            },
           ]
         }
         sort: ${getSort(sort)}
