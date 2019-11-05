@@ -30,10 +30,20 @@ const getCompaniesSort = (sort?: SearchSort) => {
 const companiesQuery = ({ sort }: ISearchQueryBuilderOptions) => `
   companiesList(
     filter: {
-      OR: [
-        { name: { contains: $query } }, 
-        { desc: { contains: $query } }, 
-        { desc: { in: $locations } }
+      AND: [
+        {
+          OR: [
+            { name: { contains: $query } }, 
+            { desc: { contains: $query } }, 
+            { desc: { in: $locations } }
+          ]
+        },
+        {
+          AND: [
+            { minHourlySalary: { lte: $maxSalary } }
+            { maxHourlySalary: { gt: $minSalary } }
+          ]
+        },
       ]
     }
     sort: ${getCompaniesSort(sort)}
@@ -63,12 +73,18 @@ const jobsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
   jobsList(
     filter: {
       AND: [
-        { location: { in: $locations } }
         {
           OR: [
             { name: { contains: $query } }
             { company: { name: { contains: $query } } }
             { location: { contains: $query } }
+          ]
+        },
+        { location: { in: $locations } }
+        {
+          AND: [
+            { minHourlySalary: { lte: $maxSalary } }
+            { maxHourlySalary: { gt: $minSalary } }
           ]
         },
       ]
@@ -98,13 +114,19 @@ const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
   reviewsList(
     filter: {
       AND: [
-        { job: { location: { in: $locations } } }
         {
           OR: [
             { company: { name: { contains: $query } } }
             { job: { name: { contains: $query } } }
             { body: { contains: $query } }
             { tags: { contains: $query } }
+          ]
+        },
+        { job: { location: { in: $locations } } }
+        {
+          AND: [
+            { salary: { lte: $minSalary } }
+            { salary: { gte: $maxSalary } }
           ]
         },
       ]
@@ -141,7 +163,7 @@ const getQueryForType = (type?: SearchType) => {
 export const getSearchBuilder: SearchQueryBuilder = options => {
   const queryForType = getQueryForType(options.type);
   const QUERY_DEF = gql`
-    query GetSearch($query: String, $locations: [String!], $offset: Int, $limit: Int) {
+    query GetSearch($query: String, $locations: [String!], $minSalary: Int, $maxSalary: Int, $offset: Int, $limit: Int) {
       ${queryForType(options)}
     }
 

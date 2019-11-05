@@ -46,6 +46,8 @@ export interface CompanyResult {
    * Description of a company.
    */
   desc: string | null;
+  minHourlySalary: number | null;
+  maxHourlySalary: number | null;
   logoImg: CompanyResult_logoImg | null;
   /**
    * Average color of the company's logo, in HSL format.

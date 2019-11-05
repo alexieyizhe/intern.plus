@@ -1,10 +1,10 @@
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 
 export const useSearchSalaryFilter = () => {
-  const { salaryFilter, setSalaryFilter } = useSearchParams();
+  const { searchSalaryFilter, setSearchSalaryFilter } = useSearchParams();
 
   return {
-    value: salaryFilter || [],
-    onChange: setSalaryFilter,
+    value: searchSalaryFilter || [],
+    onChange: setSearchSalaryFilter,
   };
 };

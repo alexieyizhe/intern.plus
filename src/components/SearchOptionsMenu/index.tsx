@@ -33,13 +33,13 @@ export interface ISearchOptionsMenuProps
   };
 
   ratingOption?: {
-    value: (number | "")[];
-    onChange: (value: (number | "")[]) => void;
+    value: (number | undefined)[];
+    onChange: (value: (number | undefined)[]) => void;
   };
 
   salaryOption?: {
-    value: (number | "")[];
-    onChange: (value: (number | "")[]) => void;
+    value: (number | undefined)[];
+    onChange: (value: (number | undefined)[]) => void;
   };
 
   locationOption?: {
@@ -415,10 +415,12 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 <TextInput
                   type="number"
                   min={0}
-                  value={internalSalaryFilterOptionVal[0]}
+                  value={internalSalaryFilterOptionVal[0] || ""}
                   onChange={e => {
-                    const val = parseInt(e.target.value);
-                    if (!isNaN(val) || !e.target.value) {
+                    const val = e.target.value
+                      ? parseInt(e.target.value)
+                      : undefined;
+                    if (val === undefined || !isNaN(val)) {
                       setInternalSalaryFilterOptionVal(prevVal => [
                         val,
                         prevVal[1],
@@ -435,13 +437,15 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               <SalaryInput
                 type="number"
                 min={0}
-                value={internalSalaryFilterOptionVal[1]}
+                value={internalSalaryFilterOptionVal[1] || ""}
                 onChange={e => {
-                  const val = parseInt(e.target.value);
-                  if (!isNaN(val)) {
+                  const val = e.target.value
+                    ? parseInt(e.target.value)
+                    : undefined;
+                  if (val === undefined || !isNaN(val)) {
                     setInternalSalaryFilterOptionVal(prevVal => [
-                      val,
                       prevVal[0],
+                      val,
                     ]);
                   }
                 }}

@@ -49,6 +49,7 @@ export const useSearch = <TData>(
   const {
     searchQuery,
     searchLocationFilter,
+    searchSalaryFilter,
     setSearchQuery,
   } = useSearchParams();
   const [searchState, setSearchState] = useState(SearchState.INITIAL);
@@ -74,6 +75,8 @@ export const useSearch = <TData>(
       locations:
         searchLocationFilter &&
         searchLocationFilter.map(val => LOCATION_MAP[val].label),
+      minSalary: searchSalaryFilter && searchSalaryFilter[0],
+      maxSalary: searchSalaryFilter && searchSalaryFilter[1],
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
       ...(options.variables || {}),
@@ -183,10 +186,6 @@ export const useSearch = <TData>(
 
     return results;
   }, [searchLocationFilter, unfilteredResults]);
-
-  // useEffect(() => {
-  //   triggerSearchNew(searchQuery, true);
-  // }, [searchSort, searchType]); // eslint-disable-line
 
   /**
    * *Track the state of searching*.

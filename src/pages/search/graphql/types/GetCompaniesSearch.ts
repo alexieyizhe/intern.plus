@@ -46,6 +46,8 @@ export interface GetCompaniesSearch_companiesList_items {
    * Description of a company.
    */
   desc: string | null;
+  minHourlySalary: number | null;
+  maxHourlySalary: number | null;
   logoImg: GetCompaniesSearch_companiesList_items_logoImg | null;
   /**
    * Average color of the company's logo, in HSL format.

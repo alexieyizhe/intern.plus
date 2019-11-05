@@ -44,12 +44,12 @@ export const useSearchParams = () => {
     SearchParamKey.SALARY_FILTER,
     StringParam
   );
-  const { salaryFilter, setSalaryFilter } = useMemo(
+  const { searchSalaryFilter, setSearchSalaryFilter } = useMemo(
     () => ({
-      salaryFilter: salaryFilterStrArr
-        ? salaryFilterStrArr.split(",").map(n => n && parseInt(n))
+      searchSalaryFilter: salaryFilterStrArr
+        ? salaryFilterStrArr.split(",").map(n => (n ? parseInt(n) : undefined))
         : undefined,
-      setSalaryFilter: (value?: (number | "")[]) =>
+      setSearchSalaryFilter: (value?: (number | undefined)[]) =>
         setSalaryFilterStrArr(
           value && (value[0] || value[1])
             ? `${value[0] || ""},${value[1] || ""}`
@@ -75,7 +75,7 @@ export const useSearchParams = () => {
     searchLocationFilter,
     setSearchLocationFilter,
 
-    salaryFilter,
-    setSalaryFilter,
+    searchSalaryFilter,
+    setSearchSalaryFilter,
   };
 };

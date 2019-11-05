@@ -14,6 +14,8 @@ export interface ISlugQueryParam {
 
 export interface ISearchQueryParams {
   query: string;
+  minSalary?: number;
+  maxSalary?: number;
   locations: string[];
   offset: number;
   limit: number;
@@ -58,6 +60,10 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
       name: companyName,
       slug: faker.helpers.slugify(companyName),
       desc: faker.company.catchPhrase(),
+
+      minHourlySalary: Number.MAX_SAFE_INTEGER,
+      maxHourlySalary: Number.MIN_SAFE_INTEGER,
+      hourlySalaryCurrency: faker.random.arrayElement(["CAD", "USD", "EUR"]),
 
       logoImg: {
         __typename: "File" as "File",
@@ -238,6 +244,16 @@ MOCK_REVIEWS_LIST.forEach((review, i) => {
   review.company = corresCompany;
   corresCompany.reviews.count++;
   (corresCompany.reviews.items as any[]).push(review);
+
+  corresCompany.minHourlySalary = Math.min(
+    corresCompany.minHourlySalary,
+    reviewHourlySalary
+  );
+  corresCompany.maxHourlySalary = Math.max(
+    corresCompany.maxHourlySalary,
+    reviewHourlySalary
+  );
+
   corresCompany.totRating += review.overallRating;
   corresCompany.avgRating = Math.round(
     corresCompany.totRating / corresCompany.reviews.count
