@@ -55,7 +55,8 @@ const MENU_WIDTH = 400;
 const MENU_WIDTH_MOBILE = 320;
 
 const Parent = styled.div<{ menuOpen: boolean }>`
-  position: fixed;
+  position: absolute;
+  height: 100%;
   right: 0;
   padding-top: 40px;
 
@@ -77,7 +78,7 @@ const Parent = styled.div<{ menuOpen: boolean }>`
 
 const Container = styled(Card)<{ menuOpen: boolean }>`
   position: sticky;
-  top: ${HEADER_HEIGHT + 20}px;
+  top: ${HEADER_HEIGHT + 75}px;
 
   width: ${MENU_WIDTH}px;
   padding: 30px 45px;
