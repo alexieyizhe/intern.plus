@@ -57,52 +57,20 @@ const MENU_WIDTH = 400;
 const MENU_WIDTH_MOBILE = 320;
 const MIN_WIDTH_TO_DISABLE_COLLAPSE = 1800;
 
-const Parent = styled.div<{ menuOpen: boolean }>`
-  position: absolute;
-  height: 100%;
-  right: 0;
-  padding-top: 40px;
-
-  z-index: 2;
-  transition: transform 150ms;
-  transform: ${({ menuOpen }) =>
-    menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH - 65}px)`};
-
-  ${({ theme }) => theme.mediaQueries.tablet`
-    padding-top: 30px;
-  `}
-
-  ${({ theme, menuOpen }) => theme.mediaQueries.largeMobile`
-    transform: ${
-      menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
-    };
-  `}
-
-  @media (min-width: ${MIN_WIDTH_TO_DISABLE_COLLAPSE}px) {
-    transform: ${({ menuOpen }) =>
-      menuOpen ? `translateX(240px)` : `translateX(${MENU_WIDTH - 65}px)`};
-
-    & .close-indicator {
-      display: none;
-    }
-  }
-
-  @media (min-width: 2000px) {
-    transform: ${({ menuOpen }) =>
-      menuOpen
-        ? `translateX(${MENU_WIDTH - 65}px)`
-        : `translateX(${MENU_WIDTH - 65}px)`};
-  }
-`;
-
 const Container = styled(Card)<{ menuOpen: boolean }>`
-  position: sticky;
-  top: ${HEADER_HEIGHT + 75}px;
+  position: fixed;
+  top: ${HEADER_HEIGHT + 80}px;
+  right: 0;
   width: ${MENU_WIDTH}px;
   padding: 30px 45px;
 
   cursor: ${({ menuOpen }) => (menuOpen ? "initial" : "pointer")};
   box-shadow: ${({ theme }) => theme.boxShadow.hover};
+
+  z-index: ${({ theme }) => theme.zIndex.header - 1};
+  transition: transform 150ms;
+  transform: ${({ menuOpen }) =>
+    menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH - 65}px)`};
 
   &.mobile-menu-open {
     top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 20}px;
@@ -134,9 +102,33 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
     margin-left: 5px;
   }
 
+  @media (min-width: ${MIN_WIDTH_TO_DISABLE_COLLAPSE}px) {
+    transform: ${({ menuOpen }) =>
+      menuOpen ? `translateX(240px)` : `translateX(${MENU_WIDTH - 65}px)`};
+
+    & .close-indicator {
+      display: none;
+    }
+  }
+
+  @media (min-width: 2000px) {
+    transform: ${({ menuOpen }) =>
+      menuOpen
+        ? `translateX(${MENU_WIDTH - 65}px)`
+        : `translateX(${MENU_WIDTH - 65}px)`};
+  }
+
+  ${({ theme }) => theme.mediaQueries.tablet`
+    padding-top: 30px;
+  `}
+
   ${({ theme, menuOpen }) => theme.mediaQueries.largeMobile`
     width: ${MENU_WIDTH_MOBILE}px;
     padding: 20px 30px;    
+
+    transform: ${
+      menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH_MOBILE - 45}px)`
+    };
 
     & > * {
       margin-bottom: 5px;
@@ -236,17 +228,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   const menuRef = useRef<HTMLDivElement | null>(null);
   useOnClickOutside(menuRef, closeMenu);
 
-  // useEffect(() => {
-  //   if (menuOpen && (isTablet || isMobile)) {
-  //     const closeMenuOnScroll = ;
-  //     window.addEventListener("scroll", closeMenuOnScroll, { passive: true });
-
-  //     return () => window.removeEventListener("scroll", closeMenuOnScroll);
-  //   }
-
-  //   return () => {};
-  // }, [isMobile, isTablet, menuOpen]);
-
   const onCloseIndicatorClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -310,232 +291,224 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   };
 
   return (
-    <Parent menuOpen={menuOpen}>
-      <Container
-        className={classNames("options-menu", className, {
-          "mobile-menu-open": mobileMenuOpen,
-        })}
-        color="greyLight"
-        menuOpen={menuOpen}
-        onFocus={() => setMenuOpen(true)}
-        onClick={() => setMenuOpen(true)}
-        onMouseEnter={() => setMenuOpen(true)}
-        ref={menuRef}
-      >
-        <CenterContainer>
-          <Text variant="heading2" as="h2" className="heading">
-            Options
-          </Text>
-          <CloseIndicator
-            className="close-indicator"
-            onClick={onCloseIndicatorClick}
-            tabIndex={menuOpen ? 0 : -1}
-          >
-            <img src={ChevronImg} alt="Chevron icon" />
-          </CloseIndicator>
-        </CenterContainer>
+    <Container
+      className={classNames("options-menu", className, {
+        "mobile-menu-open": mobileMenuOpen,
+      })}
+      color="greyLight"
+      menuOpen={menuOpen}
+      onFocus={() => setMenuOpen(true)}
+      onClick={() => setMenuOpen(true)}
+      onMouseEnter={() => setMenuOpen(true)}
+      ref={menuRef}
+    >
+      <CenterContainer>
+        <Text variant="heading2" as="h2" className="heading">
+          Options
+        </Text>
+        <CloseIndicator
+          className="close-indicator"
+          onClick={onCloseIndicatorClick}
+          tabIndex={menuOpen ? 0 : -1}
+        >
+          <img src={ChevronImg} alt="Chevron icon" />
+        </CloseIndicator>
+      </CenterContainer>
 
-        {sortOption && (
+      {sortOption && (
+        <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
+          <CenterContainer>
+            <Text variant="heading4">Sort</Text>
+            <Tooltip color="greyMedium">
+              <Text variant="body" as="div">
+                When sorting by salary: companies are sorted by their median,
+                whereas jobs are sorted by their average review salary.
+              </Text>
+              <br />
+              <Text variant="body" as="div">
+                By default, reviews are sorted chronologically.
+              </Text>
+            </Tooltip>
+          </CenterContainer>
+
+          <SortOptionSelect
+            className="sort select"
+            color="white"
+            placeholder="by..."
+            options={sortOption.options}
+            value={internalSortOptionVal}
+            onChange={setInternalSortOptionVal}
+            tabIndex={menuOpen ? 0 : -1}
+          />
+        </CenterContainer>
+      )}
+
+      {typeOption && (
+        <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
+          <Text variant="heading4">Type</Text>
+          <VerticalAlignContainer>
+            <TypeCheckbox
+              className="type checkbox companies"
+              color="white"
+              checked={internalTypeOptionVal === SearchType.COMPANIES}
+              onChange={e =>
+                setInternalTypeOptionVal(
+                  e.target.checked ? SearchType.COMPANIES : undefined
+                )
+              }
+              tabIndex={menuOpen ? 0 : -1}
+            >
+              <Text variant="subheading" color="greyDark">
+                companies only
+              </Text>
+            </TypeCheckbox>
+            <TypeCheckbox
+              className="type checkbox jobs"
+              color="white"
+              checked={internalTypeOptionVal === SearchType.JOBS}
+              onChange={e =>
+                setInternalTypeOptionVal(
+                  e.target.checked ? SearchType.JOBS : undefined
+                )
+              }
+              tabIndex={menuOpen ? 0 : -1}
+            >
+              <Text variant="subheading" color="greyDark">
+                positions only
+              </Text>
+            </TypeCheckbox>
+            <TypeCheckbox
+              className="type checkbox reviews"
+              color="white"
+              checked={internalTypeOptionVal === SearchType.REVIEWS}
+              onChange={e =>
+                setInternalTypeOptionVal(
+                  e.target.checked ? SearchType.REVIEWS : undefined
+                )
+              }
+              tabIndex={menuOpen ? 0 : -1}
+            >
+              <Text variant="subheading" color="greyDark">
+                reviews only
+              </Text>
+            </TypeCheckbox>
+          </VerticalAlignContainer>
+        </TopContainer>
+      )}
+
+      {salaryOption && (
+        <div>
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <CenterContainer>
-              <Text variant="heading4">Sort</Text>
+              <Text variant="heading4">Salary</Text>
               <Tooltip color="greyMedium">
-                <Text variant="body" as="div">
-                  When sorting by salary: companies are sorted by their median,
-                  whereas jobs are sorted by their average review salary.
-                </Text>
-                <br />
-                <Text variant="body" as="div">
-                  By default, reviews are sorted chronologically.
+                <Text variant="body">
+                  The minimum and maximum hourly salary to search for.
                 </Text>
               </Tooltip>
             </CenterContainer>
-
-            <SortOptionSelect
-              className="sort select"
-              color="white"
-              placeholder="by..."
-              options={sortOption.options}
-              value={internalSortOptionVal}
-              onChange={setInternalSortOptionVal}
-              tabIndex={menuOpen ? 0 : -1}
-            />
-          </CenterContainer>
-        )}
-
-        {typeOption && (
-          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
-            <Text variant="heading4">Type</Text>
             <VerticalAlignContainer>
-              <TypeCheckbox
-                className="type checkbox companies"
-                color="white"
-                checked={internalTypeOptionVal === SearchType.COMPANIES}
-                onChange={e =>
-                  setInternalTypeOptionVal(
-                    e.target.checked ? SearchType.COMPANIES : undefined
-                  )
-                }
-                tabIndex={menuOpen ? 0 : -1}
-              >
-                <Text variant="subheading" color="greyDark">
-                  companies only
-                </Text>
-              </TypeCheckbox>
-              <TypeCheckbox
-                className="type checkbox jobs"
-                color="white"
-                checked={internalTypeOptionVal === SearchType.JOBS}
-                onChange={e =>
-                  setInternalTypeOptionVal(
-                    e.target.checked ? SearchType.JOBS : undefined
-                  )
-                }
-                tabIndex={menuOpen ? 0 : -1}
-              >
-                <Text variant="subheading" color="greyDark">
-                  positions only
-                </Text>
-              </TypeCheckbox>
-              <TypeCheckbox
-                className="type checkbox reviews"
-                color="white"
-                checked={internalTypeOptionVal === SearchType.REVIEWS}
-                onChange={e =>
-                  setInternalTypeOptionVal(
-                    e.target.checked ? SearchType.REVIEWS : undefined
-                  )
-                }
-                tabIndex={menuOpen ? 0 : -1}
-              >
-                <Text variant="subheading" color="greyDark">
-                  reviews only
-                </Text>
-              </TypeCheckbox>
-            </VerticalAlignContainer>
-          </TopContainer>
-        )}
-
-        {salaryOption && (
-          <div>
-            <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
-              <CenterContainer>
-                <Text variant="heading4">Salary</Text>
-                <Tooltip color="greyMedium">
-                  <Text variant="body">
-                    The minimum and maximum hourly salary to search for.
-                  </Text>
-                </Tooltip>
-              </CenterContainer>
-              <VerticalAlignContainer>
-                <TextInput
-                  type="number"
-                  min={0}
-                  value={internalSalaryFilterOptionVal[0] || ""}
-                  onChange={e => {
-                    const val = e.target.value
-                      ? parseInt(e.target.value)
-                      : undefined;
-                    if (val === undefined || !isNaN(val)) {
-                      setInternalSalaryFilterOptionVal(prevVal => [
-                        val,
-                        prevVal[1],
-                      ]);
-                    }
-                  }}
-                  color="white"
-                  placeholder="min"
-                  className="salaryMin input"
-                />
-              </VerticalAlignContainer>
-            </CenterContainer>
-            <VerticalAlignContainer>
-              <SalaryInput
+              <TextInput
                 type="number"
                 min={0}
-                value={internalSalaryFilterOptionVal[1] || ""}
+                value={internalSalaryFilterOptionVal[0] || ""}
                 onChange={e => {
                   const val = e.target.value
                     ? parseInt(e.target.value)
                     : undefined;
                   if (val === undefined || !isNaN(val)) {
                     setInternalSalaryFilterOptionVal(prevVal => [
-                      prevVal[0],
                       val,
+                      prevVal[1],
                     ]);
                   }
                 }}
                 color="white"
-                placeholder="max"
-                className="salaryMax input"
+                placeholder="min"
+                className="salaryMin input"
               />
             </VerticalAlignContainer>
-          </div>
-        )}
-
-        {locationOption && (
-          <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
-            <Text variant="heading4">Location</Text>
-            <SortOptionSelect
-              className="location select"
-              color="white"
-              placeholder="California"
-              isMulti
-              value={internalLocationFilterOptionVal}
-              options={locationOption.options}
-              onChange={setInternalLocationFilterOptionVal}
-              tabIndex={menuOpen ? 0 : -1}
-            />
           </CenterContainer>
-        )}
-
-        {ratingOption && (
-          <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
-            <Text variant="heading4">Rating</Text>
-            <VerticalAlignContainer>
-              <StarRating
-                className="rating min"
-                maxStars={5}
-                filledStars={internalRatingFilterOptionVal[0] || 0}
-                onClickStar={i =>
-                  setInternalRatingFilterOptionVal(prevVal => [
-                    i + 1,
-                    prevVal[1],
-                  ])
-                }
-              >
-                <Text variant="subheading" color="greyDark">
-                  min
-                </Text>
-              </StarRating>
-              <StarRating
-                className="rating max"
-                maxStars={5}
-                filledStars={internalRatingFilterOptionVal[1] || 0}
-                onClickStar={i =>
-                  setInternalRatingFilterOptionVal(prevVal => [
+          <VerticalAlignContainer>
+            <SalaryInput
+              type="number"
+              min={0}
+              value={internalSalaryFilterOptionVal[1] || ""}
+              onChange={e => {
+                const val = e.target.value
+                  ? parseInt(e.target.value)
+                  : undefined;
+                if (val === undefined || !isNaN(val)) {
+                  setInternalSalaryFilterOptionVal(prevVal => [
                     prevVal[0],
-                    i + 1,
-                  ])
+                    val,
+                  ]);
                 }
-              >
-                <Text variant="subheading" color="greyDark">
-                  max
-                </Text>
-              </StarRating>
-            </VerticalAlignContainer>
-          </TopContainer>
-        )}
+              }}
+              color="white"
+              placeholder="max"
+              className="salaryMax input"
+            />
+          </VerticalAlignContainer>
+        </div>
+      )}
 
-        <VerticalAlignContainer>
-          <Button onClick={apply} color="greenDark" className="apply-button">
-            <Text variant="subheading" color="white">
-              Apply
-            </Text>
-          </Button>
-        </VerticalAlignContainer>
-      </Container>
-    </Parent>
+      {locationOption && (
+        <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
+          <Text variant="heading4">Location</Text>
+          <SortOptionSelect
+            className="location select"
+            color="white"
+            placeholder="California"
+            isMulti
+            value={internalLocationFilterOptionVal}
+            options={locationOption.options}
+            onChange={setInternalLocationFilterOptionVal}
+            tabIndex={menuOpen ? 0 : -1}
+          />
+        </CenterContainer>
+      )}
+
+      {ratingOption && (
+        <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
+          <Text variant="heading4">Rating</Text>
+          <VerticalAlignContainer>
+            <StarRating
+              className="rating min"
+              maxStars={5}
+              filledStars={internalRatingFilterOptionVal[0] || 0}
+              onClickStar={i =>
+                setInternalRatingFilterOptionVal(prevVal => [i + 1, prevVal[1]])
+              }
+            >
+              <Text variant="subheading" color="greyDark">
+                min
+              </Text>
+            </StarRating>
+            <StarRating
+              className="rating max"
+              maxStars={5}
+              filledStars={internalRatingFilterOptionVal[1] || 0}
+              onClickStar={i =>
+                setInternalRatingFilterOptionVal(prevVal => [prevVal[0], i + 1])
+              }
+            >
+              <Text variant="subheading" color="greyDark">
+                max
+              </Text>
+            </StarRating>
+          </VerticalAlignContainer>
+        </TopContainer>
+      )}
+
+      <VerticalAlignContainer>
+        <Button onClick={apply} color="greenDark" className="apply-button">
+          <Text variant="subheading" color="white">
+            Apply
+          </Text>
+        </Button>
+      </VerticalAlignContainer>
+    </Container>
   );
 };
 

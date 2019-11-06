@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 
 export const useWindowScrollPos = () => {
-  const [scrollPos, setScrollPos] = useState([
-    window.pageXOffset,
-    window.pageYOffset,
-  ]);
+  const [scrollPos, setScrollPos] = useState({
+    scrollX: window.pageXOffset,
+    scrollY: window.pageYOffset,
+  });
 
   const handleScroll = useCallback(() => {
-    setScrollPos([window.pageXOffset, window.pageYOffset]);
+    setScrollPos({ scrollX: window.pageXOffset, scrollY: window.pageYOffset });
   }, []);
 
   useEffect(() => {
