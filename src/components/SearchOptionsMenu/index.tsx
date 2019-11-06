@@ -102,20 +102,16 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
     margin-left: 5px;
   }
 
-  @media (min-width: ${MIN_WIDTH_TO_DISABLE_COLLAPSE}px) {
-    transform: ${({ menuOpen }) =>
-      menuOpen ? `translateX(240px)` : `translateX(${MENU_WIDTH - 65}px)`};
+  @media (min-width: 2000px) {
+    transform: translateX(-150px);
+  }
 
+  @media (min-width: ${MIN_WIDTH_TO_DISABLE_COLLAPSE}px) {
+    top: ${HEADER_HEIGHT + 150}px;
+    transform: translateX(-60px);
     & .close-indicator {
       display: none;
     }
-  }
-
-  @media (min-width: 2000px) {
-    transform: ${({ menuOpen }) =>
-      menuOpen
-        ? `translateX(${MENU_WIDTH - 65}px)`
-        : `translateX(${MENU_WIDTH - 65}px)`};
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
