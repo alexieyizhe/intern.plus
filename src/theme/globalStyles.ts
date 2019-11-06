@@ -14,6 +14,11 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  .App {
+    position: relative;
+    overflow: hidden;
+  }
   
   *, *:before, *:after {
     box-sizing: inherit;

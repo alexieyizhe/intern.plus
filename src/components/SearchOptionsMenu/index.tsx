@@ -98,7 +98,6 @@ const Parent = styled.div<{ menuOpen: boolean }>`
 const Container = styled(Card)<{ menuOpen: boolean }>`
   position: sticky;
   top: ${HEADER_HEIGHT + 75}px;
-
   width: ${MENU_WIDTH}px;
   padding: 30px 45px;
 
