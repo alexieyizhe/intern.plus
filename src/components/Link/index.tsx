@@ -9,8 +9,9 @@ export interface ILinkProps extends React.ComponentPropsWithoutRef<"a"> {
   bare?: boolean;
 }
 
-const baseLinkStyles = css`
+export const baseLinkStyles = css`
   color: inherit;
+  cursor: pointer;
 
   text-decoration-color: ${({ theme }) => theme.color.greyLight};
   text-decoration: underline;

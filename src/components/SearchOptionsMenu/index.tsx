@@ -20,6 +20,7 @@ import Select from "src/components/Select";
 import Checkbox from "src/components/Checkbox";
 import StarRating from "src/components/StarRating";
 import { HEADER_HEIGHT, MOBILE_MENU_HEIGHT } from "src/components/PageHeader";
+import { baseLinkStyles } from "src/components/Link";
 
 export interface ISearchOptionsMenuProps
   extends React.ComponentPropsWithoutRef<"div"> {
@@ -192,6 +193,20 @@ const SalaryInput = styled(TextInput)`
   margin-top: 7px;
 `;
 
+const ActionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > * {
+    margin-top: 5px;
+  }
+
+  & .reset-options-button {
+    ${baseLinkStyles}
+  }
+`;
+
 const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   className,
   sortOption,
@@ -254,7 +269,16 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     setInternalLocationFilterOptionVal,
   ] = useState((locationOption && locationOption.value) || []);
 
-  const apply = () => {
+  const resetOptions = () => {
+    setInternalSortOptionVal(undefined);
+    setInternalTypeOptionVal(undefined);
+    setInternalRatingFilterOptionVal([]);
+    setInternalSalaryFilterOptionVal([]);
+    setInternalLocationFilterOptionVal([]);
+  };
+
+  console.log(internalSortOptionVal);
+  const applyOptions = () => {
     let optionsChanged = false;
     if (sortOption && internalSortOptionVal !== sortOption.value) {
       optionsChanged = true;
@@ -347,7 +371,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             color="white"
             placeholder="by..."
             options={sortOption.options}
-            value={internalSortOptionVal}
+            value={internalSortOptionVal || ""}
             onChange={setInternalSortOptionVal}
             tabIndex={menuOpen ? 0 : -1}
           />
@@ -512,13 +536,23 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         </TopContainer>
       )}
 
-      <VerticalAlignContainer>
-        <Button onClick={apply} color="greenDark" className="apply-button">
+      <ActionContainer>
+        <Button
+          onClick={applyOptions}
+          color="greenDark"
+          className="apply-button"
+        >
           <Text variant="subheading" color="white">
             Apply
           </Text>
         </Button>
-      </VerticalAlignContainer>
+
+        <UnstyledButton onClick={resetOptions} className="reset-options-button">
+          <Text variant="subheading" color="greyDark">
+            reset all
+          </Text>
+        </UnstyledButton>
+      </ActionContainer>
     </Container>
   );
 };

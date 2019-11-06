@@ -32,7 +32,7 @@ const Container = styled(Card)`
     grid-template-areas:
       "heading     rating"
       "subheading  subheading"
-      "contents    contents";
+      "contents    contents"
       "tags        tags";
 
     color: inherit;
@@ -133,7 +133,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
         {tags && (
           <div className="tags">
             {tags.map(({ label, bgColor, color }) => (
-              <Tag color={bgColor}>
+              <Tag key={label} color={bgColor}>
                 <Text size={12} bold={500} color={color}>
                   {label}
                 </Text>
