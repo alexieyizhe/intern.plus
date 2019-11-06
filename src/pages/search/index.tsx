@@ -8,6 +8,7 @@ import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
 import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
+import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearchType } from "src/shared/hooks/useSearchType";
 import { useSearch } from "src/shared/hooks/useSearch";
@@ -137,6 +138,7 @@ const SearchPage: React.FC = () => {
   const typeOption = useSearchType();
   const salaryOption = useSearchSalaryFilter();
   const locationOption = useSearchLocationFilter(unfilteredResults);
+  const ratingOption = useSearchRatingFilter();
 
   return (
     <>
@@ -159,6 +161,7 @@ const SearchPage: React.FC = () => {
           typeOption={typeOption}
           salaryOption={salaryOption}
           locationOption={locationOption}
+          ratingOption={ratingOption}
           onOptionChange={() => triggerSearchNew(searchQuery, true)}
         />
 

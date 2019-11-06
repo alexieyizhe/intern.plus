@@ -10,6 +10,7 @@ import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
 import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
+import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { detailsPageStyles } from "src/theme/snippets";
@@ -105,6 +106,7 @@ const CompanyPage: React.FC = () => {
   const sortOption = useSearchSort();
   const salaryOption = useSearchSalaryFilter();
   const locationOption = useSearchLocationFilter(unfilteredResults);
+  const ratingOption = useSearchRatingFilter();
 
   return (
     <>
@@ -125,6 +127,7 @@ const CompanyPage: React.FC = () => {
           sortOption={sortOption}
           locationOption={locationOption}
           salaryOption={salaryOption}
+          ratingOption={ratingOption}
           onOptionChange={() => triggerSearchNew(undefined, true)}
         />
 

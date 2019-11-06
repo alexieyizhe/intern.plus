@@ -140,7 +140,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
     state: { mobileMenuOpen },
   } = useSiteContext();
 
-  const [, scrollY] = useWindowScrollPos();
+  const { scrollY } = useWindowScrollPos();
   const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
 
   const { searchQuery } = useSearchParams();

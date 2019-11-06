@@ -201,7 +201,7 @@ const Header: React.FC = () => {
   /**
    * Used to show the drop shadow if scrolled down on page.
    */
-  const [, scrollY] = useWindowScrollPos();
+  const { scrollY } = useWindowScrollPos();
   const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
 
   /**

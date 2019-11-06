@@ -16,6 +16,8 @@ export interface ISearchQueryParams {
   query: string;
   minSalary?: number;
   maxSalary?: number;
+  minRating?: number;
+  maxRating?: number;
   locations: string[];
   offset: number;
   limit: number;

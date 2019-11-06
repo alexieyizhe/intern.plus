@@ -25,7 +25,7 @@ export const useSearchParams = () => {
     StringParam
   );
 
-  const [ratingFilterStrArr, setratingFilterStrArr] = useQueryParam(
+  const [ratingFilterStrArr, setRatingFilterStrArr] = useQueryParam(
     SearchParamKey.RATING_FILTER,
     StringParam
   );
@@ -35,13 +35,13 @@ export const useSearchParams = () => {
         ? ratingFilterStrArr.split(",").map(n => (n ? parseInt(n) : undefined))
         : undefined,
       setSearchRatingFilter: (value?: (number | undefined)[]) =>
-        setratingFilterStrArr(
+        setRatingFilterStrArr(
           value && (value[0] || value[1])
             ? `${value[0] || ""},${value[1] || ""}`
             : undefined
         ),
     }),
-    [ratingFilterStrArr, setratingFilterStrArr]
+    [ratingFilterStrArr, setRatingFilterStrArr]
   );
 
   const [salaryFilterStrArr, setSalaryFilterStrArr] = useQueryParam(
@@ -64,7 +64,7 @@ export const useSearchParams = () => {
   );
 
   const [searchLocationFilter, setSearchLocationFilter] = useQueryParam(
-    SearchParamKey.RATING_FILTER,
+    SearchParamKey.LOCATION_FILTER,
     ArrayParam
   );
 

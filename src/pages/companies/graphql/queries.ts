@@ -43,13 +43,13 @@ const getSort = (sort?: SearchSort) => {
 
 export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
   query GetCompanyJobs(
-    $slug: String
-    $query: String
-    $locations: [String!]
-    $minSalary: Int
-    $maxSalary: Int
-    $offset: Int
-    $limit: Int
+    $slug: String,
+    $query: String,
+    $locations: [String!],
+    $minSalary: Int, $maxSalary: Int,
+    $minRating: Float, $maxRating: Float,
+    $offset: Int,
+    $limit: Int,
   ) {
     company(slug: $slug) {
       jobs(
@@ -67,6 +67,12 @@ export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
               AND: [
                 { minHourlySalary: { lte: $maxSalary } }
                 { maxHourlySalary: { gt: $minSalary } }
+              ]
+            },
+            {
+              AND: [
+                { avgRating: { lte: $maxRating } }
+                { avgRating: { gte: $minRating } }
               ]
             },
           ]

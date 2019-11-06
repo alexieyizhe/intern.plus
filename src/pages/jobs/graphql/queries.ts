@@ -45,7 +45,14 @@ const getSortStr = (sort?: SearchSort) => {
 };
 
 export const getJobReviewsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
-  query GetJobReviews($id: ID, $minSalary: Int, $maxSalary: Int, $query: String, $offset: Int, $limit: Int) {
+  query GetJobReviews(
+    $id: ID, 
+    $query: String,
+    $minSalary: Int, $maxSalary: Int,  
+    $minRating: Float, $maxRating: Float,
+    $offset: Int, 
+    $limit: Int
+  ) {
     job(id: $id) {
       reviews(
         filter: {
@@ -60,6 +67,12 @@ export const getJobReviewsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
               AND: [
                 { salary: { gte: $minSalary } }
                 { salary: { lte: $maxSalary } }
+              ]
+            },
+            {
+              AND: [
+                { overallRating: { lte: $maxRating } }
+                { overallRating: { gte: $minRating } }
               ]
             },
           ]
