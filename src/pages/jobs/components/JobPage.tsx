@@ -8,6 +8,7 @@ import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
+import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
 import { useSearch } from "src/shared/hooks/useSearch";
 
 import { detailsPageStyles } from "src/theme/snippets";
@@ -97,6 +98,7 @@ const JobPage: React.FC = () => {
    */
   const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]);
   const salaryOption = useSearchSalaryFilter();
+  const ratingOption = useSearchRatingFilter();
 
   return (
     <>
@@ -120,6 +122,7 @@ const JobPage: React.FC = () => {
         <SearchOptionsMenu
           sortOption={sortOption}
           salaryOption={salaryOption}
+          ratingOption={ratingOption}
           onOptionChange={() => triggerSearchNew(undefined, true)}
         />
 

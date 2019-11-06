@@ -17,6 +17,8 @@ export const getMockJobReviews = (
     query,
     minSalary,
     maxSalary,
+    minRating,
+    maxRating,
     offset,
     limit,
   }: IIdQueryParam & ISearchQueryParams,
@@ -44,10 +46,12 @@ export const getMockJobReviews = (
   const filteredReviews = MOCK_JOBS[id].reviews.items
     .filter(
       (review: any) =>
-        review.salary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
-        review.salary >= (minSalary || Number.MIN_SAFE_INTEGER) &&
         (review.body.toLowerCase().includes(normalizedQuery) ||
-          review.tags.toLowerCase().includes(normalizedQuery))
+          review.tags.toLowerCase().includes(normalizedQuery)) &&
+        review.overallRating <= (maxRating || Number.MAX_SAFE_INTEGER) &&
+        review.overallRating >= (minRating || Number.MIN_SAFE_INTEGER) &&
+        review.salary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
+        review.salary >= (minSalary || Number.MIN_SAFE_INTEGER)
     )
     .sort(sortFn)
     .slice(offset, offset + limit);
