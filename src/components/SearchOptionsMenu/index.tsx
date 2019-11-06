@@ -277,7 +277,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     setInternalLocationFilterOptionVal([]);
   };
 
-  console.log(internalSortOptionVal);
   const applyOptions = () => {
     let optionsChanged = false;
     if (sortOption && internalSortOptionVal !== sortOption.value) {

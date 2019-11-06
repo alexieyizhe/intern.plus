@@ -22,6 +22,8 @@ export const getMockCompanyJobs = (
     locations,
     minSalary,
     maxSalary,
+    minRating,
+    maxRating,
     offset,
     limit,
   }: ISlugQueryParam & ISearchQueryParams,
@@ -49,12 +51,14 @@ export const getMockCompanyJobs = (
   const filteredJobs = MOCK_COMPANIES[slug].jobs.items
     .filter(
       (job: any) =>
-        job.minHourlySalary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
-        job.maxHourlySalary > (minSalary || Number.MIN_SAFE_INTEGER) &&
-        (!locations || locations.includes(job.location)) &&
         (job.name.toLowerCase().includes(normalizedQuery) ||
           job.location.toLowerCase().includes(normalizedQuery) ||
-          job.hourlySalaryCurrency.toLowerCase().includes(normalizedQuery))
+          job.hourlySalaryCurrency.toLowerCase().includes(normalizedQuery)) &&
+        job.avgRating <= (maxRating || Number.MAX_SAFE_INTEGER) &&
+        job.avgRating >= (minRating || Number.MIN_SAFE_INTEGER) &&
+        job.minHourlySalary <= (maxSalary || Number.MAX_SAFE_INTEGER) &&
+        job.maxHourlySalary > (minSalary || Number.MIN_SAFE_INTEGER) &&
+        (!locations || locations.includes(job.location))
     )
     .sort(sortFn)
     .slice(offset, offset + limit);

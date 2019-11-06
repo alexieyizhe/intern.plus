@@ -184,7 +184,7 @@ export const getSearchBuilder: SearchQueryBuilder = options => {
       $query: String, 
       $locations: [String!], 
       $minSalary: Int, $maxSalary: Int, 
-      $minRating: Int, $maxRating: int, 
+      $minRating: Float, $maxRating: Float, 
       $offset: Int, 
       $limit: Int
     ) {
