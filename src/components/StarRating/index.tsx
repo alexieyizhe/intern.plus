@@ -17,7 +17,7 @@ export interface IStarRatingProps
   /**
    * Callback for when a star is clicked.
    */
-  onClickStar?: (starIndex: number) => void;
+  onClickStar?: (numStars: number) => void;
   /**
    * Whether stars should be clickable.
    */
@@ -75,9 +75,16 @@ const StarRating: React.FC<IStarRatingProps> = ({
 
   const internalOnClick = useCallback(
     (starIndex: number) => () => {
-      if (!readOnly && onClickStar) onClickStar(starIndex);
+      if (!readOnly && onClickStar) {
+        if(starIndex + 1 === filledStars) {
+          onClickStar(0);
+        } else {
+          onClickStar(starIndex + 1);
+        }
+
+      }
     },
-    [readOnly, onClickStar]
+    [readOnly, filledStars, onClickStar]
   );
 
   // boolean array where true = filled star, false = empty

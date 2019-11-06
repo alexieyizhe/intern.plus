@@ -255,14 +255,14 @@ const DesignSystemPage = () => {
               size={20}
               maxStars={8}
               filledStars={numFilledStars}
-              onClickStar={(i: number) => setNumFilledStars(i + 1)}
+              onClickStar={(stars: number) => setNumFilledStars(stars)}
             />
             <StarRating
               readOnly
               size={26}
               maxStars={5}
               filledStars={numFilledStars}
-              onClickStar={(i: number) => setNumFilledStars(i + 1)}
+              onClickStar={(stars: number) => setNumFilledStars(stars)}
             />
           </SectionSpacer>
         </Section>
