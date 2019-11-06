@@ -76,12 +76,11 @@ const StarRating: React.FC<IStarRatingProps> = ({
   const internalOnClick = useCallback(
     (starIndex: number) => () => {
       if (!readOnly && onClickStar) {
-        if(starIndex + 1 === filledStars) {
+        if (starIndex + 1 === filledStars) {
           onClickStar(0);
         } else {
           onClickStar(starIndex + 1);
         }
-
       }
     },
     [readOnly, filledStars, onClickStar]
