@@ -50,6 +50,7 @@ export const useSearch = <TData>(
     searchQuery,
     searchLocationFilter,
     searchSalaryFilter,
+    searchRatingFilter,
     setSearchQuery,
   } = useSearchParams();
   const [searchState, setSearchState] = useState(SearchState.INITIAL);
@@ -77,6 +78,8 @@ export const useSearch = <TData>(
         searchLocationFilter.map(val => (LOCATION_MAP[val] || {}).label),
       minSalary: searchSalaryFilter && searchSalaryFilter[0],
       maxSalary: searchSalaryFilter && searchSalaryFilter[1],
+      minRating: searchRatingFilter && searchRatingFilter[0],
+      maxRating: searchRatingFilter && searchRatingFilter[1],
       offset: (page - 1) * RESULTS_PER_PAGE,
       limit: RESULTS_PER_PAGE,
       ...(options.variables || {}),

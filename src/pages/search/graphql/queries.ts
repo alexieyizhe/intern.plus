@@ -43,6 +43,12 @@ const companiesQuery = ({ sort }: ISearchQueryBuilderOptions) => `
             { maxHourlySalary: { gt: $minSalary } }
           ]
         },
+        {
+          AND: [
+            { avgRating: { lte: $maxRating } }
+            { avgRating: { gte: $minRating } }
+          ]
+        },
       ]
     }
     sort: ${getCompaniesSort(sort)}
@@ -84,6 +90,12 @@ const jobsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
           AND: [
             { minHourlySalary: { lte: $maxSalary } }
             { maxHourlySalary: { gt: $minSalary } }
+          ]
+        },
+        {
+          AND: [
+            { avgRating: { lte: $maxRating } }
+            { avgRating: { gte: $minRating } }
           ]
         },
       ]
@@ -128,6 +140,12 @@ const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
             { salary: { lte: $maxSalary } }
           ]
         },
+        {
+          AND: [
+            { overallRating: { lte: $maxRating } }
+            { overallRating: { gte: $minRating } }
+          ]
+        },
       ]
     }
     sort: ${getReviewsSort(sort)}
@@ -162,7 +180,14 @@ const getQueryForType = (type?: SearchType) => {
 export const getSearchBuilder: SearchQueryBuilder = options => {
   const queryForType = getQueryForType(options.type);
   const QUERY_DEF = gql`
-    query GetSearch($query: String, $locations: [String!], $minSalary: Int, $maxSalary: Int, $offset: Int, $limit: Int) {
+    query GetSearch(
+      $query: String, 
+      $locations: [String!], 
+      $minSalary: Int, $maxSalary: Int, 
+      $minRating: Int, $maxRating: int, 
+      $offset: Int, 
+      $limit: Int
+    ) {
       ${queryForType(options)}
     }
 

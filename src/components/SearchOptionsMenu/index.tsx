@@ -264,17 +264,32 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       optionsChanged = true;
       setTimeout(() => typeOption.onChange(internalTypeOptionVal), 0);
     }
-    if (ratingOption && internalRatingFilterOptionVal !== ratingOption.value) {
+    if (
+      ratingOption &&
+      (internalRatingFilterOptionVal[0] !== ratingOption.value[0] ||
+        internalRatingFilterOptionVal[1] !== ratingOption.value[1])
+    ) {
       optionsChanged = true;
       setTimeout(() => ratingOption.onChange(internalRatingFilterOptionVal), 0);
     }
-    if (salaryOption && internalSalaryFilterOptionVal !== salaryOption.value) {
+    if (
+      salaryOption &&
+      (internalSalaryFilterOptionVal[0] !== salaryOption.value[0] ||
+        internalSalaryFilterOptionVal[1] !== salaryOption.value[1])
+    ) {
       optionsChanged = true;
       setTimeout(() => salaryOption.onChange(internalSalaryFilterOptionVal), 0);
     }
     if (
       locationOption &&
-      internalLocationFilterOptionVal !== locationOption.value
+      ((internalLocationFilterOptionVal || []).length !==
+        (locationOption.value || []).length ||
+        internalLocationFilterOptionVal.some(
+          val =>
+            !(locationOption.value || [])
+              .map(otherVal => otherVal.value)
+              .includes(val.value)
+        ))
     ) {
       optionsChanged = true;
       setTimeout(

@@ -34,12 +34,19 @@ export const useSearchParams = () => {
       searchRatingFilter: ratingFilterStrArr
         ? ratingFilterStrArr.split(",").map(n => (n ? parseInt(n) : undefined))
         : undefined,
-      setSearchRatingFilter: (value?: (number | undefined)[]) =>
+      setSearchRatingFilter: (value?: (number | undefined)[]) => {
+        console.log(
+          "setting",
+          value && (value[0] || value[1])
+            ? `${value[0] || ""},${value[1] || ""}`
+            : undefined
+        );
         setratingFilterStrArr(
           value && (value[0] || value[1])
             ? `${value[0] || ""},${value[1] || ""}`
             : undefined
-        ),
+        );
+      },
     }),
     [ratingFilterStrArr, setratingFilterStrArr]
   );
@@ -64,7 +71,7 @@ export const useSearchParams = () => {
   );
 
   const [searchLocationFilter, setSearchLocationFilter] = useQueryParam(
-    SearchParamKey.RATING_FILTER,
+    SearchParamKey.LOCATION_FILTER,
     ArrayParam
   );
 
