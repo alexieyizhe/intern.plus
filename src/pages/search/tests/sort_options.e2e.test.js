@@ -61,7 +61,7 @@ describe("Search autocomplete", () => {
       .should("exist");
   });
 
-  it("should be able to sort by rating", () => {
+  it("should be able to sort by rating and then reset sort", () => {
     cy.visit("/positions");
 
     cy.get(".job-card")
@@ -85,6 +85,20 @@ describe("Search autocomplete", () => {
       .first()
       .find(".ratings")
       .contains("5.0")
+      .should("exist");
+
+    cy.get(".options-menu .reset-options-button")
+      .first()
+      .click();
+    cy.get(".options-menu .apply-button")
+      .first()
+      .click();
+    cy.wait(1000);
+
+    cy.get(".job-card")
+      .first()
+      .find(".ratings")
+      .contains("2.0")
       .should("exist");
   });
 });
