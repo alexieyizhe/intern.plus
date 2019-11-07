@@ -190,14 +190,6 @@ const LandingPage = () => {
                 onTriggerSearch={triggerSearchNew}
                 suggestions={searchSuggestions}
               />
-              {/* <SearchInput
-                className="landing-search"
-                placeholder="Find something"
-                value={searchVal}
-                onChange={searchOnChange}
-                onEnterTrigger={searchOnStart}
-                buttonText="Search"
-              /> */}
               <SearchButton
                 onClick={() => history.push(RouteName.SEARCH)}
                 color="greenDark"

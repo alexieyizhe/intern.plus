@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
-// TODO: REFACTOR (especially the styles and getMarkup)
 import { detailsCardStyles } from "src/theme/snippets";
 import { RouteName } from "src/shared/constants/routing";
 import { getDarkColor } from "src/shared/utils/color";

@@ -307,7 +307,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       locationOption &&
       ((internalLocationFilterOptionVal || []).length !==
         (locationOption.value || []).length ||
-        internalLocationFilterOptionVal.some(
+        (internalLocationFilterOptionVal || []).some(
           val =>
             !(locationOption.value || [])
               .map(otherVal => otherVal.value)
