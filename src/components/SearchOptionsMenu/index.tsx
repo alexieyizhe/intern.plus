@@ -459,7 +459,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 }}
                 color="white"
                 placeholder="min"
-                className="salaryMin input"
+                className="salary min"
               />
             </VerticalAlignContainer>
           </CenterContainer>
@@ -481,7 +481,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               }}
               color="white"
               placeholder="max"
-              className="salaryMax input"
+              className="salary max"
             />
           </VerticalAlignContainer>
         </div>
