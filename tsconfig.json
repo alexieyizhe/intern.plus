@@ -29,5 +29,5 @@
     "types": ["cypress"]
   },
   "include": ["cypress/**/*.ts"],
-  "exclude": ["node_modules", "src/**/**.test.{ts, tsx}"]
+  "exclude": ["node_modules", "src/**/**.test.{ts,tsx}"]
 }

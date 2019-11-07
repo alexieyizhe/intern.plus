@@ -1,5 +1,5 @@
-describe("Search autocomplete", () => {
-  it.only("should be able to filter by type", () => {
+describe("Filter options", () => {
+  it("should be able to filter by type", () => {
     cy.visit("/companies");
 
     cy.get("div.review-card").should("not.exist");

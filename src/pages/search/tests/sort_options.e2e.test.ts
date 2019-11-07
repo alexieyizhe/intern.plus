@@ -1,4 +1,4 @@
-describe("Search autocomplete", () => {
+describe("Sort options", () => {
   beforeEach(() => {
     cy.visit("/find");
 
