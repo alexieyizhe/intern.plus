@@ -22,6 +22,7 @@
   },
   "rules": {
     "prettier/prettier": "error",
+    "cypress/no-unnecessary-waiting": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/interface-name-prefix": 0,
