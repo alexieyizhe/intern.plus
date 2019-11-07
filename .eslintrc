@@ -5,7 +5,8 @@
     "react-app",
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:cypress/recommended"
   ],
   "plugins": ["react", "@typescript-eslint", "prettier", "react-hooks"],
   "parserOptions": {
@@ -25,7 +26,10 @@
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/interface-name-prefix": 0,
     "arrow-body-style": ["error", "as-needed"],
-    "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".tsx", ".jsx"] }
+    ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-uses-react": 1,
@@ -38,9 +42,6 @@
         "html": true
       }
     ]
-  },
-  "globals": {
-    "cy": "readonly"
   },
   "settings": {
     "react": {
