@@ -28,5 +28,5 @@
     "jsx": "react",
     "types": ["cypress"]
   },
-  "include": ["src"]
+  "include": ["src", "cypress/**/*.ts"]
 }
