@@ -28,5 +28,6 @@
     "jsx": "react",
     "types": ["cypress"]
   },
-  "include": ["src", "cypress/**/*.ts"]
+  "include": ["cypress/**/*.ts"],
+  "exclude": ["node_modules", "src/**/**.test.{ts, tsx}"]
 }
