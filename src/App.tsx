@@ -99,7 +99,7 @@ const App: React.FC = () => {
   }, []);
 
   if (!apiClient) {
-    return <CrashPage />;
+    return null;
   }
 
   return (
