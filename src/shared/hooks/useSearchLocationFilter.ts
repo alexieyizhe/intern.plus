@@ -3,7 +3,6 @@ import { OptionTypeBase } from "react-select/src/types";
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { slugify } from "src/shared/utils/misc";
-import { MOCK_LOCATIONS } from "src/shared/mocks";
 import {
   isCompanyCardItem,
   isJobCardItem,
@@ -105,8 +104,9 @@ const LOCATIONS =
         "美国华盛顿西雅图",
         "Fremont, CA, USA",
         "San Jose, CA, USA",
+        "Windsor, ON, Canada",
       ]
-    : MOCK_LOCATIONS;
+    : ["Ohio", "Michigan", "North Carolina"];
 
 const buildOptions = (options: string[]): OptionTypeBase[] =>
   options.map(loc => ({

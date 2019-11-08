@@ -7,6 +7,11 @@ const apiClient = new ApolloClient({
   fetch,
 });
 
-const client = process.env.NODE_ENV === "production" ? apiClient : mockClient;
+const client =
+  process.env.NODE_ENV === "production"
+    ? Promise.resolve(apiClient)
+    : import(/* webpackChunkName: "mock" */ "./mock").then(
+        mock => mock.default
+      );
 
 export default client;
