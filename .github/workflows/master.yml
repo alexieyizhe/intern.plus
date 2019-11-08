@@ -20,16 +20,16 @@ jobs:
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
           REACT_APP_DB_GRAPHQL_API_URL: ${{ secrets.REACT_APP_DB_GRAPHQL_API_URL }}
-  # unit_tests:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@master
-  #       with:
-  #         fetch-depth: 1
-  #     - name: Install dependencies
-  #       run: npm ci
-  #     - name: Run unit tests
-  #       run: npm run test:unit:ci
-  #       env:
-  #         REACT_APP_DB_GRAPHQL_API_URL: ${{ secrets.REACT_APP_DB_GRAPHQL_API_URL }}
+  unit_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Install dependencies
+        run: npm ci
+      - name: Run unit tests
+        run: npm run test:unit:ci
+        env:
+          REACT_APP_DB_GRAPHQL_API_URL: ${{ secrets.REACT_APP_DB_GRAPHQL_API_URL }}

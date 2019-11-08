@@ -319,7 +319,9 @@ const API_CALLS = [
   },
 ];
 
-export const mockClient = createMockClient();
+const mockClient = createMockClient();
+
+export default mockClient;
 
 API_CALLS.forEach(call => {
   mockClient.setRequestHandler(call.query, call.handler);

@@ -12,8 +12,27 @@
 // the project's config changing)
 
 /* eslint-disable */
-let percyHealthCheck = require("@percy/cypress/task");
+const percyHealthCheck = require("@percy/cypress/task");
+const webpack = require("@cypress/webpack-preprocessor");
 
-module.exports = (on, config) => {
+module.exports = on => {
+  const options = {
+    webpackOptions: {
+      resolve: {
+        extensions: [".ts", ".tsx", ".js"],
+      },
+      module: {
+        rules: [
+          {
+            test: /\.tsx?$/,
+            loader: "ts-loader",
+            options: { transpileOnly: true },
+          },
+        ],
+      },
+    },
+  };
+  on("file:preprocessor", webpack(options));
+
   on("task", percyHealthCheck);
 };

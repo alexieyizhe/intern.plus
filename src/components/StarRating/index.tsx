@@ -28,7 +28,7 @@ const Container = styled.span`
   display: inline-flex;
   align-items: center;
 
-  & > .starContainer {
+  & > .star-container {
     display: inline-flex;
     align-items: center;
     margin-right: 3px;
@@ -96,7 +96,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
 
   return (
     <Container {...rest}>
-      <span className="starContainer">
+      <span className="star-container">
         {stars.map((filled, i) => (
           <Star
             className={classNames({ filled, "read-only": readOnly })}

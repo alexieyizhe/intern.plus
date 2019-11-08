@@ -12,8 +12,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "cypress run --config video=false",
     "test:i": "cypress open",
-    "test:unit": "npm run test -- --spec \"src/**/**.unit.test.jsx\"",
-    "test:e2e": "percy exec -- npm run test -- --spec \"src/**/**.e2e.test.js\"",
+    "test:unit": "npm run test -- --spec \"src/**/**.unit.test.tsx\"",
+    "test:e2e": "percy exec -- npm run test -- --spec \"src/**/**.e2e.test.ts\"",
     "test:unit:ci": "npm run start:ci && npm run test:unit",
     "test:e2e:ci": "npm run start:ci && npm run test:e2e",
     "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $(grep REACT_APP_DB_GRAPHQL_API_URL .env | cut -d '=' -f2) --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'"
@@ -58,11 +58,11 @@
     "react-waypoint": "^9.0.2",
     "styled-components": "^4.4.0",
     "tti-polyfill": "^0.2.2",
-    "typescript": "3.6.4",
     "use-query-params": "^0.4.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.6.0",
+    "@cypress/webpack-preprocessor": "^4.1.0",
     "@percy/cypress": "^2.2.0",
     "@percy/script": "^1.0.2",
     "@types/classnames": "^2.2.9",
@@ -79,9 +79,10 @@
     "babel-register": "^6.26.0",
     "chalk": "^2.4.2",
     "cross-fetch": "^3.0.4",
-    "cypress": "^3.5.0",
+    "cypress": "^3.6.0",
     "dotenv": "^8.2.0",
     "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-cypress": "^2.7.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "faker": "^4.1.0",
@@ -93,6 +94,8 @@
     "prettier": "^1.18.2",
     "react-router-sitemap": "^1.2.0",
     "source-map-explorer": "^2.1.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.2",
     "wait-on": "^3.3.0"
   }
 }

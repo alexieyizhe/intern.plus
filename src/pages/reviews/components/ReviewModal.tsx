@@ -4,7 +4,6 @@ import { useLocation, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
-// TODO: REFACTOR (especially the styles and getMarkup)
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/shared/constants/routing";
 import { getDarkColor } from "src/shared/utils/color";

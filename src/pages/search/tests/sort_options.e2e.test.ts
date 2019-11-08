@@ -1,4 +1,4 @@
-describe("Search autocomplete", () => {
+describe("Sort options", () => {
   beforeEach(() => {
     cy.visit("/find");
 
@@ -26,7 +26,7 @@ describe("Search autocomplete", () => {
     cy.get(".options-menu .apply-button")
       .first()
       .click();
-    cy.wait(1000);
+    cy.reload();
 
     cy.get(".job-card")
       .first()
@@ -52,7 +52,7 @@ describe("Search autocomplete", () => {
     cy.get(".options-menu .apply-button")
       .first()
       .click();
-    cy.wait(1000);
+    cy.reload();
 
     cy.get(".company-card")
       .first()
@@ -79,7 +79,7 @@ describe("Search autocomplete", () => {
     cy.get(".options-menu .apply-button")
       .first()
       .click();
-    cy.wait(1000);
+    cy.reload();
 
     cy.get(".job-card")
       .first()
@@ -93,12 +93,9 @@ describe("Search autocomplete", () => {
     cy.get(".options-menu .apply-button")
       .first()
       .click();
-    cy.wait(1000);
+    cy.reload();
 
-    cy.get(".job-card")
-      .first()
-      .find(".ratings")
-      .contains("2.0")
-      .should("exist");
+    // nothing should appear since we reset everything
+    cy.get(".job-card").should("not.exist");
   });
 });
