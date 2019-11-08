@@ -10,7 +10,7 @@
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
     "type-check": "tsc --noEmit",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "test": "cypress run --config video=false --browser chrome",
+    "test": "cypress run --config video=false",
     "test:i": "cypress open",
     "test:unit": "npm run test -- --spec \"src/**/**.unit.test.tsx\"",
     "test:e2e": "percy exec -- npm run test -- --spec \"src/**/**.e2e.test.ts\"",

@@ -1,5 +1,5 @@
 import "focus-visible";
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/react-hooks";
 import {
@@ -11,7 +11,7 @@ import {
 import { QueryParamProvider } from "use-query-params";
 import ErrorBoundary from "react-error-boundary";
 
-import apiClient from "src/api/client";
+import apiClientLoader from "src/api/client";
 import { SiteContextProvider } from "src/context";
 import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
@@ -92,27 +92,38 @@ export const AppSwitch: React.FC = () => {
   );
 };
 
-const App: React.FC = () => (
-  <ApolloProvider client={apiClient}>
-    <ThemeProvider theme={siteTheme}>
-      <SiteContextProvider>
-        <Router>
-          <QueryParamProvider ReactRouterRoute={Route}>
-            <ErrorBoundary FallbackComponent={CrashPage}>
-              <div className="App">
-                <GlobalStyles />
-                {analytics.init() && <Analytics />}
+const App: React.FC = () => {
+  const [apiClient, setApiClient] = useState(null);
+  useEffect(() => {
+    apiClientLoader.then(setApiClient);
+  }, []);
 
-                <PageHeader />
-                <AppSwitch />
-                <PageFooter />
-              </div>
-            </ErrorBoundary>
-          </QueryParamProvider>
-        </Router>
-      </SiteContextProvider>
-    </ThemeProvider>
-  </ApolloProvider>
-);
+  if (!apiClient) {
+    return null;
+  }
+
+  return (
+    <ApolloProvider client={apiClient}>
+      <ThemeProvider theme={siteTheme}>
+        <SiteContextProvider>
+          <Router>
+            <QueryParamProvider ReactRouterRoute={Route}>
+              <ErrorBoundary FallbackComponent={CrashPage}>
+                <div className="App">
+                  <GlobalStyles />
+                  {analytics.init() && <Analytics />}
+
+                  <PageHeader />
+                  <AppSwitch />
+                  <PageFooter />
+                </div>
+              </ErrorBoundary>
+            </QueryParamProvider>
+          </Router>
+        </SiteContextProvider>
+      </ThemeProvider>
+    </ApolloProvider>
+  );
+};
 
 export default App;
