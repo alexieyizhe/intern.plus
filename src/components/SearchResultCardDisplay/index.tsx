@@ -37,7 +37,7 @@ const NO_MORE_RESULTS_TEXT = "All results have been shown.";
 const ERROR_OCCURRED_TEXT = "An error occurred while searching.";
 const START_SEARCH_TEXT =
   "There's nothing here. Type something to get started!";
-const REVIEW_IS_NEW_THRESHOLD = 77760000000; // 2.5 years (30 months) in ms TODO: tweak this
+const REVIEW_IS_NEW_THRESHOLD = 77760000000; // 2.5 years (30 months) in ms
 
 /**
  * Determines the mood of the planet illustration

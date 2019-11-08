@@ -1,9 +1,9 @@
-describe("Search autocomplete", () => {
+describe("Add review modal", () => {
   beforeEach(() => {
     cy.visit("/");
   });
 
-  it("can open and close add review modal", () => {
+  it("can be opened and closed", () => {
     cy.get("#add-review-modal")
       .invoke("attr", "aria-hidden")
       .should("be", "true");

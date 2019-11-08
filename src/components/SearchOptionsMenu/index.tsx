@@ -307,7 +307,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       locationOption &&
       ((internalLocationFilterOptionVal || []).length !==
         (locationOption.value || []).length ||
-        internalLocationFilterOptionVal.some(
+        (internalLocationFilterOptionVal || []).some(
           val =>
             !(locationOption.value || [])
               .map(otherVal => otherVal.value)
@@ -459,7 +459,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 }}
                 color="white"
                 placeholder="min"
-                className="salaryMin input"
+                className="salary min"
               />
             </VerticalAlignContainer>
           </CenterContainer>
@@ -481,7 +481,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               }}
               color="white"
               placeholder="max"
-              className="salaryMax input"
+              className="salary max"
             />
           </VerticalAlignContainer>
         </div>
