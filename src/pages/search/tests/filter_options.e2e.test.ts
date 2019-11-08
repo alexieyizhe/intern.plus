@@ -8,6 +8,7 @@ describe("Filter options", () => {
     cy.get(".options-menu .apply-button").click();
 
     cy.url().should("include", "?t=reviews");
+    cy.reload();
 
     cy.get(".review-card")
       .its("length")
@@ -25,6 +26,9 @@ describe("Filter options", () => {
     cy.get(".options-menu .salary.max").type("40{enter}");
     cy.get(".options-menu .apply-button").click();
 
+    cy.url().should("include", "fs");
+    cy.reload();
+
     cy.get(".review-card")
       .first()
       .contains("Weissnat, Hessel and Romaguera")
@@ -36,6 +40,9 @@ describe("Filter options", () => {
 
     cy.get(".options-menu .location.select input").type("ohio{enter}");
     cy.get(".options-menu .apply-button").click();
+
+    cy.url().should("include", "fl");
+    cy.reload();
 
     cy.get(".job-card").each(el => expect(el).to.contain("Ohio"));
   });
@@ -60,6 +67,9 @@ describe("Filter options", () => {
       .click();
     cy.get(".options-menu .apply-button").click();
 
+    cy.url().should("include", "fr");
+    cy.reload();
+
     cy.get(".job-card")
       .eq(1)
       .should("not.exist");
@@ -76,6 +86,8 @@ describe("Filter options", () => {
     cy.get(".options-menu .reset-options-button").click();
     cy.get(".options-menu .apply-button").click();
 
+    cy.reload();
+
     cy.get(".job-card").should("have.length", 2);
 
     // set max rating to 3 only
@@ -85,9 +97,11 @@ describe("Filter options", () => {
       .click();
     cy.get(".options-menu .apply-button").click();
 
-    // only 2.0 rating should appear
+    cy.reload();
+
     cy.get(".job-card")
-      .eq(0)
+      .first()
+      .find(".ratings")
       .contains("2.0")
       .should("exist");
   });
