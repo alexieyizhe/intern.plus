@@ -18,7 +18,7 @@ const PageContainer = styled.main`
     `${theme.padding.pageVertical}px ${theme.padding.pageHorizontal}px`};
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
-    padding: ${theme.padding.pageVertical}px ${theme.padding.pageHorizontalMobile}px;
+    padding: 0 ${theme.padding.pageHorizontalMobile}px;
   `}
 `;
 

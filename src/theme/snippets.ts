@@ -42,12 +42,6 @@ export const itemCardStyles = css`
   padding: 25px 35px;
 `;
 
-export const detailsPageStyles = css`
-  ${({ theme }) => theme.mediaQueries.tablet`
-    padding-top: 0;
-  `}
-`;
-
 export interface IInputStyleOptions
   extends Pick<
     React.ComponentPropsWithoutRef<"input">,
