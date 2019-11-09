@@ -116,105 +116,111 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
   ...rest
 }) => (
   <DetailsCard className={classNames("job", className)} {...rest}>
-    <Text variant="heading1" as="div" color={getDarkColor(jobDetails?.color)}>
-      {jobDetails?.name}
-    </Text>
-    <Link
-      className="subheading"
-      to={`${RouteName.COMPANIES}/${jobDetails?.companySlug}`}
-      bare
-    >
-      <Text variant="heading3" color="greyDark">
-        {jobDetails?.companyName}
+    <div>
+      <Text variant="heading1" as="div" color={getDarkColor(jobDetails?.color)}>
+        {jobDetails?.name}
       </Text>
-    </Link>
-    {jobDetails?.location && (
-      <Text className="subheading location" variant="heading3" color="greyDark">
-        {` • ${jobDetails?.location}`}
-      </Text>
-    )}
-
-    <MiscDetails>
-      <div className="ratings">
-        <StarRating
-          className="rating"
-          maxStars={5}
-          filledStars={Math.round(jobDetails ? jobDetails.avgRating : 0)}
-          readOnly
-        >
-          <Text variant="subheading" className="rating-text" color="black">
-            {jobDetails?.avgRating.toFixed(1)}
-          </Text>
-          <Text variant="subheading" className="rating-text" color="black">
-            Overall
-          </Text>
-        </StarRating>
-        <StarRating
-          className="rating"
-          maxStars={5}
-          filledStars={Math.round(
-            jobDetails ? jobDetails.avgLearningMentorshipRating : 0
-          )}
-          readOnly
-        >
-          <Text variant="body" className="rating-text" color="black">
-            {jobDetails?.avgLearningMentorshipRating.toFixed(1)}
-          </Text>
-          <Text variant="body" className="rating-text" color="greyDark">
-            Learning &amp; mentorship
-          </Text>
-        </StarRating>
-        <StarRating
-          className="rating"
-          maxStars={5}
-          filledStars={Math.round(
-            jobDetails ? jobDetails.avgMeaningfulWorkRating : 0
-          )}
-          readOnly
-        >
-          <Text variant="body" className="rating-text" color="black">
-            {jobDetails?.avgMeaningfulWorkRating.toFixed(1)}
-          </Text>
-          <Text variant="body" className="rating-text" color="greyDark">
-            Meaningful work
-          </Text>
-        </StarRating>
-        <StarRating
-          className="rating"
-          maxStars={5}
-          filledStars={Math.round(
-            jobDetails ? jobDetails.avgWorkLifeBalanceRating : 0
-          )}
-          readOnly
-        >
-          <Text variant="body" className="rating-text" color="black">
-            {jobDetails?.avgWorkLifeBalanceRating.toFixed(1)}
-          </Text>
-          <Text variant="body" className="rating-text" color="greyDark">
-            Work-life balance
-          </Text>
-        </StarRating>
+      <Link
+        className="subheading"
+        to={`${RouteName.COMPANIES}/${jobDetails?.companySlug}`}
+        bare
+      >
+        <Text variant="heading3" color="greyDark">
+          {jobDetails?.companyName}
+        </Text>
+      </Link>
+      {jobDetails?.location && (
         <Text
-          variant="subheading"
-          as="div"
-          className="num-ratings-text"
+          className="subheading location"
+          variant="heading3"
           color="greyDark"
         >
-          {getRatingsText(jobDetails?.numRatings)}
+          {` • ${jobDetails?.location}`}
         </Text>
-      </div>
+      )}
 
-      <div className="salary">
-        <Text variant="heading2" as="div">
-          {jobDetails?.minHourlySalary === jobDetails?.maxHourlySalary
-            ? jobDetails?.minHourlySalary
-            : `${jobDetails?.minHourlySalary} - ${jobDetails?.maxHourlySalary}`}
-        </Text>
-        <Text variant="heading3" as="div">
-          {`${jobDetails?.hourlySalaryCurrency}/hr`}
-        </Text>
-      </div>
-    </MiscDetails>
+      <MiscDetails>
+        <div className="ratings">
+          <StarRating
+            className="rating"
+            maxStars={5}
+            filledStars={Math.round(jobDetails ? jobDetails.avgRating : 0)}
+            readOnly
+          >
+            <Text variant="subheading" className="rating-text" color="black">
+              {jobDetails?.avgRating.toFixed(1)}
+            </Text>
+            <Text variant="subheading" className="rating-text" color="black">
+              Overall
+            </Text>
+          </StarRating>
+          <StarRating
+            className="rating"
+            maxStars={5}
+            filledStars={Math.round(
+              jobDetails ? jobDetails.avgLearningMentorshipRating : 0
+            )}
+            readOnly
+          >
+            <Text variant="body" className="rating-text" color="black">
+              {jobDetails?.avgLearningMentorshipRating.toFixed(1)}
+            </Text>
+            <Text variant="body" className="rating-text" color="greyDark">
+              Learning &amp; mentorship
+            </Text>
+          </StarRating>
+          <StarRating
+            className="rating"
+            maxStars={5}
+            filledStars={Math.round(
+              jobDetails ? jobDetails.avgMeaningfulWorkRating : 0
+            )}
+            readOnly
+          >
+            <Text variant="body" className="rating-text" color="black">
+              {jobDetails?.avgMeaningfulWorkRating.toFixed(1)}
+            </Text>
+            <Text variant="body" className="rating-text" color="greyDark">
+              Meaningful work
+            </Text>
+          </StarRating>
+          <StarRating
+            className="rating"
+            maxStars={5}
+            filledStars={Math.round(
+              jobDetails ? jobDetails.avgWorkLifeBalanceRating : 0
+            )}
+            readOnly
+          >
+            <Text variant="body" className="rating-text" color="black">
+              {jobDetails?.avgWorkLifeBalanceRating.toFixed(1)}
+            </Text>
+            <Text variant="body" className="rating-text" color="greyDark">
+              Work-life balance
+            </Text>
+          </StarRating>
+          <Text
+            variant="subheading"
+            as="div"
+            className="num-ratings-text"
+            color="greyDark"
+          >
+            {getRatingsText(jobDetails?.numRatings)}
+          </Text>
+        </div>
+
+        <div className="salary">
+          <Text variant="heading2" as="div">
+            {jobDetails?.minHourlySalary === jobDetails?.maxHourlySalary
+              ? jobDetails?.minHourlySalary
+              : `${jobDetails?.minHourlySalary} - ${jobDetails?.maxHourlySalary}`}
+          </Text>
+          <Text variant="heading3" as="div">
+            {`${jobDetails?.hourlySalaryCurrency}/hr`}
+          </Text>
+        </div>
+      </MiscDetails>
+    </div>
   </DetailsCard>
 );
 

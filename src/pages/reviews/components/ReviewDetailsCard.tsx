@@ -15,6 +15,9 @@ import {
   Link,
   Text,
   StarRating,
+  UnstyledButton,
+  Icon,
+  IconName,
 } from "src/components";
 
 /*******************************************************************
@@ -42,6 +45,7 @@ export interface IReviewDetails {
 }
 
 export interface IReviewDetailsCardProps extends IDetailsCardProps {
+  onExit: (e: React.MouseEvent) => void;
   reviewDetails?: IReviewDetails;
 }
 
@@ -94,12 +98,11 @@ const DetailsCard = styled(BaseDetailsCard)`
   ${({ theme }) => theme.mediaQueries.xlMobile`
     top: 5%;
     max-width: 90%;
-    padding: 35px 40px;
   `}
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     width: 100%;
-    left 0;
+    left: 0;
     border-radius: ${theme.borderRadius.button}px;
   `}
 `;
@@ -153,107 +156,158 @@ const ReviewBody = styled(Text)`
   margin-top: 20px;
 `;
 
+const CloseButton = styled(UnstyledButton)`
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: -10px;
+  right: -10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1;
+  cursor: pointer;
+
+  & .bg {
+    z-index: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: ${({ theme }) => theme.color.error};
+    border-radius: 50%;
+  }
+
+  &:hover > .bg,
+  &:focus > .bg {
+    transition: transform 150ms ease-out;
+    transform: scale(1.1);
+  }
+
+  & > svg {
+    z-index: 1;
+  }
+`;
+
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
 const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
   className,
+  onExit,
   reviewDetails,
   ...rest
 }) => (
-  <DetailsCard className={classNames("company", className)} {...rest}>
-    <FlexRowContainer>
-      <div>
-        <Link to={`${RouteName.JOBS}/${reviewDetails?.jobId}`} bare>
-          <Text variant="heading1" as="h1">
-            {reviewDetails?.jobName}
-          </Text>
-        </Link>
-        <Link to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`} bare>
-          <Text variant="heading3" color={getDarkColor(reviewDetails?.color)}>
-            {reviewDetails?.companyName}
-          </Text>
-        </Link>
-        {reviewDetails?.location && (
-          <Text
-            className="subheading location"
-            variant="heading3"
-            color="greyDark"
+  <DetailsCard
+    className={classNames("company", className)}
+    color="greyLight"
+    {...rest}
+  >
+    <div>
+      <FlexRowContainer>
+        <div>
+          <Link to={`${RouteName.JOBS}/${reviewDetails?.jobId}`} bare>
+            <Text variant="heading1" as="h1">
+              {reviewDetails?.jobName}
+            </Text>
+          </Link>
+          <Link
+            to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`}
+            bare
           >
-            {` • ${reviewDetails?.location}`}
-          </Text>
-        )}
-      </div>
-      <Link to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`} bare>
-        <LogoImg
-          src={reviewDetails?.logoSrc}
-          alt={`Logo of ${reviewDetails?.companyName}`}
-        />
-      </Link>
-    </FlexRowContainer>
+            <Text variant="heading3" color={getDarkColor(reviewDetails?.color)}>
+              {reviewDetails?.companyName}
+            </Text>
+          </Link>
+          {reviewDetails?.location && (
+            <Text
+              className="subheading location"
+              variant="heading3"
+              color="greyDark"
+            >
+              {` • ${reviewDetails?.location}`}
+            </Text>
+          )}
+        </div>
+        <Link to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`} bare>
+          <LogoImg
+            src={reviewDetails?.logoSrc}
+            alt={`Logo of ${reviewDetails?.companyName}`}
+          />
+        </Link>
+      </FlexRowContainer>
 
-    <ReviewPrefixContainer>
-      <Text variant="subheading">{reviewDetails?.author} </Text>
-      <Text variant="subheading" color="greyDark">
-        mentioned the following{" "}
-      </Text>
-      <Text variant="subheading" title={reviewDetails?.date}>
-        {reviewDetails?.relativeDate}...
-      </Text>
-    </ReviewPrefixContainer>
+      <ReviewPrefixContainer>
+        <Text variant="subheading">{reviewDetails?.author} </Text>
+        <Text variant="subheading" color="greyDark">
+          mentioned the following{" "}
+        </Text>
+        <Text variant="subheading" title={reviewDetails?.date}>
+          {reviewDetails?.relativeDate}...
+        </Text>
+      </ReviewPrefixContainer>
 
-    <FlexRowContainer className="misc-info">
-      <div>
-        <ReviewRating
-          maxStars={5}
-          filledStars={reviewDetails ? reviewDetails.overallRating : 0}
-          readOnly
-        >
-          <Text variant="subheading" className="rating-text">
-            Overall
-          </Text>
-        </ReviewRating>
-        <ReviewRating
-          maxStars={5}
-          filledStars={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
-          readOnly
-        >
-          <Text variant="subheading" className="rating-text" color="greyDark">
-            Meaningful work
-          </Text>
-        </ReviewRating>
-        <ReviewRating
-          maxStars={5}
-          filledStars={reviewDetails ? reviewDetails.workLifeBalanceRating : 0}
-          readOnly
-        >
-          <Text variant="subheading" className="rating-text" color="greyDark">
-            Work life balance
-          </Text>
-        </ReviewRating>
-        <ReviewRating
-          maxStars={5}
-          filledStars={
-            reviewDetails ? reviewDetails.learningMentorshipRating : 0
-          }
-          readOnly
-        >
-          <Text variant="subheading" className="rating-text" color="greyDark">
-            Learning &amp; mentorship
-          </Text>
-        </ReviewRating>
-      </div>
-      <SalaryInfo>
-        <Text variant="heading2">{reviewDetails?.salary}</Text>
-        <Text variant="heading3">{`${
-          reviewDetails?.salaryCurrency
-        }${getSalaryPeriodText(reviewDetails?.salaryPeriod)}`}</Text>
-      </SalaryInfo>
-    </FlexRowContainer>
-    <ReviewBody variant="body">
-      {reviewDetails?.body}
-      {/* TODO: is there a way to render new lines without dangerouslySetInnerHTML? don't want to be exposed to XSS */}
-    </ReviewBody>
+      <FlexRowContainer className="misc-info">
+        <div>
+          <ReviewRating
+            maxStars={5}
+            filledStars={reviewDetails ? reviewDetails.overallRating : 0}
+            readOnly
+          >
+            <Text variant="subheading" className="rating-text">
+              Overall
+            </Text>
+          </ReviewRating>
+          <ReviewRating
+            maxStars={5}
+            filledStars={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
+            readOnly
+          >
+            <Text variant="subheading" className="rating-text" color="greyDark">
+              Meaningful work
+            </Text>
+          </ReviewRating>
+          <ReviewRating
+            maxStars={5}
+            filledStars={
+              reviewDetails ? reviewDetails.workLifeBalanceRating : 0
+            }
+            readOnly
+          >
+            <Text variant="subheading" className="rating-text" color="greyDark">
+              Work life balance
+            </Text>
+          </ReviewRating>
+          <ReviewRating
+            maxStars={5}
+            filledStars={
+              reviewDetails ? reviewDetails.learningMentorshipRating : 0
+            }
+            readOnly
+          >
+            <Text variant="subheading" className="rating-text" color="greyDark">
+              Learning &amp; mentorship
+            </Text>
+          </ReviewRating>
+        </div>
+        <SalaryInfo>
+          <Text variant="heading2">{reviewDetails?.salary}</Text>
+          <Text variant="heading3">{`${
+            reviewDetails?.salaryCurrency
+          }${getSalaryPeriodText(reviewDetails?.salaryPeriod)}`}</Text>
+        </SalaryInfo>
+      </FlexRowContainer>
+      <ReviewBody variant="body">
+        {reviewDetails?.body}
+        {/* TODO: is there a way to render new lines without dangerouslySetInnerHTML? don't want to be exposed to XSS */}
+      </ReviewBody>
+    </div>
+
+    <CloseButton onClick={onExit} tabIndex={1}>
+      <span className="bg" />
+      <Icon name={IconName.X} color="white" size={13} />
+    </CloseButton>
   </DetailsCard>
 );
 

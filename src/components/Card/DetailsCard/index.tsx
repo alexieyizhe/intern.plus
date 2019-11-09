@@ -60,11 +60,6 @@ const Container = styled(Card)`
   `}
 `;
 
-const ContentContainer = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
@@ -77,23 +72,21 @@ const DetailsCard: React.FC<IDetailsCardProps> = ({
   ...rest
 }) => (
   <Container className={classNames("details-card", className)} {...rest}>
-    <ContentContainer>
-      {error ? (
-        <Text
-          variant="subheading"
-          className="error"
-          color="error"
-          as="div"
-          align="center"
-        >
-          {ERROR_OCCURRED_TEXT}
-        </Text>
-      ) : loading ? (
-        <Spinner className="loading" />
-      ) : (
-        children
-      )}
-    </ContentContainer>
+    {error ? (
+      <Text
+        variant="subheading"
+        className="error"
+        color="error"
+        as="div"
+        align="center"
+      >
+        {ERROR_OCCURRED_TEXT}
+      </Text>
+    ) : loading ? (
+      <Spinner className="loading" />
+    ) : (
+      children
+    )}
 
     {searchFieldProps && <SearchField {...searchFieldProps} />}
   </Container>

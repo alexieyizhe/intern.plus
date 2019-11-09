@@ -4,14 +4,12 @@ import { useLocation, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
 
-import { Size } from "src/theme/constants";
 import { RouteName } from "src/shared/constants/routing";
 
 import { GetReviewDetails } from "../graphql/types/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
 import { buildReviewDetails } from "../graphql/utils";
 
-import { UnstyledButton } from "src/components";
 import ReviewDetailsCard from "./ReviewDetailsCard";
 
 /*******************************************************************
@@ -41,40 +39,6 @@ const Background = styled.div`
   background-color: rgba(40, 40, 40, 0.5);
   overscroll-behavior: contain;
   overflow-y: scroll;
-`;
-
-const CloseButton = styled(UnstyledButton)`
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: -10px;
-  right: -10px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  z-index: 1;
-  cursor: pointer;
-
-  & .bg {
-    z-index: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: ${({ theme }) => theme.color.error};
-    border-radius: 50%;
-  }
-
-  &:hover > .bg,
-  &:focus > .bg {
-    transition: transform 150ms ease-out;
-    transform: scale(1.1);
-  }
-
-  & > svg {
-    z-index: 1;
-  }
 `;
 
 /*******************************************************************
@@ -155,17 +119,13 @@ const ReviewPage: React.FC = () => {
       </Helmet>
       <Background onClick={onExit}>
         <ReviewDetailsCard
+          id="review-page"
           onClick={cardOnClick}
+          onExit={onExit}
           loading={loading}
           error={error !== undefined}
           reviewDetails={reviewDetails}
         />
-        {/* <Container color="greyLight" onClick={cardOnClick} id="review-page">
-          <CloseButton onClick={onExit} tabIndex={1}>
-            <span className="bg" />
-            <Icon name={IconName.X} color="white" size={13} />
-          </CloseButton>
-        </Container> */}
       </Background>
     </>
   );
