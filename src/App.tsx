@@ -2,6 +2,7 @@ import "focus-visible";
 import React, { useMemo, useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/react-hooks";
+import DefaultClient from "apollo-boost";
 import {
   BrowserRouter as Router,
   Switch,
@@ -30,7 +31,7 @@ import { NotFoundPage, CrashPage } from "src/pages/error";
 import CompaniesRouteHandler from "src/pages/companies";
 import JobsRouteHandler from "src/pages/jobs";
 
-import ReviewModal from "src/pages/reviews/components/ReviewModal";
+import ReviewModal from "src/pages/reviews/components/ReviewPage";
 import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 
 /**
@@ -93,9 +94,9 @@ export const AppSwitch: React.FC = () => {
 };
 
 const App: React.FC = () => {
-  const [apiClient, setApiClient] = useState(null);
+  const [apiClient, setApiClient] = useState<DefaultClient<any> | null>(null);
   useEffect(() => {
-    apiClientLoader.then(setApiClient);
+    apiClientLoader.then(client => setApiClient(client));
   }, []);
 
   if (!apiClient) {

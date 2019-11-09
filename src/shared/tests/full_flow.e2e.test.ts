@@ -98,7 +98,7 @@ describe("Full flow", () => {
       .click();
 
     // click the company link to go to the company
-    cy.get(".job-details-card")
+    cy.get(".job.details-card")
       .find("a")
       .first()
       .click({ force: true });

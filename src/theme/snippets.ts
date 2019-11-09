@@ -1,6 +1,5 @@
 import { css, keyframes } from "styled-components";
 import { Size } from "src/theme/constants";
-import { MOBILE_MENU_MEDIA_QUERY } from "src/components/PageHeader/index";
 
 export const spin = keyframes`
   0% {
@@ -46,30 +45,6 @@ export const itemCardStyles = css`
 export const detailsPageStyles = css`
   ${({ theme }) => theme.mediaQueries.tablet`
     padding-top: 0;
-  `}
-`;
-
-export const detailsCardStyles = css<{ color?: string }>`
-  position: relative;
-  width: 100%;
-  padding: ${({ theme }) => theme.padding.display};
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  background-color: ${({ theme, color }) => theme.color[color || "greyLight"]};
-
-  & input {
-    background-color: white;
-  }
-
-  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
-    width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
-    left: -${theme.padding.pageHorizontalMobile}px;
-    padding: ${theme.padding.displayMobile};
-    
-    border-radius: 0;
   `}
 `;
 

@@ -118,9 +118,12 @@ const CompanyPage: React.FC = () => {
         <CompanyDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          suggestions={searchSuggestions}
           companyDetails={companyDetails}
-          onTriggerSearch={triggerSearchNew}
+          searchFieldProps={{
+            onTriggerSearch: triggerSearchNew,
+            suggestions: searchSuggestions,
+            inputProps: { placeholder: "Find a position" },
+          }}
         />
 
         <SearchOptionsMenu

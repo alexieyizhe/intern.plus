@@ -116,7 +116,10 @@ const JobPage: React.FC = () => {
           loading={detailsLoading}
           error={detailsError !== undefined}
           jobDetails={jobDetails}
-          onTriggerSearch={triggerSearchNew}
+          searchFieldProps={{
+            onTriggerSearch: triggerSearchNew,
+            inputProps: { placeholder: "Find a review" },
+          }}
         />
 
         <SearchOptionsMenu

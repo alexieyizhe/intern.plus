@@ -7,8 +7,8 @@ export const changeColorLightness = (hslString: string, newLum: number) => {
   return `hsl(${h}, ${s}%, ${newLum}%)`;
 };
 
-export const getDarkColor = (hslString: string) =>
-  changeColorLightness(hslString, 42);
+export const getDarkColor = (hslString?: string) =>
+  hslString ? changeColorLightness(hslString, 42) : "#000";
 
-export const getLightColor = (hslString: string) =>
-  changeColorLightness(hslString, 90);
+export const getLightColor = (hslString?: string) =>
+  hslString ? changeColorLightness(hslString, 90) : "#000";
