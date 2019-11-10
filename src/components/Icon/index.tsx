@@ -8,6 +8,9 @@ import { Size } from "src/theme/constants";
 
 import icons, { IconName } from "./icons";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface IconProps extends React.ComponentPropsWithoutRef<"span"> {
   name: IconName;
   color?: string;
@@ -15,8 +18,14 @@ export interface IconProps extends React.ComponentPropsWithoutRef<"span"> {
   mobileSize?: Size | number;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const DEFAULT_ICON_SIZE = Size.SMALL;
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const NoIconFound = styled.span<IconProps>`
   display: inline-block;
   width: ${({ size }) => size}px;
@@ -25,6 +34,9 @@ const NoIconFound = styled.span<IconProps>`
   border-radius: ${({ theme }) => theme.borderRadius.card}px;
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Icon: React.FC<IconProps> = ({
   className,
   name,

@@ -22,6 +22,9 @@ import StarRating from "src/components/StarRating";
 import { HEADER_HEIGHT, MOBILE_MENU_HEIGHT } from "src/components/PageHeader";
 import { baseLinkStyles } from "src/components/Link";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ISearchOptionsMenuProps
   extends React.ComponentPropsWithoutRef<"div"> {
   sortOption?: {
@@ -54,10 +57,16 @@ export interface ISearchOptionsMenuProps
   onOptionChange: () => void;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const MENU_WIDTH = 400;
 const MENU_WIDTH_MOBILE = 320;
 const MIN_WIDTH_TO_DISABLE_COLLAPSE = 1800;
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled(Card)<{ menuOpen: boolean }>`
   position: fixed;
   top: ${HEADER_HEIGHT + 80}px;
@@ -207,6 +216,9 @@ const ActionContainer = styled.div`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   className,
   sortOption,

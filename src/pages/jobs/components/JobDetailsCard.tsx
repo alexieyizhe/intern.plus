@@ -18,6 +18,9 @@ import {
 /*******************************************************************
  *                            **Types**                            *
  *******************************************************************/
+/**
+ * Details needed to display a job details card.
+ */
 export interface IJobDetails {
   name: string;
   companyName: string;
@@ -53,14 +56,6 @@ const getRatingsText = (numRatings?: number) => {
       return `${numRatings} reviews`;
   }
 };
-
-/**
- * Creates the markup for displaying the correct state of
- * the job details, whether still loading, etc.
- * @param loading whether job details are still loading
- * @param error whether fetching job details resulted in error
- * @param details data holding details about the job
- */
 
 /*******************************************************************
  *                            **Styles**                           *

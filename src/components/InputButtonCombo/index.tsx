@@ -5,6 +5,9 @@ import Button from "src/components/Button";
 import Text from "src/components/Text";
 import TextInput from "src/components/TextInput";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface IInputButtonComboProps
   extends React.ComponentPropsWithRef<"div"> {
   inputColor?: string;
@@ -18,8 +21,14 @@ export interface IInputButtonComboProps
   buttonTextColor?: string;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const ENTER_KEY_CODE = 13;
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.div`
   position: relative;
   width: 100%;
@@ -41,6 +50,9 @@ const Container = styled.div`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
   inputColor = "greyLight",
   placeholder,
@@ -83,4 +95,4 @@ const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
   );
 };
 
-export default React.memo(InputButtonCombo);
+export default InputButtonCombo;

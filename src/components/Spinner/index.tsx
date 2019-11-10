@@ -3,10 +3,16 @@ import styled from "styled-components";
 
 import { spin } from "src/theme/snippets";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface SpinnerProps extends React.ComponentPropsWithoutRef<"div"> {
   color?: string;
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.div`
   position: relative;
   width: 36px;
@@ -40,6 +46,9 @@ const Ring = styled.div`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Spinner: React.FC<SpinnerProps> = ({ color, ...rest }) => (
   <Container {...rest}>
     <Ring color={color} />

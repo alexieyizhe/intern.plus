@@ -29,7 +29,6 @@ import Section from "./components/Section";
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-
 const inputOptions = [
   { label: "Option 1", value: "option-1" },
   { label: "Option 2", value: "option-2" },
@@ -44,6 +43,9 @@ const inputOptions = [
   { label: "Option 6", value: "option-6" },
 ];
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const landingCardStyles = css`
   width: 350px;
   height: 180px;
@@ -79,6 +81,9 @@ const PaletteSquare = styled(Card)`
     color === theme.color.white && `border: 2px solid ${theme.color.black}`};
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const DesignSystemPage = () => {
   const [numFilledStars, setNumFilledStars] = useState(3);
   const [checkboxChecked, setChecked] = useState(false);

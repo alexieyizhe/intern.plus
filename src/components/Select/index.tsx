@@ -6,8 +6,14 @@ import { Props } from "react-select/src/Select";
 import { IInputStyleOptions } from "src/theme/snippets";
 import themeConstants, { Size } from "src/theme/constants";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ISelectProps extends IInputStyleOptions, Props {}
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 /**
  * Override the styling provided by `react-select` to match
  * the rest of the input component styles. Use theme constants
@@ -86,6 +92,9 @@ const customSelectStyles = (color?: string) => ({
   },
 });
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Select: React.FC<ISelectProps> = ({ color, ...rest }) => (
   <BaseSelect {...rest} styles={customSelectStyles(color) as any} />
 );

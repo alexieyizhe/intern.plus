@@ -32,6 +32,9 @@ export interface ISearchFieldProps
   };
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const ENTER_KEY_CODE = 13;
 
 const renderSuggestion = (suggestion: string) => (
@@ -42,6 +45,9 @@ const renderSuggestion = (suggestion: string) => (
   </Suggestion>
 );
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.div`
   position: sticky;
   top: 90px;
