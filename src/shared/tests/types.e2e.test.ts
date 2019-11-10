@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 /* eslint-disable */
 declare namespace Cypress {
   interface cy {

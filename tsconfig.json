@@ -26,8 +26,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "types": ["cypress"]
+    "types": ["cypress"],
+    "typeRoots": ["./support"]
   },
-  "include": ["src", "cypress/**/*.ts"],
-  "exclude": ["node_modules", "src/**/**.test.{ts,tsx}"]
+  "include": ["src/**/*", "cypress/**/*"],
+  "exclude": ["node_modules", "src/**/*.e2e.test.ts", "src/**/*.unit.test.tsx"]
 }

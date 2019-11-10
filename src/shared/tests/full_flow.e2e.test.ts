@@ -11,7 +11,6 @@
  * - Click: close modal button
  * - Click: logo to go to home page
  */
-
 describe("Full flow", () => {
   it("successfully loads and searches", () => {
     cy.visit("/");
