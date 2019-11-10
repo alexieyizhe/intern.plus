@@ -136,13 +136,10 @@ const getLocationSuggestions = (results: IGenericCardItem[]) =>
       }, new Set())
   ) as string[];
 
-export const LOCATION_MAP = DEFAULT_LOCATION_OPTIONS.reduce(
-  (acc, cur) => {
-    acc[cur.value] = cur;
-    return acc;
-  },
-  {} as { [key: string]: OptionTypeBase }
-);
+export const LOCATION_MAP = DEFAULT_LOCATION_OPTIONS.reduce((acc, cur) => {
+  acc[cur.value] = cur;
+  return acc;
+}, {} as { [key: string]: OptionTypeBase });
 
 export const useSearchLocationFilter = (results?: IGenericCardItem[]) => {
   const { searchLocationFilter, setSearchLocationFilter } = useSearchParams();

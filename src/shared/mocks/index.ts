@@ -310,29 +310,20 @@ MOCK_COMPANIES_LIST.forEach((company, i) => {
   company.medianHourlySalary = medianHourlySalary;
 });
 
-export const MOCK_COMPANIES = MOCK_COMPANIES_LIST.reduce(
-  (acc, curCompany) => {
-    acc[curCompany.slug] = curCompany;
-    return acc;
-  },
-  {} as any
-);
+export const MOCK_COMPANIES = MOCK_COMPANIES_LIST.reduce((acc, curCompany) => {
+  acc[curCompany.slug] = curCompany;
+  return acc;
+}, {} as any);
 
-export const MOCK_JOBS = MOCK_JOBS_LIST.reduce(
-  (acc, curJob) => {
-    acc[curJob.id] = curJob;
-    return acc;
-  },
-  {} as any
-);
+export const MOCK_JOBS = MOCK_JOBS_LIST.reduce((acc, curJob) => {
+  acc[curJob.id] = curJob;
+  return acc;
+}, {} as any);
 
-export const MOCK_REVIEWS = MOCK_REVIEWS_LIST.reduce(
-  (acc, curReview) => {
-    acc[curReview.id] = curReview;
-    return acc;
-  },
-  {} as any
-);
+export const MOCK_REVIEWS = MOCK_REVIEWS_LIST.reduce((acc, curReview) => {
+  acc[curReview.id] = curReview;
+  return acc;
+}, {} as any);
 
 export const MOCK_LOCATIONS = Array.from(
   MOCK_JOBS_LIST.reduce((acc, cur) => {
