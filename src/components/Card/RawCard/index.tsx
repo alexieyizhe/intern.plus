@@ -4,6 +4,7 @@ import styled from "styled-components";
 export interface ICardProps extends React.ComponentPropsWithRef<"div"> {
   color?: string;
 }
+
 const BaseCard = styled.div`
   display: inline-block;
 

@@ -5,10 +5,9 @@ import { useHistory } from "react-router-dom";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { RouteName } from "src/shared/constants/routing";
+import copy from "../copy";
 
 import { SearchField, Text, Button } from "src/components";
-
-import copy from "../copy";
 
 /*******************************************************************
  *                             **Types**                           *

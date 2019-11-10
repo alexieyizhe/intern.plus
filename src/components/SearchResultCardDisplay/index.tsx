@@ -3,8 +3,12 @@ import styled, { css } from "styled-components";
 import { Planet, KawaiiMood } from "react-kawaii";
 import { Waypoint } from "react-waypoint";
 
-import { RouteName } from "src/shared/constants/routing";
 import { SearchState } from "src/shared/hooks/useSearch";
+import {
+  getCompanyCardRoute,
+  getJobCardRoute,
+  getReviewCardRoute,
+} from "src/shared/constants/routing";
 import {
   IGenericCardItem,
   isCompanyCardItem,
@@ -42,7 +46,8 @@ const REVIEW_IS_NEW_THRESHOLD = 77760000000; // 2.5 years (30 months) in ms
 /**
  * Determines the mood of the planet illustration
  * that should be displayed in situations when normal
- * search results aren't available.
+ * search results aren't available, as well as the markup
+ * text/loader based on the state.
  * @param searched `true` if the first search has already been executed
  * @param loading `true` if the search query is currently being executed
  * @param error `true` the search query resulted in an error
@@ -108,18 +113,6 @@ const getReviewCardTags = (review: IReviewJobCardItem | IReviewUserCardItem) =>
     : undefined;
 
 /**
- * Gets the unique routes for each type of card for navigating to details of that card
- */
-const getCompanyCardRoute = (companySlug: string) =>
-  `${RouteName.COMPANIES}/${companySlug}`;
-
-const getJobCardRoute = (jobId: string, jobSlug: string, companySlug: string) =>
-  `${RouteName.JOBS}/${jobId}`;
-
-const getReviewCardRoute = (reviewId: string) =>
-  `${RouteName.REVIEWS}/${reviewId}`;
-
-/**
  * Creates the markup for a single search result card, based on
  * the data in the search result.
  * @param result object containing item data for a specific search result
@@ -154,7 +147,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
         maxHourlySalary={result.maxHourlySalary}
         hourlySalaryCurrency={result.hourlySalaryCurrency}
         color={result.color}
-        linkTo={getJobCardRoute(result.id, result.slug, result.companySlug)}
+        linkTo={getJobCardRoute(result.id)}
       />
     );
   } else if (isReviewJobCardItem(result) || isReviewUserCardItem(result)) {
