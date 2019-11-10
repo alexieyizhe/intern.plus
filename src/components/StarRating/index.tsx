@@ -5,6 +5,9 @@ import classNames from "classnames";
 import Icon from "src/components/Icon";
 import { IconName } from "../Icon/icons";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface IStarRatingProps
   extends React.ComponentPropsWithoutRef<"div"> {
   /**
@@ -24,6 +27,9 @@ export interface IStarRatingProps
   readOnly?: boolean;
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.span`
   display: inline-flex;
   align-items: center;
@@ -52,6 +58,9 @@ const Star = styled.span`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const StarRating: React.FC<IStarRatingProps> = ({
   size = 16,
   maxStars,

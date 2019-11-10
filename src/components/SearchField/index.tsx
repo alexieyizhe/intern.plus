@@ -21,7 +21,7 @@ import Card from "src/components/Card";
  *******************************************************************/
 export interface ISearchFieldProps
   extends React.ComponentPropsWithoutRef<"div"> {
-  onTriggerSearch: (val: string) => void;
+  onTriggerSearch: (value: string) => void;
   suggestions?: string[];
   fuseOptions?: Fuse.FuseOptions<string>;
 
@@ -32,6 +32,9 @@ export interface ISearchFieldProps
   };
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const ENTER_KEY_CODE = 13;
 
 const renderSuggestion = (suggestion: string) => (
@@ -42,6 +45,9 @@ const renderSuggestion = (suggestion: string) => (
   </Suggestion>
 );
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.div`
   position: sticky;
   top: 90px;
@@ -219,7 +225,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         suggestions={filteredSuggestions}
         getSuggestionValue={getSuggestionValue}
         renderInputComponent={inputProps => (
-          <TextInput color={inputProps.color} {...(inputProps as any)} /> // eslint-disable-line
+          <TextInput color={inputProps.color} {...(inputProps as any)} /> // eslint-disable-line @typescript-eslint/no-explicit-any
         )}
         renderSuggestion={renderSuggestion}
         inputProps={{

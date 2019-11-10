@@ -5,6 +5,9 @@ import { Ghost } from "react-kawaii";
 import { PageContainer, Text, Link } from "src/components";
 import { FEEDBACK_LINK } from "src/components/PageFooter/copy";
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Contents = styled.div`
   position: relative;
   width: 100%;
@@ -34,6 +37,7 @@ const Contents = styled.div`
     }
   `}
 `;
+
 const FloatingGhost = styled(Ghost)`
   &::after {
     content: "";
@@ -53,6 +57,9 @@ const FloatingGhost = styled(Ghost)`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const CrashPage = () => (
   <PageContainer>
     <Contents>

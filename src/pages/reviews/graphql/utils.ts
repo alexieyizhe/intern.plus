@@ -2,7 +2,7 @@
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 
-import { IReviewDetails } from "../components/ReviewModal";
+import { IReviewDetails } from "../components/ReviewDetailsCard";
 import { GetReviewDetails_review } from "./types/GetReviewDetails";
 
 TimeAgo.addLocale(en);

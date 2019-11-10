@@ -2,10 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ITagProps extends React.ComponentPropsWithoutRef<"div"> {
   color?: string;
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.div`
   padding: 3px 6px;
 
@@ -17,6 +23,9 @@ const Container = styled.div`
     theme.color[color] || color || "inherit"};
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Tag: React.FC<ITagProps> = ({ className, color, children, ...rest }) => (
   <Container className={classNames(className, "tag")} color={color} {...rest}>
     {children}

@@ -1,8 +1,10 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import React, { useMemo } from "react";
 import styled, { css } from "styled-components";
 
-import { RouteName } from "src/shared/constants/routing";
+import {
+  getCompanyCardRoute,
+  getReviewCardRoute,
+} from "src/shared/constants/routing";
 import {
   IGenericCardItem,
   isCompanyCardItem,
@@ -37,12 +39,6 @@ export interface ILandingCardDisplayProps
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-const getCompanyCardRoute = (companySlug: string) =>
-  `${RouteName.COMPANIES}/${companySlug}`;
-
-const getReviewCardRoute = (reviewId: string) =>
-  `${RouteName.REVIEWS}/${reviewId}`;
-
 /**
  * Creates the markup for a single carousel card, based on
  * the data in the search result.
@@ -119,7 +115,7 @@ const Container = styled.section`
   margin: 50px auto;
 `;
 
-const Display = styled.div`
+const CardsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -212,7 +208,7 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
     <Container {...rest}>
       <Text variant="heading2">{heading}</Text>
 
-      <Display>
+      <CardsContainer>
         {showMisc ? (
           <MiscContentContainer>
             {loading && <Spinner />}
@@ -225,7 +221,7 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
         ) : (
           cards.map(getLandingCardMarkup)
         )}
-      </Display>
+      </CardsContainer>
 
       {subLinkTo && (
         <SubLink to={subLinkTo}>

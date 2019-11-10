@@ -2,10 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ITooltipProps extends React.ComponentPropsWithoutRef<"div"> {
   color?: string;
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Indicator = styled.div`
   position: relative;
   text-align: center;
@@ -61,18 +67,6 @@ const Indicator = styled.div`
     line-height: 1.4;
   }
 
-  & > div:before {
-    display: none; /* get rid of this to show pointer */
-    position: absolute;
-    content: "";
-    width: 0;
-    height: 0;
-    border: 6px solid transparent;
-    border-bottom-color: ${({ theme }) => theme.color.white};
-    right: 10px;
-    top: -12px;
-  }
-
   & > div:after {
     /* Prevents the tooltip from being hidden */
     width: 100%;
@@ -84,6 +78,9 @@ const Indicator = styled.div`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Tooltip: React.FC<ITooltipProps> = ({
   className,
   color,

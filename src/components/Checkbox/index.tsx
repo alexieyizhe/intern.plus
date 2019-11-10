@@ -1,11 +1,20 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ICheckboxProps
   extends React.ComponentPropsWithoutRef<"input"> {}
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const CHECKBOX_SIZE = 15;
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.span`
   position: relative;
   display: inline-flex;
@@ -93,6 +102,9 @@ const StyledCheckbox = styled.span`
   ${checkedStyles}
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Checkbox: React.FC<ICheckboxProps> = ({
   className,
   type, // unused

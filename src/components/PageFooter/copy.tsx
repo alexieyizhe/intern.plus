@@ -13,6 +13,9 @@ const RANKINGS_DAY1 = "11/5";
 const RANKINGS_DAY2 = "11/5";
 const RANKINGS_TEXT = "thank mr goose for rankings";
 
+/**
+ * Gets the correct text underneath the footer logo.
+ */
 const getSubtext = () => {
   const dateStr = `${new Date().getMonth() + 1}/${new Date().getDate()}`;
 
@@ -72,7 +75,6 @@ const getSubtext = () => {
 };
 
 export const EMAIL = "hello@intern.plus";
-// export const FEEDBACK_LINK = `mailto:${EMAIL}?subject=Feedback for intern.plus`;
 export const FEEDBACK_LINK =
   "https://github.com/alexieyizhe/intern.plus/issues/new?title=Feedback%20for%20intern.plus&body=Explain%20your%20issue%20here";
 
