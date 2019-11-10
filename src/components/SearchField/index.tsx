@@ -21,7 +21,7 @@ import Card from "src/components/Card";
  *******************************************************************/
 export interface ISearchFieldProps
   extends React.ComponentPropsWithoutRef<"div"> {
-  onTriggerSearch: (val: string) => void;
+  onTriggerSearch: (value: string) => void;
   suggestions?: string[];
   fuseOptions?: Fuse.FuseOptions<string>;
 
