@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  Switch,
-  Route,
-  Redirect,
-  useRouteMatch,
-  match as Match,
-} from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
+import { useCalculatedLocation } from "src/shared/hooks/useCalculatedLocation";
 import { RouteName } from "src/shared/constants/routing";
 import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
@@ -18,22 +13,20 @@ import JobPage from "./components/JobPage";
  *  - display a job and its reviews
  */
 const JobsRouteHandler = () => {
-  const match = useRouteMatch() as Match;
+  const calculatedLocation = useCalculatedLocation();
 
   return (
-    <>
-      <Switch>
-        <Route path={`${match.path}/:jobId`}>
-          <JobPage />
-        </Route>
+    <Switch location={calculatedLocation}>
+      <Route exact path={RouteName.JOB}>
+        <JobPage />
+      </Route>
 
-        <Route path={match.path}>
-          <Redirect
-            to={`${RouteName.SEARCH}?${SearchParamKey.TYPE}=${SearchType.JOBS}`}
-          />
-        </Route>
-      </Switch>
-    </>
+      <Route exact path={RouteName.JOBS}>
+        <Redirect
+          to={`${RouteName.SEARCH}?${SearchParamKey.TYPE}=${SearchType.JOBS}`}
+        />
+      </Route>
+    </Switch>
   );
 };
 

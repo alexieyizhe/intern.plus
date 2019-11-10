@@ -10,6 +10,10 @@ const B = 66;
 
 const CODE_SEQUENCE = [UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT, B, A]; // konami code
 
+/**
+ * Toggles active status of an easter egg on the site,
+ * just for funsies.
+ */
 export const useEasterEgg = () => {
   const { dispatch } = useSiteContext();
 

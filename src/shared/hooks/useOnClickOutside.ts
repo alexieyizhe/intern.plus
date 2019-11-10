@@ -11,11 +11,17 @@ type HandledEventsType = HandledEvents[number];
 type PossibleEvent = {
   [Type in HandledEventsType]: HTMLElementEventMap[Type];
 }[HandledEventsType];
-type Handler = (event: PossibleEvent) => void;
+type Callback = (event: PossibleEvent) => void;
 
+/**
+ * Triggers a callback when a click event occurs outside
+ * of a specified element.
+ * @param ref a ref to the element tracking click outsides
+ * @param callback a callback function to be executed when a click outside occurs
+ */
 export const useOnClickOutside = (
   ref: React.MutableRefObject<HTMLElement | null>,
-  handler: Handler
+  callback: Callback
 ) => {
   useEffect(() => {
     const listener = (event: PossibleEvent) => {
@@ -24,7 +30,7 @@ export const useOnClickOutside = (
         return;
       }
 
-      handler(event);
+      callback(event);
     };
 
     document.addEventListener("mousedown", listener);
@@ -34,5 +40,5 @@ export const useOnClickOutside = (
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [ref, handler]);
+  }, [ref, callback]);
 };
