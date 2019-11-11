@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  Switch,
-  Route,
-  Redirect,
-  useRouteMatch,
-  match as Match,
-} from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
+import { useCalculatedLocation } from "src/shared/hooks/useCalculatedLocation";
 import { RouteName } from "src/shared/constants/routing";
 import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
@@ -18,22 +13,20 @@ import CompanyPage from "./components/CompanyPage";
  *  - display a company and its jobs
  */
 const CompaniesRouteHandler = () => {
-  const match = useRouteMatch() as Match;
+  const calculatedLocation = useCalculatedLocation();
 
   return (
-    <>
-      <Switch>
-        <Route path={`${match.path}/:companySlug`}>
-          <CompanyPage />
-        </Route>
+    <Switch location={calculatedLocation}>
+      <Route exact path={RouteName.COMPANY}>
+        <CompanyPage />
+      </Route>
 
-        <Route path={match.path}>
-          <Redirect
-            to={`${RouteName.SEARCH}?${SearchParamKey.TYPE}=${SearchType.COMPANIES}`}
-          />
-        </Route>
-      </Switch>
-    </>
+      <Route exact path={RouteName.COMPANIES}>
+        <Redirect
+          to={`${RouteName.SEARCH}?${SearchParamKey.TYPE}=${SearchType.COMPANIES}`}
+        />
+      </Route>
+    </Switch>
   );
 };
 
