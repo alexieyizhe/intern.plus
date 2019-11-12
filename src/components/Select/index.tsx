@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
+import styled from "styled-components";
 import BaseSelect from "react-select";
 import { Props } from "react-select/src/Select";
 
@@ -51,7 +52,7 @@ const customSelectStyles = (color?: string) => ({
   dropdownIndicator: (provided: any) => ({
     ...provided,
     cursor: "pointer",
-    padding: "0 8px",
+    padding: "0",
   }),
   menu: (provided: any) => ({
     ...provided,
@@ -92,11 +93,15 @@ const customSelectStyles = (color?: string) => ({
   },
 });
 
+const StyledSelect = styled(BaseSelect)`
+  width: 100%;
+`;
+
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
 const Select: React.FC<ISelectProps> = ({ color, ...rest }) => (
-  <BaseSelect {...rest} styles={customSelectStyles(color) as any} />
+  <StyledSelect {...rest} styles={customSelectStyles(color) as any} />
 );
 
 export default Select;

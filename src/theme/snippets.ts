@@ -100,4 +100,8 @@ export const inputStyles = css<IInputStyleOptions>`
     outline: none;
     border: 2px solid ${({ theme }) => theme.color.black};
   }
+
+  &:disabled {
+    color: ${({ theme }) => theme.color.greyDark};
+  }
 `;

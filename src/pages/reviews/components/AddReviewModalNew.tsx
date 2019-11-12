@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
@@ -9,15 +9,22 @@ import {
   Text,
   TextInput,
   TextArea,
+  Select,
   StarRating,
   Button,
   Tooltip,
+  UnstyledButton,
+  Spinner,
+  baseLinkStyles,
 } from "src/components";
 import {
   HEADER_HEIGHT,
   MOBILE_MENU_HEIGHT,
   MOBILE_MENU_MEDIA_QUERY,
 } from "src/components/PageHeader";
+
+export interface IAddReviewModalProps
+  extends React.ComponentPropsWithoutRef<"div"> {}
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -75,6 +82,10 @@ const InnerContainer = styled(Card)`
     margin-top: 20px;
   }
 
+  &.isConfirmingSubmit article {
+    opacity: 0.6;
+  }
+
   ${({ theme }) => theme.mediaQueries.medium`
     max-width: 100%;
   `}
@@ -98,7 +109,7 @@ const RowContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const Field = styled.div`
+const Field = styled.article`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -141,24 +152,20 @@ const SalaryField = styled(VerticalField)`
   width: 64%;
 
   & > div {
+    width: 100%;
     display: flex;
     justify-content: space-between;
 
     & .salary-amt {
-      width: 37%;
+      width: 36%;
     }
     & .salary-currency {
-      width: 25%;
+      width: 26%;
     }
     & .salary-period {
-      width: 32%;
+      width: 33%;
     }
   }
-`;
-
-const SubmitButton = styled(Button)`
-  margin: 20px auto;
-  width: fit-content;
 `;
 
 const LabelTooltipCombo = styled.div`
@@ -170,13 +177,53 @@ const LabelTooltipCombo = styled.div`
   }
 `;
 
+const ActionContainer = styled.div`
+  margin: 25px auto 10px auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &.confirming-submit .cancel-submit-button {
+    visibility: visible;
+  }
+
+  & .cancel-submit-button {
+    margin-top: 5px;
+    visibility: hidden;
+    ${baseLinkStyles}
+  }
+`;
+
+const ActionButton = styled(Button)`
+  min-width: 100px;
+  transition: all 150ms ease;
+
+  display: flex;
+  justify-content: center;
+`;
+
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const AddReviewModal: React.FC = () => {
+const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
   const {
     state: { addReviewModalOpen: modalOpen, mobileMenuOpen },
   } = useSiteContext();
+
+  const [isConfirmingSubmit, setIsConfirmingSubmit] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const onPotentialSubmit = () => setIsConfirmingSubmit(true);
+
+  const onSubmit = useCallback(() => {
+    setIsSubmitting(true);
+    setTimeout(() => {
+      alert("submitted");
+      setIsSubmitting(false);
+      setIsConfirmingSubmit(false);
+    }, 2000);
+  }, []);
 
   return (
     <ModalContainer
@@ -188,7 +235,7 @@ const AddReviewModal: React.FC = () => {
       <InnerModalContainer>
         <InnerContainer
           id="add-review-modal"
-          className={modalOpen ? "open" : ""}
+          className={classNames({ open: modalOpen, isConfirmingSubmit })}
           aria-hidden={modalOpen ? "false" : "true"}
           color="white"
         >
@@ -203,7 +250,11 @@ const AddReviewModal: React.FC = () => {
               >
                 Company name
               </Text>
-              <TextInput placeholder="Name" color="greyLight" />
+              <Select
+                placeholder="Name"
+                color="greyLight"
+                disabled={isConfirmingSubmit}
+              />
             </VerticalField>
             <VerticalField className="half-width">
               <Text
@@ -214,7 +265,11 @@ const AddReviewModal: React.FC = () => {
               >
                 Position title
               </Text>
-              <TextInput placeholder="Name" color="greyLight" />
+              <Select
+                placeholder="Title"
+                color="greyLight"
+                disabled={isConfirmingSubmit}
+              />
             </VerticalField>
           </RowContainer>
           <RowContainer>
@@ -227,7 +282,11 @@ const AddReviewModal: React.FC = () => {
               >
                 Location
               </Text>
-              <TextInput placeholder="Name" color="greyLight" />
+              <Select
+                placeholder="city"
+                color="greyLight"
+                disabled={isConfirmingSubmit}
+              />
             </LocationField>
             <SalaryField>
               <Text
@@ -245,20 +304,23 @@ const AddReviewModal: React.FC = () => {
                   type="number"
                   min={0}
                   color="greyLight"
+                  disabled={isConfirmingSubmit}
                 />
-                <TextInput
+                <Select
                   className="salary-currency"
                   placeholder="CAD"
                   type="number"
                   min={0}
                   color="greyLight"
+                  disabled={isConfirmingSubmit}
                 />
-                <TextInput
+                <Select
                   className="salary-period"
                   placeholder="monthly"
                   type="number"
                   min={0}
                   color="greyLight"
+                  disabled={isConfirmingSubmit}
                 />
               </div>
             </SalaryField>
@@ -274,7 +336,12 @@ const AddReviewModal: React.FC = () => {
               >
                 Overall rating
               </Text>
-              <StarRating maxStars={5} filledStars={3} color="#CFB316" />
+              <StarRating
+                maxStars={5}
+                filledStars={3}
+                color="#CFB316"
+                disabled={isConfirmingSubmit}
+              />
             </HorizontalField>
             <HorizontalField className="half-width">
               <Text
@@ -285,7 +352,11 @@ const AddReviewModal: React.FC = () => {
               >
                 Work-life balance
               </Text>
-              <StarRating maxStars={5} filledStars={3} />
+              <StarRating
+                maxStars={5}
+                filledStars={3}
+                disabled={isConfirmingSubmit}
+              />
             </HorizontalField>
 
             <HorizontalField className="half-width">
@@ -297,7 +368,11 @@ const AddReviewModal: React.FC = () => {
               >
                 Mentorship &amp; learning
               </Text>
-              <StarRating maxStars={5} filledStars={3} />
+              <StarRating
+                maxStars={5}
+                filledStars={3}
+                disabled={isConfirmingSubmit}
+              />
             </HorizontalField>
             <HorizontalField className="half-width">
               <Text
@@ -308,7 +383,11 @@ const AddReviewModal: React.FC = () => {
               >
                 Meaningful work
               </Text>
-              <StarRating maxStars={5} filledStars={3} />
+              <StarRating
+                maxStars={5}
+                filledStars={3}
+                disabled={isConfirmingSubmit}
+              />
             </HorizontalField>
           </RowContainer>
 
@@ -322,7 +401,11 @@ const AddReviewModal: React.FC = () => {
               >
                 Review
               </Text>
-              <TextArea placeholder="Share your thoughts" color="greyLight" />
+              <TextArea
+                placeholder="Share your thoughts"
+                color="greyLight"
+                disabled={isConfirmingSubmit}
+              />
             </VerticalField>
           </RowContainer>
 
@@ -341,6 +424,7 @@ const AddReviewModal: React.FC = () => {
               <TextInput
                 placeholder="e.g. hardware, startup, finance"
                 color="greyLight"
+                disabled={isConfirmingSubmit}
               />
             </VerticalField>
           </RowContainer>
@@ -363,15 +447,41 @@ const AddReviewModal: React.FC = () => {
                 </Tooltip>
               </LabelTooltipCombo>
 
-              <TextInput color="greyLight" placeholder="billy@bob.com" />
+              <TextInput
+                color="greyLight"
+                placeholder="billy@bob.com"
+                disabled={isConfirmingSubmit}
+              />
             </VerticalField>
           </RowContainer>
 
-          <SubmitButton color="greenDark">
-            <Text variant="subheading" color="white">
-              Submit
-            </Text>
-          </SubmitButton>
+          <ActionContainer
+            className={isConfirmingSubmit ? "confirming-submit" : ""}
+          >
+            <ActionButton
+              color={isConfirmingSubmit ? "greenDark" : "black"}
+              disabled={isSubmitting}
+              onClick={isConfirmingSubmit ? onSubmit : onPotentialSubmit}
+            >
+              {isSubmitting ? (
+                <Spinner color="white" size={16} />
+              ) : (
+                <Text variant="subheading" color="white">
+                  {isConfirmingSubmit ? "Confirm" : "Submit"}
+                </Text>
+              )}
+            </ActionButton>
+
+            <UnstyledButton
+              className="cancel-submit-button"
+              onClick={() => setIsConfirmingSubmit(false)}
+              aria-hidden={isConfirmingSubmit ? "false" : "true"}
+            >
+              <Text variant="subheading" color="greyDark">
+                cancel
+              </Text>
+            </UnstyledButton>
+          </ActionContainer>
         </InnerContainer>
       </InnerModalContainer>
     </ModalContainer>
