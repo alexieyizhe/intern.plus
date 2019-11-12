@@ -28,8 +28,6 @@ import CompaniesRouteHandler from "src/pages/companies";
 import JobsRouteHandler from "src/pages/jobs";
 import ReviewsRouteHandler from "src/pages/reviews";
 
-import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
-
 /**
  * Main route handler for all pages in the app.
  */
@@ -57,9 +55,6 @@ export const AppRouteHandler: React.FC = () => {
       <JobsRouteHandler />
 
       <ReviewsRouteHandler />
-
-      {/* TODO: make this into a ModalRenderer */}
-      <AddReviewModal />
     </>
   );
 };

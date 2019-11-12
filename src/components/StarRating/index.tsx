@@ -63,6 +63,7 @@ const Star = styled.span`
  *******************************************************************/
 const StarRating: React.FC<IStarRatingProps> = ({
   size = 16,
+  color,
   maxStars,
   filledStars,
   onClickStar,
@@ -117,6 +118,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
             <Icon
               name={filled ? IconName.STAR_FILLED : IconName.STAR_EMPTY}
               size={size}
+              color={color}
             />
           </Star>
         ))}

@@ -7,22 +7,25 @@ import classNames from "classnames";
  *******************************************************************/
 export interface ITooltipProps extends React.ComponentPropsWithoutRef<"div"> {
   color?: string;
+  position?: "left" | "right";
 }
 
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
-const Indicator = styled.div`
+const Indicator = styled.div<ITooltipProps>`
   position: relative;
-  text-align: center;
-  background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
-
-  border-radius: 50%;
   width: 16px;
   height: 16px;
   font-size: 10px;
   line-height: 14px;
+
+  display: inline-block;
+
+  text-align: center;
+  background-color: ${({ color = "", theme }) =>
+    theme.color[color] || color || "inherit"};
+  border-radius: 50%;
   cursor: pointer;
 
   &::before {
@@ -32,7 +35,8 @@ const Indicator = styled.div`
     color: #fff;
   }
 
-  &:hover > div {
+  &:hover > div,
+  &:focus:not(.focus-visible) > div {
     @keyframes fadeIn {
       0% {
         opacity: 0;
@@ -44,27 +48,36 @@ const Indicator = styled.div`
       }
     }
     display: block;
-    transform-origin: 100% 0%;
 
+    z-index: 10;
     animation: fadeIn 150ms ease-in-out;
+    transform-origin: top
+      ${({ position }) => (position === "right" ? "left" : "right")};
   }
 
   & > div {
     /* The tooltip */
-    display: none;
-    text-align: left;
-    background-color: ${({ theme }) => theme.color.white};
-    opacity: 0.95;
-    padding: 20px;
-    width: 300px;
     position: absolute;
+    width: 300px;
+    padding: 20px;
+    margin-top: 10px;
+    ${({ position }) => `${position === "right" ? "left" : "right"}: -8px;`}
+
+    display: none;
+    opacity: 0.95;
+
+    font-size: 13px;
+    text-align: left;
+    line-height: 1.4;
+
+    color: ${({ theme }) => theme.color.black};
+    background-color: ${({ theme }) => theme.color.white};
     border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
-    margin-top: 10px;
-    right: -8px;
-    color: ${({ theme }) => theme.color.black};
-    font-size: 13px;
-    line-height: 1.4;
+
+    ${({ theme }) => theme.mediaQueries.xlMobile`
+      width: 200px;
+    `}
   }
 
   & > div:after {

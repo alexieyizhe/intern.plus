@@ -17,6 +17,8 @@ export interface ITextAreaProps
 const BaseTextArea = styled.textarea`
   ${inputStyles}
 
+  min-height: 8em;
+
   resize: vertical;
   &::-webkit-resizer {
     display: none;
