@@ -224,8 +224,8 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         onSuggestionSelected={onSuggestionSelected}
         suggestions={filteredSuggestions}
         getSuggestionValue={getSuggestionValue}
-        renderInputComponent={inputProps => (
-          <TextInput color={inputProps.color} {...(inputProps as any)} /> // eslint-disable-line @typescript-eslint/no-explicit-any
+        renderInputComponent={innerInputProps => (
+          <TextInput color={inputProps.color} {...(innerInputProps as any)} /> // eslint-disable-line @typescript-eslint/no-explicit-any
         )}
         renderSuggestion={renderSuggestion}
         inputProps={{

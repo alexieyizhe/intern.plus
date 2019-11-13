@@ -25,6 +25,7 @@ export interface IStarRatingProps
    * Whether stars should be clickable.
    */
   readOnly?: boolean;
+  disabled?: boolean;
 }
 
 /*******************************************************************
@@ -46,8 +47,11 @@ const Star = styled.span`
   justify-content: center;
   align-items: center;
 
-  &:not(.read-only) {
-    cursor: pointer;
+  cursor: pointer;
+
+  &.read-only,
+  &.disabled {
+    cursor: not-allowed;
   }
 
   & > div {
@@ -63,10 +67,12 @@ const Star = styled.span`
  *******************************************************************/
 const StarRating: React.FC<IStarRatingProps> = ({
   size = 16,
+  color,
   maxStars,
   filledStars,
   onClickStar,
   readOnly,
+  disabled,
   children,
   ...rest
 }) => {
@@ -74,17 +80,17 @@ const StarRating: React.FC<IStarRatingProps> = ({
 
   const internalOnMouseHover = useCallback(
     (hoverStarIndex: number, enter: boolean) => () => {
-      if (!readOnly) {
+      if (!readOnly && !disabled) {
         if (enter) setHoverStars(hoverStarIndex + 1);
         else setHoverStars(false);
       }
     },
-    [readOnly]
+    [disabled, readOnly]
   );
 
   const internalOnClick = useCallback(
     (starIndex: number) => () => {
-      if (!readOnly && onClickStar) {
+      if (!readOnly && !disabled && onClickStar) {
         if (starIndex + 1 === filledStars) {
           onClickStar(0);
         } else {
@@ -92,7 +98,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
         }
       }
     },
-    [readOnly, filledStars, onClickStar]
+    [readOnly, disabled, onClickStar, filledStars]
   );
 
   // boolean array where true = filled star, false = empty
@@ -108,7 +114,11 @@ const StarRating: React.FC<IStarRatingProps> = ({
       <span className="star-container">
         {stars.map((filled, i) => (
           <Star
-            className={classNames({ filled, "read-only": readOnly })}
+            className={classNames({
+              filled,
+              "read-only": readOnly,
+              disabled: disabled,
+            })}
             key={`star${i}${filled ? "filled" : ""}`}
             onClick={internalOnClick(i)}
             onMouseEnter={internalOnMouseHover(i, true)}
@@ -117,6 +127,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
             <Icon
               name={filled ? IconName.STAR_FILLED : IconName.STAR_EMPTY}
               size={size}
+              color={disabled ? "greyDark" : color}
             />
           </Star>
         ))}

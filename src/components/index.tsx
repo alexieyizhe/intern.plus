@@ -51,3 +51,6 @@ export * from "./TextArea";
 
 export { default as TextInput } from "./TextInput";
 export * from "./TextInput";
+
+export { default as Tooltip } from "./Tooltip";
+export * from "./Tooltip";

@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
+import styled from "styled-components";
 import BaseSelect from "react-select";
+import Creatable from "react-select/creatable";
 import { Props } from "react-select/src/Select";
 
 import { IInputStyleOptions } from "src/theme/snippets";
@@ -9,7 +11,9 @@ import themeConstants, { Size } from "src/theme/constants";
 /*******************************************************************
  *                            **Types**                            *
  *******************************************************************/
-export interface ISelectProps extends IInputStyleOptions, Props {}
+export interface ISelectProps extends IInputStyleOptions, Props {
+  creatable?: boolean;
+}
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -47,11 +51,17 @@ const customSelectStyles = (color?: string) => ({
   indicatorsContainer: (provided: any, state: any) => ({
     ...provided,
     pointerEvents: state.isDisabled ? "none" : "auto",
+    padding: 0,
+  }),
+  clearIndicator: (provided: any) => ({
+    ...provided,
+    cursor: "pointer",
+    padding: 0,
   }),
   dropdownIndicator: (provided: any) => ({
     ...provided,
     cursor: "pointer",
-    padding: "0 8px",
+    padding: 0,
   }),
   menu: (provided: any) => ({
     ...provided,
@@ -90,13 +100,32 @@ const customSelectStyles = (color?: string) => ({
 
     return { ...provided, opacity, transition };
   },
+  multiValue: (provided: any) => ({
+    ...provided,
+    margin: 0,
+  }),
+  multiValueLabel: (provided: any) => ({
+    ...provided,
+    padding: "1px",
+  }),
 });
+
+const StyledCreatable = styled(Creatable)`
+  width: 100%;
+`;
+
+const StyledSelect = styled(BaseSelect)`
+  width: 100%;
+`;
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const Select: React.FC<ISelectProps> = ({ color, ...rest }) => (
-  <BaseSelect {...rest} styles={customSelectStyles(color) as any} />
-);
+const Select: React.FC<ISelectProps> = ({ color, creatable, ...rest }) =>
+  creatable ? (
+    <StyledCreatable {...rest} styles={customSelectStyles(color) as any} />
+  ) : (
+    <StyledSelect {...rest} styles={customSelectStyles(color) as any} />
+  );
 
-export default Select;
+export default React.memo(Select);
