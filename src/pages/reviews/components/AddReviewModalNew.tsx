@@ -254,6 +254,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="Name"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
+                creatable
               />
             </VerticalField>
             <VerticalField className="half-width">
@@ -269,6 +270,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="Title"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
+                creatable
               />
             </VerticalField>
           </RowContainer>
@@ -286,6 +288,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="city"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
+                creatable
               />
             </LocationField>
             <SalaryField>
@@ -309,16 +312,13 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 <Select
                   className="salary-currency"
                   placeholder="CAD"
-                  type="number"
-                  min={0}
                   color="greyLight"
+                  creatable
                   disabled={isConfirmingSubmit}
                 />
                 <Select
                   className="salary-period"
                   placeholder="monthly"
-                  type="number"
-                  min={0}
                   color="greyLight"
                   disabled={isConfirmingSubmit}
                 />
@@ -417,14 +417,16 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 </Text>
                 <Tooltip position="right" color="greyMedium">
                   <Text variant="body" as="div">
-                    Optional keywords related to your review (comma separated).
+                    Optional keywords related to your review.
                   </Text>
                 </Tooltip>
               </LabelTooltipCombo>
-              <TextInput
+              <Select
                 placeholder="e.g. hardware, startup, finance"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
+                creatable
+                isMulti
               />
             </VerticalField>
           </RowContainer>
