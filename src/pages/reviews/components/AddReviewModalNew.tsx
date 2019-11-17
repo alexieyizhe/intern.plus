@@ -1,8 +1,14 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
 import { useSiteContext } from "src/context";
+import { slugify } from "src/shared/utils/misc";
+
+import { useCompanySuggestions } from "src/shared/hooks/useCompanySuggestions";
+import { useJobSuggestions } from "src/shared/hooks/useJobSuggestions";
+import { useLocationSuggestions } from "src/shared/hooks/useLocationSuggestions";
+import { useTagSuggestions } from "src/shared/hooks/useTagSuggestions";
 
 import {
   Card,
@@ -25,6 +31,18 @@ import {
 
 export interface IAddReviewModalProps
   extends React.ComponentPropsWithoutRef<"div"> {}
+
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
+const salaryCurrencyOptions = ["CAD", "USD", "EUR", "JPY"].map(currency => ({
+  label: currency,
+  value: currency,
+}));
+const salaryPeriodOptions = ["hourly", "weekly", "monthly"].map(period => ({
+  label: period,
+  value: period,
+}));
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -211,6 +229,47 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     state: { addReviewModalOpen: modalOpen, mobileMenuOpen },
   } = useSiteContext();
 
+  /**
+   * Create options for selections.
+   */
+  const { suggestions: companySuggestions } = useCompanySuggestions();
+  const { suggestions: jobSuggestions } = useJobSuggestions();
+  const { suggestions: locationSuggestions } = useLocationSuggestions();
+  const { suggestions: tagSuggestions } = useTagSuggestions();
+
+  const companyOptions = useMemo(
+    () =>
+      companySuggestions.map(({ name, slug }) => ({
+        label: name || "",
+        value: slug || "",
+      })),
+    [companySuggestions]
+  );
+  const jobOptions = useMemo(
+    () =>
+      jobSuggestions.map(({ name, id }) => ({
+        label: name || "",
+        value: id || "",
+      })),
+    [jobSuggestions]
+  );
+  const locationOptions = useMemo(
+    () =>
+      locationSuggestions.map(loc => ({
+        label: loc,
+        value: slugify(loc),
+      })),
+    [locationSuggestions]
+  );
+  const tagOptions = useMemo(
+    () =>
+      tagSuggestions.map(tag => ({
+        label: tag,
+        value: tag,
+      })),
+    [tagSuggestions]
+  );
+
   const [isConfirmingSubmit, setIsConfirmingSubmit] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -255,6 +314,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 color="greyLight"
                 disabled={isConfirmingSubmit}
                 creatable
+                options={companyOptions}
               />
             </VerticalField>
             <VerticalField className="half-width">
@@ -271,6 +331,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 color="greyLight"
                 disabled={isConfirmingSubmit}
                 creatable
+                options={jobOptions}
               />
             </VerticalField>
           </RowContainer>
@@ -285,10 +346,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 Location
               </Text>
               <Select
-                placeholder="city"
+                placeholder="City"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
                 creatable
+                options={locationOptions}
               />
             </LocationField>
             <SalaryField>
@@ -313,14 +375,16 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   className="salary-currency"
                   placeholder="CAD"
                   color="greyLight"
-                  creatable
                   disabled={isConfirmingSubmit}
+                  creatable
+                  options={salaryCurrencyOptions}
                 />
                 <Select
                   className="salary-period"
                   placeholder="monthly"
                   color="greyLight"
                   disabled={isConfirmingSubmit}
+                  options={salaryPeriodOptions}
                 />
               </div>
             </SalaryField>
@@ -427,6 +491,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 disabled={isConfirmingSubmit}
                 creatable
                 isMulti
+                options={tagOptions}
               />
             </VerticalField>
           </RowContainer>
@@ -452,6 +517,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               <TextInput
                 color="greyLight"
                 placeholder="billy@bob.com"
+                type="email"
                 disabled={isConfirmingSubmit}
               />
             </VerticalField>
