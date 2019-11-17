@@ -252,7 +252,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
         <div>
           <ReviewRating
             maxStars={5}
-            filledStars={reviewDetails ? reviewDetails.overallRating : 0}
+            value={reviewDetails ? reviewDetails.overallRating : 0}
             readOnly
           >
             <Text variant="subheading" className="rating-text">
@@ -261,7 +261,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           </ReviewRating>
           <ReviewRating
             maxStars={5}
-            filledStars={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
+            value={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
             readOnly
           >
             <Text variant="subheading" className="rating-text" color="greyDark">
@@ -270,7 +270,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           </ReviewRating>
           <ReviewRating
             maxStars={5}
-            filledStars={
+            value={
               reviewDetails ? reviewDetails.workLifeBalanceRating : 0
             }
             readOnly
@@ -281,7 +281,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           </ReviewRating>
           <ReviewRating
             maxStars={5}
-            filledStars={
+            value={
               reviewDetails ? reviewDetails.learningMentorshipRating : 0
             }
             readOnly

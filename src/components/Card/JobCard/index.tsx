@@ -115,7 +115,7 @@ const JobCard: React.FC<IJobCardProps> = ({
       </Text>
 
       <div className="ratings">
-        <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly>
+        <StarRating maxStars={5} value={Math.round(avgRating)} readOnly>
           <Text variant="body" color="black">
             {avgRating.toFixed(1)}
           </Text>

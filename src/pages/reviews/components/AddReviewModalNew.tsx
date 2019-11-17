@@ -9,6 +9,7 @@ import { useCompanySuggestions } from "src/shared/hooks/useCompanySuggestions";
 import { useJobSuggestions } from "src/shared/hooks/useJobSuggestions";
 import { useLocationSuggestions } from "src/shared/hooks/useLocationSuggestions";
 import { useTagSuggestions } from "src/shared/hooks/useTagSuggestions";
+import { useAddReview } from "src/shared/hooks/useAddReview";
 
 import {
   Card,
@@ -229,6 +230,8 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     state: { addReviewModalOpen: modalOpen, mobileMenuOpen },
   } = useSiteContext();
 
+  const { reviewState, onReviewChange, onReviewSubmit } = useAddReview();
+
   /**
    * Create options for selections.
    */
@@ -278,11 +281,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
   const onSubmit = useCallback(() => {
     setIsSubmitting(true);
     setTimeout(() => {
-      alert("submitted");
+      onReviewSubmit();
       setIsSubmitting(false);
       setIsConfirmingSubmit(false);
     }, 2000);
-  }, []);
+  }, [onReviewSubmit]);
 
   return (
     <ModalContainer
@@ -313,8 +316,13 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="Name"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
-                creatable
+                // creatable
                 options={companyOptions}
+                value={companyOptions.find(
+                  option =>
+                    option.value === reviewState.values["company"]?.value
+                )}
+                onChange={option => onReviewChange("company", option)}
               />
             </VerticalField>
             <VerticalField className="half-width">
@@ -330,8 +338,12 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="Title"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
-                creatable
+                // creatable
                 options={jobOptions}
+                value={jobOptions.find(
+                  option => option.value === reviewState.values["job"]?.value
+                )}
+                onChange={option => onReviewChange("job", option)}
               />
             </VerticalField>
           </RowContainer>
@@ -349,8 +361,13 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="City"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
-                creatable
+                // creatable
                 options={locationOptions}
+                value={jobOptions.find(
+                  option =>
+                    option.value === reviewState.values["location"]?.value
+                )}
+                onChange={option => onReviewChange("location", option)}
               />
             </LocationField>
             <SalaryField>
@@ -370,14 +387,21 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   min={0}
                   color="greyLight"
                   disabled={isConfirmingSubmit}
+                  value={reviewState.values["salary"]}
                 />
                 <Select
                   className="salary-currency"
                   placeholder="CAD"
                   color="greyLight"
                   disabled={isConfirmingSubmit}
-                  creatable
+                  // creatable
                   options={salaryCurrencyOptions}
+                  value={salaryCurrencyOptions.find(
+                    option =>
+                      option.value ===
+                      reviewState.values["salaryCurrency"]?.value
+                  )}
+                  onChange={option => onReviewChange("salaryCurrency", option)}
                 />
                 <Select
                   className="salary-period"
@@ -385,6 +409,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   color="greyLight"
                   disabled={isConfirmingSubmit}
                   options={salaryPeriodOptions}
+                  value={salaryPeriodOptions.find(
+                    option =>
+                      option.value === reviewState.values["salaryPeriod"]?.value
+                  )}
+                  onChange={option => onReviewChange("salaryPeriod", option)}
                 />
               </div>
             </SalaryField>
@@ -402,7 +431,8 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </Text>
               <StarRating
                 maxStars={5}
-                filledStars={3}
+                value={reviewState.values["overallRating"]}
+                onChange={stars => onReviewChange("overallRating", stars)}
                 color="#CFB316"
                 disabled={isConfirmingSubmit}
               />
@@ -418,7 +448,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </Text>
               <StarRating
                 maxStars={5}
-                filledStars={3}
+                value={reviewState.values["workLifeBalanceRating"]}
+                onChange={stars =>
+                  onReviewChange("workLifeBalanceRating", stars)
+                }
                 disabled={isConfirmingSubmit}
               />
             </HorizontalField>
@@ -434,7 +467,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </Text>
               <StarRating
                 maxStars={5}
-                filledStars={3}
+                value={reviewState.values["learningMentorshipRating"]}
+                onChange={stars =>
+                  onReviewChange("learningMentorshipRating", stars)
+                }
                 disabled={isConfirmingSubmit}
               />
             </HorizontalField>
@@ -449,7 +485,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </Text>
               <StarRating
                 maxStars={5}
-                filledStars={3}
+                value={reviewState.values["meaningfulWorkRating"]}
+                onChange={stars =>
+                  onReviewChange("meaningfulWorkRating", stars)
+                }
                 disabled={isConfirmingSubmit}
               />
             </HorizontalField>
@@ -469,6 +508,8 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="Share your thoughts"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
+                value={reviewState.values["body"]}
+                onChange={e => onReviewChange("body", e.target.value)}
               />
             </VerticalField>
           </RowContainer>
@@ -489,9 +530,15 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="e.g. hardware, startup, finance"
                 color="greyLight"
                 disabled={isConfirmingSubmit}
-                creatable
+                // creatable
                 isMulti
                 options={tagOptions}
+                value={tagOptions.filter(option =>
+                  reviewState.values["tags"]
+                    ?.map(op => op.value)
+                    .includes(option.value)
+                )}
+                onChange={option => onReviewChange("tags", option)}
               />
             </VerticalField>
           </RowContainer>
@@ -519,6 +566,8 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 placeholder="billy@bob.com"
                 type="email"
                 disabled={isConfirmingSubmit}
+                value={reviewState.values["authorEmail"]}
+                onChange={e => onReviewChange("authorEmail", e.target.value)}
               />
             </VerticalField>
           </RowContainer>

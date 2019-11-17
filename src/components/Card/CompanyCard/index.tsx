@@ -40,7 +40,7 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
   }
 
   return (
-    <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly>
+    <StarRating maxStars={5} value={Math.round(avgRating)} readOnly>
       <Text variant="body" className="avgRating" color="black">
         {avgRating.toFixed(1)}
       </Text>
