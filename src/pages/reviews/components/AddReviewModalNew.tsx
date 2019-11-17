@@ -141,6 +141,10 @@ const Field = styled.article`
     width: 47%;
   }
 
+  &.error h4 {
+    color: ${({ theme }) => theme.color.error} !important;
+  }
+
   ${({ theme }) => theme.mediaQueries.xlMobile`
     width: 100% !important;
   `}
@@ -176,10 +180,10 @@ const SalaryField = styled(VerticalField)`
     justify-content: space-between;
 
     & .salary-amt {
-      width: 36%;
+      width: 34%;
     }
     & .salary-currency {
-      width: 26%;
+      width: 28%;
     }
     & .salary-period {
       width: 33%;
@@ -303,7 +307,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
         >
           <Text variant="heading2">Write a review</Text>
           <RowContainer>
-            <VerticalField className="half-width">
+            <VerticalField
+              className={classNames("half-width", {
+                error: reviewState.errors["company"].error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -325,7 +333,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 onChange={option => onReviewChange("company", option)}
               />
             </VerticalField>
-            <VerticalField className="half-width">
+            <VerticalField
+              className={classNames("half-width", {
+                error: reviewState.errors["job"].error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -348,7 +360,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
             </VerticalField>
           </RowContainer>
           <RowContainer>
-            <LocationField>
+            <LocationField
+              className={classNames({
+                error: reviewState.errors["location"]?.error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -370,7 +386,14 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 onChange={option => onReviewChange("location", option)}
               />
             </LocationField>
-            <SalaryField>
+            <SalaryField
+              className={classNames({
+                error:
+                  reviewState.errors["salary"].error ||
+                  reviewState.errors["salaryCurrency"].error ||
+                  reviewState.errors["salaryPeriod"].error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -388,6 +411,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   color="greyLight"
                   disabled={isConfirmingSubmit}
                   value={reviewState.values["salary"]}
+                  onChange={e => onReviewChange("salary", e.target.value)}
                 />
                 <Select
                   className="salary-currency"
@@ -411,16 +435,25 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   options={salaryPeriodOptions}
                   value={salaryPeriodOptions.find(
                     option =>
-                      option.value === reviewState.values["salaryPeriod"]?.value
+                      option.value === reviewState.values["salaryPeriod"]
                   )}
-                  onChange={option => onReviewChange("salaryPeriod", option)}
+                  onChange={option =>
+                    onReviewChange(
+                      "salaryPeriod",
+                      (option as { value: string })?.value
+                    )
+                  }
                 />
               </div>
             </SalaryField>
           </RowContainer>
 
           <RowContainer>
-            <HorizontalField className="half-width">
+            <HorizontalField
+              className={classNames("half-width", {
+                error: reviewState.errors["overallRating"].error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -437,7 +470,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 disabled={isConfirmingSubmit}
               />
             </HorizontalField>
-            <HorizontalField className="half-width">
+            <HorizontalField
+              className={classNames("half-width", {
+                error: reviewState.errors["workLifeBalanceRating"].error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -456,7 +493,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               />
             </HorizontalField>
 
-            <HorizontalField className="half-width">
+            <HorizontalField
+              className={classNames("half-width", {
+                error: reviewState.errors["learningMentorshipRating"].error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -474,7 +515,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 disabled={isConfirmingSubmit}
               />
             </HorizontalField>
-            <HorizontalField className="half-width">
+            <HorizontalField
+              className={classNames("half-width", {
+                error: reviewState.errors["meaningfulWorkRating"].error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -495,7 +540,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
           </RowContainer>
 
           <RowContainer>
-            <VerticalField>
+            <VerticalField
+              className={classNames({
+                error: reviewState.errors["body"]?.error,
+              })}
+            >
               <Text
                 variant="subheading"
                 className="label"
@@ -515,7 +564,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
           </RowContainer>
 
           <RowContainer>
-            <VerticalField>
+            <VerticalField
+              className={classNames({
+                error: reviewState.errors["tags"]?.error,
+              })}
+            >
               <LabelTooltipCombo className="label">
                 <Text variant="subheading" as="h4" color="greyDark">
                   Tags
@@ -544,7 +597,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
           </RowContainer>
 
           <RowContainer>
-            <VerticalField>
+            <VerticalField
+              className={classNames({
+                error: reviewState.errors["authorEmail"]?.error,
+              })}
+            >
               <LabelTooltipCombo className="label">
                 <Text variant="subheading" as="h4" color="greyDark">
                   Email

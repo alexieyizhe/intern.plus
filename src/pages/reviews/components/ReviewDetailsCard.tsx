@@ -270,9 +270,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           </ReviewRating>
           <ReviewRating
             maxStars={5}
-            value={
-              reviewDetails ? reviewDetails.workLifeBalanceRating : 0
-            }
+            value={reviewDetails?.workLifeBalanceRating}
             readOnly
           >
             <Text variant="subheading" className="rating-text" color="greyDark">
@@ -281,9 +279,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           </ReviewRating>
           <ReviewRating
             maxStars={5}
-            value={
-              reviewDetails ? reviewDetails.learningMentorshipRating : 0
-            }
+            value={reviewDetails?.learningMentorshipRating}
             readOnly
           >
             <Text variant="subheading" className="rating-text" color="greyDark">

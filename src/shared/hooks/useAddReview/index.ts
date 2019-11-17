@@ -1,21 +1,57 @@
 import { useState } from "react";
-import { OptionTypeBase } from "react-select/src/types";
+import * as yup from "yup";
 
-export interface IAddReviewFields {
-  company: OptionTypeBase; // label is company name, value is company slug
-  job: OptionTypeBase; // label is job name, value is job id
-  location: OptionTypeBase;
-  body: string;
-  overallRating: number;
-  meaningfulWorkRating: number;
-  workLifeBalanceRating: number;
-  learningMentorshipRating: number;
-  salary: number;
-  salaryCurrency: OptionTypeBase;
-  salaryPeriod: OptionTypeBase;
-  tags: OptionTypeBase[];
-  authorEmail: string;
-}
+const optionSchema = yup
+  .object({
+    label: yup.string(),
+    value: yup.string(),
+  })
+  .default(undefined);
+
+const addReviewSchema = yup.object({
+  company: optionSchema.required(),
+  job: optionSchema.required(),
+  location: optionSchema.notRequired(),
+  body: yup.string().notRequired(),
+  overallRating: yup
+    .number()
+    .min(0)
+    .max(5)
+    .required(),
+  meaningfulWorkRating: yup
+    .number()
+    .min(0)
+    .max(5)
+    .required(),
+  workLifeBalanceRating: yup
+    .number()
+    .min(0)
+    .max(5)
+    .required(),
+  learningMentorshipRating: yup
+    .number()
+    .min(0)
+    .max(5)
+    .required(),
+  salary: yup
+    .number()
+    .min(0)
+    .required(),
+  salaryCurrency: optionSchema.required(),
+  salaryPeriod: yup
+    .mixed<"hourly" | "weekly" | "monthly">()
+    .oneOf(["hourly", "weekly", "monthly"]),
+  tags: yup
+    .array()
+    .of(optionSchema)
+    .notRequired(),
+  authorEmail: yup
+    .string()
+    .email()
+    .required(),
+});
+
+export type IAddReviewFields = yup.InferType<typeof addReviewSchema>;
 
 export type IAddReviewState = {
   values: Partial<IAddReviewFields>;
@@ -29,17 +65,17 @@ export type IAddReviewState = {
 
 const DEFAULT_REVIEW_STATE: IAddReviewState = {
   values: {
-    job: {},
-    company: {},
-    location: {},
+    job: undefined,
+    company: undefined,
+    location: undefined,
     body: "",
     overallRating: undefined,
     meaningfulWorkRating: undefined,
     workLifeBalanceRating: undefined,
     learningMentorshipRating: undefined,
     salary: undefined,
-    salaryCurrency: {},
-    salaryPeriod: {},
+    salaryCurrency: undefined,
+    salaryPeriod: undefined,
     tags: [],
     authorEmail: "",
   },
@@ -101,8 +137,32 @@ export const useAddReview = () => {
   };
 
   const onReviewSubmit = () => {
-    alert("submitted");
+    try {
+      addReviewSchema.validateSync(reviewState.values, { abortEarly: false });
+      alert("submitted");
+    } catch (e) {
+      if (e instanceof yup.ValidationError) {
+        console.log(e);
+        setReviewState(prevState => ({
+          ...prevState,
+          errors: {
+            ...prevState.errors,
+            ...(e as yup.ValidationError).inner.reduce(
+              (acc, { path, message }) => ({
+                ...acc,
+                [path]: { error: true, text: message },
+              }),
+              {}
+            ),
+          },
+        }));
+      } else {
+        throw e;
+      }
+    }
   };
+
+  console.log(reviewState.errors);
 
   return {
     reviewState,
