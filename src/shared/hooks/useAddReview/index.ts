@@ -136,17 +136,23 @@ export const useAddReview = () => {
     }));
   };
 
-  const onReviewSubmit = () => {
+  const onReviewPotentialSubmit = () => {
     try {
       addReviewSchema.validateSync(reviewState.values, { abortEarly: false });
-      alert("submitted");
+
+      /**
+       * We've passed validation, reset errors to original state
+       */
+      setReviewState(prevState => ({
+        ...prevState,
+        errors: DEFAULT_REVIEW_STATE.errors,
+      }));
     } catch (e) {
       if (e instanceof yup.ValidationError) {
-        console.log(e);
         setReviewState(prevState => ({
           ...prevState,
           errors: {
-            ...prevState.errors,
+            ...DEFAULT_REVIEW_STATE.errors,
             ...(e as yup.ValidationError).inner.reduce(
               (acc, { path, message }) => ({
                 ...acc,
@@ -156,17 +162,23 @@ export const useAddReview = () => {
             ),
           },
         }));
+        return false;
       } else {
         throw e;
       }
     }
+
+    return true;
   };
 
-  console.log(reviewState.errors);
+  const onReviewSubmit = () => {
+    console.log("submitted with", reviewState.values);
+  };
 
   return {
     reviewState,
     onReviewChange,
+    onReviewPotentialSubmit,
     onReviewSubmit,
   };
 };
