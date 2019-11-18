@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import * as yup from "yup";
+import { useMutation } from "@apollo/react-hooks";
+
+import { ADD_REVIEW } from "./graphql/queries";
 
 const optionSchema = yup
   .object({
@@ -126,6 +129,19 @@ const DEFAULT_REVIEW_STATE: IAddReviewState = {
 export const useAddReview = () => {
   const [reviewState, setReviewState] = useState(DEFAULT_REVIEW_STATE);
 
+  const queryVariables = useMemo(
+    () => ({
+      ...reviewState.values,
+      companySlug: reviewState.values.company?.value,
+      jobId: reviewState.values.job?.value,
+      salaryCurrency: reviewState.values.salaryCurrency?.value,
+      tags: reviewState.values.tags?.map(option => option.value).join(","),
+    }),
+    [reviewState.values]
+  );
+
+  const [addReview] = useMutation(ADD_REVIEW);
+
   const onReviewChange = <T>(key: keyof IAddReviewFields, value: T) => {
     setReviewState(prevState => ({
       ...prevState,
@@ -171,8 +187,15 @@ export const useAddReview = () => {
     return true;
   };
 
-  const onReviewSubmit = () => {
+  const onReviewSubmit = async () => {
     console.log("submitted with", reviewState.values);
+
+    /**
+     * Execute the mutation
+     */
+    await addReview({
+      variables: queryVariables,
+    });
   };
 
   return {

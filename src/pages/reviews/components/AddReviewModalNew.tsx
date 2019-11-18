@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
@@ -269,13 +269,12 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     }
   };
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = () => {
     setIsSubmitting(true);
-    setTimeout(() => {
-      onReviewSubmit();
-      setSubmitted(true);
-    }, 2000);
-  }, [onReviewSubmit]);
+    onReviewSubmit()
+      .then(() => setSubmitted(true))
+      .catch(() => setSubmitted(true));
+  };
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -381,7 +380,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <Select
                     placeholder="Name"
                     color="greyLight"
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                     // creatable
                     options={companyOptions}
                     value={companyOptions.find(
@@ -407,7 +406,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <Select
                     placeholder="Title"
                     color="greyLight"
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                     // creatable
                     options={jobOptions}
                     value={jobOptions.find(
@@ -435,7 +434,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <Select
                     placeholder="City"
                     color="greyLight"
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                     // creatable
                     options={locationOptions}
                     value={jobOptions.find(
@@ -468,15 +467,17 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       type="number"
                       min={0}
                       color="greyLight"
-                      disabled={isConfirmingSubmit}
+                      disabled={isConfirmingSubmit || isSubmitting}
                       value={reviewState.values["salary"]}
-                      onChange={e => onReviewChange("salary", e.target.value)}
+                      onChange={e =>
+                        onReviewChange("salary", parseInt(e.target.value))
+                      }
                     />
                     <Select
                       className="salary-currency"
                       placeholder="CAD"
                       color="greyLight"
-                      disabled={isConfirmingSubmit}
+                      disabled={isConfirmingSubmit || isSubmitting}
                       // creatable
                       options={salaryCurrencyOptions}
                       value={salaryCurrencyOptions.find(
@@ -492,7 +493,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       className="salary-period"
                       placeholder="monthly"
                       color="greyLight"
-                      disabled={isConfirmingSubmit}
+                      disabled={isConfirmingSubmit || isSubmitting}
                       options={salaryPeriodOptions}
                       value={salaryPeriodOptions.find(
                         option =>
@@ -527,7 +528,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     value={reviewState.values["overallRating"]}
                     onChange={stars => onReviewChange("overallRating", stars)}
                     color="#CFB316"
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                   />
                 </HorizontalField>
                 <HorizontalField
@@ -549,7 +550,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onChange={stars =>
                       onReviewChange("workLifeBalanceRating", stars)
                     }
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                   />
                 </HorizontalField>
 
@@ -572,7 +573,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onChange={stars =>
                       onReviewChange("learningMentorshipRating", stars)
                     }
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                   />
                 </HorizontalField>
                 <HorizontalField
@@ -594,7 +595,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onChange={stars =>
                       onReviewChange("meaningfulWorkRating", stars)
                     }
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                   />
                 </HorizontalField>
               </RowContainer>
@@ -615,7 +616,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <TextArea
                     placeholder="Share your thoughts"
                     color="greyLight"
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                     value={reviewState.values["body"]}
                     onChange={e => onReviewChange("body", e.target.value)}
                   />
@@ -640,7 +641,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <Select
                     placeholder="e.g. hardware, startup, finance"
                     color="greyLight"
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                     // creatable
                     isMulti
                     options={tagOptions}
@@ -679,7 +680,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     color="greyLight"
                     placeholder="billy@bob.com"
                     type="email"
-                    disabled={isConfirmingSubmit}
+                    disabled={isConfirmingSubmit || isSubmitting}
                     value={reviewState.values["authorEmail"]}
                     onChange={e =>
                       onReviewChange("authorEmail", e.target.value)
