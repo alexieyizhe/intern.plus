@@ -1,3 +1,7 @@
+/**
+ * Handles logic for tracking data for review creation, as well
+ * as creating and updating the review on the backend.
+ */
 import { useState, useMemo } from "react";
 import * as yup from "yup";
 import { useMutation } from "@apollo/react-hooks";
