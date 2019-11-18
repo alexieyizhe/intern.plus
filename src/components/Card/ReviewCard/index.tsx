@@ -137,7 +137,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
         <Text className="subheading" variant="heading4" color="greyDark">
           {subheading}
         </Text>
-        <StarRating maxStars={5} filledStars={rating || 0} readOnly />
+        <StarRating maxStars={5} value={rating || 0} readOnly />
         <div className="contents">{children}</div>
         {tags && (
           <div className="tags">

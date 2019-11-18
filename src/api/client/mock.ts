@@ -16,6 +16,12 @@ import {
   getMockSearchSuggestionsCompany,
 } from "src/shared/hooks/useSearchSuggestions/graphql/mocks";
 
+import { GET_COMPANY_SUGGESTIONS } from "src/shared/hooks/useCompanySuggestions";
+import { getMockCompanySuggestions } from "src/shared/hooks/useCompanySuggestions/graphql/mocks";
+
+import { GET_JOB_SUGGESTIONS } from "src/shared/hooks/useJobSuggestions";
+import { getMockJobSuggestions } from "src/shared/hooks/useJobSuggestions/graphql/mocks";
+
 import {
   GET_COMPANY_DETAILS,
   getCompanyJobsQueryBuilder,
@@ -62,6 +68,22 @@ const API_CALLS = [
     handler: ({ slug }: ISlugQueryParam) =>
       Promise.resolve({
         data: getMockSearchSuggestionsCompany(slug),
+      }),
+  },
+
+  // add review modal
+  {
+    query: GET_COMPANY_SUGGESTIONS,
+    handler: () =>
+      Promise.resolve({
+        data: getMockCompanySuggestions(),
+      }),
+  },
+  {
+    query: GET_JOB_SUGGESTIONS,
+    handler: () =>
+      Promise.resolve({
+        data: getMockJobSuggestions(),
       }),
   },
 

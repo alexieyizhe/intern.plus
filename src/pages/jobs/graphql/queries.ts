@@ -63,6 +63,17 @@ export const getJobReviewsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
                 { tags: { contains: $query } }
               ]
             },
+            { 
+              OR: [
+                {
+                  AND: [         
+                    { isVerified: { equals: true } },
+                    { isSpam: { equals: false } }
+                  ]
+                },
+                { isLegacy: { equals: true } }
+              ]
+            },
             {
               AND: [
                 { salary: { gte: $minSalary } }

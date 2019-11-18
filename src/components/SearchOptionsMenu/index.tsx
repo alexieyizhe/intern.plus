@@ -537,8 +537,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             <StarRating
               className="rating min"
               maxStars={5}
-              filledStars={internalRatingFilterOptionVal[0] || 0}
-              onClickStar={stars =>
+              value={internalRatingFilterOptionVal[0] || 0}
+              onChange={stars =>
                 setInternalRatingFilterOptionVal(prevVal => [stars, prevVal[1]])
               }
             >
@@ -549,8 +549,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             <StarRating
               className="rating max"
               maxStars={5}
-              filledStars={internalRatingFilterOptionVal[1] || 0}
-              onClickStar={stars =>
+              value={internalRatingFilterOptionVal[1] || 0}
+              onChange={stars =>
                 setInternalRatingFilterOptionVal(prevVal => [prevVal[0], stars])
               }
             >

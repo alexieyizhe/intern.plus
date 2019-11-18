@@ -102,7 +102,7 @@ const customSelectStyles = (color?: string) => ({
   },
   multiValue: (provided: any) => ({
     ...provided,
-    margin: 0,
+    margin: "0 4px 0 0",
   }),
   multiValueLabel: (provided: any) => ({
     ...provided,

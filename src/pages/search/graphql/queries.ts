@@ -133,7 +133,18 @@ const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
             { tags: { contains: $query } }
           ]
         },
-        { job: { location: { in: $locations } } }
+        { 
+          OR: [
+            {
+              AND: [         
+                { isVerified: { equals: true } },
+                { isSpam: { equals: false } }
+              ]
+            },
+            { isLegacy: { equals: true } }
+          ]
+        },
+        { job: { location: { in: $locations } } },
         {
           AND: [
             { salary: { gte: $minSalary } }

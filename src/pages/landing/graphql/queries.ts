@@ -15,7 +15,21 @@ export const GET_COMPANIES_REVIEWS_LANDING = gql`
       }
     }
 
-    reviewsList(sort: { createdAt: DESC }, first: ${MAX_LANDING_CARDS}) {
+    reviewsList(
+      filter: { 
+        OR: [
+          {
+            AND: [         
+              { isVerified: { equals: true } },
+              { isSpam: { equals: false } }
+            ]
+          },
+          { isLegacy: { equals: true } }
+        ]
+      }, 
+      sort: { createdAt: DESC }, 
+      first: ${MAX_LANDING_CARDS}
+    ) {
       items {
         ...ReviewResultJob
       }

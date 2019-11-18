@@ -9,18 +9,18 @@ import { IconName } from "../Icon/icons";
  *                            **Types**                            *
  *******************************************************************/
 export interface IStarRatingProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "onChange"> {
   /**
    * Affects appearance of the component
    */
   size?: number;
 
   maxStars: number; // total number of stars
-  filledStars: number; // number of filled stars
+  value?: number; // number of filled stars
   /**
    * Callback for when a star is clicked.
    */
-  onClickStar?: (numStars: number) => void;
+  onChange?: (numStars: number) => void;
   /**
    * Whether stars should be clickable.
    */
@@ -69,8 +69,8 @@ const StarRating: React.FC<IStarRatingProps> = ({
   size = 16,
   color,
   maxStars,
-  filledStars,
-  onClickStar,
+  value = 0,
+  onChange,
   readOnly,
   disabled,
   children,
@@ -90,23 +90,22 @@ const StarRating: React.FC<IStarRatingProps> = ({
 
   const internalOnClick = useCallback(
     (starIndex: number) => () => {
-      if (!readOnly && !disabled && onClickStar) {
-        if (starIndex + 1 === filledStars) {
-          onClickStar(0);
+      if (!readOnly && !disabled && onChange) {
+        if (starIndex + 1 === value) {
+          onChange(0);
         } else {
-          onClickStar(starIndex + 1);
+          onChange(starIndex + 1);
         }
       }
     },
-    [readOnly, disabled, onClickStar, filledStars]
+    [readOnly, disabled, onChange, value]
   );
 
   // boolean array where true = filled star, false = empty
   // used to render stars
   const stars = useMemo(
-    () =>
-      [...new Array(maxStars)].map((_, i) => i < (hoverStars || filledStars)),
-    [filledStars, hoverStars, maxStars]
+    () => [...new Array(maxStars)].map((_, i) => i < (hoverStars || value)),
+    [hoverStars, maxStars, value]
   );
 
   return (

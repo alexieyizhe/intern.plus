@@ -139,7 +139,7 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
           <StarRating
             className="rating"
             maxStars={5}
-            filledStars={Math.round(jobDetails ? jobDetails.avgRating : 0)}
+            value={Math.round(jobDetails ? jobDetails.avgRating : 0)}
             readOnly
           >
             <Text variant="subheading" className="rating-text" color="black">
@@ -152,7 +152,7 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
           <StarRating
             className="rating"
             maxStars={5}
-            filledStars={Math.round(
+            value={Math.round(
               jobDetails ? jobDetails.avgLearningMentorshipRating : 0
             )}
             readOnly
@@ -167,7 +167,7 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
           <StarRating
             className="rating"
             maxStars={5}
-            filledStars={Math.round(
+            value={Math.round(
               jobDetails ? jobDetails.avgMeaningfulWorkRating : 0
             )}
             readOnly
@@ -182,7 +182,7 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
           <StarRating
             className="rating"
             maxStars={5}
-            filledStars={Math.round(
+            value={Math.round(
               jobDetails ? jobDetails.avgWorkLifeBalanceRating : 0
             )}
             readOnly

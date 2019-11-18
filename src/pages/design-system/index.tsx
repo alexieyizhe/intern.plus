@@ -85,7 +85,7 @@ const PaletteSquare = styled(Card)`
  *                           **Component**                         *
  *******************************************************************/
 const DesignSystemPage = () => {
-  const [numFilledStars, setNumFilledStars] = useState(3);
+  const [numvalue, setNumvalue] = useState(3);
   const [checkboxChecked, setChecked] = useState(false);
 
   const theme = useContext(ThemeContext);
@@ -259,15 +259,15 @@ const DesignSystemPage = () => {
             <StarRating
               size={20}
               maxStars={8}
-              filledStars={numFilledStars}
-              onClickStar={(stars: number) => setNumFilledStars(stars)}
+              value={numvalue}
+              onChange={(stars: number) => setNumvalue(stars)}
             />
             <StarRating
               readOnly
               size={26}
               maxStars={5}
-              filledStars={numFilledStars}
-              onClickStar={(stars: number) => setNumFilledStars(stars)}
+              value={numvalue}
+              onChange={(stars: number) => setNumvalue(stars)}
             />
           </SectionSpacer>
         </Section>

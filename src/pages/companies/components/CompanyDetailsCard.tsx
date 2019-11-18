@@ -97,9 +97,7 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
         <div className="ratings">
           <StarRating
             maxStars={5}
-            filledStars={Math.round(
-              companyDetails ? companyDetails.avgRating : 0
-            )}
+            value={Math.round(companyDetails ? companyDetails.avgRating : 0)}
             readOnly
           >
             <Text variant="body" className="rating-text" color="black">
