@@ -7,8 +7,6 @@ export const addReviewBuilder = (
   let companyQuery;
   let jobQuery;
 
-  console.log({ isNewCompany, isNewJob });
-
   if (isNewCompany && isNewJob) {
     // both create
     companyQuery = `{ connect: { slug: $companySlug } }`;

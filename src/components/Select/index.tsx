@@ -51,7 +51,7 @@ const customSelectStyles = (color?: string) => ({
   }),
   input: (provided: any) => ({
     ...provided,
-    padding: 0,
+    padding: "1.5px 0",
     margin: 0,
   }),
   indicatorSeparator: () => {},
@@ -109,11 +109,15 @@ const customSelectStyles = (color?: string) => ({
   },
   multiValue: (provided: any) => ({
     ...provided,
-    margin: "0 4px 0 0",
+    margin: "1px 4px 1px 0",
   }),
   multiValueLabel: (provided: any) => ({
     ...provided,
     padding: "1px",
+  }),
+  multiValueRemove: (provided: any) => ({
+    ...provided,
+    cursor: "pointer",
   }),
 });
 
@@ -133,9 +137,8 @@ const Select: React.FC<ISelectProps> = ({
   creatable,
   disabled,
   ...rest
-}) => {
-  console.log("value is", rest.value);
-  return creatable ? (
+}) =>
+  creatable ? (
     <StyledCreatable
       {...rest}
       isDisabled={disabled}
@@ -148,6 +151,5 @@ const Select: React.FC<ISelectProps> = ({
       styles={customSelectStyles(color) as any}
     />
   );
-};
 
 export default React.memo(Select);

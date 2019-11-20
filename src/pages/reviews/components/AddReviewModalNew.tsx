@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
+import { ValueType } from "react-select";
 
 import { useSiteContext, ActionType } from "src/context";
 import { slugify } from "src/shared/utils/misc";
@@ -8,7 +9,6 @@ import { slugify } from "src/shared/utils/misc";
 import { useCompanySuggestions } from "src/shared/hooks/useCompanySuggestions";
 import { useJobSuggestions } from "src/shared/hooks/useJobSuggestions";
 import { useLocationSuggestions } from "src/shared/hooks/useLocationSuggestions";
-import { useTagSuggestions } from "src/shared/hooks/useTagSuggestions";
 import { useAddReview } from "src/shared/hooks/useAddReview";
 
 import {
@@ -36,6 +36,10 @@ export interface IAddReviewModalProps
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
+const SUBMIT_SUCCESS_TEXT =
+  "Thanks for helping your peers stay informed! Your review has been submitted and is pending approval for display.";
+const SUBMIT_ERROR_TEXT = "Oops! Something went wrong. Please try again.";
+
 const salaryCurrencyOptions = ["CAD", "USD", "EUR", "JPY"].map(currency => ({
   label: currency,
   value: currency,
@@ -257,11 +261,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     onReviewSubmit,
   } = useAddReview();
 
-  console.log(reviewState.values);
-
   const [isConfirmingSubmit, setIsConfirmingSubmit] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const onPotentialSubmit = () => {
     const isValid = onReviewPotentialSubmit();
@@ -271,32 +274,43 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setIsSubmitting(true);
-    onReviewSubmit()
-      .then(() => setSubmitted(true))
-      .catch(() => setSubmitted(true));
+    try {
+      const success = await onReviewSubmit();
+
+      if (success) {
+        setSubmitSuccess(true);
+      }
+    } catch (e) {
+      console.error("error", e);
+    } finally {
+      setSubmitted(true);
+    }
   };
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     let resetTimeout: NodeJS.Timeout;
     if (submitted) {
-      timeout = setTimeout(() => {
-        dispatch({ type: ActionType.CLOSE_ADD_REVIEW_MODAL });
-      }, 4000);
+      if (submitSuccess) {
+        timeout = setTimeout(() => {
+          dispatch({ type: ActionType.CLOSE_ADD_REVIEW_MODAL });
+        }, 4000);
+      }
+
       resetTimeout = setTimeout(() => {
         setSubmitted(false);
         setIsSubmitting(false);
         setIsConfirmingSubmit(false);
-      }, 6000);
+      }, 5000);
     }
 
     return () => {
       clearTimeout(timeout);
       clearTimeout(resetTimeout);
     };
-  }, [dispatch, submitted]);
+  }, [dispatch, submitSuccess, submitted]);
 
   /**
    * Create options for selections.
@@ -307,7 +321,26 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     !modalOpen
   );
   const { suggestions: locationSuggestions } = useLocationSuggestions();
-  const { suggestions: tagSuggestions } = useTagSuggestions();
+  const [tagsInputValue, setTagsInputValue] = useState<string | undefined>(
+    undefined
+  );
+  const onTagsInputChange = (inputValue: string) =>
+    setTagsInputValue(inputValue);
+  const onTagsChange = (value: ValueType<{ label: string; value: string }>) =>
+    onReviewChange("tags", value);
+  const onTagsKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (!tagsInputValue) return;
+    switch (event.key) {
+      case "Enter":
+      case " ":
+        onReviewChange("tags", [
+          ...(reviewState.values["tags"] || []),
+          { label: tagsInputValue, value: slugify(tagsInputValue) },
+        ]);
+        setTagsInputValue("");
+        event.preventDefault();
+    }
+  };
 
   const companyOptions = useMemo(
     () =>
@@ -333,16 +366,6 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
       })),
     [locationSuggestions]
   );
-  const tagOptions = useMemo(
-    () =>
-      tagSuggestions.map(tag => ({
-        label: tag,
-        value: tag,
-      })),
-    [tagSuggestions]
-  );
-
-  console.log(!reviewState.values["company"]?.value);
 
   return (
     <ModalContainer
@@ -361,11 +384,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
           {submitted ? (
             <SubmittedText
               variant="subheading"
-              color="greenDark"
+              color={submitSuccess ? "greenDark" : "error"}
               align="center"
             >
-              Thanks for helping your peers stay informed! Your review has been
-              submitted and is pending approval for display.
+              {submitSuccess ? SUBMIT_SUCCESS_TEXT : SUBMIT_ERROR_TEXT}
             </SubmittedText>
           ) : (
             <>
@@ -646,16 +668,17 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <Select
                     placeholder="e.g. hardware, startup, finance"
                     color="greyLight"
+                    components={{ DropdownIndicator: null }}
                     disabled={isConfirmingSubmit || isSubmitting}
                     creatable
+                    isClearable
                     isMulti
-                    options={tagOptions}
-                    value={tagOptions.filter(option =>
-                      reviewState.values["tags"]
-                        ?.map(op => op.value)
-                        .includes(option.value)
-                    )}
-                    onChange={option => onReviewChange("tags", option)}
+                    menuIsOpen={false}
+                    onChange={onTagsChange}
+                    onKeyDown={onTagsKeyDown}
+                    onInputChange={onTagsInputChange}
+                    value={reviewState.values["tags"]}
+                    inputValue={tagsInputValue}
                   />
                 </VerticalField>
               </RowContainer>

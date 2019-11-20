@@ -1,4 +1,3 @@
-import { slugify } from "src/shared/utils/misc";
 /**
  * Handles logic for tracking data for review creation, as well
  * as creating and updating the review on the backend.
@@ -6,7 +5,9 @@ import { slugify } from "src/shared/utils/misc";
 import { useState, useMemo } from "react";
 import * as yup from "yup";
 import { useMutation } from "@apollo/react-hooks";
+import { ValueType } from "react-select/src/types";
 
+import { slugify } from "src/shared/utils/misc";
 import { addReviewBuilder } from "./graphql/queries";
 
 const optionSchema = yup
@@ -135,7 +136,14 @@ const DEFAULT_REVIEW_STATE: IAddReviewState = {
 export const useAddReview = () => {
   const [reviewState, setReviewState] = useState(DEFAULT_REVIEW_STATE);
 
-  const onReviewChange = (key: keyof IAddReviewFields, value: any) => {
+  const onReviewChange = (
+    key: keyof IAddReviewFields,
+    value:
+      | string
+      | number
+      | ValueType<{ label: string; value: string }>
+      | undefined
+  ) => {
     console.log(key, value);
     setReviewState(prevState => ({
       ...prevState,
@@ -230,9 +238,17 @@ export const useAddReview = () => {
     /**
      * Execute the mutation
      */
-    await addReview({
+    const { errors } = await addReview({
       variables: queryVariables,
     });
+
+    if (!errors) {
+      // review add successful, reset
+      setReviewState(DEFAULT_REVIEW_STATE);
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return {
