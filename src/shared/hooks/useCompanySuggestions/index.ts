@@ -22,8 +22,8 @@ const buildCompanySuggestions = (data: GetCompanySuggestions) => {
   return [];
 };
 
-export const useCompanySuggestions = () => {
-  const { loading, error, data } = useQuery(GET_COMPANY_SUGGESTIONS);
+export const useCompanySuggestions = (skip?: boolean) => {
+  const { loading, error, data } = useQuery(GET_COMPANY_SUGGESTIONS, { skip });
 
   return {
     loading,

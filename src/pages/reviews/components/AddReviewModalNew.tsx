@@ -257,6 +257,8 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     onReviewSubmit,
   } = useAddReview();
 
+  console.log(reviewState.values);
+
   const [isConfirmingSubmit, setIsConfirmingSubmit] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -299,8 +301,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
   /**
    * Create options for selections.
    */
-  const { suggestions: companySuggestions } = useCompanySuggestions();
-  const { suggestions: jobSuggestions } = useJobSuggestions();
+  const { suggestions: companySuggestions } = useCompanySuggestions(!modalOpen);
+  const { suggestions: jobSuggestions } = useJobSuggestions(
+    reviewState.values.company?.value, // company slug
+    !modalOpen
+  );
   const { suggestions: locationSuggestions } = useLocationSuggestions();
   const { suggestions: tagSuggestions } = useTagSuggestions();
 
@@ -336,6 +341,8 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
       })),
     [tagSuggestions]
   );
+
+  console.log(!reviewState.values["company"]?.value);
 
   return (
     <ModalContainer
@@ -381,12 +388,9 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     placeholder="Name"
                     color="greyLight"
                     disabled={isConfirmingSubmit || isSubmitting}
-                    // creatable
+                    creatable
                     options={companyOptions}
-                    value={companyOptions.find(
-                      option =>
-                        option.value === reviewState.values["company"]?.value
-                    )}
+                    value={reviewState.values["company"]}
                     onChange={option => onReviewChange("company", option)}
                   />
                 </VerticalField>
@@ -406,13 +410,14 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <Select
                     placeholder="Title"
                     color="greyLight"
-                    disabled={isConfirmingSubmit || isSubmitting}
-                    // creatable
+                    disabled={
+                      isConfirmingSubmit ||
+                      isSubmitting ||
+                      !reviewState.values["company"]?.value
+                    }
+                    creatable
                     options={jobOptions}
-                    value={jobOptions.find(
-                      option =>
-                        option.value === reviewState.values["job"]?.value
-                    )}
+                    value={reviewState.values["job"] || null}
                     onChange={option => onReviewChange("job", option)}
                   />
                 </VerticalField>
@@ -435,7 +440,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     placeholder="City"
                     color="greyLight"
                     disabled={isConfirmingSubmit || isSubmitting}
-                    // creatable
+                    creatable
                     options={locationOptions}
                     value={jobOptions.find(
                       option =>
@@ -478,7 +483,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       placeholder="CAD"
                       color="greyLight"
                       disabled={isConfirmingSubmit || isSubmitting}
-                      // creatable
+                      creatable
                       options={salaryCurrencyOptions}
                       value={salaryCurrencyOptions.find(
                         option =>
@@ -642,7 +647,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     placeholder="e.g. hardware, startup, finance"
                     color="greyLight"
                     disabled={isConfirmingSubmit || isSubmitting}
-                    // creatable
+                    creatable
                     isMulti
                     options={tagOptions}
                     value={tagOptions.filter(option =>

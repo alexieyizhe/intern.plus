@@ -4,8 +4,8 @@ import { gql } from "apollo-boost";
 import { GetJobSuggestions } from "./graphql/types/GetJobSuggestions";
 
 export const GET_JOB_SUGGESTIONS = gql`
-  query GetJobSuggestions {
-    jobsList {
+  query GetJobSuggestions($slug: String) {
+    jobsList(filter: { company: { slug: { equals: $slug } } }) {
       items {
         name
         id
@@ -22,14 +22,15 @@ const buildJobSuggestions = (data: GetJobSuggestions) => {
   return [];
 };
 
-export const useJobSuggestions = (id?: string) => {
+export const useJobSuggestions = (companySlug?: string, skip?: boolean) => {
   const { loading, error, data } = useQuery(GET_JOB_SUGGESTIONS, {
-    variables: { id },
+    variables: { slug: companySlug },
+    skip: skip || !companySlug,
   });
 
   return {
     loading,
     error,
-    suggestions: buildJobSuggestions(data),
+    suggestions: companySlug ? buildJobSuggestions(data) : [],
   };
 };

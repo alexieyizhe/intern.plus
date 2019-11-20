@@ -81,9 +81,9 @@ const API_CALLS = [
   },
   {
     query: GET_JOB_SUGGESTIONS,
-    handler: () =>
+    handler: ({ slug }: ISlugQueryParam) =>
       Promise.resolve({
-        data: getMockJobSuggestions(),
+        data: getMockJobSuggestions(slug),
       }),
   },
 

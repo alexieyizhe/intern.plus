@@ -2,13 +2,13 @@ import { gql } from "apollo-boost";
 
 export const GET_SEARCH_SUGGESTIONS = gql`
   query GetSearchSuggestions {
-    companiesList {
+    companiesList(filter: { numRatings: { gt: 0 } }) {
       items {
         name
       }
     }
 
-    jobsList {
+    jobsList(filter: { numRatings: { gt: 0 } }) {
       items {
         name
       }

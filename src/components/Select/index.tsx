@@ -33,14 +33,21 @@ const customSelectStyles = (color?: string) => ({
   control: (provided: any, state: any) => ({
     ...provided,
     borderWidth: "2px",
-    borderColor: state.isFocused
-      ? `${themeConstants.color.black} !important`
-      : "transparent",
+    borderColor:
+      state.isFocused && !state.isDisabled
+        ? `${themeConstants.color.black} !important`
+        : "transparent",
     boxShadow: "none",
     borderRadius: themeConstants.borderRadius.button,
     padding: themeConstants.padding.input,
     cursor: state.isDisabled ? "not-allowed" : "text",
     backgroundColor: themeConstants.color[color || "greyLight"],
+    "&:hover": {
+      borderColor:
+        !state.isFocused &&
+        !state.isDisabled &&
+        `${themeConstants.color.greyMedium} !important`,
+    },
   }),
   input: (provided: any) => ({
     ...provided,
@@ -63,7 +70,7 @@ const customSelectStyles = (color?: string) => ({
     cursor: "pointer",
     padding: 0,
   }),
-  menu: (provided: any) => ({
+  menu: (provided: any, state: any) => ({
     ...provided,
     boxShadow: themeConstants.boxShadow.hover,
     borderRadius: 10,
@@ -121,11 +128,26 @@ const StyledSelect = styled(BaseSelect)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const Select: React.FC<ISelectProps> = ({ color, creatable, ...rest }) =>
-  creatable ? (
-    <StyledCreatable {...rest} styles={customSelectStyles(color) as any} />
+const Select: React.FC<ISelectProps> = ({
+  color,
+  creatable,
+  disabled,
+  ...rest
+}) => {
+  console.log("value is", rest.value);
+  return creatable ? (
+    <StyledCreatable
+      {...rest}
+      isDisabled={disabled}
+      styles={customSelectStyles(color) as any}
+    />
   ) : (
-    <StyledSelect {...rest} styles={customSelectStyles(color) as any} />
+    <StyledSelect
+      {...rest}
+      isDisabled={disabled}
+      styles={customSelectStyles(color) as any}
+    />
   );
+};
 
 export default React.memo(Select);
