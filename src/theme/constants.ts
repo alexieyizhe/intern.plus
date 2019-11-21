@@ -19,6 +19,8 @@ const constants: { [style: string]: { [key: string]: string | number } } = {
     white: "#FFFFFF",
 
     greenDark: "#507561",
+    greenMedium: "#779e89",
+    greenLight: "#a6bdb1",
 
     error: "#FF6166",
   },

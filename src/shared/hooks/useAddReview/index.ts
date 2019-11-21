@@ -144,7 +144,6 @@ export const useAddReview = () => {
       | ValueType<{ label: string; value: string }>
       | undefined
   ) => {
-    console.log(key, value);
     setReviewState(prevState => ({
       ...prevState,
       values: {
@@ -233,8 +232,6 @@ export const useAddReview = () => {
   }, [reviewState.values]);
 
   const onReviewSubmit = async () => {
-    console.log("submitted with", queryVariables);
-
     /**
      * Execute the mutation
      */

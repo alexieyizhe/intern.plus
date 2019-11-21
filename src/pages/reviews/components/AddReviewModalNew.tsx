@@ -464,10 +464,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     disabled={isConfirmingSubmit || isSubmitting}
                     creatable
                     options={locationOptions}
-                    value={jobOptions.find(
-                      option =>
-                        option.value === reviewState.values["location"]?.value
-                    )}
+                    value={reviewState.values["location"]}
                     onChange={option => onReviewChange("location", option)}
                   />
                 </LocationField>

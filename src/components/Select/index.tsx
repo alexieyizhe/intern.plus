@@ -86,14 +86,16 @@ const customSelectStyles = (color?: string) => ({
   option: (provided: any, state: any) => ({
     ...provided,
     cursor: "pointer",
-    backgroundColor: themeConstants.color.greyLight,
+    backgroundColor: state.isSelected
+      ? themeConstants.color.greenLight
+      : themeConstants.color.greyLight,
     color:
       state.isSelected || state.isFocused
         ? themeConstants.color.black
         : themeConstants.color.greyDark,
     padding: themeConstants.padding.input,
   }),
-  noOptionsMessaage: (provided: any) => ({
+  noOptionsMessage: (provided: any) => ({
     ...provided,
     padding: themeConstants.padding.input,
   }),
