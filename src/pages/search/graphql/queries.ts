@@ -37,6 +37,7 @@ const companiesQuery = ({ sort }: ISearchQueryBuilderOptions) => `
             { desc: { in: $locations } }
           ]
         },
+        { numRatings: { gt: 0 }},
         {
           AND: [
             { minHourlySalary: { lte: $maxSalary } }
@@ -85,6 +86,7 @@ const jobsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
             { location: { contains: $query } }
           ]
         },
+        { numRatings: { gt: 0 } },
         { location: { in: $locations } }
         {
           AND: [

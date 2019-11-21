@@ -62,6 +62,7 @@ export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
                 { hourlySalaryCurrency: { contains: $query } }
               ]
             },
+            { numRatings: { gt: 0 } },
             { location: { in: $locations } }
             {
               AND: [

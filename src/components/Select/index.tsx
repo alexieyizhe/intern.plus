@@ -33,18 +33,25 @@ const customSelectStyles = (color?: string) => ({
   control: (provided: any, state: any) => ({
     ...provided,
     borderWidth: "2px",
-    borderColor: state.isFocused
-      ? `${themeConstants.color.black} !important`
-      : "transparent",
+    borderColor:
+      state.isFocused && !state.isDisabled
+        ? `${themeConstants.color.black} !important`
+        : "transparent",
     boxShadow: "none",
     borderRadius: themeConstants.borderRadius.button,
     padding: themeConstants.padding.input,
     cursor: state.isDisabled ? "not-allowed" : "text",
     backgroundColor: themeConstants.color[color || "greyLight"],
+    "&:hover": {
+      borderColor:
+        !state.isFocused &&
+        !state.isDisabled &&
+        `${themeConstants.color.greyMedium} !important`,
+    },
   }),
   input: (provided: any) => ({
     ...provided,
-    padding: 0,
+    padding: "1.5px 0",
     margin: 0,
   }),
   indicatorSeparator: () => {},
@@ -63,7 +70,7 @@ const customSelectStyles = (color?: string) => ({
     cursor: "pointer",
     padding: 0,
   }),
-  menu: (provided: any) => ({
+  menu: (provided: any, state: any) => ({
     ...provided,
     boxShadow: themeConstants.boxShadow.hover,
     borderRadius: 10,
@@ -79,14 +86,16 @@ const customSelectStyles = (color?: string) => ({
   option: (provided: any, state: any) => ({
     ...provided,
     cursor: "pointer",
-    backgroundColor: themeConstants.color.greyLight,
+    backgroundColor: state.isSelected
+      ? themeConstants.color.greenLight
+      : themeConstants.color.greyLight,
     color:
       state.isSelected || state.isFocused
         ? themeConstants.color.black
         : themeConstants.color.greyDark,
     padding: themeConstants.padding.input,
   }),
-  noOptionsMessaage: (provided: any) => ({
+  noOptionsMessage: (provided: any) => ({
     ...provided,
     padding: themeConstants.padding.input,
   }),
@@ -102,11 +111,15 @@ const customSelectStyles = (color?: string) => ({
   },
   multiValue: (provided: any) => ({
     ...provided,
-    margin: "0 4px 0 0",
+    margin: "1px 4px 1px 0",
   }),
   multiValueLabel: (provided: any) => ({
     ...provided,
     padding: "1px",
+  }),
+  multiValueRemove: (provided: any) => ({
+    ...provided,
+    cursor: "pointer",
   }),
 });
 
@@ -121,11 +134,24 @@ const StyledSelect = styled(BaseSelect)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const Select: React.FC<ISelectProps> = ({ color, creatable, ...rest }) =>
+const Select: React.FC<ISelectProps> = ({
+  color,
+  creatable,
+  disabled,
+  ...rest
+}) =>
   creatable ? (
-    <StyledCreatable {...rest} styles={customSelectStyles(color) as any} />
+    <StyledCreatable
+      {...rest}
+      isDisabled={disabled}
+      styles={customSelectStyles(color) as any}
+    />
   ) : (
-    <StyledSelect {...rest} styles={customSelectStyles(color) as any} />
+    <StyledSelect
+      {...rest}
+      isDisabled={disabled}
+      styles={customSelectStyles(color) as any}
+    />
   );
 
 export default React.memo(Select);
