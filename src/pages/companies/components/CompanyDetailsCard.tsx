@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-globals */
-// TODO: upgrade to cra with optional chaining support and remove this stuff
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";

@@ -22,8 +22,10 @@ const constants: { [style: string]: { [key: string]: string | number } } = {
     greenMedium: "#779e89",
     greenLight: "#a6bdb1",
 
+    goldDark: "#CFB316",
+    goldLight: "#ffdc76",
+
     error: "#FF6166",
-    gold: "#ffdc76",
   },
   fontSize: {
     [Size.XSMALL]: 12,

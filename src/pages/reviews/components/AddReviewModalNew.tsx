@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import React, { useState, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
@@ -412,14 +411,19 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     error: reviewState.errors["job"].error,
                   })}
                 >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Position title*
-                  </Text>
+                  <LabelTooltipCombo className="label">
+                    <Text variant="subheading" as="h4" color="greyDark">
+                      Position title*
+                    </Text>
+                    <Tooltip color="greyMedium">
+                      <Text variant="body" as="div">
+                        The name of the position in your review. Must be
+                        selected after filling out the Company field. If the
+                        position doesn't exist, create one using the 'Create'
+                        option.
+                      </Text>
+                    </Tooltip>
+                  </LabelTooltipCombo>
                   <Select
                     placeholder="Search or create"
                     color="greyLight"
@@ -555,7 +559,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     maxStars={5}
                     value={reviewState.values["overallRating"]}
                     onChange={stars => onReviewChange("overallRating", stars)}
-                    color="#CFB316"
+                    color="goldDark"
                     disabled={isConfirmingSubmit || isSubmitting}
                   />
                 </HorizontalField>

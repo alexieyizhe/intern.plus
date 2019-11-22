@@ -5,7 +5,7 @@ import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { SearchType, SearchSort } from "src/shared/constants/search";
 
 export interface ISearchQueryBuilderOptions {
-  sort?: SearchSort; // TODO: change these key to be SearchParamKey
+  sort?: SearchSort;
   type?: SearchType;
 }
 
