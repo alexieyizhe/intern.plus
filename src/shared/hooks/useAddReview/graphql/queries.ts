@@ -10,10 +10,10 @@ export const addReviewBuilder = (
   if (isNewCompany && isNewJob) {
     // both create
     companyQuery = `{ connect: { slug: $companySlug } }`;
-    jobQuery = `{ create: { name: $jobName, slug: $jobSlug, company: { create: { name: $companyName, slug: $companySlug } } } }`;
+    jobQuery = `{ create: { name: $jobName, slug: $jobSlug, location: $location, company: { create: { name: $companyName, slug: $companySlug } } } }`;
   } else if (isNewJob) {
     companyQuery = `{ connect: { slug: $companySlug } }`;
-    jobQuery = `{ create: { name: $jobName, slug: $jobSlug, company: { connect: { slug: $companySlug } } } }`;
+    jobQuery = `{ create: { name: $jobName, slug: $jobSlug, location: $location, company: { connect: { slug: $companySlug } } } }`;
   } else if (isNewJob) {
     throw new Error("Cannot connect existing job to new company");
   } else {
@@ -29,15 +29,17 @@ export const addReviewBuilder = (
       ${isNewJob ? "$jobSlug: String!" : ""}
       ${isNewCompany ? "$companyName: String!" : ""}
       $companySlug: String!
+      ${isNewJob ? "$location: String!" : ""}
+      $overallRating: Float!
+      $learningMentorshipRating: Float
+      $meaningfulWorkRating: Float
+      $workLifeBalanceRating: Float
       $body: String!
       $tags: String
       $salary: Int!
       $salaryCurrency: String!
       $salaryPeriod: String!
-      $overallRating: Float!
-      $learningMentorshipRating: Float
-      $meaningfulWorkRating: Float
-      $workLifeBalanceRating: Float
+      $authorEmail: String!
     ) {
       reviewCreate(
         data: {
@@ -56,6 +58,7 @@ export const addReviewBuilder = (
           isLegacy: false
           isAnonymous: true
           isVerified: false
+          authorEmail: $authorEmail
         }
       ) {
         id

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, { useState, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
@@ -8,7 +9,6 @@ import { slugify } from "src/shared/utils/misc";
 
 import { useCompanySuggestions } from "src/shared/hooks/useCompanySuggestions";
 import { useJobSuggestions } from "src/shared/hooks/useJobSuggestions";
-import { useLocationSuggestions } from "src/shared/hooks/useLocationSuggestions";
 import { useAddReview } from "src/shared/hooks/useAddReview";
 
 import {
@@ -225,7 +225,7 @@ const ActionContainer = styled.div`
 `;
 
 const ErrorText = styled(Text)`
-  margin-top: 5px;
+  margin-top: 8px;
   display: none;
 
   &.error {
@@ -320,7 +320,6 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     reviewState.values.company?.value, // company slug
     !modalOpen
   );
-  const { suggestions: locationSuggestions } = useLocationSuggestions();
   const [tagsInputValue, setTagsInputValue] = useState<string | undefined>(
     undefined
   );
@@ -352,19 +351,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
   );
   const jobOptions = useMemo(
     () =>
-      jobSuggestions.map(({ name, id }) => ({
-        label: name || "",
+      jobSuggestions.map(({ name, location, id }) => ({
+        label: `${name} (${location})`,
         value: id || "",
       })),
     [jobSuggestions]
-  );
-  const locationOptions = useMemo(
-    () =>
-      locationSuggestions.map(loc => ({
-        label: loc,
-        value: slugify(loc),
-      })),
-    [locationSuggestions]
   );
 
   return (
@@ -440,7 +431,17 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     creatable
                     options={jobOptions}
                     value={reviewState.values["job"] || null}
-                    onChange={option => onReviewChange("job", option)}
+                    onChange={option => {
+                      onReviewChange("job", option);
+                      onReviewChange(
+                        "location",
+                        jobSuggestions.find(
+                          job =>
+                            job.id ===
+                            (option as { label: string; value: string })?.value
+                        )?.location
+                      );
+                    }}
                   />
                 </VerticalField>
               </RowContainer>
@@ -456,16 +457,19 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     as="h4"
                     color="greyDark"
                   >
-                    Location
+                    Location*
                   </Text>
-                  <Select
+                  <TextInput
                     placeholder="City"
                     color="greyLight"
-                    disabled={isConfirmingSubmit || isSubmitting}
-                    creatable
-                    options={locationOptions}
-                    value={reviewState.values["location"]}
-                    onChange={option => onReviewChange("location", option)}
+                    disabled={
+                      isConfirmingSubmit ||
+                      isSubmitting ||
+                      (!!reviewState.values["job"] &&
+                        !reviewState.values["job"]?.__isNew__)
+                    }
+                    value={reviewState.values["location"] || ""}
+                    onChange={e => onReviewChange("location", e.target.value)}
                   />
                 </LocationField>
                 <SalaryField

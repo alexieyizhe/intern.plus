@@ -27,3 +27,7 @@ export interface GetJobSuggestions_jobsList {
 export interface GetJobSuggestions {
   jobsList: GetJobSuggestions_jobsList;
 }
+
+export interface GetJobSuggestionsVariables {
+  slug?: string | null;
+}
