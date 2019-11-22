@@ -36,7 +36,7 @@ const client = new ApolloClient({
 const UPDATE_COMPANY_SALARY_WEBSITE = gql`
   mutation UpdateCompanyColor(
     $slug: String
-    $medianHourlySalary: Int
+    $avgHourlySalary: Int
     $minHourlySalary: Int
     $maxHourlySalary: Int
     $websiteUrl: String
@@ -44,7 +44,7 @@ const UPDATE_COMPANY_SALARY_WEBSITE = gql`
     companyUpdate(
       filter: { slug: $slug }
       data: {
-        medianHourlySalary: $medianHourlySalary
+        avgHourlySalary: $avgHourlySalary
         minHourlySalary: $minHourlySalary
         maxHourlySalary: $maxHourlySalary
         websiteUrl: $websiteUrl
@@ -57,7 +57,7 @@ const UPDATE_COMPANY_SALARY_WEBSITE = gql`
 
 const mutateCompanyInfo = async (
   slug,
-  medianHourlySalary,
+  avgHourlySalary,
   minHourlySalary,
   maxHourlySalary,
   websiteUrl
@@ -66,7 +66,7 @@ const mutateCompanyInfo = async (
     mutation: UPDATE_COMPANY_SALARY_WEBSITE,
     variables: {
       slug,
-      medianHourlySalary,
+      avgHourlySalary,
       minHourlySalary,
       maxHourlySalary,
       websiteUrl,
@@ -83,27 +83,27 @@ const updateCompanies = async () => {
     const reviewsAtCompany = reviewJsonFile.filter(
       review => review.company_id === id
     );
-    const sortedHourlySalaries = reviewsAtCompany.map(cur => {
-      let curHourlySalary;
-      if (cur.pay_period === "hourly") {
-        curHourlySalary = Math.round(cur.salary_in_cents / 100);
-      } else if (cur.pay_period === "weekly") {
-        curHourlySalary = Math.round(cur.salary_in_cents / 100 / 40);
-      } else if (cur.pay_period === "monthly") {
-        curHourlySalary = Math.round(cur.salary_in_cents / 100 / 160);
-      }
+    // const sortedHourlySalaries = reviewsAtCompany.map(cur => {
+    //   let curHourlySalary;
+    //   if (cur.pay_period === "hourly") {
+    //     curHourlySalary = Math.round(cur.salary_in_cents / 100);
+    //   } else if (cur.pay_period === "weekly") {
+    //     curHourlySalary = Math.round(cur.salary_in_cents / 100 / 40);
+    //   } else if (cur.pay_period === "monthly") {
+    //     curHourlySalary = Math.round(cur.salary_in_cents / 100 / 160);
+    //   }
 
-      return curHourlySalary;
-    });
-    sortedHourlySalaries.sort((a, b) => a - b);
+    //   return curHourlySalary;
+    // });
+    // sortedHourlySalaries.sort((a, b) => a - b);
 
     const websiteUrl = careers_url || website_url || undefined;
-    let medianHourlySalary;
+    let avgHourlySalary;
 
     if (sortedHourlySalaries.length <= 0) {
-      medianHourlySalary = 0;
+      avgHourlySalary = 0;
     } else {
-      medianHourlySalary = Math.round(
+      avgHourlySalary = Math.round(
         sortedHourlySalaries.length % 2
           ? sortedHourlySalaries[(sortedHourlySalaries.length - 1) / 2]
           : (sortedHourlySalaries[sortedHourlySalaries.length / 2 - 1] +
@@ -151,7 +151,7 @@ const updateCompanies = async () => {
     try {
       await mutateCompanyInfo(
         slug,
-        medianHourlySalary,
+        avgHourlySalary,
         minHourlySalary,
         maxHourlySalary,
         websiteUrl

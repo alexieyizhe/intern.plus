@@ -19,6 +19,7 @@ export const buildReviewDetails = (
   companySlug: item.company ? item.company.slug || "" : "",
   location: (item.job && item.job.location) || "",
   author: item.isLegacy ? "An InternCompass user" : "Anonymous",
+  tags: item.tags || "",
   body: item.body || "",
   overallRating: item.overallRating || 0,
   meaningfulWorkRating: item.meaningfulWorkRating || 0,

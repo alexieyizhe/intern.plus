@@ -21,8 +21,14 @@ const optionSchema = yup
 const addReviewSchema = yup.object({
   company: optionSchema.nullable().required(),
   job: optionSchema.nullable().required(),
-  location: optionSchema.notRequired(),
-  body: yup.string().notRequired(),
+  location: yup
+    .string()
+    .max(100)
+    .required(),
+  body: yup
+    .string()
+    .max(5000)
+    .required(),
   overallRating: yup
     .number()
     .min(0)
@@ -232,6 +238,8 @@ export const useAddReview = () => {
   }, [reviewState.values]);
 
   const onReviewSubmit = async () => {
+    console.log("submitting with", queryVariables);
+
     /**
      * Execute the mutation
      */

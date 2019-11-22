@@ -9,6 +9,7 @@ export const GET_JOB_SUGGESTIONS = gql`
       items {
         name
         id
+        location
       }
     }
   }

@@ -13,6 +13,7 @@ export const getMockJobSuggestions = (
       __typename: "Job",
       name: job.name,
       id: job.id,
+      location: job.location,
     })),
   },
 });

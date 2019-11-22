@@ -1,3 +1,5 @@
+import { strToHSL, getLightColor } from "src/shared/utils/color";
+
 export const slugify = (str: string): string => {
   const a =
     "àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;";
@@ -16,3 +18,19 @@ export const slugify = (str: string): string => {
     .replace(/^-+/, "") // Trim - from start of text
     .replace(/-+$/, ""); // Trim - from end of text
 };
+
+const REVIEW_IS_NEW_THRESHOLD = 31536000000; // 1 year in ms
+
+export const getReviewCardTags = (tags: string, date?: string) => [
+  ...(date &&
+  Number(new Date()) - Number(new Date(date)) < REVIEW_IS_NEW_THRESHOLD
+    ? [{ label: "new", bgColor: "gold" }]
+    : []),
+  ...tags
+    .split(",")
+    .filter(t => !!t)
+    .map(tagText => ({
+      label: tagText,
+      bgColor: getLightColor(strToHSL(tagText)),
+    })),
+];

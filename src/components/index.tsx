@@ -43,6 +43,9 @@ export * from "./Spinner";
 export { default as StarRating } from "./StarRating";
 export * from "./StarRating";
 
+export { default as Tag } from "./Tag";
+export * from "./Tag";
+
 export { default as Text } from "./Text";
 export * from "./Text";
 
