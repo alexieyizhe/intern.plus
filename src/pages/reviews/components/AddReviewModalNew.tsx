@@ -398,7 +398,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     Company name*
                   </Text>
                   <Select
-                    placeholder="Name"
+                    placeholder="Search or create"
                     color="greyLight"
                     disabled={isConfirmingSubmit || isSubmitting}
                     creatable
@@ -421,7 +421,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     Position title*
                   </Text>
                   <Select
-                    placeholder="Title"
+                    placeholder="Search or create"
                     color="greyLight"
                     disabled={
                       isConfirmingSubmit ||
@@ -460,7 +460,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     Location*
                   </Text>
                   <TextInput
-                    placeholder="City"
+                    placeholder="e.g. Waterloo, ON"
                     color="greyLight"
                     disabled={
                       isConfirmingSubmit ||
@@ -503,7 +503,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     />
                     <Select
                       className="salary-currency"
-                      placeholder="CAD"
+                      placeholder="$€¥"
                       color="greyLight"
                       disabled={isConfirmingSubmit || isSubmitting}
                       creatable
@@ -519,7 +519,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     />
                     <Select
                       className="salary-period"
-                      placeholder="monthly"
+                      placeholder="Period"
                       color="greyLight"
                       disabled={isConfirmingSubmit || isSubmitting}
                       options={salaryPeriodOptions}
@@ -707,7 +707,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
 
                   <TextInput
                     color="greyLight"
-                    placeholder="billy@bob.com"
+                    placeholder="jimothy@example.com"
                     type="email"
                     disabled={isConfirmingSubmit || isSubmitting}
                     value={reviewState.values["authorEmail"]}
