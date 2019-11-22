@@ -10,7 +10,7 @@ const apiClient = new ApolloClient({
  * Gets the correct client based on the environment.
  */
 const client =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "production"
     ? Promise.resolve(apiClient)
     : import(/* webpackChunkName: "mock" */ "./mock").then(
         mock => mock.default

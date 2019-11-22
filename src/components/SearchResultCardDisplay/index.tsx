@@ -18,6 +18,7 @@ import {
   IReviewJobCardItem,
   IReviewUserCardItem,
 } from "src/shared/constants/card";
+import { strToHSL, getLightColor } from "src/shared/utils/color";
 
 import Text from "src/components/Text";
 import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
@@ -41,7 +42,7 @@ const NO_MORE_RESULTS_TEXT = "All results have been shown.";
 const ERROR_OCCURRED_TEXT = "An error occurred while searching.";
 const START_SEARCH_TEXT =
   "There's nothing here. Type something to get started!";
-const REVIEW_IS_NEW_THRESHOLD = 77760000000; // 2.5 years (30 months) in ms
+const REVIEW_IS_NEW_THRESHOLD = 31536000000; // 1 year in ms
 
 /**
  * Determines the mood of the planet illustration
@@ -104,11 +105,18 @@ const getMiscContent = (
 const getReviewCardTags = (review: IReviewJobCardItem | IReviewUserCardItem) =>
   isReviewJobCardItem(review)
     ? [
-        { label: "Review", bgColor: "greyMedium" },
+        { label: "review", bgColor: "greyMedium" },
         ...(Number(new Date()) - Number(new Date(review.date)) <
         REVIEW_IS_NEW_THRESHOLD
-          ? [{ label: "New", bgColor: "#ffdc76" }]
+          ? [{ label: "new", bgColor: "#ffdc76" }]
           : []),
+        ...review.tags
+          .split(",")
+          .filter(t => !!t)
+          .map(tagText => ({
+            label: tagText,
+            bgColor: getLightColor(strToHSL(tagText)),
+          })),
       ]
     : undefined;
 
@@ -158,6 +166,8 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
       ? `${result.jobName}  •  ${result.jobLocation}`
       : result.relativeDate;
     const tags = getReviewCardTags(result);
+
+    console.log(result, result.tags);
 
     return (
       <ResultReviewCard
