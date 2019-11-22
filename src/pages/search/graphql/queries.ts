@@ -19,7 +19,7 @@ const getCompaniesSort = (sort?: SearchSort) => {
     case SearchSort.RATING:
       return `[{ avgRating: DESC }, { name: ASC }]`;
     case SearchSort.SALARY:
-      return `[{ medianHourlySalary: DESC }, { name: ASC }]`;
+      return `[{ avgHourlySalary: DESC }, { name: ASC }]`;
     default:
       // same as ALPHABETICAL
       return `{ name: ASC }`;

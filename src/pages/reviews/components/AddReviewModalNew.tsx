@@ -635,7 +635,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     as="h4"
                     color="greyDark"
                   >
-                    Review
+                    Review*
                   </Text>
                   <TextArea
                     placeholder="Share your thoughts"

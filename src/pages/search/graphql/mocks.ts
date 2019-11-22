@@ -36,7 +36,7 @@ export const getMockCompaniesSearch = (
       sortFn = (a: any, b: any) => b.avgRating - a.avgRating;
       break;
     case SearchSort.SALARY:
-      sortFn = (a: any, b: any) => b.medianHourlySalary - a.medianHourlySalary;
+      sortFn = (a: any, b: any) => b.avgHourlySalary - a.avgHourlySalary;
       break;
     default:
       // same as ALPHABETICAL

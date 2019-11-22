@@ -22,7 +22,7 @@ const addReviewSchema = yup.object({
   company: optionSchema.nullable().required(),
   job: optionSchema.nullable().required(),
   location: optionSchema.notRequired(),
-  body: yup.string().notRequired(),
+  body: yup.string().required(),
   overallRating: yup
     .number()
     .min(0)
