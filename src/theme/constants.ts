@@ -26,6 +26,7 @@ const constants: { [style: string]: { [key: string]: string | number } } = {
     goldLight: "#ffdc76",
 
     error: "#FF6166",
+    warning: "#f7a536",
   },
   fontSize: {
     [Size.XSMALL]: 12,

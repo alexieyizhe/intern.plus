@@ -64,7 +64,7 @@ const Indicator = styled.div<ITooltipProps>`
     ${({ position }) => `${position === "right" ? "left" : "right"}: -8px;`}
 
     display: none;
-    opacity: 0.95;
+    opacity: 1;
 
     font-size: 13px;
     text-align: left;

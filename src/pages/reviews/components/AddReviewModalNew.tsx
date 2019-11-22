@@ -2,9 +2,11 @@ import React, { useState, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 import { ValueType } from "react-select";
+import places, { PlacesInstance, ChangeEvent } from "places.js";
 
 import { useSiteContext, ActionType } from "src/context";
 import { slugify } from "src/shared/utils/misc";
+import { Size } from "src/theme/constants";
 
 import { useCompanySuggestions } from "src/shared/hooks/useCompanySuggestions";
 import { useJobSuggestions } from "src/shared/hooks/useJobSuggestions";
@@ -123,7 +125,7 @@ const InnerContainer = styled(Card)`
 `;
 
 const RowContainer = styled.div`
-  margin: 10px 0;
+  margin: 10px 0 5px 0;
 
   display: flex;
   justify-content: space-between;
@@ -136,7 +138,7 @@ const Field = styled.article`
   justify-content: space-between;
   align-items: flex-start;
 
-  margin: 5px 0;
+  margin: 5px 0 0 0;
 
   width: 100%;
 
@@ -183,13 +185,13 @@ const SalaryField = styled(VerticalField)`
     justify-content: space-between;
 
     & .salary-amt {
-      width: 34%;
+      width: 32%;
     }
     & .salary-currency {
       width: 28%;
     }
     & .salary-period {
-      width: 33%;
+      width: 35%;
     }
   }
 `;
@@ -221,6 +223,68 @@ const ActionContainer = styled.div`
     display: none;
     ${baseLinkStyles}
   }
+`;
+
+const LocationInput = styled(TextInput)`
+  height: auto;
+
+  & ~ .ap-icon-pin,
+  & ~ .ap-icon-clear {
+    display: none;
+  }
+
+  & ~ .ap-dropdown-menu {
+    margin-top: 6px;
+
+    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    background-color: ${({ theme }) => theme.color.greyLight};
+    box-shadow: ${({ theme }) => theme.boxShadow.hover};
+
+    font-family: ${({ theme }) => theme.fontFamily.body};
+    font-size: ${({ theme }) => theme.fontSize[Size.SMALL]}px;
+
+    & .ap-suggestion {
+      height: 40px;
+      line-height: 40px;
+
+      & .ap-name {
+        color: ${({ theme }) => theme.color.greyDark};
+      }
+
+      &.ap-cursor {
+        & .ap-name {
+          color: ${({ theme }) => theme.color.black};
+        }
+      }
+    }
+
+    & .ap-suggestion-icon {
+      display: none;
+    }
+
+    & .ap-footer {
+      font-size: 0;
+
+      & > * {
+        display: none;
+      }
+
+      & > a:first-child {
+        display: inherit;
+        opacity: 0.6;
+        margin-right: 10px;
+
+        & > svg {
+          height: 15px;
+        }
+      }
+    }
+  }
+`;
+
+const CountText = styled(Text)`
+  margin-top: 5px;
+  margin-left: auto;
 `;
 
 const ErrorText = styled(Text)`
@@ -288,6 +352,9 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     }
   };
 
+  /**
+   * Deal with closing modal if successful submission.
+   */
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     let resetTimeout: NodeJS.Timeout;
@@ -319,27 +386,6 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     reviewState.values.company?.value, // company slug
     !modalOpen
   );
-  const [tagsInputValue, setTagsInputValue] = useState<string | undefined>(
-    undefined
-  );
-  const onTagsInputChange = (inputValue: string) =>
-    setTagsInputValue(inputValue);
-  const onTagsChange = (value: ValueType<{ label: string; value: string }>) =>
-    onReviewChange("tags", value);
-  const onTagsKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (!tagsInputValue) return;
-    switch (event.key) {
-      case "Enter":
-      case " ":
-        onReviewChange("tags", [
-          ...(reviewState.values["tags"] || []),
-          { label: tagsInputValue, value: slugify(tagsInputValue) },
-        ]);
-        setTagsInputValue("");
-        event.preventDefault();
-    }
-  };
-
   const companyOptions = useMemo(
     () =>
       companySuggestions.map(({ name, slug }) => ({
@@ -356,6 +402,86 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
       })),
     [jobSuggestions]
   );
+
+  /**
+   * Logic for tags input
+   */
+  const [tagsInputValue, setTagsInputValue] = useState<string | undefined>(
+    undefined
+  );
+  const onTagsInputChange = (inputValue: string) => {
+    if ((reviewState.values["tags"]?.length || 0) < 5)
+      setTagsInputValue(inputValue);
+  };
+  const onTagsChange = (value: ValueType<{ label: string; value: string }>) =>
+    onReviewChange("tags", value);
+  const onTagsKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (!tagsInputValue) return;
+    switch (event.key) {
+      case "Enter":
+      case " ":
+        onReviewChange("tags", [
+          ...(reviewState.values["tags"] || []),
+          { label: tagsInputValue, value: slugify(tagsInputValue) },
+        ]);
+        setTagsInputValue("");
+        event.preventDefault();
+    }
+  };
+
+  /**
+   * Prompt user about unsaved review if they attempt
+   * to navigate away from site without submitting.
+   */
+  useEffect(() => {
+    const promptUnsaved = (e: BeforeUnloadEvent) => {
+      console.log(Object.values(reviewState.values));
+      const reviewStarted = Object.values(reviewState.values).some(
+        val => !!val
+      );
+
+      if (reviewStarted) {
+        // display prompt, user has unsubmitted stuff
+        e.preventDefault();
+        e.returnValue = true;
+      }
+    };
+    window.addEventListener("beforeunload", promptUnsaved);
+
+    return () => window.removeEventListener("beforeunload", promptUnsaved);
+  }, [reviewState.values]);
+
+  /**
+   * Suggestions for location input
+   */
+  const [placesInstance, setPlacesInstance] = useState<PlacesInstance | null>(
+    null
+  );
+  useEffect(() => {
+    const placesAutocomplete = places({
+      appId: "pl5ATJBYI7TR",
+      apiKey: process.env.REACT_APP_ALGOLIA_PLACES_API_TOKEN,
+      container: "#location-input",
+      type: "city",
+    });
+
+    setPlacesInstance(placesAutocomplete);
+  }, []);
+
+  useEffect(() => {
+    const updateLocation = (e: ChangeEvent) =>
+      onReviewChange("location", e.suggestion.value);
+
+    if (placesInstance) {
+      placesInstance.on("change", updateLocation);
+    }
+
+    return () => {
+      if (placesInstance) {
+        (placesInstance as any).off("change", updateLocation);
+      }
+    };
+  }, [onReviewChange, placesInstance]);
 
   return (
     <ModalContainer
@@ -417,15 +543,25 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     </Text>
                     <Tooltip color="greyMedium">
                       <Text variant="body" as="div">
-                        The name of the position in your review. Must be
-                        selected after filling out the Company field. If the
-                        position doesn't exist, create one using the 'Create'
-                        option.
+                        The name of the position in your review. If the position
+                        doesn't exist, create one using the 'Create' option.
                       </Text>
+                      {!reviewState.values["company"]?.value && (
+                        <>
+                          <br />
+                          <Text variant="body" as="div" color="warning">
+                            Select a company first before choosing a position.
+                          </Text>
+                        </>
+                      )}
                     </Tooltip>
                   </LabelTooltipCombo>
                   <Select
-                    placeholder="Search or create"
+                    placeholder={
+                      !reviewState.values["company"]?.value
+                        ? "Select company first"
+                        : "Search or create"
+                    }
                     color="greyLight"
                     disabled={
                       isConfirmingSubmit ||
@@ -463,7 +599,8 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   >
                     Location*
                   </Text>
-                  <TextInput
+                  <LocationInput
+                    id="location-input"
                     placeholder="e.g. Waterloo, ON"
                     color="greyLight"
                     disabled={
@@ -651,7 +788,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     disabled={isConfirmingSubmit || isSubmitting}
                     value={reviewState.values["body"]}
                     onChange={e => onReviewChange("body", e.target.value)}
+                    maxLength={5000}
                   />
+                  <CountText variant="subheading" color="greyDark">
+                    {`${4000 - (reviewState.values["body"]?.length || 0)}/4000`}
+                  </CountText>
                 </VerticalField>
               </RowContainer>
               <RowContainer>
@@ -666,7 +807,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     </Text>
                     <Tooltip position="right" color="greyMedium">
                       <Text variant="body" as="div">
-                        Optional keywords related to your review.
+                        Optional keywords related to your review. Maximum of 5.
                       </Text>
                     </Tooltip>
                   </LabelTooltipCombo>
@@ -685,6 +826,9 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     value={reviewState.values["tags"]}
                     inputValue={tagsInputValue}
                   />
+                  <CountText variant="subheading" color="greyDark">
+                    {`${5 - (reviewState.values["tags"]?.length || 0)}/5`}
+                  </CountText>
                 </VerticalField>
               </RowContainer>
               <RowContainer>
@@ -702,7 +846,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                         Your email will only be used for spam prevention.
                       </Text>
                       <br />
-                      <Text variant="body" as="div" italic>
+                      <Text variant="body" as="div" color="goldDark">
                         For a limited time, you'll also be entered into a draw
                         to win one of 5 $20 gift cards!
                       </Text>
