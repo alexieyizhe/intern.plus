@@ -13,6 +13,7 @@ export interface ITagProps extends React.ComponentPropsWithoutRef<"div"> {
  *                            **Styles**                           *
  *******************************************************************/
 const Container = styled.div`
+  position: relative;
   padding: 3px 6px;
 
   display: inline-block;

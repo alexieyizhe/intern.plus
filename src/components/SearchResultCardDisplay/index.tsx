@@ -15,10 +15,8 @@ import {
   isJobCardItem,
   isReviewJobCardItem,
   isReviewUserCardItem,
-  IReviewJobCardItem,
-  IReviewUserCardItem,
 } from "src/shared/constants/card";
-import { strToHSL, getLightColor } from "src/shared/utils/color";
+import { getReviewCardTags } from "src/shared/utils/misc";
 
 import Text from "src/components/Text";
 import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
@@ -42,7 +40,6 @@ const NO_MORE_RESULTS_TEXT = "All results have been shown.";
 const ERROR_OCCURRED_TEXT = "An error occurred while searching.";
 const START_SEARCH_TEXT =
   "There's nothing here. Type something to get started!";
-const REVIEW_IS_NEW_THRESHOLD = 31536000000; // 1 year in ms
 
 /**
  * Determines the mood of the planet illustration
@@ -102,24 +99,6 @@ const getMiscContent = (
   return { mood, markup };
 };
 
-const getReviewCardTags = (review: IReviewJobCardItem | IReviewUserCardItem) =>
-  isReviewJobCardItem(review)
-    ? [
-        { label: "review", bgColor: "greyMedium" },
-        ...(Number(new Date()) - Number(new Date(review.date)) <
-        REVIEW_IS_NEW_THRESHOLD
-          ? [{ label: "new", bgColor: "#ffdc76" }]
-          : []),
-        ...review.tags
-          .split(",")
-          .filter(t => !!t)
-          .map(tagText => ({
-            label: tagText,
-            bgColor: getLightColor(strToHSL(tagText)),
-          })),
-      ]
-    : undefined;
-
 /**
  * Creates the markup for a single search result card, based on
  * the data in the search result.
@@ -165,9 +144,12 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
     const subheading = isReviewJobCardItem(result)
       ? `${result.jobName}  •  ${result.jobLocation}`
       : result.relativeDate;
-    const tags = getReviewCardTags(result);
-
-    console.log(result, result.tags);
+    const tags = isReviewJobCardItem(result)
+      ? [
+          { label: "review", bgColor: "greyMedium" },
+          ...getReviewCardTags(result.tags, result.date),
+        ]
+      : undefined;
 
     return (
       <ResultReviewCard

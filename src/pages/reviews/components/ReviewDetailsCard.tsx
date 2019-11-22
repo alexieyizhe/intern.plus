@@ -7,6 +7,8 @@ import classNames from "classnames";
 import { Size } from "src/theme/constants";
 import { RouteName } from "src/shared/constants/routing";
 import { getDarkColor } from "src/shared/utils/color";
+import { SearchParamKey } from "src/shared/constants/search";
+import { getReviewCardTags } from "src/shared/utils/misc";
 
 import {
   IDetailsCardProps,
@@ -14,6 +16,7 @@ import {
   MOBILE_MENU_MEDIA_QUERY,
   Link,
   Text,
+  Tag,
   StarRating,
   UnstyledButton,
   Icon,
@@ -42,6 +45,7 @@ export interface IReviewDetails {
   color: string;
   date: string;
   relativeDate: string;
+  tags: string;
 }
 
 export interface IReviewDetailsCardProps extends IDetailsCardProps {
@@ -154,6 +158,19 @@ const ReviewPrefixContainer = styled.div`
 const ReviewBody = styled(Text)`
   display: inline-block;
   margin-top: 20px;
+`;
+
+const ReviewTags = styled.div`
+  padding-top: 10px;
+
+  & .tag {
+    margin-right: 5px;
+    opacity: 0.85;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -298,6 +315,20 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
         {reviewDetails?.body}
         {/* TODO: is there a way to render new lines without dangerouslySetInnerHTML? don't want to be exposed to XSS */}
       </ReviewBody>
+
+      {reviewDetails?.tags && (
+        <ReviewTags className="tags">
+          {getReviewCardTags(reviewDetails?.tags).map(({ label, bgColor }) => (
+            <Link to={`${RouteName.SEARCH}?${SearchParamKey.QUERY}=${label}`}>
+              <Tag key={label} color={bgColor}>
+                <Text size={12} bold={500}>
+                  {label}
+                </Text>
+              </Tag>
+            </Link>
+          ))}
+        </ReviewTags>
+      )}
     </div>
 
     <CloseButton onClick={onExit} tabIndex={1}>
