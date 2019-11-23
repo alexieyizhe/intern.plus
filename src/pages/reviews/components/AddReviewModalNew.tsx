@@ -460,7 +460,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
   useEffect(() => {
     const placesAutocomplete = places({
       appId: "pl5ATJBYI7TR",
-      apiKey: process.env.REACT_APP_ALGOLIA_PLACES_API_TOKEN,
+      apiKey: "40b345052d7ae04dd2af77ff04180a28",
       container: "#location-input",
       type: "city",
     });
