@@ -510,7 +510,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               <Text variant="heading2">Write a review</Text>
               <RowContainer>
                 <VerticalField
-                  className={classNames("half-width", {
+                  className={classNames("half-width", "company-field", {
                     error: reviewState.errors["company"].error,
                   })}
                 >
@@ -533,7 +533,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   />
                 </VerticalField>
                 <VerticalField
-                  className={classNames("half-width", {
+                  className={classNames("half-width", "job-field", {
                     error: reviewState.errors["job"].error,
                   })}
                 >
@@ -587,7 +587,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </RowContainer>
               <RowContainer>
                 <LocationField
-                  className={classNames({
+                  className={classNames("location-field", {
                     error: reviewState.errors["location"]?.error,
                   })}
                 >
@@ -614,7 +614,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   />
                 </LocationField>
                 <SalaryField
-                  className={classNames({
+                  className={classNames("salary-field", {
                     error:
                       reviewState.errors["salary"].error ||
                       reviewState.errors["salaryCurrency"].error ||
@@ -680,7 +680,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </RowContainer>
               <RowContainer>
                 <HorizontalField
-                  className={classNames("half-width", {
+                  className={classNames("half-width", "overall-rating-field", {
                     error: reviewState.errors["overallRating"].error,
                   })}
                 >
@@ -701,9 +701,13 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   />
                 </HorizontalField>
                 <HorizontalField
-                  className={classNames("half-width", {
-                    error: reviewState.errors["workLifeBalanceRating"].error,
-                  })}
+                  className={classNames(
+                    "half-width",
+                    "work-life-balance-rating-field",
+                    {
+                      error: reviewState.errors["workLifeBalanceRating"].error,
+                    }
+                  )}
                 >
                   <Text
                     variant="subheading"
@@ -724,9 +728,14 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 </HorizontalField>
 
                 <HorizontalField
-                  className={classNames("half-width", {
-                    error: reviewState.errors["learningMentorshipRating"].error,
-                  })}
+                  className={classNames(
+                    "half-width",
+                    "learning-mentorship-rating-field",
+                    {
+                      error:
+                        reviewState.errors["learningMentorshipRating"].error,
+                    }
+                  )}
                 >
                   <Text
                     variant="subheading"
@@ -734,7 +743,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     as="h4"
                     color="greyDark"
                   >
-                    Mentorship &amp; learning*
+                    Learning &amp; mentorship*
                   </Text>
                   <StarRating
                     maxStars={5}
@@ -746,9 +755,13 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   />
                 </HorizontalField>
                 <HorizontalField
-                  className={classNames("half-width", {
-                    error: reviewState.errors["meaningfulWorkRating"].error,
-                  })}
+                  className={classNames(
+                    "half-width",
+                    "meaningful-work-rating-field",
+                    {
+                      error: reviewState.errors["meaningfulWorkRating"].error,
+                    }
+                  )}
                 >
                   <Text
                     variant="subheading"
@@ -770,7 +783,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </RowContainer>
               <RowContainer>
                 <VerticalField
-                  className={classNames({
+                  className={classNames("review-body-field", {
                     error: reviewState.errors["body"]?.error,
                   })}
                 >
@@ -797,7 +810,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </RowContainer>
               <RowContainer>
                 <VerticalField
-                  className={classNames({
+                  className={classNames("tags-field", {
                     error: reviewState.errors["tags"]?.error,
                   })}
                 >
@@ -833,7 +846,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </RowContainer>
               <RowContainer>
                 <VerticalField
-                  className={classNames({
+                  className={classNames("author-email-field", {
                     error: reviewState.errors["authorEmail"]?.error,
                   })}
                 >
