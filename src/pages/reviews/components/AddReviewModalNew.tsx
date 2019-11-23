@@ -125,7 +125,7 @@ const InnerContainer = styled(Card)`
 `;
 
 const RowContainer = styled.div`
-  margin: 10px 0 5px 0;
+  margin: 5px 0;
 
   display: flex;
   justify-content: space-between;
@@ -138,7 +138,7 @@ const Field = styled.article`
   justify-content: space-between;
   align-items: flex-start;
 
-  margin: 5px 0 0 0;
+  margin: 10px 0 5px 0;
 
   width: 100%;
 
@@ -206,22 +206,22 @@ const LabelTooltipCombo = styled.div`
 `;
 
 const ActionContainer = styled.div`
+  position: relative;
   margin: 25px auto 10px auto;
-  height: 75px;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 
-  &.confirming-submit .cancel-submit-button {
-    display: initial;
-  }
-
   & .cancel-submit-button {
     margin-top: 5px;
-    display: none;
+    visibility: hidden;
     ${baseLinkStyles}
+  }
+
+  &.confirming-submit .cancel-submit-button {
+    visibility: visible;
   }
 `;
 
@@ -289,10 +289,10 @@ const CountText = styled(Text)`
 
 const ErrorText = styled(Text)`
   margin-top: 8px;
-  display: none;
+  visibility: hidden;
 
   &.error {
-    display: initial;
+    visibility: visible;
   }
 `;
 
@@ -478,7 +478,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
 
     return () => {
       if (placesInstance) {
-        (placesInstance as any).off("change", updateLocation);
+        (placesInstance as any).off("change", updateLocation); // eslint-disable-line @typescript-eslint/no-explicit-any
       }
     };
   }, [onReviewChange, placesInstance]);
@@ -890,28 +890,30 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   )}
                 </ActionButton>
 
-                <ErrorText
-                  variant="subheading"
-                  color="error"
-                  className={classNames({
-                    error: Object.values(reviewState.errors).some(
-                      val => val?.error
-                    ),
-                  })}
-                >
-                  Please make sure you've filled out all fields correctly.
-                </ErrorText>
-
-                <UnstyledButton
-                  className="cancel-submit-button"
-                  onClick={() => setIsConfirmingSubmit(false)}
-                  aria-hidden={isConfirmingSubmit ? "false" : "true"}
-                >
-                  <Text variant="subheading" color="greyDark">
-                    cancel
-                  </Text>
-                </UnstyledButton>
-              </ActionContainer>{" "}
+                {isConfirmingSubmit ? (
+                  <UnstyledButton
+                    className="cancel-submit-button"
+                    onClick={() => setIsConfirmingSubmit(false)}
+                    aria-hidden={isConfirmingSubmit ? "false" : "true"}
+                  >
+                    <Text variant="subheading" color="greyDark">
+                      cancel
+                    </Text>
+                  </UnstyledButton>
+                ) : (
+                  <ErrorText
+                    variant="subheading"
+                    color="error"
+                    className={classNames({
+                      error: Object.values(reviewState.errors).some(
+                        val => val?.error
+                      ),
+                    })}
+                  >
+                    Please make sure you've filled out all fields correctly.
+                  </ErrorText>
+                )}
+              </ActionContainer>
             </>
           )}
         </InnerContainer>
