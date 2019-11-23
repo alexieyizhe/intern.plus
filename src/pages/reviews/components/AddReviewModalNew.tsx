@@ -871,6 +871,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 })}
               >
                 <ActionButton
+                  className="submit-button"
                   color={
                     isSubmitting
                       ? "greyMedium"
