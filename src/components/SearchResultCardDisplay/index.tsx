@@ -3,17 +3,20 @@ import styled, { css } from "styled-components";
 import { Planet, KawaiiMood } from "react-kawaii";
 import { Waypoint } from "react-waypoint";
 
-import { RouteName } from "src/shared/constants/routing";
 import { SearchState } from "src/shared/hooks/useSearch";
+import {
+  getCompanyCardRoute,
+  getJobCardRoute,
+  getReviewCardRoute,
+} from "src/shared/constants/routing";
 import {
   IGenericCardItem,
   isCompanyCardItem,
   isJobCardItem,
   isReviewJobCardItem,
   isReviewUserCardItem,
-  IReviewJobCardItem,
-  IReviewUserCardItem,
 } from "src/shared/constants/card";
+import { getReviewCardTags } from "src/shared/utils/misc";
 
 import Text from "src/components/Text";
 import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
@@ -37,12 +40,12 @@ const NO_MORE_RESULTS_TEXT = "All results have been shown.";
 const ERROR_OCCURRED_TEXT = "An error occurred while searching.";
 const START_SEARCH_TEXT =
   "There's nothing here. Type something to get started!";
-const REVIEW_IS_NEW_THRESHOLD = 77760000000; // 2.5 years (30 months) in ms
 
 /**
  * Determines the mood of the planet illustration
  * that should be displayed in situations when normal
- * search results aren't available.
+ * search results aren't available, as well as the markup
+ * text/loader based on the state.
  * @param searched `true` if the first search has already been executed
  * @param loading `true` if the search query is currently being executed
  * @param error `true` the search query resulted in an error
@@ -96,29 +99,6 @@ const getMiscContent = (
   return { mood, markup };
 };
 
-const getReviewCardTags = (review: IReviewJobCardItem | IReviewUserCardItem) =>
-  isReviewJobCardItem(review)
-    ? [
-        { label: "Review", bgColor: "greyMedium" },
-        ...(Number(new Date()) - Number(new Date(review.date)) <
-        REVIEW_IS_NEW_THRESHOLD
-          ? [{ label: "New", bgColor: "#ffdc76" }]
-          : []),
-      ]
-    : undefined;
-
-/**
- * Gets the unique routes for each type of card for navigating to details of that card
- */
-const getCompanyCardRoute = (companySlug: string) =>
-  `${RouteName.COMPANIES}/${companySlug}`;
-
-const getJobCardRoute = (jobId: string, jobSlug: string, companySlug: string) =>
-  `${RouteName.JOBS}/${jobId}`;
-
-const getReviewCardRoute = (reviewId: string) =>
-  `${RouteName.REVIEWS}/${reviewId}`;
-
 /**
  * Creates the markup for a single search result card, based on
  * the data in the search result.
@@ -154,7 +134,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
         maxHourlySalary={result.maxHourlySalary}
         hourlySalaryCurrency={result.hourlySalaryCurrency}
         color={result.color}
-        linkTo={getJobCardRoute(result.id, result.slug, result.companySlug)}
+        linkTo={getJobCardRoute(result.id)}
       />
     );
   } else if (isReviewJobCardItem(result) || isReviewUserCardItem(result)) {
@@ -164,7 +144,12 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
     const subheading = isReviewJobCardItem(result)
       ? `${result.jobName}  •  ${result.jobLocation}`
       : result.relativeDate;
-    const tags = getReviewCardTags(result);
+    const tags = isReviewJobCardItem(result)
+      ? [
+          { label: "review", bgColor: "greyMedium" },
+          ...getReviewCardTags(result.tags, result.date),
+        ]
+      : undefined;
 
     return (
       <ResultReviewCard

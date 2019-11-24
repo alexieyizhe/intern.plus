@@ -6,8 +6,14 @@ import copy from "./copy";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 export const FOOTER_HEIGHT = 200;
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.footer`
   position: relative;
   width: 100%;
@@ -39,6 +45,9 @@ const Logo = styled.img`
   `}
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Footer = () => (
   <Container>
     <Logo

@@ -7,6 +7,9 @@ import { RouteName } from "src/shared/constants/routing";
 
 import { PageContainer, Text } from "src/components";
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Contents = styled.div`
   position: relative;
   width: 100%;
@@ -56,6 +59,9 @@ const FloatingGhost = styled(Ghost)`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const NotFoundPage = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
 

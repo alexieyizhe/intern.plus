@@ -3,12 +3,18 @@ import styled, { css } from "styled-components";
 import { Link as RouterLink } from "react-router-dom";
 import classNames from "classnames";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ILinkProps extends React.ComponentPropsWithoutRef<"a"> {
   newTab?: boolean;
   to: string;
   bare?: boolean;
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 export const baseLinkStyles = css`
   color: inherit;
   cursor: pointer;
@@ -36,6 +42,9 @@ export const BaseRouterLink = styled(RouterLink)`
   ${baseLinkStyles}
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Link: React.FC<ILinkProps> = ({
   className,
   newTab,
@@ -44,6 +53,10 @@ const Link: React.FC<ILinkProps> = ({
   bare,
   ...rest
 }) => {
+  /**
+   * Whether or not the link is to an internal page. Internal pages
+   * always have the prefix `/`.
+   */
   const isInternalLink = useMemo(() => /^\/(?!\/)/.test(to), [to]);
 
   return isInternalLink ? (

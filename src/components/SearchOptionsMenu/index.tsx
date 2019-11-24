@@ -22,6 +22,9 @@ import StarRating from "src/components/StarRating";
 import { HEADER_HEIGHT, MOBILE_MENU_HEIGHT } from "src/components/PageHeader";
 import { baseLinkStyles } from "src/components/Link";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ISearchOptionsMenuProps
   extends React.ComponentPropsWithoutRef<"div"> {
   sortOption?: {
@@ -54,10 +57,16 @@ export interface ISearchOptionsMenuProps
   onOptionChange: () => void;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 const MENU_WIDTH = 400;
 const MENU_WIDTH_MOBILE = 320;
 const MIN_WIDTH_TO_DISABLE_COLLAPSE = 1800;
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled(Card)<{ menuOpen: boolean }>`
   position: fixed;
   top: ${HEADER_HEIGHT + 80}px;
@@ -207,6 +216,9 @@ const ActionContainer = styled.div`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   className,
   sortOption,
@@ -222,7 +234,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   const { windowWidth } = useWindowWidth();
 
   /**
-   * Tracks if the menu is open.
+   * Tracks if the options menu is open.
    */
   const [menuOpen, setMenuOpen] = useState(
     windowWidth >= MIN_WIDTH_TO_DISABLE_COLLAPSE
@@ -232,13 +244,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     [windowWidth]
   );
 
-  /**
-   * Automatically close the side menu when clicking outside,
-   * since it obstructs visibility of search results.
-   */
-  const menuRef = useRef<HTMLDivElement | null>(null);
-  useOnClickOutside(menuRef, closeMenu);
-
   const onCloseIndicatorClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -247,19 +252,30 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     [closeMenu]
   );
 
+  /**
+   * Automatically close the side menu when clicking outside,
+   * since it obstructs visibility of search results.
+   */
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  useOnClickOutside(menuRef, closeMenu);
+
+  /**
+   * Store the current value of options internally. Changed
+   * options are not applied instantly for performance;
+   * we don't want new searches to be performed every time a user
+   * changes or types an option, especially for input fields
+   * like salary/location.
+   */
   const [internalSortOptionVal, setInternalSortOptionVal] = useState(
     sortOption && sortOption.value
   );
-
   const [internalTypeOptionVal, setInternalTypeOptionVal] = useState(
     typeOption && typeOption.value
   );
-
   const [
     internalRatingFilterOptionVal,
     setInternalRatingFilterOptionVal,
   ] = useState((ratingOption && ratingOption.value) || []);
-
   const [
     internalSalaryFilterOptionVal,
     setInternalSalaryFilterOptionVal,
@@ -269,6 +285,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     setInternalLocationFilterOptionVal,
   ] = useState((locationOption && locationOption.value) || []);
 
+  /**
+   * Callback to reset all options to their empty state.
+   */
   const resetOptions = () => {
     setInternalSortOptionVal(undefined);
     setInternalTypeOptionVal(undefined);
@@ -277,6 +296,14 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     setInternalLocationFilterOptionVal([]);
   };
 
+  /**
+   * Callback to apply options selected in the menu. It will
+   * execute the provided callback for an option only if the value
+   * of that option has changed.
+   * (the settimeout call is due to a bug in use-query-params where
+   * multiple calls to update query params will override each other
+   * if called synchronously)
+   */
   const applyOptions = () => {
     let optionsChanged = false;
     if (sortOption && internalSortOptionVal !== sortOption.value) {
@@ -510,8 +537,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             <StarRating
               className="rating min"
               maxStars={5}
-              filledStars={internalRatingFilterOptionVal[0] || 0}
-              onClickStar={stars =>
+              value={internalRatingFilterOptionVal[0] || 0}
+              onChange={stars =>
                 setInternalRatingFilterOptionVal(prevVal => [stars, prevVal[1]])
               }
             >
@@ -522,8 +549,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             <StarRating
               className="rating max"
               maxStars={5}
-              filledStars={internalRatingFilterOptionVal[1] || 0}
-              onClickStar={stars =>
+              value={internalRatingFilterOptionVal[1] || 0}
+              onChange={stars =>
                 setInternalRatingFilterOptionVal(prevVal => [prevVal[0], stars])
               }
             >

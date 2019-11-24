@@ -2,24 +2,33 @@ import React from "react";
 import styled from "styled-components";
 
 import { spin } from "src/theme/snippets";
+import { Size } from "src/theme/constants";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface SpinnerProps extends React.ComponentPropsWithoutRef<"div"> {
   color?: string;
+  size?: Size | number;
 }
 
-const Container = styled.div`
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
+const Container = styled.div<SpinnerProps>`
   position: relative;
-  width: 36px;
-  height: 25px;
+  width: ${({ size = 23, theme }) => `${theme.fontSize[size] || size}px`};
+  height: ${({ size = 23, theme }) => `${theme.fontSize[size] || size}px`};
+
   display: flex;
   justify-content: center;
 `;
 
-const Ring = styled.div`
+const Ring = styled.div<SpinnerProps>`
   display: block;
   position: absolute;
-  width: 23px;
-  height: 23px;
+  width: ${({ size = 23, theme }) => `${theme.fontSize[size] || size}px`};
+  height: ${({ size = 23, theme }) => `${theme.fontSize[size] || size}px`};
 
   border: 2px solid
     ${({ theme, color = "" }) => theme.color[color] || color || "black"};
@@ -40,12 +49,15 @@ const Ring = styled.div`
   }
 `;
 
-const Spinner: React.FC<SpinnerProps> = ({ color, ...rest }) => (
-  <Container {...rest}>
-    <Ring color={color} />
-    <Ring color={color} />
-    <Ring color={color} />
-    <Ring color={color} />
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
+const Spinner: React.FC<SpinnerProps> = ({ color, size, ...rest }) => (
+  <Container size={size} {...rest}>
+    <Ring color={color} size={size} />
+    <Ring color={color} size={size} />
+    <Ring color={color} size={size} />
+    <Ring color={color} size={size} />
   </Container>
 );
 

@@ -19,8 +19,14 @@ const constants: { [style: string]: { [key: string]: string | number } } = {
     white: "#FFFFFF",
 
     greenDark: "#507561",
+    greenMedium: "#779e89",
+    greenLight: "#a6bdb1",
+
+    goldDark: "#CFB316",
+    goldLight: "#ffdc76",
 
     error: "#FF6166",
+    warning: "#f7a536",
   },
   fontSize: {
     [Size.XSMALL]: 12,

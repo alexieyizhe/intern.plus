@@ -6,6 +6,9 @@ import {
 } from "src/components/PageHeader";
 import { FOOTER_HEIGHT } from "src/components/PageFooter";
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const PageContainer = styled.main`
   position: relative;
   min-height: calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px);
@@ -18,7 +21,7 @@ const PageContainer = styled.main`
     `${theme.padding.pageVertical}px ${theme.padding.pageHorizontal}px`};
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
-    padding: ${theme.padding.pageVertical}px ${theme.padding.pageHorizontalMobile}px;
+    padding: 0 ${theme.padding.pageHorizontalMobile}px;
   `}
 `;
 

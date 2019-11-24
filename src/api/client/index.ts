@@ -6,6 +6,9 @@ const apiClient = new ApolloClient({
   fetch,
 });
 
+/**
+ * Gets the correct client based on the environment.
+ */
 const client =
   process.env.NODE_ENV === "production"
     ? Promise.resolve(apiClient)

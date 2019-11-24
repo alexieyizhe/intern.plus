@@ -5,25 +5,32 @@ import classNames from "classnames";
 import Icon from "src/components/Icon";
 import { IconName } from "../Icon/icons";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface IStarRatingProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "onChange"> {
   /**
    * Affects appearance of the component
    */
   size?: number;
 
   maxStars: number; // total number of stars
-  filledStars: number; // number of filled stars
+  value?: number; // number of filled stars
   /**
    * Callback for when a star is clicked.
    */
-  onClickStar?: (numStars: number) => void;
+  onChange?: (numStars: number) => void;
   /**
    * Whether stars should be clickable.
    */
   readOnly?: boolean;
+  disabled?: boolean;
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled.span`
   display: inline-flex;
   align-items: center;
@@ -40,8 +47,11 @@ const Star = styled.span`
   justify-content: center;
   align-items: center;
 
-  &:not(.read-only) {
-    cursor: pointer;
+  cursor: pointer;
+
+  &.read-only,
+  &.disabled {
+    cursor: not-allowed;
   }
 
   & > div {
@@ -52,12 +62,17 @@ const Star = styled.span`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const StarRating: React.FC<IStarRatingProps> = ({
   size = 16,
+  color,
   maxStars,
-  filledStars,
-  onClickStar,
+  value = 0,
+  onChange,
   readOnly,
+  disabled,
   children,
   ...rest
 }) => {
@@ -65,33 +80,32 @@ const StarRating: React.FC<IStarRatingProps> = ({
 
   const internalOnMouseHover = useCallback(
     (hoverStarIndex: number, enter: boolean) => () => {
-      if (!readOnly) {
+      if (!readOnly && !disabled) {
         if (enter) setHoverStars(hoverStarIndex + 1);
         else setHoverStars(false);
       }
     },
-    [readOnly]
+    [disabled, readOnly]
   );
 
   const internalOnClick = useCallback(
     (starIndex: number) => () => {
-      if (!readOnly && onClickStar) {
-        if (starIndex + 1 === filledStars) {
-          onClickStar(0);
+      if (!readOnly && !disabled && onChange) {
+        if (starIndex + 1 === value) {
+          onChange(0);
         } else {
-          onClickStar(starIndex + 1);
+          onChange(starIndex + 1);
         }
       }
     },
-    [readOnly, filledStars, onClickStar]
+    [readOnly, disabled, onChange, value]
   );
 
   // boolean array where true = filled star, false = empty
   // used to render stars
   const stars = useMemo(
-    () =>
-      [...new Array(maxStars)].map((_, i) => i < (hoverStars || filledStars)),
-    [filledStars, hoverStars, maxStars]
+    () => [...new Array(maxStars)].map((_, i) => i < (hoverStars || value)),
+    [hoverStars, maxStars, value]
   );
 
   return (
@@ -99,7 +113,11 @@ const StarRating: React.FC<IStarRatingProps> = ({
       <span className="star-container">
         {stars.map((filled, i) => (
           <Star
-            className={classNames({ filled, "read-only": readOnly })}
+            className={classNames({
+              filled,
+              "read-only": readOnly,
+              disabled: disabled,
+            })}
             key={`star${i}${filled ? "filled" : ""}`}
             onClick={internalOnClick(i)}
             onMouseEnter={internalOnMouseHover(i, true)}
@@ -108,6 +126,7 @@ const StarRating: React.FC<IStarRatingProps> = ({
             <Icon
               name={filled ? IconName.STAR_FILLED : IconName.STAR_EMPTY}
               size={size}
+              color={disabled ? "greyDark" : color}
             />
           </Star>
         ))}

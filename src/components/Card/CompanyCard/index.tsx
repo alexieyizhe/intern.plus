@@ -10,6 +10,9 @@ import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ICompanyCardProps extends ICardProps {
   name: string;
   desc?: string;
@@ -37,7 +40,7 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
   }
 
   return (
-    <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly>
+    <StarRating maxStars={5} value={Math.round(avgRating)} readOnly>
       <Text variant="body" className="avgRating" color="black">
         {avgRating.toFixed(1)}
       </Text>
@@ -49,6 +52,9 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
   );
 };
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled(Card)`
   position: relative;
   ${hoverStyles}
@@ -99,6 +105,9 @@ const Container = styled(Card)`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const CompanyCard: React.FC<ICompanyCardProps> = ({
   className,
   name,

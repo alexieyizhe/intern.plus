@@ -1,9 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface ICardProps extends React.ComponentPropsWithRef<"div"> {
   color?: string;
 }
+
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const BaseCard = styled.div`
   display: inline-block;
 
@@ -12,6 +19,9 @@ const BaseCard = styled.div`
     theme.color[color] || color || "inherit"};
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Card: React.FC<ICardProps> = React.forwardRef<HTMLDivElement, ICardProps>(
   ({ children, ...rest }, ref) => (
     <BaseCard {...rest} ref={ref}>

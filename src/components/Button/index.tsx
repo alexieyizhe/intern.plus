@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface IButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   color?: string;
 }
 
+/*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
 export const UnstyledButton = styled.button`
   padding: 0;
   border: none;
@@ -38,6 +44,9 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const Button: React.FC<IButtonProps> = ({ children, ...rest }) => (
   <BaseButton {...rest}>{children}</BaseButton>
 );

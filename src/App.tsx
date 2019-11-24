@@ -1,13 +1,9 @@
 import "focus-visible";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/react-hooks";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import DefaultClient from "apollo-boost";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
 import ErrorBoundary from "react-error-boundary";
 
@@ -16,86 +12,57 @@ import { SiteContextProvider } from "src/context";
 import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/shared/constants/routing";
-import { useEasterEgg } from "src/shared/hooks/useEasterEgg";
 import Analytics, { analytics } from "src/shared/utils/analytics";
+
+import { useEasterEgg } from "src/shared/hooks/useEasterEgg";
+import { useCalculatedLocation } from "src/shared/hooks/useCalculatedLocation";
 
 import { PageHeader, PageFooter } from "src/components";
 
 import LandingPage from "src/pages/landing";
 import SearchPage from "src/pages/search";
-import ReviewsPage from "src/pages/reviews";
 import DesignSystemPage from "src/pages/design-system";
 import { NotFoundPage, CrashPage } from "src/pages/error";
 
 import CompaniesRouteHandler from "src/pages/companies";
 import JobsRouteHandler from "src/pages/jobs";
-
-import ReviewModal from "src/pages/reviews/components/ReviewModal";
-import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
+import ReviewsRouteHandler from "src/pages/reviews";
 
 /**
- * Main switch for all pages in the app.
+ * Main route handler for all pages in the app.
  */
-export const AppSwitch: React.FC = () => {
-  const location = useLocation();
-  const calculatedLocation = useMemo(
-    () =>
-      location.state && location.state.background
-        ? location.state.background
-        : location,
-    [location]
-  );
-
+export const AppRouteHandler: React.FC = () => {
   useEasterEgg();
+
+  const calculatedLocation = useCalculatedLocation();
 
   return (
     <>
-      <Switch location={calculatedLocation}>
-        <Route exact path={RouteName.LANDING}>
-          <LandingPage />
-        </Route>
-
-        <Route path={RouteName.SEARCH}>
-          <SearchPage />
-        </Route>
-
-        <Route path={RouteName.COMPANIES}>
-          <CompaniesRouteHandler />
-        </Route>
-
-        <Route path={RouteName.JOBS}>
-          <JobsRouteHandler />
-        </Route>
-
-        {/* Exact match required because we don't want to match this when review modal is open */}
-        <Route exact path={RouteName.REVIEWS}>
-          <ReviewsPage />
-        </Route>
-
-        <Route exact path={RouteName.DESIGN}>
-          <DesignSystemPage />
-        </Route>
-
-        {/* Render 404 if no other routes match */}
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
-
-      {/* Modal for reviews to sit on top of other pages */}
-      <Route path={`${RouteName.REVIEWS}/:reviewId`}>
-        <ReviewModal />
+      <Route exact path={RouteName.LANDING} location={calculatedLocation}>
+        <LandingPage />
       </Route>
 
-      <AddReviewModal />
+      <Route exact path={RouteName.SEARCH} location={calculatedLocation}>
+        <SearchPage />
+      </Route>
+
+      <Route exact path={RouteName.DESIGN} location={calculatedLocation}>
+        <DesignSystemPage />
+      </Route>
+
+      <CompaniesRouteHandler />
+
+      <JobsRouteHandler />
+
+      <ReviewsRouteHandler />
     </>
   );
 };
 
 const App: React.FC = () => {
-  const [apiClient, setApiClient] = useState(null);
+  const [apiClient, setApiClient] = useState<DefaultClient<any> | null>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
   useEffect(() => {
-    apiClientLoader.then(setApiClient);
+    apiClientLoader.then(client => setApiClient(client));
   }, []);
 
   if (!apiClient) {
@@ -114,7 +81,16 @@ const App: React.FC = () => {
                   {analytics.init() && <Analytics />}
 
                   <PageHeader />
-                  <AppSwitch />
+                  <Switch>
+                    <Route exact path={Object.values(RouteName)}>
+                      <AppRouteHandler />
+                    </Route>
+
+                    {/* Render 404 if no other routes match */}
+                    <Route>
+                      <NotFoundPage />
+                    </Route>
+                  </Switch>
                   <PageFooter />
                 </div>
               </ErrorBoundary>

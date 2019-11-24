@@ -11,6 +11,9 @@ import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface IReviewCardProps extends ICardProps {
   heading: string;
   subheading: string;
@@ -19,6 +22,9 @@ export interface IReviewCardProps extends ICardProps {
   tags?: { label: string; bgColor?: string; color?: string }[];
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled(Card)`
   position: relative;
   ${hoverStyles}
@@ -82,6 +88,9 @@ const Container = styled(Card)`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const ReviewCard: React.FC<IReviewCardProps> = ({
   className,
   heading,
@@ -128,7 +137,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
         <Text className="subheading" variant="heading4" color="greyDark">
           {subheading}
         </Text>
-        <StarRating maxStars={5} filledStars={rating || 0} readOnly />
+        <StarRating maxStars={5} value={rating || 0} readOnly />
         <div className="contents">{children}</div>
         {tags && (
           <div className="tags">

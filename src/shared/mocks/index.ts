@@ -63,7 +63,7 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
       slug: faker.helpers.slugify(companyName),
       desc: faker.company.catchPhrase(),
 
-      medianHourlySalary: NaN,
+      avgHourlySalary: NaN,
       minHourlySalary: Number.MAX_SAFE_INTEGER,
       maxHourlySalary: Number.MIN_SAFE_INTEGER,
       hourlySalaryCurrency: faker.random.arrayElement(["CAD", "USD", "EUR"]),
@@ -293,12 +293,12 @@ MOCK_COMPANIES_LIST.forEach((company, i) => {
   );
   sortedHourlySalaries.sort((a: number, b: number) => a - b);
 
-  let medianHourlySalary;
+  let avgHourlySalary;
 
   if (sortedHourlySalaries.length <= 0) {
-    medianHourlySalary = 0;
+    avgHourlySalary = 0;
   } else {
-    medianHourlySalary = Math.round(
+    avgHourlySalary = Math.round(
       sortedHourlySalaries.length % 2
         ? sortedHourlySalaries[(sortedHourlySalaries.length - 1) / 2]
         : (sortedHourlySalaries[sortedHourlySalaries.length / 2 - 1] +
@@ -307,32 +307,23 @@ MOCK_COMPANIES_LIST.forEach((company, i) => {
     );
   }
 
-  company.medianHourlySalary = medianHourlySalary;
+  company.avgHourlySalary = avgHourlySalary;
 });
 
-export const MOCK_COMPANIES = MOCK_COMPANIES_LIST.reduce(
-  (acc, curCompany) => {
-    acc[curCompany.slug] = curCompany;
-    return acc;
-  },
-  {} as any
-);
+export const MOCK_COMPANIES = MOCK_COMPANIES_LIST.reduce((acc, curCompany) => {
+  acc[curCompany.slug] = curCompany;
+  return acc;
+}, {} as any);
 
-export const MOCK_JOBS = MOCK_JOBS_LIST.reduce(
-  (acc, curJob) => {
-    acc[curJob.id] = curJob;
-    return acc;
-  },
-  {} as any
-);
+export const MOCK_JOBS = MOCK_JOBS_LIST.reduce((acc, curJob) => {
+  acc[curJob.id] = curJob;
+  return acc;
+}, {} as any);
 
-export const MOCK_REVIEWS = MOCK_REVIEWS_LIST.reduce(
-  (acc, curReview) => {
-    acc[curReview.id] = curReview;
-    return acc;
-  },
-  {} as any
-);
+export const MOCK_REVIEWS = MOCK_REVIEWS_LIST.reduce((acc, curReview) => {
+  acc[curReview.id] = curReview;
+  return acc;
+}, {} as any);
 
 export const MOCK_LOCATIONS = Array.from(
   MOCK_JOBS_LIST.reduce((acc, cur) => {

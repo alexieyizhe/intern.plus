@@ -10,6 +10,9 @@ import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
 
+/*******************************************************************
+ *                            **Types**                            *
+ *******************************************************************/
 export interface IJobCardProps extends ICardProps {
   heading: string;
   subheading: string;
@@ -21,6 +24,9 @@ export interface IJobCardProps extends ICardProps {
   linkTo: string;
 }
 
+/*******************************************************************
+ *                            **Styles**                           *
+ *******************************************************************/
 const Container = styled(Card)`
   position: relative;
   ${hoverStyles}
@@ -75,6 +81,9 @@ const Container = styled(Card)`
   }
 `;
 
+/*******************************************************************
+ *                           **Component**                         *
+ *******************************************************************/
 const JobCard: React.FC<IJobCardProps> = ({
   className,
   heading,
@@ -106,7 +115,7 @@ const JobCard: React.FC<IJobCardProps> = ({
       </Text>
 
       <div className="ratings">
-        <StarRating maxStars={5} filledStars={Math.round(avgRating)} readOnly>
+        <StarRating maxStars={5} value={Math.round(avgRating)} readOnly>
           <Text variant="body" color="black">
             {avgRating.toFixed(1)}
           </Text>

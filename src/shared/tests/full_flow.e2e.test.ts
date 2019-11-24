@@ -11,7 +11,6 @@
  * - Click: close modal button
  * - Click: logo to go to home page
  */
-
 describe("Full flow", () => {
   it("successfully loads and searches", () => {
     cy.visit("/");
@@ -98,7 +97,7 @@ describe("Full flow", () => {
       .click();
 
     // click the company link to go to the company
-    cy.get(".job-details-card")
+    cy.get(".job.details-card")
       .find("a")
       .first()
       .click({ force: true });

@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -12,8 +11,6 @@ import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilte
 import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
 import { useSearch } from "src/shared/hooks/useSearch";
-
-import { detailsPageStyles } from "src/theme/snippets";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
@@ -41,13 +38,6 @@ import CompanyDetailsCard from "./CompanyDetailsCard";
  */
 const getTitleMarkup = (companyName?: string) =>
   companyName ? `${companyName} • intern+` : "Company details • intern+";
-
-/*******************************************************************
- *                             **Styles**                          *
- *******************************************************************/
-const CompanyPageContainer = styled(PageContainer)`
-  ${detailsPageStyles}
-`;
 
 /*******************************************************************
  *                           **Component**                         *
@@ -114,13 +104,16 @@ const CompanyPage: React.FC = () => {
         <title>{getTitleMarkup(companyDetails && companyDetails.name)}</title>
       </Helmet>
 
-      <CompanyPageContainer id="company-page">
+      <PageContainer id="company-page">
         <CompanyDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          suggestions={searchSuggestions}
           companyDetails={companyDetails}
-          onTriggerSearch={triggerSearchNew}
+          searchFieldProps={{
+            onTriggerSearch: triggerSearchNew,
+            suggestions: searchSuggestions,
+            inputProps: { placeholder: "Find a position" },
+          }}
         />
 
         <SearchOptionsMenu
@@ -136,7 +129,7 @@ const CompanyPage: React.FC = () => {
           searchResults={searchResults}
           onResultsEndReached={triggerSearchNextBatch}
         />
-      </CompanyPageContainer>
+      </PageContainer>
     </>
   );
 };

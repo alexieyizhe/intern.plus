@@ -19,7 +19,7 @@ const getCompaniesSort = (sort?: SearchSort) => {
     case SearchSort.RATING:
       return `[{ avgRating: DESC }, { name: ASC }]`;
     case SearchSort.SALARY:
-      return `[{ medianHourlySalary: DESC }, { name: ASC }]`;
+      return `[{ avgHourlySalary: DESC }, { name: ASC }]`;
     default:
       // same as ALPHABETICAL
       return `{ name: ASC }`;
@@ -37,6 +37,7 @@ const companiesQuery = ({ sort }: ISearchQueryBuilderOptions) => `
             { desc: { in: $locations } }
           ]
         },
+        { numRatings: { gt: 0 }},
         {
           AND: [
             { minHourlySalary: { lte: $maxSalary } }
@@ -85,6 +86,7 @@ const jobsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
             { location: { contains: $query } }
           ]
         },
+        { numRatings: { gt: 0 } },
         { location: { in: $locations } }
         {
           AND: [
@@ -133,7 +135,18 @@ const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
             { tags: { contains: $query } }
           ]
         },
-        { job: { location: { in: $locations } } }
+        { 
+          OR: [
+            {
+              AND: [         
+                { isVerified: { equals: true } },
+                { isSpam: { equals: false } }
+              ]
+            },
+            { isLegacy: { equals: true } }
+          ]
+        },
+        { job: { location: { in: $locations } } },
         {
           AND: [
             { salary: { gte: $minSalary } }

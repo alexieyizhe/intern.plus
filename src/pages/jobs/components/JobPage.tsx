@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -11,7 +10,6 @@ import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
 import { useSearch } from "src/shared/hooks/useSearch";
 
-import { detailsPageStyles } from "src/theme/snippets";
 import { availableSortOptions, SearchType } from "src/shared/constants/search";
 
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
@@ -36,13 +34,6 @@ const getTitleMarkup = (jobName?: string, companyName?: string) =>
   jobName && companyName
     ? `${jobName} at ${companyName} • intern+`
     : "Job details • intern+";
-
-/*******************************************************************
- *                            **Styles**                           *
- *******************************************************************/
-const JobPageContainer = styled(PageContainer)`
-  ${detailsPageStyles}
-`;
 
 /*******************************************************************
  *                           **Component**                         *
@@ -111,12 +102,15 @@ const JobPage: React.FC = () => {
         </title>
       </Helmet>
 
-      <JobPageContainer id="job-page">
+      <PageContainer id="job-page">
         <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
           jobDetails={jobDetails}
-          onTriggerSearch={triggerSearchNew}
+          searchFieldProps={{
+            onTriggerSearch: triggerSearchNew,
+            inputProps: { placeholder: "Find a review" },
+          }}
         />
 
         <SearchOptionsMenu
@@ -131,7 +125,7 @@ const JobPage: React.FC = () => {
           searchResults={searchResults}
           onResultsEndReached={triggerSearchNextBatch}
         />
-      </JobPageContainer>
+      </PageContainer>
     </>
   );
 };
