@@ -103,5 +103,6 @@ export const inputStyles = css<IInputStyleOptions>`
 
   &:disabled {
     color: ${({ theme }) => theme.color.greyDark};
+    opacity: 0.6;
   }
 `;

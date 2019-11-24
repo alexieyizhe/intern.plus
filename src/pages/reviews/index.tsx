@@ -19,7 +19,7 @@ const ReviewsRouteHandler = () => {
   return (
     <>
       <Route exact path={RouteName.REVIEW}>
-        <ReviewPage /> {/* Modal */}
+        <ReviewPage /> {/* this is actually a modal */}
       </Route>
 
       <Route exact path={RouteName.REVIEWS} location={calculatedLocation}>

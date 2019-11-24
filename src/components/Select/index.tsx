@@ -24,8 +24,9 @@ export interface ISelectProps extends IInputStyleOptions, Props {
  * wherever possible to be more maintainable.
  */
 const customSelectStyles = (color?: string) => ({
-  container: (provided: any) => ({
+  container: (provided: any, state: any) => ({
     ...provided,
+    opacity: state.isDisabled ? 0.6 : 1,
     fontSize: `${themeConstants.fontSize[Size.SMALL]}px`,
     fontFamily: themeConstants.fontFamily.body,
     pointerEvents: "auto",

@@ -80,21 +80,7 @@ export type IAddReviewState = {
 };
 
 const DEFAULT_REVIEW_STATE: IAddReviewState = {
-  values: {
-    job: undefined,
-    company: undefined,
-    location: undefined,
-    body: "",
-    overallRating: undefined,
-    meaningfulWorkRating: undefined,
-    workLifeBalanceRating: undefined,
-    learningMentorshipRating: undefined,
-    salary: undefined,
-    salaryCurrency: undefined,
-    salaryPeriod: undefined,
-    tags: [],
-    authorEmail: "",
-  },
+  values: {},
 
   errors: {
     job: {

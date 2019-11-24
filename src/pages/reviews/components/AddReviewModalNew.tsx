@@ -1,11 +1,12 @@
-/* eslint-disable no-restricted-globals */
 import React, { useState, useMemo, useEffect } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 import { ValueType } from "react-select";
+import places, { PlacesInstance, ChangeEvent } from "places.js";
 
 import { useSiteContext, ActionType } from "src/context";
 import { slugify } from "src/shared/utils/misc";
+import { Size } from "src/theme/constants";
 
 import { useCompanySuggestions } from "src/shared/hooks/useCompanySuggestions";
 import { useJobSuggestions } from "src/shared/hooks/useJobSuggestions";
@@ -124,7 +125,7 @@ const InnerContainer = styled(Card)`
 `;
 
 const RowContainer = styled.div`
-  margin: 10px 0;
+  margin: 5px 0;
 
   display: flex;
   justify-content: space-between;
@@ -137,7 +138,7 @@ const Field = styled.article`
   justify-content: space-between;
   align-items: flex-start;
 
-  margin: 5px 0;
+  margin: 10px 0 5px 0;
 
   width: 100%;
 
@@ -184,13 +185,13 @@ const SalaryField = styled(VerticalField)`
     justify-content: space-between;
 
     & .salary-amt {
-      width: 34%;
+      width: 32%;
     }
     & .salary-currency {
       width: 28%;
     }
     & .salary-period {
-      width: 33%;
+      width: 35%;
     }
   }
 `;
@@ -205,31 +206,93 @@ const LabelTooltipCombo = styled.div`
 `;
 
 const ActionContainer = styled.div`
+  position: relative;
   margin: 25px auto 10px auto;
-  height: 75px;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 
-  &.confirming-submit .cancel-submit-button {
-    display: initial;
-  }
-
   & .cancel-submit-button {
     margin-top: 5px;
-    display: none;
+    visibility: hidden;
     ${baseLinkStyles}
   }
+
+  &.confirming-submit .cancel-submit-button {
+    visibility: visible;
+  }
+`;
+
+const LocationInput = styled(TextInput)`
+  height: auto;
+
+  & ~ .ap-icon-pin,
+  & ~ .ap-icon-clear {
+    display: none;
+  }
+
+  & ~ .ap-dropdown-menu {
+    margin-top: 6px;
+
+    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    background-color: ${({ theme }) => theme.color.greyLight};
+    box-shadow: ${({ theme }) => theme.boxShadow.hover};
+
+    font-family: ${({ theme }) => theme.fontFamily.body};
+    font-size: ${({ theme }) => theme.fontSize[Size.SMALL]}px;
+
+    & .ap-suggestion {
+      height: 40px;
+      line-height: 40px;
+
+      & .ap-name {
+        color: ${({ theme }) => theme.color.greyDark};
+      }
+
+      &.ap-cursor {
+        & .ap-name {
+          color: ${({ theme }) => theme.color.black};
+        }
+      }
+    }
+
+    & .ap-suggestion-icon {
+      display: none;
+    }
+
+    & .ap-footer {
+      font-size: 0;
+
+      & > * {
+        display: none;
+      }
+
+      & > a:first-child {
+        display: inherit;
+        opacity: 0.6;
+        margin-right: 10px;
+
+        & > svg {
+          height: 15px;
+        }
+      }
+    }
+  }
+`;
+
+const CountText = styled(Text)`
+  margin-top: 5px;
+  margin-left: auto;
 `;
 
 const ErrorText = styled(Text)`
   margin-top: 8px;
-  display: none;
+  visibility: hidden;
 
   &.error {
-    display: initial;
+    visibility: visible;
   }
 `;
 
@@ -289,6 +352,9 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     }
   };
 
+  /**
+   * Deal with closing modal if successful submission.
+   */
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     let resetTimeout: NodeJS.Timeout;
@@ -320,27 +386,6 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     reviewState.values.company?.value, // company slug
     !modalOpen
   );
-  const [tagsInputValue, setTagsInputValue] = useState<string | undefined>(
-    undefined
-  );
-  const onTagsInputChange = (inputValue: string) =>
-    setTagsInputValue(inputValue);
-  const onTagsChange = (value: ValueType<{ label: string; value: string }>) =>
-    onReviewChange("tags", value);
-  const onTagsKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (!tagsInputValue) return;
-    switch (event.key) {
-      case "Enter":
-      case " ":
-        onReviewChange("tags", [
-          ...(reviewState.values["tags"] || []),
-          { label: tagsInputValue, value: slugify(tagsInputValue) },
-        ]);
-        setTagsInputValue("");
-        event.preventDefault();
-    }
-  };
-
   const companyOptions = useMemo(
     () =>
       companySuggestions.map(({ name, slug }) => ({
@@ -357,6 +402,86 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
       })),
     [jobSuggestions]
   );
+
+  /**
+   * Logic for tags input
+   */
+  const [tagsInputValue, setTagsInputValue] = useState<string | undefined>(
+    undefined
+  );
+  const onTagsInputChange = (inputValue: string) => {
+    if ((reviewState.values["tags"]?.length || 0) < 5)
+      setTagsInputValue(inputValue);
+  };
+  const onTagsChange = (value: ValueType<{ label: string; value: string }>) =>
+    onReviewChange("tags", value);
+  const onTagsKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (!tagsInputValue) return;
+    switch (event.key) {
+      case "Enter":
+      case " ":
+        onReviewChange("tags", [
+          ...(reviewState.values["tags"] || []),
+          { label: tagsInputValue, value: slugify(tagsInputValue) },
+        ]);
+        setTagsInputValue("");
+        event.preventDefault();
+    }
+  };
+
+  /**
+   * Prompt user about unsaved review if they attempt
+   * to navigate away from site without submitting.
+   */
+  useEffect(() => {
+    const promptUnsaved = (e: BeforeUnloadEvent) => {
+      console.log(Object.values(reviewState.values));
+      const reviewStarted = Object.values(reviewState.values).some(
+        val => !!val
+      );
+
+      if (reviewStarted) {
+        // display prompt, user has unsubmitted stuff
+        e.preventDefault();
+        e.returnValue = true;
+      }
+    };
+    window.addEventListener("beforeunload", promptUnsaved);
+
+    return () => window.removeEventListener("beforeunload", promptUnsaved);
+  }, [reviewState.values]);
+
+  /**
+   * Suggestions for location input
+   */
+  const [placesInstance, setPlacesInstance] = useState<PlacesInstance | null>(
+    null
+  );
+  useEffect(() => {
+    const placesAutocomplete = places({
+      appId: "pl5ATJBYI7TR",
+      apiKey: "40b345052d7ae04dd2af77ff04180a28",
+      container: "#location-input",
+      type: "city",
+    });
+
+    setPlacesInstance(placesAutocomplete);
+  }, []);
+
+  useEffect(() => {
+    const updateLocation = (e: ChangeEvent) =>
+      onReviewChange("location", e.suggestion.value);
+
+    if (placesInstance) {
+      placesInstance.on("change", updateLocation);
+    }
+
+    return () => {
+      if (placesInstance) {
+        (placesInstance as any).off("change", updateLocation); // eslint-disable-line @typescript-eslint/no-explicit-any
+      }
+    };
+  }, [onReviewChange, placesInstance]);
 
   return (
     <ModalContainer
@@ -385,7 +510,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               <Text variant="heading2">Write a review</Text>
               <RowContainer>
                 <VerticalField
-                  className={classNames("half-width", {
+                  className={classNames("half-width", "company-field", {
                     error: reviewState.errors["company"].error,
                   })}
                 >
@@ -398,7 +523,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     Company name*
                   </Text>
                   <Select
-                    placeholder="Name"
+                    placeholder="Search or create"
                     color="greyLight"
                     disabled={isConfirmingSubmit || isSubmitting}
                     creatable
@@ -408,20 +533,35 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   />
                 </VerticalField>
                 <VerticalField
-                  className={classNames("half-width", {
+                  className={classNames("half-width", "job-field", {
                     error: reviewState.errors["job"].error,
                   })}
                 >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Position title*
-                  </Text>
+                  <LabelTooltipCombo className="label">
+                    <Text variant="subheading" as="h4" color="greyDark">
+                      Position title*
+                    </Text>
+                    <Tooltip color="greyMedium">
+                      <Text variant="body" as="div">
+                        The name of the position in your review. If the position
+                        doesn't exist, create one using the 'Create' option.
+                      </Text>
+                      {!reviewState.values["company"]?.value && (
+                        <>
+                          <br />
+                          <Text variant="body" as="div" color="warning">
+                            Select a company first before choosing a position.
+                          </Text>
+                        </>
+                      )}
+                    </Tooltip>
+                  </LabelTooltipCombo>
                   <Select
-                    placeholder="Title"
+                    placeholder={
+                      !reviewState.values["company"]?.value
+                        ? "Select company first"
+                        : "Search or create"
+                    }
                     color="greyLight"
                     disabled={
                       isConfirmingSubmit ||
@@ -447,7 +587,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </RowContainer>
               <RowContainer>
                 <LocationField
-                  className={classNames({
+                  className={classNames("location-field", {
                     error: reviewState.errors["location"]?.error,
                   })}
                 >
@@ -459,8 +599,9 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   >
                     Location*
                   </Text>
-                  <TextInput
-                    placeholder="City"
+                  <LocationInput
+                    id="location-input"
+                    placeholder="e.g. Waterloo, ON"
                     color="greyLight"
                     disabled={
                       isConfirmingSubmit ||
@@ -473,7 +614,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   />
                 </LocationField>
                 <SalaryField
-                  className={classNames({
+                  className={classNames("salary-field", {
                     error:
                       reviewState.errors["salary"].error ||
                       reviewState.errors["salaryCurrency"].error ||
@@ -503,7 +644,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     />
                     <Select
                       className="salary-currency"
-                      placeholder="CAD"
+                      placeholder="$€¥"
                       color="greyLight"
                       disabled={isConfirmingSubmit || isSubmitting}
                       creatable
@@ -519,7 +660,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     />
                     <Select
                       className="salary-period"
-                      placeholder="monthly"
+                      placeholder="Period"
                       color="greyLight"
                       disabled={isConfirmingSubmit || isSubmitting}
                       options={salaryPeriodOptions}
@@ -539,7 +680,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </RowContainer>
               <RowContainer>
                 <HorizontalField
-                  className={classNames("half-width", {
+                  className={classNames("half-width", "overall-rating-field", {
                     error: reviewState.errors["overallRating"].error,
                   })}
                 >
@@ -555,14 +696,18 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     maxStars={5}
                     value={reviewState.values["overallRating"]}
                     onChange={stars => onReviewChange("overallRating", stars)}
-                    color="#CFB316"
+                    color="goldDark"
                     disabled={isConfirmingSubmit || isSubmitting}
                   />
                 </HorizontalField>
                 <HorizontalField
-                  className={classNames("half-width", {
-                    error: reviewState.errors["workLifeBalanceRating"].error,
-                  })}
+                  className={classNames(
+                    "half-width",
+                    "work-life-balance-rating-field",
+                    {
+                      error: reviewState.errors["workLifeBalanceRating"].error,
+                    }
+                  )}
                 >
                   <Text
                     variant="subheading"
@@ -583,9 +728,14 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 </HorizontalField>
 
                 <HorizontalField
-                  className={classNames("half-width", {
-                    error: reviewState.errors["learningMentorshipRating"].error,
-                  })}
+                  className={classNames(
+                    "half-width",
+                    "learning-mentorship-rating-field",
+                    {
+                      error:
+                        reviewState.errors["learningMentorshipRating"].error,
+                    }
+                  )}
                 >
                   <Text
                     variant="subheading"
@@ -593,7 +743,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     as="h4"
                     color="greyDark"
                   >
-                    Mentorship &amp; learning*
+                    Learning &amp; mentorship*
                   </Text>
                   <StarRating
                     maxStars={5}
@@ -605,9 +755,13 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   />
                 </HorizontalField>
                 <HorizontalField
-                  className={classNames("half-width", {
-                    error: reviewState.errors["meaningfulWorkRating"].error,
-                  })}
+                  className={classNames(
+                    "half-width",
+                    "meaningful-work-rating-field",
+                    {
+                      error: reviewState.errors["meaningfulWorkRating"].error,
+                    }
+                  )}
                 >
                   <Text
                     variant="subheading"
@@ -629,7 +783,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
               </RowContainer>
               <RowContainer>
                 <VerticalField
-                  className={classNames({
+                  className={classNames("review-body-field", {
                     error: reviewState.errors["body"]?.error,
                   })}
                 >
@@ -647,12 +801,16 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     disabled={isConfirmingSubmit || isSubmitting}
                     value={reviewState.values["body"]}
                     onChange={e => onReviewChange("body", e.target.value)}
+                    maxLength={5000}
                   />
+                  <CountText variant="subheading" color="greyDark">
+                    {`${4000 - (reviewState.values["body"]?.length || 0)}/4000`}
+                  </CountText>
                 </VerticalField>
               </RowContainer>
               <RowContainer>
                 <VerticalField
-                  className={classNames({
+                  className={classNames("tags-field", {
                     error: reviewState.errors["tags"]?.error,
                   })}
                 >
@@ -662,7 +820,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     </Text>
                     <Tooltip position="right" color="greyMedium">
                       <Text variant="body" as="div">
-                        Optional keywords related to your review.
+                        Optional keywords related to your review. Maximum of 5.
                       </Text>
                     </Tooltip>
                   </LabelTooltipCombo>
@@ -681,11 +839,14 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     value={reviewState.values["tags"]}
                     inputValue={tagsInputValue}
                   />
+                  <CountText variant="subheading" color="greyDark">
+                    {`${5 - (reviewState.values["tags"]?.length || 0)}/5`}
+                  </CountText>
                 </VerticalField>
               </RowContainer>
               <RowContainer>
                 <VerticalField
-                  className={classNames({
+                  className={classNames("author-email-field", {
                     error: reviewState.errors["authorEmail"]?.error,
                   })}
                 >
@@ -698,7 +859,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                         Your email will only be used for spam prevention.
                       </Text>
                       <br />
-                      <Text variant="body" as="div" italic>
+                      <Text variant="body" as="div" color="goldDark">
                         For a limited time, you'll also be entered into a draw
                         to win one of 5 $20 gift cards!
                       </Text>
@@ -707,7 +868,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
 
                   <TextInput
                     color="greyLight"
-                    placeholder="billy@bob.com"
+                    placeholder="jimothy@example.com"
                     type="email"
                     disabled={isConfirmingSubmit || isSubmitting}
                     value={reviewState.values["authorEmail"]}
@@ -723,6 +884,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 })}
               >
                 <ActionButton
+                  className="submit-button"
                   color={
                     isSubmitting
                       ? "greyMedium"
@@ -742,28 +904,30 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   )}
                 </ActionButton>
 
-                <ErrorText
-                  variant="subheading"
-                  color="error"
-                  className={classNames({
-                    error: Object.values(reviewState.errors).some(
-                      val => val?.error
-                    ),
-                  })}
-                >
-                  Please make sure you've filled out all fields correctly.
-                </ErrorText>
-
-                <UnstyledButton
-                  className="cancel-submit-button"
-                  onClick={() => setIsConfirmingSubmit(false)}
-                  aria-hidden={isConfirmingSubmit ? "false" : "true"}
-                >
-                  <Text variant="subheading" color="greyDark">
-                    cancel
-                  </Text>
-                </UnstyledButton>
-              </ActionContainer>{" "}
+                {isConfirmingSubmit ? (
+                  <UnstyledButton
+                    className="cancel-submit-button"
+                    onClick={() => setIsConfirmingSubmit(false)}
+                    aria-hidden={isConfirmingSubmit ? "false" : "true"}
+                  >
+                    <Text variant="subheading" color="greyDark">
+                      cancel
+                    </Text>
+                  </UnstyledButton>
+                ) : (
+                  <ErrorText
+                    variant="subheading"
+                    color="error"
+                    className={classNames({
+                      error: Object.values(reviewState.errors).some(
+                        val => val?.error
+                      ),
+                    })}
+                  >
+                    Please make sure you've filled out all fields correctly.
+                  </ErrorText>
+                )}
+              </ActionContainer>
             </>
           )}
         </InnerContainer>
