@@ -60,6 +60,7 @@ const addReviewSchema = yup.object({
   tags: yup
     .array()
     .of(optionSchema)
+    .nullable()
     .notRequired(),
   authorEmail: yup
     .string()
@@ -224,8 +225,6 @@ export const useAddReview = () => {
   }, [reviewState.values]);
 
   const onReviewSubmit = async () => {
-    console.log("submitting with", queryVariables);
-
     /**
      * Execute the mutation
      */

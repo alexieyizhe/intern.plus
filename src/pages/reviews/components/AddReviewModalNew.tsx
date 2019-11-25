@@ -420,10 +420,16 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     switch (event.key) {
       case "Enter":
       case " ":
-        onReviewChange("tags", [
-          ...(reviewState.values["tags"] || []),
-          { label: tagsInputValue, value: slugify(tagsInputValue) },
-        ]);
+        // check if tag exists already
+        if (
+          !reviewState.values.tags?.some(tag => tag.label === tagsInputValue)
+        ) {
+          onReviewChange("tags", [
+            ...(reviewState.values["tags"] || []),
+            { label: tagsInputValue, value: slugify(tagsInputValue) },
+          ]);
+        }
+
         setTagsInputValue("");
         event.preventDefault();
     }
@@ -435,7 +441,6 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
    */
   useEffect(() => {
     const promptUnsaved = (e: BeforeUnloadEvent) => {
-      console.log(Object.values(reviewState.values));
       const reviewStarted = Object.values(reviewState.values).some(
         val => !!val
       );
