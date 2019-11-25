@@ -199,6 +199,11 @@ const SalaryField = styled(VerticalField)`
   ${({ theme }) => theme.mediaQueries.xlMobile`
     & > div {
       flex-direction: column;
+
+      & > * {
+        width: 100% !important;
+        margin-bottom: 8px;
+      }
     }
   `}
 `;
