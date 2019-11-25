@@ -225,6 +225,7 @@ const ActionContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  flex-shrink: 0;
 
   & .cancel-submit-button {
     margin-top: 5px;
