@@ -131,6 +131,7 @@ const RowContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  flex-shrink: 0;
 `;
 
 const Field = styled.article`
@@ -420,7 +421,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     switch (event.key) {
       case "Enter":
       case " ":
-        // check if tag exists already
+        // check if tag exists already - if so, don't add another tag
         if (
           !reviewState.values.tags?.some(tag => tag.label === tagsInputValue)
         ) {
@@ -830,7 +831,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     </Tooltip>
                   </LabelTooltipCombo>
                   <Select
-                    placeholder="e.g. hardware, startup, finance"
+                    placeholder="e.g. hardware, startup"
                     color="greyLight"
                     components={{ DropdownIndicator: null }}
                     disabled={isConfirmingSubmit || isSubmitting}
