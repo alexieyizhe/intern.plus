@@ -131,6 +131,7 @@ const RowContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  flex-shrink: 0;
 `;
 
 const Field = styled.article`
@@ -194,6 +195,17 @@ const SalaryField = styled(VerticalField)`
       width: 35%;
     }
   }
+
+  ${({ theme }) => theme.mediaQueries.xlMobile`
+    & > div {
+      flex-direction: column;
+
+      & > * {
+        width: 100% !important;
+        margin-bottom: 8px;
+      }
+    }
+  `}
 `;
 
 const LabelTooltipCombo = styled.div`
@@ -213,6 +225,7 @@ const ActionContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  flex-shrink: 0;
 
   & .cancel-submit-button {
     margin-top: 5px;
@@ -420,10 +433,16 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     switch (event.key) {
       case "Enter":
       case " ":
-        onReviewChange("tags", [
-          ...(reviewState.values["tags"] || []),
-          { label: tagsInputValue, value: slugify(tagsInputValue) },
-        ]);
+        // check if tag exists already - if so, don't add another tag
+        if (
+          !reviewState.values.tags?.some(tag => tag.label === tagsInputValue)
+        ) {
+          onReviewChange("tags", [
+            ...(reviewState.values["tags"] || []),
+            { label: tagsInputValue, value: slugify(tagsInputValue) },
+          ]);
+        }
+
         setTagsInputValue("");
         event.preventDefault();
     }
@@ -435,7 +454,6 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
    */
   useEffect(() => {
     const promptUnsaved = (e: BeforeUnloadEvent) => {
-      console.log(Object.values(reviewState.values));
       const reviewStarted = Object.values(reviewState.values).some(
         val => !!val
       );
@@ -825,7 +843,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     </Tooltip>
                   </LabelTooltipCombo>
                   <Select
-                    placeholder="e.g. hardware, startup, finance"
+                    placeholder="e.g. hardware, startup"
                     color="greyLight"
                     components={{ DropdownIndicator: null }}
                     disabled={isConfirmingSubmit || isSubmitting}
@@ -910,7 +928,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onClick={() => setIsConfirmingSubmit(false)}
                     aria-hidden={isConfirmingSubmit ? "false" : "true"}
                   >
-                    <Text variant="subheading" color="greyDark">
+                    <Text variant="subheading" color="greyDark" align="center">
                       cancel
                     </Text>
                   </UnstyledButton>
@@ -918,6 +936,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <ErrorText
                     variant="subheading"
                     color="error"
+                    align="center"
                     className={classNames({
                       error: Object.values(reviewState.errors).some(
                         val => val?.error
