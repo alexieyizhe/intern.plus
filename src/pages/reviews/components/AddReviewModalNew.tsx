@@ -195,6 +195,12 @@ const SalaryField = styled(VerticalField)`
       width: 35%;
     }
   }
+
+  ${({ theme }) => theme.mediaQueries.xlMobile`
+    & > div {
+      flex-direction: column;
+    }
+  `}
 `;
 
 const LabelTooltipCombo = styled.div`
