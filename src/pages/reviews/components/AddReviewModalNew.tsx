@@ -928,7 +928,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onClick={() => setIsConfirmingSubmit(false)}
                     aria-hidden={isConfirmingSubmit ? "false" : "true"}
                   >
-                    <Text variant="subheading" color="greyDark">
+                    <Text variant="subheading" color="greyDark" align="center">
                       cancel
                     </Text>
                   </UnstyledButton>
@@ -936,6 +936,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <ErrorText
                     variant="subheading"
                     color="error"
+                    align="center"
                     className={classNames({
                       error: Object.values(reviewState.errors).some(
                         val => val?.error
