@@ -31,8 +31,9 @@ describe("Filter options", () => {
 
     cy.get(".review-card")
       .first()
-      .contains("Weissnat, Hessel and Romaguera")
-      .should("exist");
+      .click();
+
+    cy.get("#review-page .salary-amt").contains("38");
   });
 
   it("should be able to filter by location", () => {

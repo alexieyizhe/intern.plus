@@ -15,7 +15,7 @@ describe("Sort options", () => {
     cy.get(".job-card")
       .first()
       .find(".salaryAmt")
-      .should("have.text", "21 - 38");
+      .should("have.text", "1 - 38");
 
     cy.get(".options-menu .sort.select input")
       .click()

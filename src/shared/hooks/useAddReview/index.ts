@@ -49,14 +49,29 @@ const addReviewSchema = yup.object({
     .min(0)
     .max(5)
     .required(),
-  salary: yup
-    .number()
-    .min(0)
-    .required(),
-  salaryCurrency: optionSchema.required(),
+  salary: yup.number().when("noSalaryProvided", {
+    is: true,
+    then: yup.number().notRequired(),
+    otherwise: yup
+      .number()
+      .min(0)
+      .required(),
+  }),
+  salaryCurrency: optionSchema.when("noSalaryProvided", {
+    is: true,
+    then: optionSchema.notRequired(),
+    otherwise: optionSchema.required(),
+  }),
   salaryPeriod: yup
     .mixed<"hourly" | "weekly" | "monthly">()
-    .oneOf(["hourly", "weekly", "monthly"]),
+    .when("noSalaryProvided", {
+      is: true,
+      then: yup.mixed().notRequired(),
+      otherwise: yup
+        .mixed<"hourly" | "weekly" | "monthly">()
+        .oneOf(["hourly", "weekly", "monthly"]),
+    }),
+  noSalaryProvided: yup.boolean().notRequired(),
   tags: yup
     .array()
     .of(optionSchema)
@@ -117,6 +132,9 @@ const DEFAULT_REVIEW_STATE: IAddReviewState = {
     salaryPeriod: {
       error: false,
     },
+    noSalaryProvided: {
+      error: false,
+    },
     tags: {
       error: false,
     },
@@ -134,6 +152,7 @@ export const useAddReview = () => {
     value:
       | string
       | number
+      | boolean
       | ValueType<{ label: string; value: string }>
       | undefined
   ) => {
@@ -219,6 +238,9 @@ export const useAddReview = () => {
       jobSlug: isNewJob
         ? slugify(reviewState.values.job?.value || "")
         : reviewState.values.job?.value,
+      salary: reviewState.values.noSalaryProvided
+        ? -1
+        : reviewState.values.salary,
       salaryCurrency: reviewState.values.salaryCurrency?.value,
       tags: reviewState.values.tags?.map(option => option.value).join(","),
     };

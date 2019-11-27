@@ -157,6 +157,7 @@ export default async (event: any, ctx: any): Promise<TriggerResult> => {
   const meaningfulWorkRating = parseFloat(meaningfulWorkRatingStr);
   const workLifeBalanceRating = parseFloat(workLifeBalanceRatingStr);
   const salary = parseFloat(salaryStr);
+  const noSalaryDisclosed = salary === -1;
   let hourlySalary = salary;
   if (salaryPeriod === "weekly") {
     hourlySalary = Math.round(salary / 40);
@@ -218,18 +219,24 @@ export default async (event: any, ctx: any): Promise<TriggerResult> => {
       avgWorkLifeBalanceRating:
         (company.totWorkLifeBalanceRating + workLifeBalanceRating) /
         (company.numRatings + 1),
-      totHourlySalary: company.totHourlySalary + hourlySalary,
-      avgHourlySalary: Math.round(
-        (company.totHourlySalary + hourlySalary) / (company.numRatings + 1)
-      ),
-      minHourlySalary:
-        company.numRatings === 0
-          ? hourlySalary
-          : Math.min(company.minHourlySalary, hourlySalary),
-      maxHourlySalary:
-        company.numRatings === 0
-          ? hourlySalary
-          : Math.max(company.maxHourlySalary, hourlySalary),
+      totHourlySalary: noSalaryDisclosed
+        ? company.totHourlySalary
+        : company.totHourlySalary + hourlySalary,
+      avgHourlySalary: noSalaryDisclosed
+        ? company.avgHourlySalary
+        : Math.round(
+            (company.totHourlySalary + hourlySalary) / (company.numRatings + 1)
+          ),
+      minHourlySalary: noSalaryDisclosed
+        ? company.minHourlySalary
+        : company.minHourlySalary === -1
+        ? hourlySalary
+        : Math.min(company.minHourlySalary, hourlySalary),
+      maxHourlySalary: noSalaryDisclosed
+        ? company.maxHourlySalary
+        : company.maxHourlySalary === -1
+        ? hourlySalary
+        : Math.max(company.maxHourlySalary, hourlySalary),
     };
 
     const { job } = await ctx.api.gqlRequest(GET_JOB, {
@@ -256,18 +263,24 @@ export default async (event: any, ctx: any): Promise<TriggerResult> => {
       avgWorkLifeBalanceRating:
         (job.totWorkLifeBalanceRating + workLifeBalanceRating) /
         (job.numRatings + 1),
-      totHourlySalary: job.totHourlySalary + hourlySalary,
-      avgHourlySalary: Math.round(
-        (job.totHourlySalary + hourlySalary) / (job.numRatings + 1)
-      ),
-      minHourlySalary:
-        job.numRatings === 0
-          ? hourlySalary
-          : Math.min(job.minHourlySalary, hourlySalary),
-      maxHourlySalary:
-        job.numRatings === 0
-          ? hourlySalary
-          : Math.max(job.maxHourlySalary, hourlySalary),
+      totHourlySalary: noSalaryDisclosed
+        ? job.totHourlySalary
+        : job.totHourlySalary + hourlySalary,
+      avgHourlySalary: noSalaryDisclosed
+        ? job.avgHourlySalary
+        : Math.round(
+            (job.totHourlySalary + hourlySalary) / (job.numRatings + 1)
+          ),
+      minHourlySalary: noSalaryDisclosed
+        ? job.minHourlySalary
+        : job.minHourlySalary === -1
+        ? hourlySalary
+        : Math.min(job.minHourlySalary, hourlySalary),
+      maxHourlySalary: noSalaryDisclosed
+        ? job.maxHourlySalary
+        : job.maxHourlySalary === -1
+        ? hourlySalary
+        : Math.max(job.maxHourlySalary, hourlySalary),
     };
 
     // console.log("new company info is", newCompanyData);
@@ -282,6 +295,7 @@ export default async (event: any, ctx: any): Promise<TriggerResult> => {
       id: event.originalData.job.reconnect.id,
       ...newJobData,
     });
+    console.log(`Successfully updated company ${companyId} and job ${jobId}`);
 
     console.log("------------------------- Finished -------------------------");
   }

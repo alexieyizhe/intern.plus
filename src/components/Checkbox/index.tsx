@@ -5,7 +5,9 @@ import styled, { css } from "styled-components";
  *                            **Types**                            *
  *******************************************************************/
 export interface ICheckboxProps
-  extends React.ComponentPropsWithoutRef<"input"> {}
+  extends React.ComponentPropsWithoutRef<"input"> {
+  color?: string;
+}
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -88,10 +90,12 @@ const checkedStyles = css`
   }
 `;
 
-const StyledCheckbox = styled.span`
+const StyledCheckbox = styled.span<{ color?: string }>`
   ${sharedStyles}
 
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ color = "", theme }) =>
+    theme.color[color] || color || "inherit"};
+
   border-radius: ${({ theme }) => theme.borderRadius.checkbox}px;
   z-index: 1;
 
@@ -108,13 +112,14 @@ const StyledCheckbox = styled.span`
 const Checkbox: React.FC<ICheckboxProps> = ({
   className,
   type, // unused
+  color,
   children,
   ...rest
 }) => (
   <Container className={className}>
     <Stack>
       <HiddenCheckbox {...rest} />
-      <StyledCheckbox />
+      <StyledCheckbox color={color} />
     </Stack>
     {children}
   </Container>

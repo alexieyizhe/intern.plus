@@ -55,6 +55,43 @@ const getRatingsText = (numRatings?: number) => {
   }
 };
 
+/**
+ * Converts the stored backend value into a readable
+ * format for display.
+ * The reason we use hourly/monthly/weekly is from legacy
+ * internCompass data.
+ * @param salary salary amount
+ * @param salaryCurrency currency
+ * @param salaryPeriod one of `weekly`, `hourly`, `monthly`
+ */
+const getSalaryText = (
+  salary?: number,
+  salaryCurrency?: string,
+  salaryPeriod?: string
+) => {
+  if (salary === -1) {
+    return "No salary information";
+  }
+
+  let salaryText = salaryCurrency;
+
+  switch (salaryPeriod) {
+    case "monthly":
+      salaryText += "/month";
+      break;
+    case "weekly":
+      salaryText += "/week";
+      break;
+    case "hourly":
+      salaryText += "/hr";
+      break;
+    default:
+      return "";
+  }
+
+  return salaryText;
+};
+
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
@@ -78,7 +115,7 @@ const MiscDetails = styled.div`
 
   & .salary {
     display: flex;
-    margin-top: auto;
+    margin-bottom: auto;
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
@@ -203,13 +240,19 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
         </div>
 
         <div className="salary">
-          <Text variant="heading2" as="div">
-            {jobDetails?.minHourlySalary === jobDetails?.maxHourlySalary
-              ? jobDetails?.minHourlySalary
-              : `${jobDetails?.minHourlySalary} - ${jobDetails?.maxHourlySalary}`}
-          </Text>
+          {jobDetails?.minHourlySalary && jobDetails?.minHourlySalary >= 0 && (
+            <Text variant="heading2" as="div">
+              {jobDetails?.minHourlySalary === jobDetails?.maxHourlySalary
+                ? jobDetails?.minHourlySalary
+                : `${jobDetails?.minHourlySalary} - ${jobDetails?.maxHourlySalary}`}
+            </Text>
+          )}
           <Text variant="heading3" as="div">
-            {`${jobDetails?.hourlySalaryCurrency}/hr`}
+            {getSalaryText(
+              jobDetails?.minHourlySalary,
+              jobDetails?.hourlySalaryCurrency,
+              "hourly"
+            )}
           </Text>
         </div>
       </MiscDetails>

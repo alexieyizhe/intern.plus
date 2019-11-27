@@ -39,6 +39,7 @@
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "apollo-boost": "^0.4.4",
+    "array-flat-polyfill": "^1.0.1",
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
     "focus-visible": "^5.0.2",

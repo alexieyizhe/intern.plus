@@ -24,6 +24,7 @@ import {
   UnstyledButton,
   Spinner,
   baseLinkStyles,
+  Checkbox,
 } from "src/components";
 import {
   HEADER_HEIGHT,
@@ -129,7 +130,7 @@ const RowContainer = styled.div`
 
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   flex-shrink: 0;
 `;
@@ -139,7 +140,7 @@ const Field = styled.article`
   justify-content: space-between;
   align-items: flex-start;
 
-  margin: 10px 0 5px 0;
+  margin: 5px 0 10px 0;
 
   width: 100%;
 
@@ -194,6 +195,10 @@ const SalaryField = styled(VerticalField)`
     & .salary-period {
       width: 35%;
     }
+  }
+
+  & .no-salary-provided-checkbox {
+    margin-top: 6px;
   }
 
   ${({ theme }) => theme.mediaQueries.xlMobile`
@@ -654,7 +659,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       type="number"
                       min={0}
                       color="greyLight"
-                      disabled={isConfirmingSubmit || isSubmitting}
+                      disabled={
+                        isConfirmingSubmit ||
+                        isSubmitting ||
+                        reviewState.values.noSalaryProvided
+                      }
                       value={reviewState.values["salary"]}
                       onChange={e =>
                         onReviewChange("salary", parseInt(e.target.value))
@@ -664,7 +673,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       className="salary-currency"
                       placeholder="$€¥"
                       color="greyLight"
-                      disabled={isConfirmingSubmit || isSubmitting}
+                      disabled={
+                        isConfirmingSubmit ||
+                        isSubmitting ||
+                        reviewState.values.noSalaryProvided
+                      }
                       creatable
                       options={salaryCurrencyOptions}
                       value={salaryCurrencyOptions.find(
@@ -680,7 +693,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       className="salary-period"
                       placeholder="Period"
                       color="greyLight"
-                      disabled={isConfirmingSubmit || isSubmitting}
+                      disabled={
+                        isConfirmingSubmit ||
+                        isSubmitting ||
+                        reviewState.values.noSalaryProvided
+                      }
                       options={salaryPeriodOptions}
                       value={salaryPeriodOptions.find(
                         option =>
@@ -694,6 +711,18 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       }
                     />
                   </div>
+                  <Checkbox
+                    className="no-salary-provided-checkbox"
+                    color="greyLight"
+                    checked={reviewState.values.noSalaryProvided}
+                    onChange={e =>
+                      onReviewChange("noSalaryProvided", e.target.checked)
+                    }
+                  >
+                    <Text variant="body" color="greyDark">
+                      I do not wish to disclose my salary.
+                    </Text>
+                  </Checkbox>
                 </SalaryField>
               </RowContainer>
               <RowContainer>
