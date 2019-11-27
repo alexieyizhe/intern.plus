@@ -1,4 +1,5 @@
 import "focus-visible";
+import "array-flat-polyfill";
 import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/react-hooks";
