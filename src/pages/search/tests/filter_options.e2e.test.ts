@@ -15,7 +15,7 @@ describe("Filter options", () => {
       .should("be.gt", 0);
   });
 
-  it("should be able to filter by min and/or max salary range", () => {
+  it.only("should be able to filter by min and/or max salary range", () => {
     cy.visit("/reviews");
     cy.get(".review-card")
       .first()
@@ -31,8 +31,9 @@ describe("Filter options", () => {
 
     cy.get(".review-card")
       .first()
-      .contains("Weissnat, Hessel and Romaguera")
-      .should("exist");
+      .click();
+
+    cy.get("#review-page .salary-amt").contains("38");
   });
 
   it("should be able to filter by location", () => {

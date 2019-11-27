@@ -321,9 +321,11 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
         </div>
         <SalaryInfo>
           {reviewDetails?.salary && reviewDetails?.salary >= 0 && (
-            <Text variant="heading2">{reviewDetails?.salary}</Text>
+            <Text variant="heading2" className="salary-amt">
+              {reviewDetails?.salary}
+            </Text>
           )}
-          <Text variant="heading3">
+          <Text variant="heading3" className="salary-text">
             {getSalaryText(
               reviewDetails?.salary,
               reviewDetails?.salaryCurrency,
