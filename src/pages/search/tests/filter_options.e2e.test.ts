@@ -15,7 +15,7 @@ describe("Filter options", () => {
       .should("be.gt", 0);
   });
 
-  it.only("should be able to filter by min and/or max salary range", () => {
+  it("should be able to filter by min and/or max salary range", () => {
     cy.visit("/reviews");
     cy.get(".review-card")
       .first()
