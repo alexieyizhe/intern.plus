@@ -25,6 +25,46 @@ export interface IJobCardProps extends ICardProps {
 }
 
 /*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
+/**
+ * Converts the stored backend value into a readable
+ * format for display.
+ * The reason we use hourly/monthly/weekly is from legacy
+ * internCompass data.
+ * @param salary salary amount
+ * @param salaryCurrency currency
+ * @param salaryPeriod one of `weekly`, `hourly`, `monthly`
+ */
+const getSalaryText = (
+  salary?: number,
+  salaryCurrency?: string,
+  salaryPeriod?: string
+) => {
+  if (salary === -1) {
+    return "No salary information";
+  }
+
+  let salaryText = salaryCurrency;
+
+  switch (salaryPeriod) {
+    case "monthly":
+      salaryText += "/month";
+      break;
+    case "weekly":
+      salaryText += "/week";
+      break;
+    case "hourly":
+      salaryText += "/hr";
+      break;
+    default:
+      return "";
+  }
+
+  return salaryText;
+};
+
+/*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
 const Container = styled(Card)`
@@ -126,16 +166,17 @@ const JobCard: React.FC<IJobCardProps> = ({
         </StarRating>
       </div>
 
-      <Text className="salaryAmt" variant="heading2" align="right">
-        {minHourlySalary === maxHourlySalary
-          ? minHourlySalary
-          : `${minHourlySalary} - ${maxHourlySalary}`}
-      </Text>
+      {minHourlySalary && minHourlySalary >= 0 && (
+        <Text className="salaryAmt" variant="heading2" align="right">
+          {minHourlySalary === maxHourlySalary
+            ? minHourlySalary
+            : `${minHourlySalary} - ${maxHourlySalary}`}
+        </Text>
+      )}
 
-      <Text
-        className="salaryInfo"
-        variant="heading3"
-      >{`${hourlySalaryCurrency}/hr`}</Text>
+      <Text className="salaryInfo" variant="heading3">
+        {getSalaryText(minHourlySalary, hourlySalaryCurrency, "hourly")}
+      </Text>
     </Link>
   </Container>
 );

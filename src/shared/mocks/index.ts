@@ -148,7 +148,7 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
     "monthly",
   ]);
   const salaryNum = ({
-    hourly: faker.random.number({ min: 20, max: 50 }),
+    hourly: faker.random.number({ min: -1, max: 50 }),
     weekly: faker.random.number({ min: 800, max: 3000 }),
     monthly: faker.random.number({ min: 4000, max: 12000 }),
   } as any)[currencyPeriod];

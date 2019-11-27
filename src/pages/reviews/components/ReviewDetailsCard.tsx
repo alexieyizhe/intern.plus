@@ -59,19 +59,36 @@ export interface IReviewDetailsCardProps extends IDetailsCardProps {
  * format for display.
  * The reason we use hourly/monthly/weekly is from legacy
  * internCompass data.
+ * @param salary salary amount
+ * @param salaryCurrency currency
  * @param salaryPeriod one of `weekly`, `hourly`, `monthly`
  */
-const getSalaryPeriodText = (salaryPeriod?: string) => {
+const getSalaryText = (
+  salary?: number,
+  salaryCurrency?: string,
+  salaryPeriod?: string
+) => {
+  if (salary === -1) {
+    return "No salary provided";
+  }
+
+  let salaryText = salaryCurrency;
+
   switch (salaryPeriod) {
     case "monthly":
-      return "/month";
+      salaryText += "/month";
+      break;
     case "weekly":
-      return "/week";
+      salaryText += "/week";
+      break;
     case "hourly":
-      return "/hr";
+      salaryText += "/hr";
+      break;
     default:
       return "";
   }
+
+  return salaryText;
 };
 
 /*******************************************************************
@@ -303,10 +320,18 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           </ReviewRating>
         </div>
         <SalaryInfo>
-          <Text variant="heading2">{reviewDetails?.salary}</Text>
-          <Text variant="heading3">{`${
-            reviewDetails?.salaryCurrency
-          }${getSalaryPeriodText(reviewDetails?.salaryPeriod)}`}</Text>
+          {reviewDetails?.salary && reviewDetails?.salary >= 0 && (
+            <Text variant="heading2" className="salary-amt">
+              {reviewDetails?.salary}
+            </Text>
+          )}
+          <Text variant="heading3" className="salary-text">
+            {getSalaryText(
+              reviewDetails?.salary,
+              reviewDetails?.salaryCurrency,
+              reviewDetails?.salaryPeriod
+            )}
+          </Text>
         </SalaryInfo>
       </FlexRowContainer>
       <ReviewBody variant="body">

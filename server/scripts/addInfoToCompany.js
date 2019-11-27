@@ -15,11 +15,6 @@ const jobJsonFile = require(`../data/${JOB_KEY}.json`); // eslint-disable-line
 const reviewJsonFile = require(`../data/${REVIEW_KEY}.json`); // eslint-disable-line
 const API_URL = process.env.REACT_APP_DB_GRAPHQL_API_URL;
 
-const COMPANIES_BY_SLUG = companyJsonFile.reduce((acc, cur) => {
-  acc[cur.slug] = cur;
-  return acc;
-}, {});
-
 const client = new ApolloClient({
   uri: API_URL,
   request: operation => {
@@ -32,22 +27,51 @@ const client = new ApolloClient({
   },
 });
 
+const salaryReducer = (acc, cur, curIdx) => {
+  const newAcc = acc;
+
+  let curHourlySalary;
+  if (cur.pay_period === "hourly") {
+    curHourlySalary = Math.round(cur.salary_in_cents / 100);
+  } else if (cur.pay_period === "weekly") {
+    curHourlySalary = Math.round(cur.salary_in_cents / 100 / 40);
+  } else if (cur.pay_period === "monthly") {
+    curHourlySalary = Math.round(cur.salary_in_cents / 100 / 160);
+  }
+
+  if (curHourlySalary < newAcc.minHourlySalary) {
+    newAcc.minHourlySalary = curHourlySalary;
+  }
+
+  if (curHourlySalary > newAcc.maxHourlySalary) {
+    newAcc.maxHourlySalary = curHourlySalary;
+  }
+
+  newAcc.avgHourlySalary = Math.round(
+    (acc.avgHourlySalary * curIdx + curHourlySalary) / (curIdx + 1)
+  );
+
+  newAcc.totHourlySalary = acc.totHourlySalary + curHourlySalary;
+
+  return newAcc;
+};
+
 /** Mutation to add stuff to company */
-const UPDATE_COMPANY_SALARY_WEBSITE = gql`
-  mutation UpdateCompanyColor(
+const UPDATE_COMPANY_INFO = gql`
+  mutation UpdateCompanyInfo(
     $slug: String
+    $totHourlySalary: Int
     $avgHourlySalary: Int
     $minHourlySalary: Int
     $maxHourlySalary: Int
-    $websiteUrl: String
   ) {
     companyUpdate(
       filter: { slug: $slug }
       data: {
+        totHourlySalary: $totHourlySalary
         avgHourlySalary: $avgHourlySalary
         minHourlySalary: $minHourlySalary
         maxHourlySalary: $maxHourlySalary
-        websiteUrl: $websiteUrl
       }
     ) {
       slug
@@ -57,89 +81,101 @@ const UPDATE_COMPANY_SALARY_WEBSITE = gql`
 
 const mutateCompanyInfo = async (
   slug,
+  totHourlySalary,
   avgHourlySalary,
   minHourlySalary,
-  maxHourlySalary,
-  websiteUrl
+  maxHourlySalary
 ) => {
   const response = await client.mutate({
-    mutation: UPDATE_COMPANY_SALARY_WEBSITE,
+    mutation: UPDATE_COMPANY_INFO,
     variables: {
       slug,
+      totHourlySalary,
       avgHourlySalary,
       minHourlySalary,
       maxHourlySalary,
-      websiteUrl,
     },
   });
 
   if (response.error) {
-    throw new Error("Mutation failed");
+    throw new Error("Company mutation failed");
+  }
+};
+
+/** Mutation to add stuff to job */
+const UPDATE_JOB_INFO = gql`
+  mutation UpdateJobInfo(
+    $id: ID
+    $totHourlySalary: Int
+    $avgHourlySalary: Int
+    $minHourlySalary: Int
+    $maxHourlySalary: Int
+  ) {
+    jobUpdate(
+      filter: { id: $id }
+      data: {
+        totHourlySalary: $totHourlySalary
+        avgHourlySalary: $avgHourlySalary
+        minHourlySalary: $minHourlySalary
+        maxHourlySalary: $maxHourlySalary
+      }
+    ) {
+      slug
+    }
+  }
+`;
+
+const GET_JOB_INFO = gql`
+  query GetJobId {
+    jobsList {
+      items {
+        id
+        uniqueIdentifier
+      }
+    }
+  }
+`;
+
+const mutateJobInfo = async (
+  id,
+  totHourlySalary,
+  avgHourlySalary,
+  minHourlySalary,
+  maxHourlySalary
+) => {
+  const response = await client.mutate({
+    mutation: UPDATE_JOB_INFO,
+    variables: {
+      id,
+      totHourlySalary,
+      avgHourlySalary,
+      minHourlySalary,
+      maxHourlySalary,
+    },
+  });
+
+  if (response.error) {
+    throw new Error("Job mutation failed");
   }
 };
 
 const updateCompanies = async () => {
-  for (const { id, slug, website_url, careers_url } of companyJsonFile) {
+  for (const { id, slug } of companyJsonFile) {
     const reviewsAtCompany = reviewJsonFile.filter(
       review => review.company_id === id
     );
-    // const sortedHourlySalaries = reviewsAtCompany.map(cur => {
-    //   let curHourlySalary;
-    //   if (cur.pay_period === "hourly") {
-    //     curHourlySalary = Math.round(cur.salary_in_cents / 100);
-    //   } else if (cur.pay_period === "weekly") {
-    //     curHourlySalary = Math.round(cur.salary_in_cents / 100 / 40);
-    //   } else if (cur.pay_period === "monthly") {
-    //     curHourlySalary = Math.round(cur.salary_in_cents / 100 / 160);
-    //   }
 
-    //   return curHourlySalary;
-    // });
-    // sortedHourlySalaries.sort((a, b) => a - b);
-
-    const websiteUrl = careers_url || website_url || undefined;
-    let avgHourlySalary;
-
-    if (sortedHourlySalaries.length <= 0) {
-      avgHourlySalary = 0;
-    } else {
-      avgHourlySalary = Math.round(
-        sortedHourlySalaries.length % 2
-          ? sortedHourlySalaries[(sortedHourlySalaries.length - 1) / 2]
-          : (sortedHourlySalaries[sortedHourlySalaries.length / 2 - 1] +
-              sortedHourlySalaries[sortedHourlySalaries.length / 2]) /
-              2
-      );
-    }
-
-    let { minHourlySalary, maxHourlySalary } = reviewsAtCompany.reduce(
-      (acc, cur) => {
-        const newAcc = acc;
-
-        let curHourlySalary;
-        if (cur.pay_period === "hourly") {
-          curHourlySalary = Math.round(cur.salary_in_cents / 100);
-        } else if (cur.pay_period === "weekly") {
-          curHourlySalary = Math.round(cur.salary_in_cents / 100 / 40);
-        } else if (cur.pay_period === "monthly") {
-          curHourlySalary = Math.round(cur.salary_in_cents / 100 / 160);
-        }
-
-        if (curHourlySalary < newAcc.minHourlySalary) {
-          newAcc.minHourlySalary = curHourlySalary;
-        }
-
-        if (curHourlySalary > newAcc.maxHourlySalary) {
-          newAcc.maxHourlySalary = curHourlySalary;
-        }
-
-        return newAcc;
-      },
-      {
-        minHourlySalary: Number.MAX_SAFE_INTEGER,
-        maxHourlySalary: Number.MIN_SAFE_INTEGER,
-      }
-    );
+    let {
+      minHourlySalary,
+      maxHourlySalary,
+      avgHourlySalary,
+      totHourlySalary,
+    } = reviewsAtCompany.reduce(salaryReducer, {
+      avgHourlySalary: -1,
+      totHourlySalary: 0,
+      minHourlySalary: Number.MAX_SAFE_INTEGER,
+      maxHourlySalary: Number.MIN_SAFE_INTEGER,
+    });
 
     if (minHourlySalary === Number.MAX_SAFE_INTEGER) {
       minHourlySalary = undefined;
@@ -147,14 +183,19 @@ const updateCompanies = async () => {
     if (maxHourlySalary === Number.MIN_SAFE_INTEGER) {
       maxHourlySalary = undefined;
     }
+    if (avgHourlySalary === -1) {
+      avgHourlySalary = undefined;
+    }
+    if (totHourlySalary === 0) {
+      totHourlySalary = undefined;
+    }
 
     try {
       await mutateCompanyInfo(
         slug,
         avgHourlySalary,
         minHourlySalary,
-        maxHourlySalary,
-        websiteUrl
+        maxHourlySalary
       ); // execute the mutation
 
       console.log(chalk`{green Success}: ${slug} updated`);
@@ -164,4 +205,69 @@ const updateCompanies = async () => {
   }
 };
 
+const updateJobs = async jobInfo => {
+  for (const { id, company_id, slug } of jobJsonFile) {
+    const reviewsAtJob = reviewJsonFile.filter(review => review.job_id === id);
+
+    let {
+      minHourlySalary,
+      maxHourlySalary,
+      avgHourlySalary,
+      totHourlySalary,
+    } = reviewsAtJob.reduce(salaryReducer, {
+      avgHourlySalary: -1,
+      totHourlySalary: 0,
+      minHourlySalary: Number.MAX_SAFE_INTEGER,
+      maxHourlySalary: Number.MIN_SAFE_INTEGER,
+    });
+
+    if (minHourlySalary === Number.MAX_SAFE_INTEGER) {
+      minHourlySalary = undefined;
+    }
+    if (maxHourlySalary === Number.MIN_SAFE_INTEGER) {
+      maxHourlySalary = undefined;
+    }
+    if (avgHourlySalary === -1) {
+      avgHourlySalary = undefined;
+    }
+    if (totHourlySalary === 0) {
+      totHourlySalary = undefined;
+    }
+
+    const job = jobInfo.find(
+      ({ uniqueIdentifier }) => uniqueIdentifier === `j${id}c${company_id}`
+    );
+    let jobId;
+
+    if (job) {
+      jobId = job.id;
+    } else {
+      throw new Error(`No job with slug ${slug} and company id ${company_id}`);
+    }
+
+    try {
+      await mutateJobInfo(
+        jobId,
+        avgHourlySalary,
+        minHourlySalary,
+        maxHourlySalary
+      ); // execute the mutation
+
+      console.log(
+        chalk`{green Success}: Job with slug ${slug} and company id ${company_id} updated`
+      );
+    } catch (e) {
+      console.log(e.graphQLErrors[0].locations);
+      console.log(
+        chalk`{yellow Error}: Failed to update job with slug ${slug} and company id ${company_id}: ${e}`
+      );
+    }
+  }
+};
+
+const getJobs = async () => {
+  const jobInfoResponse = await client.query({ query: GET_JOB_INFO });
+  return jobInfoResponse.data.jobsList.items;
+};
+getJobs().then(jobInfo => updateJobs(jobInfo));
 updateCompanies();
