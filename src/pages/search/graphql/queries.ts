@@ -120,7 +120,7 @@ const getReviewsSort = (sort?: SearchSort) => {
       return `[{ salary: DESC }, { company: { name: ASC } }, { job: { name: ASC } }]`;
     default:
       // same as ALPHABETICAL, DEFAULT (chronologically) and NUM_REVIEWS (not a valid sort option for reviews)
-      return `[{ updatedAt: DESC }, { legacyUpdatedAt: DESC }]`;
+      return `[{ createdAt: DESC }, { legacyUpdatedAt: DESC }]`;
   }
 };
 const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
