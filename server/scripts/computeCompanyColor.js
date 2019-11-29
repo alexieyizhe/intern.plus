@@ -107,7 +107,7 @@ const computeAllCompanyColors = async () => {
 
         // only update logo color if it's changed or it was nonexistent before
         if (!logoColor || logoColor !== newLogoColor) {
-          await mutateCompanyColor(id); // execute the mutation
+          await mutateCompanyColor(id, newLogoColor); // execute the mutation
 
           console.log(
             chalk`{green Success}: ${name} updated with color {inverse.hsl(${h},${s},${l}) ${h},${s}%,${l}%}`
