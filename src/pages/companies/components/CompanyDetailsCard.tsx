@@ -60,10 +60,15 @@ const Container = styled.div`
   }
 `;
 
-const Logo = styled.img`
+const Logo = styled.div<{ imgSrc?: string }>`
   margin-left: 50px;
-  max-width: 120px;
-  max-height: 120px;
+  width: 120px;
+  height: 120px;
+
+  background-image: url(${({ imgSrc }) => imgSrc});
+  background-size: contain;
+  background-position: top;
+  background-repeat: no-repeat;
 `;
 
 /*******************************************************************
@@ -98,8 +103,11 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
             value={Math.round(companyDetails ? companyDetails.avgRating : 0)}
             readOnly
           >
-            <Text variant="body" className="rating-text" color="black">
+            <Text variant="subheading" className="rating-text" color="black">
               {companyDetails?.avgRating.toFixed(1)}
+            </Text>
+            <Text variant="subheading" className="rating-text" color="black">
+              Overall
             </Text>
           </StarRating>
           <Text
@@ -113,10 +121,7 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
         </div>
       </div>
 
-      <Logo
-        src={companyDetails?.logoSrc}
-        alt={`Logo of ${companyDetails?.name}`}
-      />
+      <Logo imgSrc={companyDetails?.logoSrc} />
     </Container>
   </DetailsCard>
 );
