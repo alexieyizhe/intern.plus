@@ -44,6 +44,9 @@ export interface GetReviewDetails_review {
   tags: string | null;
   job: GetReviewDetails_review_job | null;
   company: GetReviewDetails_review_company | null;
+  /**
+   * -1 indicates no salary was disclosed by review author.
+   */
   salary: number | null;
   salaryPeriod: string | null;
   salaryCurrency: string | null;

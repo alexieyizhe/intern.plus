@@ -39,6 +39,7 @@ export interface GetCompanyDetails_company {
    * Average score of all reviews of a company.
    */
   avgRating: number | null;
+  avgHourlySalary: number | null;
 }
 
 export interface GetCompanyDetails {

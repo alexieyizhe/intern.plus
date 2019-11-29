@@ -14,6 +14,7 @@ export const buildCompanyDetails = (
   desc: company.desc || undefined,
   numRatings: company.reviews ? company.reviews.count : 0,
   avgRating: company.avgRating || 0,
+  avgHourlySalary: company.avgHourlySalary || 0,
   logoSrc: (company.logoImg && company.logoImg.downloadUrl) || "",
   color: company.logoColor || "",
 });
