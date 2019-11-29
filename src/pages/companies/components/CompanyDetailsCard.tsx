@@ -19,6 +19,7 @@ export interface ICompanyDetails {
   desc?: string;
   numRatings: number;
   avgRating: number;
+  avgHourlySalary: number;
   logoSrc: string;
   color: string;
 }
@@ -49,15 +50,13 @@ const getRatingsText = (numRatings?: number) => {
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
   justify-content: space-between;
-
-  & .ratings {
-    margin: 35px auto 20px auto;
-  }
-
-  & .rating-text {
-    padding: 0 3px;
-  }
 `;
 
 const Logo = styled.div<{ imgSrc?: string }>`
@@ -69,6 +68,25 @@ const Logo = styled.div<{ imgSrc?: string }>`
   background-size: contain;
   background-position: top;
   background-repeat: no-repeat;
+`;
+
+const MiscDetails = styled.div`
+  margin: 35px 0 20px 0;
+
+  display: flex;
+  justify-content: space-between;
+
+  & .rating-text {
+    padding: 0 3px;
+  }
+
+  & .salary {
+    display: flex;
+    margin-bottom: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
 `;
 
 /*******************************************************************
@@ -85,18 +103,24 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
     {...rest}
   >
     <Container>
-      <div>
-        <Text variant="heading1" as="div">
-          {companyDetails?.name}
-        </Text>
-        <Text
-          className="subheading"
-          variant="subheading"
-          color="greyDark"
-          as="div"
-        >
-          {companyDetails?.desc}
-        </Text>
+      <TitleContainer>
+        <div>
+          <Text variant="heading1" as="div">
+            {companyDetails?.name}
+          </Text>
+          <Text
+            className="subheading"
+            variant="subheading"
+            color="greyDark"
+            as="div"
+          >
+            {companyDetails?.desc}
+          </Text>
+        </div>
+        <Logo imgSrc={companyDetails?.logoSrc} />
+      </TitleContainer>
+
+      <MiscDetails>
         <div className="ratings">
           <StarRating
             maxStars={5}
@@ -106,7 +130,7 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
             <Text variant="subheading" className="rating-text" color="black">
               {companyDetails?.avgRating.toFixed(1)}
             </Text>
-            <Text variant="subheading" className="rating-text" color="black">
+            <Text variant="subheading" className="rating-text" color="greyDark">
               Overall
             </Text>
           </StarRating>
@@ -119,9 +143,15 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
             {getRatingsText(companyDetails?.numRatings)}
           </Text>
         </div>
-      </div>
-
-      <Logo imgSrc={companyDetails?.logoSrc} />
+        <div className="salary">
+          <Text variant="heading3" color="black">
+            {`${companyDetails?.avgHourlySalary}/hr`}
+          </Text>
+          <Text variant="subheading" color="greyDark">
+            avg salary
+          </Text>
+        </div>
+      </MiscDetails>
     </Container>
   </DetailsCard>
 );
