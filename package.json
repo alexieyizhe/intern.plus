@@ -3,8 +3,8 @@
   "version": "0.8.0",
   "private": true,
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "start:ci": "npm start & wait-on http://localhost:3000",
     "lint": "eslint src --ext ts,tsx",
     "format": "eslint --fix src --ext ts,tsx && prettier --write \"**/*.{ts,tsx,json,md}\"",
