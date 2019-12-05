@@ -20,7 +20,7 @@ export const GET_COMPANY_DETAILS = gql`
         count
       }
       avgRating
-      avgHourlySalary
+      websiteUrl
     }
   }
 `;

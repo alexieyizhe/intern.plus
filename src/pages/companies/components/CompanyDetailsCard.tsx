@@ -9,7 +9,11 @@ import {
   DetailsCard,
   Text,
   StarRating,
+  Icon,
+  Link,
 } from "src/components";
+
+import { IconName } from "src/components/Icon";
 
 /*******************************************************************
  *                            **Types**                           *
@@ -19,7 +23,7 @@ export interface ICompanyDetails {
   desc?: string;
   numRatings: number;
   avgRating: number;
-  avgHourlySalary: number;
+  websiteUrl: string;
   logoSrc: string;
   color: string;
 }
@@ -80,10 +84,9 @@ const MiscDetails = styled.div`
     padding: 0 3px;
   }
 
-  & .salary {
+  & .website {
     display: flex;
     margin-bottom: auto;
-    flex-direction: column;
     justify-content: center;
     align-items: flex-end;
   }
@@ -143,14 +146,14 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
             {getRatingsText(companyDetails?.numRatings)}
           </Text>
         </div>
-        <div className="salary">
-          <Text variant="heading3" color="black">
-            {`${companyDetails?.avgHourlySalary}/hr`}
-          </Text>
-          <Text variant="subheading" color="greyDark">
-            avg salary
-          </Text>
-        </div>
+        {companyDetails?.websiteUrl && (
+          <Link className="website" to={companyDetails?.websiteUrl} newTab>
+            <Text variant="subheading" color="black">
+              Website&nbsp;
+            </Text>
+            <Icon name={IconName.EXTERNAL_LINK} />
+          </Link>
+        )}
       </MiscDetails>
     </Container>
   </DetailsCard>
