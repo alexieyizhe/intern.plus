@@ -9,6 +9,7 @@ export { ReactComponent as XIcon } from "./img/icons/x.svg";
 export { ReactComponent as XSquareIcon } from "./img/icons/x-square.svg";
 export { ReactComponent as StarEmptyIcon } from "./img/icons/star-empty.svg";
 export { ReactComponent as StarFilledIcon } from "./img/icons/star-filled.svg";
+export { ReactComponent as ExternalLinkIcon } from "./img/icons/external-link.svg";
 
 export { default as ChevronImg } from "./img/mobilemenu-chevron.svg";
 
