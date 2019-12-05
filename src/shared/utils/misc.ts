@@ -19,7 +19,7 @@ export const slugify = (str: string): string => {
     .replace(/-+$/, ""); // Trim - from end of text
 };
 
-const REVIEW_IS_NEW_THRESHOLD = 15552000000; // 6 months in ms // 31536000000; // 1 year in ms
+const REVIEW_IS_NEW_THRESHOLD = 15_552_000_000; // 6 months in ms // 31536000000; // 1 year in ms
 
 export const getReviewCardTags = (tags: string, date?: string) => [
   ...(date &&
