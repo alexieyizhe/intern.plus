@@ -196,7 +196,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         });
         const results = fuse.search(inputVal);
 
-        filteredSuggestions = results
+        filteredSuggestions = (results as string[])
           .map(result => suggestions[(result as unknown) as number])
           .slice(0, 5) as string[];
       }

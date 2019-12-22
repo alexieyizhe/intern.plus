@@ -908,7 +908,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       <br />
                       <Text variant="body" as="div" color="goldDark">
                         For a limited time, you'll also be entered into a draw
-                        to win one of 5 $20 gift cards!
+                        to win 1 of 2 $20 gift cards!
                       </Text>
                     </Tooltip>
                   </LabelTooltipCombo>
