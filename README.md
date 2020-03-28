@@ -71,7 +71,7 @@ Branches are prefixed with the following codes to denote their purpose:
 - `fix[-XX]/`: A fix or patch for bugs or errors.
 - `chore[-XX]/`: Development on aspects with no production changes (documentation, refactoring, style).
 
-Branch names contain the issue number on which the development efforts are focused, if any.
+Branch names contain the issue number on which the development efforts are focused on, if any.
 
 #### Commits into `master` branch
 
