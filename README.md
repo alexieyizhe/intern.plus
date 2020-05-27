@@ -1,5 +1,7 @@
 <p align="center">
-    <img alt="Site logo" src="./src/assets/img/logo-text.svg" width="200" />
+    <a href="intern.plus" target="_blank" rel="noopener noreferrer" >
+        <img alt="Site logo" src="./src/assets/img/logo-text.svg" width="200" />
+    </a>
 </p>
 <p align="center">
     <img src="https://github.com/alexieyizhe/intern.plus/workflows/continuous%20integration/badge.svg">
