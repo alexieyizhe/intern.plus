@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="intern.plus" target="_blank" rel="noopener noreferrer" >
+    <a href="https://intern.plus/" target="_blank" rel="noopener noreferrer" >
         <img alt="Site logo" src="./src/assets/img/logo-text.svg" width="200" />
     </a>
 </p>
