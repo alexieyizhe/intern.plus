@@ -1,23 +1,40 @@
+/// <reference types="../support" />
 describe("Add review modal", () => {
   beforeEach(() => {
     cy.visit("/");
   });
 
-  it("can be opened and closed", () => {
+  it("can be toggled through header", () => {
     cy.get("#add-review-modal")
       .invoke("attr", "aria-hidden")
-      .should("be", "true");
+      .should("eq", "true");
     cy.get("header").find("[aria-label='Add review button']").click();
 
     cy.get("#add-review-modal")
       .invoke("attr", "aria-hidden")
-      .should("be", "false");
+      .should("eq", "false");
 
     cy.get("header").find("[aria-label='Add review button']").click();
 
     cy.get("#add-review-modal")
       .invoke("attr", "aria-hidden")
-      .should("be", "true");
+      .should("eq", "true");
+  });
+
+  it("can be closed when clicking outside", () => {
+    cy.get("#add-review-modal")
+      .invoke("attr", "aria-hidden")
+      .should("eq", "true");
+    cy.get("header").find("[aria-label='Add review button']").click();
+
+    cy.get("#add-review-modal")
+      .invoke("attr", "aria-hidden")
+      .should("eq", "false");
+
+    cy.get(".landing-search").click();
+    cy.get("#add-review-modal")
+      .invoke("attr", "aria-hidden")
+      .should("eq", "true");
   });
 
   it("will prevent unfilled review from being submitted", () => {
@@ -39,12 +56,12 @@ describe("Add review modal", () => {
     cy.get(".job-field input").type("Chief{downArrow}{enter}");
     cy.get(".location-field input")
       .invoke("attr", "disabled")
-      .should("be", "true");
+      .should("eq", "disabled");
 
     cy.get(".job-field input").type("Custom Job Title{downArrow}{enter}");
     cy.get(".location-field input")
       .invoke("attr", "disabled")
-      .should("be", "false");
+      .should("equal", undefined);
     cy.get(".location-field input").type("Michigan{enter}");
 
     cy.get(".salary-field input").eq(0).type("222");
@@ -108,7 +125,7 @@ describe("Add review modal", () => {
     cy.get("#add-review-modal button.submit-button").contains("Confirm");
     cy.get(".review-body-field textarea")
       .invoke("attr", "disabled")
-      .should("be", "true");
+      .should("eq", "disabled");
 
     cy.get("#add-review-modal .cancel-submit-button").click();
     cy.get(".author-email-field input").type(
@@ -124,6 +141,6 @@ describe("Add review modal", () => {
     cy.wait(5000);
     cy.get("#add-review-modal")
       .invoke("attr", "aria-hidden")
-      .should("be", "true");
+      .should("eq", "true");
   });
 });
