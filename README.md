@@ -37,7 +37,7 @@ npm start
 
 The project is split into the following parts:
 
-- `/cypress` holds logic for the Cypress end-to-end testing suite tool.
+- `/cypress` holds logic for the Cypress end-to-end testing suite tool, as well as E2E tests.
 - `/server` holds some miscellaneous scripts and database migration stuff for use by the backend.
 - `/src` contains most of the code:
   - `/api` contains client code for interacting with the graphql api.

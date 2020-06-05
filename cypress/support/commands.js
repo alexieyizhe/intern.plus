@@ -25,3 +25,4 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import "@percy/cypress";
+import "cypress-react-unit-test/support";

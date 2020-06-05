@@ -19,8 +19,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react",
+    "types": ["cypress"],
+    "typeRoots": ["./support"],
     "noEmit": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/**/*.unit.test.tsx"]
+  "include": ["cypress/**/*"],
+  "exclude": ["node_modules", "src"]
 }
