@@ -56,9 +56,9 @@ const salaryPeriodOptions = ["hourly", "weekly", "monthly"].map((period) => ({
  *******************************************************************/
 const ModalContainer = styled.div`
   position: fixed;
-  width: 100%;
+  width: 650px;
   top: ${HEADER_HEIGHT + 5}px;
-
+  right: ${({ theme }) => theme.padding.pageHorizontal}px;
   z-index: -1;
 
   &.open {
@@ -68,24 +68,20 @@ const ModalContainer = styled.div`
   &.mobile-menu-open {
     top: ${HEADER_HEIGHT + MOBILE_MENU_HEIGHT + 10}px;
   }
-`;
 
-const InnerModalContainer = styled.div`
-  position: relative;
-  margin: auto;
-  max-width: ${({ theme }) => theme.maxWidth.page}px;
-  padding: ${({ theme }) =>
-    `${theme.padding.pageVertical}px ${theme.padding.pageHorizontal}px`};
+  ${({ theme }) => theme.mediaQueries.medium`
+    width: calc(100% - ${theme.padding.pageHorizontalMobile * 2}px);
+  `}
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
-    padding: ${theme.padding.pageVertical}px ${theme.padding.pageHorizontalMobile}px;
+    right: ${theme.padding.pageHorizontalMobile}px;
   `}
 `;
 
 const InnerContainer = styled(Card)`
   position: relative;
   margin-left: auto;
-  max-width: 650px;
+  max-width: 100%;
   max-height: 85vh;
   padding: ${({ theme }) => theme.padding.displayMobile};
 
@@ -111,12 +107,9 @@ const InnerContainer = styled(Card)`
     opacity: 0.6;
   }
 
-  ${({ theme }) => theme.mediaQueries.medium`
-    max-width: 100%;
-  `}
-
   ${({ theme }) => theme.mediaQueries.tablet`
     padding: ${theme.padding.displayMobile};
+    max-height: 70vh;
   `}
 
   ${({ theme }) => theme.mediaQueries.xlMobile`
@@ -513,473 +506,465 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
         "mobile-menu-open": mobileMenuOpen,
       })}
     >
-      <InnerModalContainer>
-        <InnerContainer
-          id="add-review-modal"
-          className={classNames({ open: modalOpen, isConfirmingSubmit })}
-          aria-hidden={modalOpen ? "false" : "true"}
-          color="white"
-        >
-          {submitted ? (
-            <SubmittedText
-              variant="subheading"
-              color={submitSuccess ? "greenDark" : "error"}
-              align="center"
-            >
-              {submitSuccess ? SUBMIT_SUCCESS_TEXT : SUBMIT_ERROR_TEXT}
-            </SubmittedText>
-          ) : (
-            <>
-              <Text variant="heading2">Write a review</Text>
-              <RowContainer>
-                <VerticalField
-                  className={classNames("half-width", "company-field", {
-                    error: reviewState.errors["company"].error,
-                  })}
-                >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Company name*
-                  </Text>
-                  <Select
-                    placeholder="Search or create"
-                    color="greyLight"
-                    disabled={isConfirmingSubmit || isSubmitting}
-                    creatable
-                    options={companyOptions}
-                    value={reviewState.values["company"]}
-                    onChange={(option) => onReviewChange("company", option)}
-                  />
-                </VerticalField>
-                <VerticalField
-                  className={classNames("half-width", "job-field", {
-                    error: reviewState.errors["job"].error,
-                  })}
-                >
-                  <LabelTooltipCombo className="label">
-                    <Text variant="subheading" as="h4" color="greyDark">
-                      Position title*
-                    </Text>
-                    <Tooltip color="greyMedium">
-                      <Text variant="body" as="div">
-                        The name of the position in your review. If the position
-                        doesn't exist, create one using the 'Create' option.
-                      </Text>
-                      {!reviewState.values["company"]?.value && (
-                        <>
-                          <br />
-                          <Text variant="body" as="div" color="warning">
-                            Select a company first before choosing a position.
-                          </Text>
-                        </>
-                      )}
-                    </Tooltip>
-                  </LabelTooltipCombo>
-                  <Select
-                    placeholder={
-                      !reviewState.values["company"]?.value
-                        ? "Select company first"
-                        : "Search or create"
-                    }
-                    color="greyLight"
-                    disabled={
-                      isConfirmingSubmit ||
-                      isSubmitting ||
-                      !reviewState.values["company"]?.value
-                    }
-                    creatable
-                    options={jobOptions}
-                    value={reviewState.values["job"] || null}
-                    onChange={(option) => {
-                      onReviewChange("job", option);
-                      onReviewChange(
-                        "location",
-                        jobSuggestions.find(
-                          (job) =>
-                            job.id ===
-                            (option as { label: string; value: string })?.value
-                        )?.location
-                      );
-                    }}
-                  />
-                </VerticalField>
-              </RowContainer>
-              <RowContainer>
-                <LocationField
-                  className={classNames("location-field", {
-                    error: reviewState.errors["location"]?.error,
-                  })}
-                >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Location*
-                  </Text>
-                  <LocationInput
-                    id="location-input"
-                    placeholder="e.g. Waterloo, ON"
-                    color="greyLight"
-                    disabled={
-                      isConfirmingSubmit ||
-                      isSubmitting ||
-                      (!!reviewState.values["job"] &&
-                        !reviewState.values["job"]?.__isNew__)
-                    }
-                    value={reviewState.values["location"] || ""}
-                    onChange={(e) => onReviewChange("location", e.target.value)}
-                  />
-                </LocationField>
-                <SalaryField
-                  className={classNames("salary-field", {
-                    error:
-                      reviewState.errors["salary"].error ||
-                      reviewState.errors["salaryCurrency"].error ||
-                      reviewState.errors["salaryPeriod"].error,
-                  })}
-                >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Salary*
-                  </Text>
-                  <div>
-                    <TextInput
-                      className="salary-amt"
-                      placeholder="Amount"
-                      type="number"
-                      min={0}
-                      color="greyLight"
-                      disabled={
-                        isConfirmingSubmit ||
-                        isSubmitting ||
-                        reviewState.values.noSalaryProvided
-                      }
-                      value={reviewState.values["salary"]}
-                      onChange={(e) =>
-                        onReviewChange("salary", parseInt(e.target.value))
-                      }
-                    />
-                    <Select
-                      className="salary-currency"
-                      placeholder="$€¥"
-                      color="greyLight"
-                      disabled={
-                        isConfirmingSubmit ||
-                        isSubmitting ||
-                        reviewState.values.noSalaryProvided
-                      }
-                      creatable
-                      options={salaryCurrencyOptions}
-                      value={salaryCurrencyOptions.find(
-                        (option) =>
-                          option.value ===
-                          reviewState.values["salaryCurrency"]?.value
-                      )}
-                      onChange={(option) =>
-                        onReviewChange("salaryCurrency", option)
-                      }
-                    />
-                    <Select
-                      className="salary-period"
-                      placeholder="Period"
-                      color="greyLight"
-                      disabled={
-                        isConfirmingSubmit ||
-                        isSubmitting ||
-                        reviewState.values.noSalaryProvided
-                      }
-                      options={salaryPeriodOptions}
-                      value={salaryPeriodOptions.find(
-                        (option) =>
-                          option.value === reviewState.values["salaryPeriod"]
-                      )}
-                      onChange={(option) =>
-                        onReviewChange(
-                          "salaryPeriod",
-                          (option as { value: string })?.value
-                        )
-                      }
-                    />
-                  </div>
-                  <Checkbox
-                    className="no-salary-provided-checkbox"
-                    color="greyLight"
-                    checked={reviewState.values.noSalaryProvided}
-                    onChange={(e) =>
-                      onReviewChange("noSalaryProvided", e.target.checked)
-                    }
-                  >
-                    <Text variant="body" color="greyDark">
-                      I do not wish to disclose my salary.
-                    </Text>
-                  </Checkbox>
-                </SalaryField>
-              </RowContainer>
-              <RowContainer>
-                <HorizontalField
-                  className={classNames("half-width", "overall-rating-field", {
-                    error: reviewState.errors["overallRating"].error,
-                  })}
-                >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Overall rating*
-                  </Text>
-                  <StarRating
-                    maxStars={5}
-                    value={reviewState.values["overallRating"]}
-                    onChange={(stars) => onReviewChange("overallRating", stars)}
-                    color="goldDark"
-                    disabled={isConfirmingSubmit || isSubmitting}
-                  />
-                </HorizontalField>
-                <HorizontalField
-                  className={classNames(
-                    "half-width",
-                    "work-life-balance-rating-field",
-                    {
-                      error: reviewState.errors["workLifeBalanceRating"].error,
-                    }
-                  )}
-                >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Work-life balance*
-                  </Text>
-                  <StarRating
-                    maxStars={5}
-                    value={reviewState.values["workLifeBalanceRating"]}
-                    onChange={(stars) =>
-                      onReviewChange("workLifeBalanceRating", stars)
-                    }
-                    disabled={isConfirmingSubmit || isSubmitting}
-                  />
-                </HorizontalField>
-
-                <HorizontalField
-                  className={classNames(
-                    "half-width",
-                    "learning-mentorship-rating-field",
-                    {
-                      error:
-                        reviewState.errors["learningMentorshipRating"].error,
-                    }
-                  )}
-                >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Learning &amp; mentorship*
-                  </Text>
-                  <StarRating
-                    maxStars={5}
-                    value={reviewState.values["learningMentorshipRating"]}
-                    onChange={(stars) =>
-                      onReviewChange("learningMentorshipRating", stars)
-                    }
-                    disabled={isConfirmingSubmit || isSubmitting}
-                  />
-                </HorizontalField>
-                <HorizontalField
-                  className={classNames(
-                    "half-width",
-                    "meaningful-work-rating-field",
-                    {
-                      error: reviewState.errors["meaningfulWorkRating"].error,
-                    }
-                  )}
-                >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Meaningful work*
-                  </Text>
-                  <StarRating
-                    maxStars={5}
-                    value={reviewState.values["meaningfulWorkRating"]}
-                    onChange={(stars) =>
-                      onReviewChange("meaningfulWorkRating", stars)
-                    }
-                    disabled={isConfirmingSubmit || isSubmitting}
-                  />
-                </HorizontalField>
-              </RowContainer>
-              <RowContainer>
-                <VerticalField
-                  className={classNames("review-body-field", {
-                    error: reviewState.errors["body"]?.error,
-                  })}
-                >
-                  <Text
-                    variant="subheading"
-                    className="label"
-                    as="h4"
-                    color="greyDark"
-                  >
-                    Review*
-                  </Text>
-                  <TextArea
-                    placeholder="Share your thoughts"
-                    color="greyLight"
-                    disabled={isConfirmingSubmit || isSubmitting}
-                    value={reviewState.values["body"]}
-                    onChange={(e) => onReviewChange("body", e.target.value)}
-                    maxLength={5000}
-                  />
-                  <CountText variant="subheading" color="greyDark">
-                    {`${4000 - (reviewState.values["body"]?.length || 0)}/4000`}
-                  </CountText>
-                </VerticalField>
-              </RowContainer>
-              <RowContainer>
-                <VerticalField
-                  className={classNames("tags-field", {
-                    error: reviewState.errors["tags"]?.error,
-                  })}
-                >
-                  <LabelTooltipCombo className="label">
-                    <Text variant="subheading" as="h4" color="greyDark">
-                      Tags
-                    </Text>
-                    <Tooltip position="right" color="greyMedium">
-                      <Text variant="body" as="div">
-                        Optional keywords related to your review. Maximum of 5.
-                      </Text>
-                    </Tooltip>
-                  </LabelTooltipCombo>
-                  <Select
-                    placeholder="e.g. hardware, startup"
-                    color="greyLight"
-                    components={{ DropdownIndicator: null }}
-                    disabled={isConfirmingSubmit || isSubmitting}
-                    creatable
-                    isClearable
-                    isMulti
-                    menuIsOpen={false}
-                    onChange={onTagsChange}
-                    onKeyDown={onTagsKeyDown}
-                    onInputChange={onTagsInputChange}
-                    value={reviewState.values["tags"]}
-                    inputValue={tagsInputValue}
-                  />
-                  <CountText variant="subheading" color="greyDark">
-                    {`${5 - (reviewState.values["tags"]?.length || 0)}/5`}
-                  </CountText>
-                </VerticalField>
-              </RowContainer>
-              <RowContainer>
-                <VerticalField
-                  className={classNames("author-email-field", {
-                    error: reviewState.errors["authorEmail"]?.error,
-                  })}
-                >
-                  <LabelTooltipCombo className="label">
-                    <Text variant="subheading" as="h4" color="greyDark">
-                      Email*
-                    </Text>
-                    <Tooltip position="right" color="greyMedium">
-                      <Text variant="body" as="div">
-                        Your email will only be used for spam prevention.
-                      </Text>
-                      <br />
-                      <Text variant="body" as="div" color="goldDark">
-                        For a limited time, you'll also be entered into a draw
-                        to win 1 of 2 $20 gift cards!
-                      </Text>
-                    </Tooltip>
-                  </LabelTooltipCombo>
-
-                  <TextInput
-                    color="greyLight"
-                    placeholder="jimothy@example.com"
-                    type="email"
-                    disabled={isConfirmingSubmit || isSubmitting}
-                    value={reviewState.values["authorEmail"]}
-                    onChange={(e) =>
-                      onReviewChange("authorEmail", e.target.value)
-                    }
-                  />
-                </VerticalField>
-              </RowContainer>
-              <ActionContainer
-                className={classNames({
-                  "confirming-submit": isConfirmingSubmit,
+      <InnerContainer
+        id="add-review-modal"
+        className={classNames({ open: modalOpen, isConfirmingSubmit })}
+        aria-hidden={modalOpen ? "false" : "true"}
+        color="white"
+      >
+        {submitted ? (
+          <SubmittedText
+            variant="subheading"
+            color={submitSuccess ? "greenDark" : "error"}
+            align="center"
+          >
+            {submitSuccess ? SUBMIT_SUCCESS_TEXT : SUBMIT_ERROR_TEXT}
+          </SubmittedText>
+        ) : (
+          <>
+            <Text variant="heading2">Write a review</Text>
+            <RowContainer>
+              <VerticalField
+                className={classNames("half-width", "company-field", {
+                  error: reviewState.errors["company"].error,
                 })}
               >
-                <ActionButton
-                  className="submit-button"
-                  color={
-                    isSubmitting
-                      ? "greyMedium"
-                      : isConfirmingSubmit
-                      ? "greenDark"
-                      : "black"
-                  }
-                  disabled={isSubmitting}
-                  onClick={isConfirmingSubmit ? onSubmit : onPotentialSubmit}
+                <Text
+                  variant="subheading"
+                  className="label"
+                  as="h4"
+                  color="greyDark"
                 >
-                  {isSubmitting ? (
-                    <Spinner color="white" size={16} />
-                  ) : (
-                    <Text variant="subheading" color="white">
-                      {isConfirmingSubmit ? "Confirm" : "Submit"}
+                  Company name*
+                </Text>
+                <Select
+                  placeholder="Search or create"
+                  color="greyLight"
+                  disabled={isConfirmingSubmit || isSubmitting}
+                  creatable
+                  options={companyOptions}
+                  value={reviewState.values["company"]}
+                  onChange={(option) => onReviewChange("company", option)}
+                />
+              </VerticalField>
+              <VerticalField
+                className={classNames("half-width", "job-field", {
+                  error: reviewState.errors["job"].error,
+                })}
+              >
+                <LabelTooltipCombo className="label">
+                  <Text variant="subheading" as="h4" color="greyDark">
+                    Position title*
+                  </Text>
+                  <Tooltip color="greyMedium">
+                    <Text variant="body" as="div">
+                      The name of the position in your review. If the position
+                      doesn't exist, create one using the 'Create' option.
                     </Text>
-                  )}
-                </ActionButton>
-
-                {isConfirmingSubmit ? (
-                  <UnstyledButton
-                    className="cancel-submit-button"
-                    onClick={() => setIsConfirmingSubmit(false)}
-                    aria-hidden={isConfirmingSubmit ? "false" : "true"}
-                  >
-                    <Text variant="subheading" color="greyDark" align="center">
-                      cancel
-                    </Text>
-                  </UnstyledButton>
-                ) : (
-                  <ErrorText
-                    variant="subheading"
-                    color="error"
-                    align="center"
-                    className={classNames({
-                      error: Object.values(reviewState.errors).some(
-                        (val) => val?.error
-                      ),
-                    })}
-                  >
-                    Please make sure you've filled out all fields correctly.
-                  </ErrorText>
+                    {!reviewState.values["company"]?.value && (
+                      <>
+                        <br />
+                        <Text variant="body" as="div" color="warning">
+                          Select a company first before choosing a position.
+                        </Text>
+                      </>
+                    )}
+                  </Tooltip>
+                </LabelTooltipCombo>
+                <Select
+                  placeholder={
+                    !reviewState.values["company"]?.value
+                      ? "Select company first"
+                      : "Search or create"
+                  }
+                  color="greyLight"
+                  disabled={
+                    isConfirmingSubmit ||
+                    isSubmitting ||
+                    !reviewState.values["company"]?.value
+                  }
+                  creatable
+                  options={jobOptions}
+                  value={reviewState.values["job"] || null}
+                  onChange={(option) => {
+                    onReviewChange("job", option);
+                    onReviewChange(
+                      "location",
+                      jobSuggestions.find(
+                        (job) =>
+                          job.id ===
+                          (option as { label: string; value: string })?.value
+                      )?.location
+                    );
+                  }}
+                />
+              </VerticalField>
+            </RowContainer>
+            <RowContainer>
+              <LocationField
+                className={classNames("location-field", {
+                  error: reviewState.errors["location"]?.error,
+                })}
+              >
+                <Text
+                  variant="subheading"
+                  className="label"
+                  as="h4"
+                  color="greyDark"
+                >
+                  Location*
+                </Text>
+                <LocationInput
+                  id="location-input"
+                  placeholder="e.g. Waterloo, ON"
+                  color="greyLight"
+                  disabled={
+                    isConfirmingSubmit ||
+                    isSubmitting ||
+                    (!!reviewState.values["job"] &&
+                      !reviewState.values["job"]?.__isNew__)
+                  }
+                  value={reviewState.values["location"] || ""}
+                  onChange={(e) => onReviewChange("location", e.target.value)}
+                />
+              </LocationField>
+              <SalaryField
+                className={classNames("salary-field", {
+                  error:
+                    reviewState.errors["salary"].error ||
+                    reviewState.errors["salaryCurrency"].error ||
+                    reviewState.errors["salaryPeriod"].error,
+                })}
+              >
+                <Text
+                  variant="subheading"
+                  className="label"
+                  as="h4"
+                  color="greyDark"
+                >
+                  Salary*
+                </Text>
+                <div>
+                  <TextInput
+                    className="salary-amt"
+                    placeholder="Amount"
+                    type="number"
+                    min={0}
+                    color="greyLight"
+                    disabled={
+                      isConfirmingSubmit ||
+                      isSubmitting ||
+                      reviewState.values.noSalaryProvided
+                    }
+                    value={reviewState.values["salary"]}
+                    onChange={(e) =>
+                      onReviewChange("salary", parseInt(e.target.value))
+                    }
+                  />
+                  <Select
+                    className="salary-currency"
+                    placeholder="$€¥"
+                    color="greyLight"
+                    disabled={
+                      isConfirmingSubmit ||
+                      isSubmitting ||
+                      reviewState.values.noSalaryProvided
+                    }
+                    creatable
+                    options={salaryCurrencyOptions}
+                    value={salaryCurrencyOptions.find(
+                      (option) =>
+                        option.value ===
+                        reviewState.values["salaryCurrency"]?.value
+                    )}
+                    onChange={(option) =>
+                      onReviewChange("salaryCurrency", option)
+                    }
+                  />
+                  <Select
+                    className="salary-period"
+                    placeholder="Period"
+                    color="greyLight"
+                    disabled={
+                      isConfirmingSubmit ||
+                      isSubmitting ||
+                      reviewState.values.noSalaryProvided
+                    }
+                    options={salaryPeriodOptions}
+                    value={salaryPeriodOptions.find(
+                      (option) =>
+                        option.value === reviewState.values["salaryPeriod"]
+                    )}
+                    onChange={(option) =>
+                      onReviewChange(
+                        "salaryPeriod",
+                        (option as { value: string })?.value
+                      )
+                    }
+                  />
+                </div>
+                <Checkbox
+                  className="no-salary-provided-checkbox"
+                  color="greyLight"
+                  checked={reviewState.values.noSalaryProvided}
+                  onChange={(e) =>
+                    onReviewChange("noSalaryProvided", e.target.checked)
+                  }
+                >
+                  <Text variant="body" color="greyDark">
+                    I do not wish to disclose my salary.
+                  </Text>
+                </Checkbox>
+              </SalaryField>
+            </RowContainer>
+            <RowContainer>
+              <HorizontalField
+                className={classNames("half-width", "overall-rating-field", {
+                  error: reviewState.errors["overallRating"].error,
+                })}
+              >
+                <Text
+                  variant="subheading"
+                  className="label"
+                  as="h4"
+                  color="greyDark"
+                >
+                  Overall rating*
+                </Text>
+                <StarRating
+                  maxStars={5}
+                  value={reviewState.values["overallRating"]}
+                  onChange={(stars) => onReviewChange("overallRating", stars)}
+                  color="goldDark"
+                  disabled={isConfirmingSubmit || isSubmitting}
+                />
+              </HorizontalField>
+              <HorizontalField
+                className={classNames(
+                  "half-width",
+                  "work-life-balance-rating-field",
+                  {
+                    error: reviewState.errors["workLifeBalanceRating"].error,
+                  }
                 )}
-              </ActionContainer>
-            </>
-          )}
-        </InnerContainer>
-      </InnerModalContainer>
+              >
+                <Text
+                  variant="subheading"
+                  className="label"
+                  as="h4"
+                  color="greyDark"
+                >
+                  Work-life balance*
+                </Text>
+                <StarRating
+                  maxStars={5}
+                  value={reviewState.values["workLifeBalanceRating"]}
+                  onChange={(stars) =>
+                    onReviewChange("workLifeBalanceRating", stars)
+                  }
+                  disabled={isConfirmingSubmit || isSubmitting}
+                />
+              </HorizontalField>
+
+              <HorizontalField
+                className={classNames(
+                  "half-width",
+                  "learning-mentorship-rating-field",
+                  {
+                    error: reviewState.errors["learningMentorshipRating"].error,
+                  }
+                )}
+              >
+                <Text
+                  variant="subheading"
+                  className="label"
+                  as="h4"
+                  color="greyDark"
+                >
+                  Learning &amp; mentorship*
+                </Text>
+                <StarRating
+                  maxStars={5}
+                  value={reviewState.values["learningMentorshipRating"]}
+                  onChange={(stars) =>
+                    onReviewChange("learningMentorshipRating", stars)
+                  }
+                  disabled={isConfirmingSubmit || isSubmitting}
+                />
+              </HorizontalField>
+              <HorizontalField
+                className={classNames(
+                  "half-width",
+                  "meaningful-work-rating-field",
+                  {
+                    error: reviewState.errors["meaningfulWorkRating"].error,
+                  }
+                )}
+              >
+                <Text
+                  variant="subheading"
+                  className="label"
+                  as="h4"
+                  color="greyDark"
+                >
+                  Meaningful work*
+                </Text>
+                <StarRating
+                  maxStars={5}
+                  value={reviewState.values["meaningfulWorkRating"]}
+                  onChange={(stars) =>
+                    onReviewChange("meaningfulWorkRating", stars)
+                  }
+                  disabled={isConfirmingSubmit || isSubmitting}
+                />
+              </HorizontalField>
+            </RowContainer>
+            <RowContainer>
+              <VerticalField
+                className={classNames("review-body-field", {
+                  error: reviewState.errors["body"]?.error,
+                })}
+              >
+                <Text
+                  variant="subheading"
+                  className="label"
+                  as="h4"
+                  color="greyDark"
+                >
+                  Review*
+                </Text>
+                <TextArea
+                  placeholder="Share your thoughts"
+                  color="greyLight"
+                  disabled={isConfirmingSubmit || isSubmitting}
+                  value={reviewState.values["body"]}
+                  onChange={(e) => onReviewChange("body", e.target.value)}
+                  maxLength={5000}
+                />
+                <CountText variant="subheading" color="greyDark">
+                  {`${4000 - (reviewState.values["body"]?.length || 0)}/4000`}
+                </CountText>
+              </VerticalField>
+            </RowContainer>
+            <RowContainer>
+              <VerticalField
+                className={classNames("tags-field", {
+                  error: reviewState.errors["tags"]?.error,
+                })}
+              >
+                <LabelTooltipCombo className="label">
+                  <Text variant="subheading" as="h4" color="greyDark">
+                    Tags
+                  </Text>
+                  <Tooltip position="right" color="greyMedium">
+                    <Text variant="body" as="div">
+                      Optional keywords related to your review. Maximum of 5.
+                    </Text>
+                  </Tooltip>
+                </LabelTooltipCombo>
+                <Select
+                  placeholder="e.g. hardware, startup"
+                  color="greyLight"
+                  components={{ DropdownIndicator: null }}
+                  disabled={isConfirmingSubmit || isSubmitting}
+                  creatable
+                  isClearable
+                  isMulti
+                  menuIsOpen={false}
+                  onChange={onTagsChange}
+                  onKeyDown={onTagsKeyDown}
+                  onInputChange={onTagsInputChange}
+                  value={reviewState.values["tags"]}
+                  inputValue={tagsInputValue}
+                />
+                <CountText variant="subheading" color="greyDark">
+                  {`${5 - (reviewState.values["tags"]?.length || 0)}/5`}
+                </CountText>
+              </VerticalField>
+            </RowContainer>
+            <RowContainer>
+              <VerticalField
+                className={classNames("author-email-field", {
+                  error: reviewState.errors["authorEmail"]?.error,
+                })}
+              >
+                <LabelTooltipCombo className="label">
+                  <Text variant="subheading" as="h4" color="greyDark">
+                    Email*
+                  </Text>
+                  <Tooltip position="right" color="greyMedium">
+                    <Text variant="body" as="div">
+                      Your email will only be used for spam prevention.
+                    </Text>
+                  </Tooltip>
+                </LabelTooltipCombo>
+
+                <TextInput
+                  color="greyLight"
+                  placeholder="jimothy@example.com"
+                  type="email"
+                  disabled={isConfirmingSubmit || isSubmitting}
+                  value={reviewState.values["authorEmail"]}
+                  onChange={(e) =>
+                    onReviewChange("authorEmail", e.target.value)
+                  }
+                />
+              </VerticalField>
+            </RowContainer>
+            <ActionContainer
+              className={classNames({
+                "confirming-submit": isConfirmingSubmit,
+              })}
+            >
+              <ActionButton
+                className="submit-button"
+                color={
+                  isSubmitting
+                    ? "greyMedium"
+                    : isConfirmingSubmit
+                    ? "greenDark"
+                    : "black"
+                }
+                disabled={isSubmitting}
+                onClick={isConfirmingSubmit ? onSubmit : onPotentialSubmit}
+              >
+                {isSubmitting ? (
+                  <Spinner color="white" size={16} />
+                ) : (
+                  <Text variant="subheading" color="white">
+                    {isConfirmingSubmit ? "Confirm" : "Submit"}
+                  </Text>
+                )}
+              </ActionButton>
+
+              {isConfirmingSubmit ? (
+                <UnstyledButton
+                  className="cancel-submit-button"
+                  onClick={() => setIsConfirmingSubmit(false)}
+                  aria-hidden={isConfirmingSubmit ? "false" : "true"}
+                >
+                  <Text variant="subheading" color="greyDark" align="center">
+                    cancel
+                  </Text>
+                </UnstyledButton>
+              ) : (
+                <ErrorText
+                  variant="subheading"
+                  color="error"
+                  align="center"
+                  className={classNames({
+                    error: Object.values(reviewState.errors).some(
+                      (val) => val?.error
+                    ),
+                  })}
+                >
+                  Please make sure you've filled out all fields correctly.
+                </ErrorText>
+              )}
+            </ActionContainer>
+          </>
+        )}
+      </InnerContainer>
     </ModalContainer>
   );
 };
