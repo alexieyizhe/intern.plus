@@ -9,7 +9,11 @@ import { QueryParamProvider } from "use-query-params";
 import ErrorBoundary from "react-error-boundary";
 
 import apiClientLoader from "src/api/client";
-import { SiteContextProvider } from "src/context";
+import {
+  MobileMenuContextProvider,
+  AddReviewModalContextProvider,
+  EasterEggContextProvider,
+} from "src/contexts";
 import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/shared/constants/routing";
@@ -28,6 +32,7 @@ import { NotFoundPage, CrashPage } from "src/pages/error";
 import CompaniesRouteHandler from "src/pages/companies";
 import JobsRouteHandler from "src/pages/jobs";
 import ReviewsRouteHandler from "src/pages/reviews";
+import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 
 /**
  * Main route handler for all pages in the app.
@@ -73,31 +78,39 @@ const App: React.FC = () => {
   return (
     <ApolloProvider client={apiClient}>
       <ThemeProvider theme={siteTheme}>
-        <SiteContextProvider>
-          <Router>
-            <QueryParamProvider ReactRouterRoute={Route}>
-              <ErrorBoundary FallbackComponent={CrashPage}>
-                <div className="App">
-                  <GlobalStyles />
-                  {analytics.init() && <Analytics />}
+        <AddReviewModalContextProvider>
+          <MobileMenuContextProvider>
+            <EasterEggContextProvider>
+              <Router>
+                <QueryParamProvider ReactRouterRoute={Route}>
+                  <ErrorBoundary FallbackComponent={CrashPage}>
+                    <div className="App">
+                      <GlobalStyles />
+                      {analytics.init() && <Analytics />}
 
-                  <PageHeader />
-                  <Switch>
-                    <Route exact path={Object.values(RouteName)}>
-                      <AppRouteHandler />
-                    </Route>
+                      <PageHeader />
+                      <Switch>
+                        <Route exact path={Object.values(RouteName)}>
+                          <AppRouteHandler />
+                        </Route>
 
-                    {/* Render 404 if no other routes match */}
-                    <Route>
-                      <NotFoundPage />
-                    </Route>
-                  </Switch>
-                  <PageFooter />
-                </div>
-              </ErrorBoundary>
-            </QueryParamProvider>
-          </Router>
-        </SiteContextProvider>
+                        {/* Render 404 if no other routes match */}
+                        <Route>
+                          <NotFoundPage />
+                        </Route>
+                      </Switch>
+
+                      <PageFooter />
+
+                      {/* TODO: make this into a ModalRenderer */}
+                      <AddReviewModal />
+                    </div>
+                  </ErrorBoundary>
+                </QueryParamProvider>
+              </Router>
+            </EasterEggContextProvider>
+          </MobileMenuContextProvider>
+        </AddReviewModalContextProvider>
       </ThemeProvider>
     </ApolloProvider>
   );

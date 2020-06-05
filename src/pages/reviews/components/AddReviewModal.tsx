@@ -1,10 +1,10 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 import { ValueType } from "react-select";
 import places, { PlacesInstance, ChangeEvent } from "places.js";
 
-import { useSiteContext, ActionType } from "src/context";
+import { useAddReviewModalContext, useMobileMenuContext } from "src/contexts";
 import { slugify } from "src/shared/utils/misc";
 import { Size } from "src/theme/constants";
 
@@ -31,6 +31,7 @@ import {
   MOBILE_MENU_HEIGHT,
   MOBILE_MENU_MEDIA_QUERY,
 } from "src/components/PageHeader";
+import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 
 export interface IAddReviewModalProps
   extends React.ComponentPropsWithoutRef<"div"> {}
@@ -324,9 +325,10 @@ const ActionButton = styled(Button)`
  *******************************************************************/
 const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
   const {
-    state: { addReviewModalOpen: modalOpen, mobileMenuOpen },
-    dispatch,
-  } = useSiteContext();
+    isAddReviewModalOpen,
+    setAddReviewModalOpen,
+  } = useAddReviewModalContext();
+  const { isMobileMenuOpen } = useMobileMenuContext();
 
   const {
     reviewState,
@@ -371,9 +373,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
     let resetTimeout: NodeJS.Timeout;
     if (submitted) {
       if (submitSuccess) {
-        timeout = global.setTimeout(() => {
-          dispatch({ type: ActionType.CLOSE_ADD_REVIEW_MODAL });
-        }, 4000);
+        timeout = global.setTimeout(() => setAddReviewModalOpen(false), 4000);
       }
 
       resetTimeout = global.setTimeout(() => {
@@ -387,15 +387,17 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
       clearTimeout(timeout);
       clearTimeout(resetTimeout);
     };
-  }, [dispatch, submitSuccess, submitted]);
+  }, [setAddReviewModalOpen, submitSuccess, submitted]);
 
   /**
    * Create options for selections.
    */
-  const { suggestions: companySuggestions } = useCompanySuggestions(!modalOpen);
+  const { suggestions: companySuggestions } = useCompanySuggestions(
+    !isAddReviewModalOpen
+  );
   const { suggestions: jobSuggestions } = useJobSuggestions(
     reviewState.values.company?.value, // company slug
-    !modalOpen
+    !isAddReviewModalOpen
   );
   const companyOptions = useMemo(
     () =>
@@ -445,6 +447,13 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
         event.preventDefault();
     }
   };
+
+  /**
+   * Automatically close the review modal when clicking outside,
+   * since it obstructs visibility.
+   */
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  useOnClickOutside(modalRef, () => setAddReviewModalOpen(false));
 
   /**
    * Prompt user about unsaved review if they attempt
@@ -502,14 +511,18 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
   return (
     <ModalContainer
       className={classNames({
-        open: modalOpen,
-        "mobile-menu-open": mobileMenuOpen,
+        open: isAddReviewModalOpen,
+        "mobile-menu-open": isMobileMenuOpen,
       })}
+      ref={modalRef}
     >
       <InnerContainer
         id="add-review-modal"
-        className={classNames({ open: modalOpen, isConfirmingSubmit })}
-        aria-hidden={modalOpen ? "false" : "true"}
+        className={classNames({
+          open: isAddReviewModalOpen,
+          isConfirmingSubmit,
+        })}
+        aria-hidden={isAddReviewModalOpen ? "false" : "true"}
         color="white"
       >
         {submitted ? (
