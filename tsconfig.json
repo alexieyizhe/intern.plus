@@ -24,7 +24,6 @@
 
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react",
     "types": ["cypress"],
     "typeRoots": ["./support"]
