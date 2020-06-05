@@ -376,6 +376,6 @@ const mockClient = createMockClient();
 
 export default mockClient;
 
-API_CALLS.forEach(call => {
+API_CALLS.forEach((call) => {
   mockClient.setRequestHandler(call.query, call.handler);
 });

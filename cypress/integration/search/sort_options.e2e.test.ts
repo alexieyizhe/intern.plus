@@ -23,15 +23,10 @@ describe("Sort options", () => {
 
     cy.percySnapshot("Search page (options menu open)");
 
-    cy.get(".options-menu .apply-button")
-      .first()
-      .click();
+    cy.get(".options-menu .apply-button").first().click();
     cy.reload();
 
-    cy.get(".job-card")
-      .first()
-      .find(".salaryAmt")
-      .should("have.text", "75");
+    cy.get(".job-card").first().find(".salaryAmt").should("have.text", "75");
   });
 
   it("should be able to sort by number of reviews", () => {
@@ -49,9 +44,7 @@ describe("Sort options", () => {
       .click()
       .type("review count{downarrow}{enter}");
 
-    cy.get(".options-menu .apply-button")
-      .first()
-      .click();
+    cy.get(".options-menu .apply-button").first().click();
     cy.reload();
 
     cy.get(".company-card")
@@ -76,9 +69,7 @@ describe("Sort options", () => {
       .click({ force: true })
       .type("rating{downarrow}{enter}");
 
-    cy.get(".options-menu .apply-button")
-      .first()
-      .click();
+    cy.get(".options-menu .apply-button").first().click();
     cy.reload();
 
     cy.get(".job-card")
@@ -87,12 +78,8 @@ describe("Sort options", () => {
       .contains("5.0")
       .should("exist");
 
-    cy.get(".options-menu .reset-options-button")
-      .first()
-      .click();
-    cy.get(".options-menu .apply-button")
-      .first()
-      .click();
+    cy.get(".options-menu .reset-options-button").first().click();
+    cy.get(".options-menu .apply-button").first().click();
     cy.reload();
 
     // nothing should appear since we reset everything

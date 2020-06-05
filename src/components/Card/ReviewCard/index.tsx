@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
+import { Location } from "history";
 
 import { hoverStyles, itemCardStyles } from "src/theme/snippets";
 import { getDarkColor } from "src/shared/utils/color";
@@ -107,7 +108,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
    * so that the current page now becomes the
    * background for the review modal.
    */
-  const location = useLocation();
+  const location = useLocation<{ background: Location }>();
   const linkToWithState = useMemo(
     () => ({
       pathname: linkTo,

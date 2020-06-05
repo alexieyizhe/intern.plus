@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
+import { Location } from "history";
 
 /**
  * Determines the correct location for displaying pages
@@ -7,7 +8,7 @@ import { useLocation } from "react-router-dom";
  * displayed in the background.
  */
 export const useCalculatedLocation = () => {
-  const location = useLocation();
+  const location = useLocation<{ background: Location }>();
   const calculatedLocation = useMemo(
     () =>
       location.state && location.state.background

@@ -63,7 +63,7 @@ export const AppRouteHandler: React.FC = () => {
 const App: React.FC = () => {
   const [apiClient, setApiClient] = useState<DefaultClient<any> | null>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
   useEffect(() => {
-    apiClientLoader.then(client => setApiClient(client));
+    apiClientLoader.then((client) => setApiClient(client));
   }, []);
 
   if (!apiClient) {

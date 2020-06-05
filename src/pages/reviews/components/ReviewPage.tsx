@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { Helmet } from "react-helmet";
+import { Location } from "history";
 
 import { RouteName } from "src/shared/constants/routing";
 
@@ -50,7 +51,7 @@ const ReviewPage: React.FC = () => {
    * to a review) then by default, show it on the landing page by
    * adding the state manually to set background page to landing.
    */
-  const location = useLocation();
+  const location = useLocation<{ background: Location }>();
   const history = useHistory();
   useEffect(() => {
     const noBackgroundPageSet = !location?.state?.background;

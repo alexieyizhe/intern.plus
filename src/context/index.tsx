@@ -11,7 +11,7 @@ export interface ISiteContext {
 
 export const SiteContext: React.Context<ISiteContext> = createContext({
   state: DEFAULT_STATE,
-  dispatch: _ => {},
+  dispatch: (_) => {},
 });
 
 export const SiteContextProvider: React.FC = ({ children, ...rest }) => {

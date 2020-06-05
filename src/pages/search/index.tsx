@@ -36,8 +36,10 @@ import {
 const getTitleMarkup = (query?: string, type?: SearchType) =>
   query
     ? `Results for ${query}`
-    : `${(type || "search")[0].toUpperCase() +
-        (type || "search").substr(1).toLowerCase()} • intern+`;
+    : `${
+        (type || "search")[0].toUpperCase() +
+        (type || "search").substr(1).toLowerCase()
+      } • intern+`;
 
 /**
  * Creates markup for the heading when no search is performed yet.

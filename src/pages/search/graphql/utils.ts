@@ -26,8 +26,8 @@ export const buildCompanyCard = (
   jobLocations:
     ((item.jobs &&
       item.jobs.items
-        .map(item => item.location)
-        .filter(item => item !== null)) as string[]) || [],
+        .map((item) => item.location)
+        .filter((item) => item !== null)) as string[]) || [],
 });
 
 export const buildJobCard = (

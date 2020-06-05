@@ -8,9 +8,7 @@ describe("Search autocomplete", () => {
   });
 
   it("should autocomplete a misspelled query", () => {
-    cy.get(".search-field input")
-      .type("sips")
-      .type("{enter}");
+    cy.get(".search-field input").type("sips").type("{enter}");
     cy.get(".company-card").should("not.exist");
 
     cy.get(".search-field input").type("{downarrow}{downarrow}");
@@ -20,9 +18,7 @@ describe("Search autocomplete", () => {
     cy.get(".search-field input").type("{enter}");
 
     // go to Sipes Inc company
-    cy.get(".company-card")
-      .first()
-      .click();
+    cy.get(".company-card").first().click();
     cy.contains("Sipes - Labadie");
   });
 });

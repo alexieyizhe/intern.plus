@@ -16,7 +16,7 @@ export const buildSearchSuggestions = (
 
   if (data) {
     if (data.companiesList) {
-      data.companiesList.items.forEach(item => {
+      data.companiesList.items.forEach((item) => {
         if (item.name) suggestions.push(item.name);
       });
     }
@@ -25,7 +25,7 @@ export const buildSearchSuggestions = (
       data.jobsList &&
       (variables ? variables.searchType !== SearchType.COMPANIES : true)
     ) {
-      data.jobsList.items.forEach(item => {
+      data.jobsList.items.forEach((item) => {
         if (item.name) suggestions.push(item.name);
       });
     }
@@ -39,7 +39,7 @@ export const buildSearchSuggestionsCompany = (
 ) => {
   const suggestions: string[] = [];
   if (data && data.company && data.company.jobs) {
-    data.company.jobs.items.forEach(item => {
+    data.company.jobs.items.forEach((item) => {
       if (item.name) suggestions.push(item.name);
     });
   }

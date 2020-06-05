@@ -10,14 +10,14 @@ import { GetSearchSuggestionsCompany } from "./types/GetSearchSuggestionsCompany
 export const getMockSearchSuggestions = (): GetSearchSuggestions => ({
   companiesList: {
     __typename: "CompanyListResponse" as "CompanyListResponse",
-    items: MOCK_COMPANIES_LIST.map(company => ({
+    items: MOCK_COMPANIES_LIST.map((company) => ({
       __typename: "Company",
       name: company.name,
     })),
   },
   jobsList: {
     __typename: "JobListResponse" as "JobListResponse",
-    items: MOCK_JOBS_LIST.map(job => ({ __typename: "Job", name: job.name })),
+    items: MOCK_JOBS_LIST.map((job) => ({ __typename: "Job", name: job.name })),
   },
 });
 

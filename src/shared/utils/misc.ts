@@ -11,7 +11,7 @@ export const slugify = (str: string): string => {
     .toString()
     .toLowerCase()
     .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+    .replace(p, (c) => b.charAt(a.indexOf(c))) // Replace special characters
     .replace(/&/g, "-and-") // Replace & with 'and'
     .replace(/[^\w-]+/g, "") // Remove all non-word characters
     .replace(/--+/g, "-") // Replace multiple - with single -
@@ -28,8 +28,8 @@ export const getReviewCardTags = (tags: string, date?: string) => [
     : []),
   ...tags
     .split(",")
-    .filter(t => !!t)
-    .map(tagText => ({
+    .filter((t) => !!t)
+    .map((tagText) => ({
       label: tagText,
       bgColor: getLightColor(strToHSL(tagText)),
     })),
