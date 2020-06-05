@@ -6,27 +6,22 @@
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
-    "incremental": true,
-
     "baseUrl": ".",
-
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": false,
-
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-
     "strict": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react",
     "types": ["cypress"],
-    "typeRoots": ["./support"]
+    "typeRoots": ["./support"],
+    "noEmit": true
   },
   "include": ["src/**/*", "cypress/**/*"],
   "exclude": ["node_modules", "src/**/*.e2e.test.ts", "src/**/*.unit.test.tsx"]

@@ -72,6 +72,7 @@ const SectionSpacer = styled.div`
 const PaletteSquare = styled(Card)`
   width: 100px;
   height: 100px;
+  margin-bottom: 10px;
 
   display: inline-flex;
   justify-content: center;
@@ -244,7 +245,7 @@ const DesignSystemPage = () => {
           <SectionSpacer>
             <Checkbox
               checked={checkboxChecked}
-              onChange={e => setChecked(e.target.checked)}
+              onChange={(e) => setChecked(e.target.checked)}
             >
               <Text variant="subheading">I agree to the terms.</Text>
             </Checkbox>

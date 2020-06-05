@@ -197,7 +197,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         const results = fuse.search(inputVal);
 
         filteredSuggestions = (results as string[])
-          .map(result => suggestions[(result as unknown) as number])
+          .map((result) => suggestions[(result as unknown) as number])
           .slice(0, 5) as string[];
       }
 
@@ -224,7 +224,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         onSuggestionSelected={onSuggestionSelected}
         suggestions={filteredSuggestions}
         getSuggestionValue={getSuggestionValue}
-        renderInputComponent={innerInputProps => (
+        renderInputComponent={(innerInputProps) => (
           <TextInput color={inputProps.color} {...(innerInputProps as any)} /> // eslint-disable-line @typescript-eslint/no-explicit-any
         )}
         renderSuggestion={renderSuggestion}

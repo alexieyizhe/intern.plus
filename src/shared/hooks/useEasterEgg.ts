@@ -22,7 +22,7 @@ export const useEasterEgg = () => {
   const trackCode = useCallback(
     (e: KeyboardEvent) => {
       if (e.keyCode === CODE_SEQUENCE[sequenceSoFar]) {
-        setSequenceSoFar(prevSequence => prevSequence + 1);
+        setSequenceSoFar((prevSequence) => prevSequence + 1);
       } else {
         setSequenceSoFar(0);
       }

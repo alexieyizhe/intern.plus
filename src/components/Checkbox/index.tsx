@@ -80,13 +80,14 @@ const hoveredStyles = css`
   }
 
   ${HiddenCheckbox}:not(:disabled):not(:checked):hover + & {
-    border: 1.5px solid ${({ theme }) => theme.color.greyMedium};
+    border: 1.5px solid ${({ theme }) => theme.color.black};
   }
 `;
 
 const checkedStyles = css`
   ${HiddenCheckbox}:checked + & {
     background-color: ${({ theme }) => theme.color.black};
+    border-color: ${({ theme }) => theme.color.black};
   }
 `;
 
@@ -96,11 +97,11 @@ const StyledCheckbox = styled.span<{ color?: string }>`
   background-color: ${({ color = "", theme }) =>
     theme.color[color] || color || "inherit"};
 
+  border: 1.5px solid ${({ theme }) => theme.color.greyMedium};
   border-radius: ${({ theme }) => theme.borderRadius.checkbox}px;
   z-index: 1;
 
   transition: all 100ms;
-  border: 1.5px solid transparent;
   ${hoveredStyles}
   ${focusedStyles}
   ${checkedStyles}

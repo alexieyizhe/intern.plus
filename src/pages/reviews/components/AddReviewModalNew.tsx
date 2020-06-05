@@ -42,11 +42,11 @@ const SUBMIT_SUCCESS_TEXT =
   "Thanks for helping your peers stay informed! Your review has been submitted and is pending approval for display.";
 const SUBMIT_ERROR_TEXT = "Oops! Something went wrong. Please try again.";
 
-const salaryCurrencyOptions = ["CAD", "USD", "EUR", "JPY"].map(currency => ({
+const salaryCurrencyOptions = ["CAD", "USD", "EUR", "JPY"].map((currency) => ({
   label: currency,
   value: currency,
 }));
-const salaryPeriodOptions = ["hourly", "weekly", "monthly"].map(period => ({
+const salaryPeriodOptions = ["hourly", "weekly", "monthly"].map((period) => ({
   label: period,
   value: period,
 }));
@@ -440,7 +440,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
       case " ":
         // check if tag exists already - if so, don't add another tag
         if (
-          !reviewState.values.tags?.some(tag => tag.label === tagsInputValue)
+          !reviewState.values.tags?.some((tag) => tag.label === tagsInputValue)
         ) {
           onReviewChange("tags", [
             ...(reviewState.values["tags"] || []),
@@ -460,7 +460,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
   useEffect(() => {
     const promptUnsaved = (e: BeforeUnloadEvent) => {
       const reviewStarted = Object.values(reviewState.values).some(
-        val => !!val
+        (val) => !!val
       );
 
       if (reviewStarted) {
@@ -552,7 +552,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     creatable
                     options={companyOptions}
                     value={reviewState.values["company"]}
-                    onChange={option => onReviewChange("company", option)}
+                    onChange={(option) => onReviewChange("company", option)}
                   />
                 </VerticalField>
                 <VerticalField
@@ -594,12 +594,12 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     creatable
                     options={jobOptions}
                     value={reviewState.values["job"] || null}
-                    onChange={option => {
+                    onChange={(option) => {
                       onReviewChange("job", option);
                       onReviewChange(
                         "location",
                         jobSuggestions.find(
-                          job =>
+                          (job) =>
                             job.id ===
                             (option as { label: string; value: string })?.value
                         )?.location
@@ -633,7 +633,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                         !reviewState.values["job"]?.__isNew__)
                     }
                     value={reviewState.values["location"] || ""}
-                    onChange={e => onReviewChange("location", e.target.value)}
+                    onChange={(e) => onReviewChange("location", e.target.value)}
                   />
                 </LocationField>
                 <SalaryField
@@ -665,7 +665,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                         reviewState.values.noSalaryProvided
                       }
                       value={reviewState.values["salary"]}
-                      onChange={e =>
+                      onChange={(e) =>
                         onReviewChange("salary", parseInt(e.target.value))
                       }
                     />
@@ -681,11 +681,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       creatable
                       options={salaryCurrencyOptions}
                       value={salaryCurrencyOptions.find(
-                        option =>
+                        (option) =>
                           option.value ===
                           reviewState.values["salaryCurrency"]?.value
                       )}
-                      onChange={option =>
+                      onChange={(option) =>
                         onReviewChange("salaryCurrency", option)
                       }
                     />
@@ -700,10 +700,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       }
                       options={salaryPeriodOptions}
                       value={salaryPeriodOptions.find(
-                        option =>
+                        (option) =>
                           option.value === reviewState.values["salaryPeriod"]
                       )}
-                      onChange={option =>
+                      onChange={(option) =>
                         onReviewChange(
                           "salaryPeriod",
                           (option as { value: string })?.value
@@ -715,7 +715,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     className="no-salary-provided-checkbox"
                     color="greyLight"
                     checked={reviewState.values.noSalaryProvided}
-                    onChange={e =>
+                    onChange={(e) =>
                       onReviewChange("noSalaryProvided", e.target.checked)
                     }
                   >
@@ -742,7 +742,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <StarRating
                     maxStars={5}
                     value={reviewState.values["overallRating"]}
-                    onChange={stars => onReviewChange("overallRating", stars)}
+                    onChange={(stars) => onReviewChange("overallRating", stars)}
                     color="goldDark"
                     disabled={isConfirmingSubmit || isSubmitting}
                   />
@@ -767,7 +767,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <StarRating
                     maxStars={5}
                     value={reviewState.values["workLifeBalanceRating"]}
-                    onChange={stars =>
+                    onChange={(stars) =>
                       onReviewChange("workLifeBalanceRating", stars)
                     }
                     disabled={isConfirmingSubmit || isSubmitting}
@@ -795,7 +795,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <StarRating
                     maxStars={5}
                     value={reviewState.values["learningMentorshipRating"]}
-                    onChange={stars =>
+                    onChange={(stars) =>
                       onReviewChange("learningMentorshipRating", stars)
                     }
                     disabled={isConfirmingSubmit || isSubmitting}
@@ -821,7 +821,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   <StarRating
                     maxStars={5}
                     value={reviewState.values["meaningfulWorkRating"]}
-                    onChange={stars =>
+                    onChange={(stars) =>
                       onReviewChange("meaningfulWorkRating", stars)
                     }
                     disabled={isConfirmingSubmit || isSubmitting}
@@ -847,7 +847,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     color="greyLight"
                     disabled={isConfirmingSubmit || isSubmitting}
                     value={reviewState.values["body"]}
-                    onChange={e => onReviewChange("body", e.target.value)}
+                    onChange={(e) => onReviewChange("body", e.target.value)}
                     maxLength={5000}
                   />
                   <CountText variant="subheading" color="greyDark">
@@ -919,7 +919,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     type="email"
                     disabled={isConfirmingSubmit || isSubmitting}
                     value={reviewState.values["authorEmail"]}
-                    onChange={e =>
+                    onChange={(e) =>
                       onReviewChange("authorEmail", e.target.value)
                     }
                   />
@@ -968,7 +968,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     align="center"
                     className={classNames({
                       error: Object.values(reviewState.errors).some(
-                        val => val?.error
+                        (val) => val?.error
                       ),
                     })}
                   >

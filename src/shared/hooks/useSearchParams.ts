@@ -32,7 +32,9 @@ export const useSearchParams = () => {
   const { searchRatingFilter, setSearchRatingFilter } = useMemo(
     () => ({
       searchRatingFilter: ratingFilterStrArr
-        ? ratingFilterStrArr.split(",").map(n => (n ? parseInt(n) : undefined))
+        ? ratingFilterStrArr
+            .split(",")
+            .map((n) => (n ? parseInt(n) : undefined))
         : undefined,
       setSearchRatingFilter: (value?: (number | undefined)[]) =>
         setRatingFilterStrArr(
@@ -51,7 +53,9 @@ export const useSearchParams = () => {
   const { searchSalaryFilter, setSearchSalaryFilter } = useMemo(
     () => ({
       searchSalaryFilter: salaryFilterStrArr
-        ? salaryFilterStrArr.split(",").map(n => (n ? parseInt(n) : undefined))
+        ? salaryFilterStrArr
+            .split(",")
+            .map((n) => (n ? parseInt(n) : undefined))
         : undefined,
       setSearchSalaryFilter: (value?: (number | undefined)[]) =>
         setSalaryFilterStrArr(

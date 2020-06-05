@@ -7,17 +7,13 @@ describe("Add review modal", () => {
     cy.get("#add-review-modal")
       .invoke("attr", "aria-hidden")
       .should("be", "true");
-    cy.get("header")
-      .find("[aria-label='Add review button']")
-      .click();
+    cy.get("header").find("[aria-label='Add review button']").click();
 
     cy.get("#add-review-modal")
       .invoke("attr", "aria-hidden")
       .should("be", "false");
 
-    cy.get("header")
-      .find("[aria-label='Add review button']")
-      .click();
+    cy.get("header").find("[aria-label='Add review button']").click();
 
     cy.get("#add-review-modal")
       .invoke("attr", "aria-hidden")
@@ -25,9 +21,7 @@ describe("Add review modal", () => {
   });
 
   it("will prevent unfilled review from being submitted", () => {
-    cy.get("header")
-      .find("[aria-label='Add review button']")
-      .click();
+    cy.get("header").find("[aria-label='Add review button']").click();
 
     cy.get("#add-review-modal button.submit-button").click();
 
@@ -37,9 +31,7 @@ describe("Add review modal", () => {
   });
 
   it("can submit review", () => {
-    cy.get("header")
-      .find("[aria-label='Add review button']")
-      .click();
+    cy.get("header").find("[aria-label='Add review button']").click();
 
     cy.get(".company-field input").type("Sons{downArrow}{enter}");
 
@@ -55,15 +47,9 @@ describe("Add review modal", () => {
       .should("be", "false");
     cy.get(".location-field input").type("Michigan{enter}");
 
-    cy.get(".salary-field input")
-      .eq(0)
-      .type("222");
-    cy.get(".salary-field input")
-      .eq(1)
-      .type("{downArrow}{enter}");
-    cy.get(".salary-field input")
-      .eq(2)
-      .type("{downArrow}{enter}");
+    cy.get(".salary-field input").eq(0).type("222");
+    cy.get(".salary-field input").eq(1).type("{downArrow}{enter}");
+    cy.get(".salary-field input").eq(2).type("{downArrow}{enter}");
 
     cy.get(".review-body-field textarea").type(
       "Here is some fake review body text"
@@ -88,10 +74,7 @@ describe("Add review modal", () => {
 
     cy.get(".author-email-field input").type("bademail");
 
-    cy.get(".overall-rating-field .star-container")
-      .children()
-      .eq(3)
-      .click();
+    cy.get(".overall-rating-field .star-container").children().eq(3).click();
 
     cy.get(".meaningful-work-rating-field .star-container")
       .children()

@@ -335,9 +335,9 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       ((internalLocationFilterOptionVal || []).length !==
         (locationOption.value || []).length ||
         (internalLocationFilterOptionVal || []).some(
-          val =>
+          (val) =>
             !(locationOption.value || [])
-              .map(otherVal => otherVal.value)
+              .map((otherVal) => otherVal.value)
               .includes(val.value)
         ))
     ) {
@@ -412,7 +412,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               className="type checkbox companies"
               color="white"
               checked={internalTypeOptionVal === SearchType.COMPANIES}
-              onChange={e =>
+              onChange={(e) =>
                 setInternalTypeOptionVal(
                   e.target.checked ? SearchType.COMPANIES : undefined
                 )
@@ -427,7 +427,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               className="type checkbox jobs"
               color="white"
               checked={internalTypeOptionVal === SearchType.JOBS}
-              onChange={e =>
+              onChange={(e) =>
                 setInternalTypeOptionVal(
                   e.target.checked ? SearchType.JOBS : undefined
                 )
@@ -442,7 +442,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               className="type checkbox reviews"
               color="white"
               checked={internalTypeOptionVal === SearchType.REVIEWS}
-              onChange={e =>
+              onChange={(e) =>
                 setInternalTypeOptionVal(
                   e.target.checked ? SearchType.REVIEWS : undefined
                 )
@@ -473,12 +473,12 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 type="number"
                 min={0}
                 value={internalSalaryFilterOptionVal[0] || ""}
-                onChange={e => {
+                onChange={(e) => {
                   const val = e.target.value
                     ? parseInt(e.target.value)
                     : undefined;
                   if (val === undefined || !isNaN(val)) {
-                    setInternalSalaryFilterOptionVal(prevVal => [
+                    setInternalSalaryFilterOptionVal((prevVal) => [
                       val,
                       prevVal[1],
                     ]);
@@ -495,12 +495,12 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               type="number"
               min={0}
               value={internalSalaryFilterOptionVal[1] || ""}
-              onChange={e => {
+              onChange={(e) => {
                 const val = e.target.value
                   ? parseInt(e.target.value)
                   : undefined;
                 if (val === undefined || !isNaN(val)) {
-                  setInternalSalaryFilterOptionVal(prevVal => [
+                  setInternalSalaryFilterOptionVal((prevVal) => [
                     prevVal[0],
                     val,
                   ]);
@@ -538,8 +538,11 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               className="rating min"
               maxStars={5}
               value={internalRatingFilterOptionVal[0] || 0}
-              onChange={stars =>
-                setInternalRatingFilterOptionVal(prevVal => [stars, prevVal[1]])
+              onChange={(stars) =>
+                setInternalRatingFilterOptionVal((prevVal) => [
+                  stars,
+                  prevVal[1],
+                ])
               }
             >
               <Text variant="subheading" color="greyDark">
@@ -550,8 +553,11 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               className="rating max"
               maxStars={5}
               value={internalRatingFilterOptionVal[1] || 0}
-              onChange={stars =>
-                setInternalRatingFilterOptionVal(prevVal => [prevVal[0], stars])
+              onChange={(stars) =>
+                setInternalRatingFilterOptionVal((prevVal) => [
+                  prevVal[0],
+                  stars,
+                ])
               }
             >
               <Text variant="subheading" color="greyDark">

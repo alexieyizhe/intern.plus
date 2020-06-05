@@ -46,7 +46,7 @@ export const getMockCompaniesSearch = (
 
   const normalizedQuery = query.toLowerCase();
   const filteredCompanies = MOCK_COMPANIES_LIST.filter(
-    company =>
+    (company) =>
       (company.name.toLowerCase().includes(normalizedQuery) ||
         company.desc.toLowerCase().includes(normalizedQuery)) &&
       company.avgRating <= (maxRating || Number.MAX_SAFE_INTEGER) &&
@@ -98,7 +98,7 @@ export const getMockJobsSearch = (
 
   const normalizedQuery = query.toLowerCase();
   const filteredJobs = MOCK_JOBS_LIST.filter(
-    job =>
+    (job) =>
       (job.name.toLowerCase().includes(normalizedQuery) ||
         job.company.name.toLowerCase().includes(normalizedQuery) ||
         job.location.toLowerCase().includes(normalizedQuery)) &&
@@ -152,7 +152,7 @@ export const getMockReviewsSearch = (
 
   const normalizedQuery = query.toLowerCase();
   const filteredReviews = MOCK_REVIEWS_LIST.filter(
-    review =>
+    (review) =>
       (review.company.name.toLowerCase().includes(normalizedQuery) ||
         review.job.name.toLowerCase().includes(normalizedQuery) ||
         review.body.toLowerCase().includes(normalizedQuery) ||
