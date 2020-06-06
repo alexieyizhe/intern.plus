@@ -19,8 +19,8 @@ export const sharedConstants = {
     hover: "0px 10px 25px rgba(50, 50, 50, 0.1)",
   },
   borderRadius: {
-    button: 10,
-    checkbox: 5,
+    large: 10,
+    small: 5,
   },
   zIndex: {
     modal: 200,

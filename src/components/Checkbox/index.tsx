@@ -98,7 +98,7 @@ const StyledCheckbox = styled.span<{ color?: string }>`
     theme.color[color] || color || "inherit"};
 
   border: 1.5px solid ${({ theme }) => theme.color.textTertiary};
-  border-radius: ${({ theme }) => theme.borderRadius.checkbox}px;
+  border-radius: ${({ theme }) => theme.borderRadius.small}px;
   z-index: 1;
 
   transition: all 100ms;

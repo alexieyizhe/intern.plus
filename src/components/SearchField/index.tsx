@@ -67,7 +67,7 @@ const Container = styled.div`
     height: 100%;
     top: 0;
 
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
     transition: opacity 100ms ease-in;
@@ -106,7 +106,7 @@ const Container = styled.div`
     margin: 10px 0;
     list-style-type: none;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     overflow: hidden;
     cursor: pointer;
   }

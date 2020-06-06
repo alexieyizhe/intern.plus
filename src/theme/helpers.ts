@@ -28,6 +28,7 @@ export interface SiteTheme {
     greenSecondary: string;
     error: string;
     warning: string;
+    [key: string]: string;
   };
   fontSize: {
     [Size.XS]: number;
@@ -35,6 +36,7 @@ export interface SiteTheme {
     [Size.MEDIUM]: number;
     [Size.LARGE]: number;
     [Size.XL]: number;
+    [key: number]: number;
   };
   fontFamily: {
     heading: string;
@@ -44,8 +46,8 @@ export interface SiteTheme {
     hover: string;
   };
   borderRadius: {
-    button: number;
-    checkbox: number;
+    large: number;
+    small: number;
   };
   zIndex: {
     modal: number;
@@ -63,4 +65,15 @@ export interface SiteTheme {
     page: number;
   };
   mediaQueries: MediaQueryTemplates;
+}
+
+/**
+ * This merges our theme's interface with the default theme interface
+ * and other declarations in styled-components, which provides
+ * correct typing for the theme object in styled-components' ThemeProvider
+ * (see https://www.styled-components.com/docs/api#typescript)
+ */
+declare module "styled-components" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DefaultTheme extends SiteTheme {}
 }

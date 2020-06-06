@@ -21,7 +21,7 @@ export const hoverStyles = css`
     width: 100%;
     height: 100%;
 
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
     transition: opacity 100ms ease-in;
@@ -89,7 +89,7 @@ export const inputStyles = css<IInputStyleOptions>`
     disabled || readOnly ? "not-allowed" : "text"};
 
   transition: all 100ms;
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
   border: 2px solid transparent;
 
   &:hover:not(:read-only):not(:disabled) {

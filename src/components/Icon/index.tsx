@@ -31,7 +31,7 @@ const NoIconFound = styled.span<IconProps>`
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
   background-color: ${({ color }) => color};
-  border-radius: ${({ theme }) => theme.borderRadius.card}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
 `;
 
 /*******************************************************************

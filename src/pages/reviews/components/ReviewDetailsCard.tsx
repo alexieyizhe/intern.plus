@@ -122,7 +122,7 @@ const DetailsCard = styled(BaseDetailsCard)`
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     width: 100%;
     left: 0;
-    border-radius: ${theme.borderRadius.button}px;
+    border-radius: ${theme.borderRadius.large}px;
   `}
 `;
 

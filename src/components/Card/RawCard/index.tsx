@@ -14,7 +14,7 @@ export interface ICardProps extends React.ComponentPropsWithRef<"div"> {
 const BaseCard = styled.div`
   display: inline-block;
 
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
   background-color: ${({ color = "", theme }) =>
     theme.color[color] || color || "inherit"};
 `;

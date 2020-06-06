@@ -3,14 +3,14 @@ import React from "react";
 import styled, { useTheme } from "styled-components";
 import BaseSelect from "react-select";
 import Creatable from "react-select/creatable";
-import { Props } from "react-select/src/Select";
+import { Props as SelectProps } from "react-select/src/Select";
 
 import { Size, IInputStyleOptions } from "src/theme";
 
 /*******************************************************************
  *                            **Types**                            *
  *******************************************************************/
-export interface ISelectProps extends IInputStyleOptions, Props {
+export interface ISelectProps extends IInputStyleOptions, SelectProps {
   creatable?: boolean;
 }
 
@@ -40,7 +40,7 @@ const customSelectStyles = (theme: any, color?: string) => ({
         ? `${theme.color.textPrimary} !important`
         : "transparent",
     boxShadow: "none",
-    borderRadius: theme.borderRadius.button,
+    borderRadius: theme.borderRadius.large,
     padding: theme.padding.input,
     cursor: state.isDisabled ? "not-allowed" : "text",
     backgroundColor: theme.color[color || "backgroundSecondary"],
@@ -81,7 +81,7 @@ const customSelectStyles = (theme: any, color?: string) => ({
   }),
   menuList: (provided: any) => ({
     ...provided,
-    borderRadius: theme.borderRadius.button,
+    borderRadius: theme.borderRadius.large,
     padding: 0,
     margin: 0,
   }),
@@ -140,20 +140,21 @@ const Select: React.FC<ISelectProps> = ({
   color,
   creatable,
   disabled,
+  theme, // @todo: omit this from ISelectProps
   ...rest
 }) => {
-  const theme = useTheme();
+  const siteTheme = useTheme();
   return creatable ? (
     <StyledCreatable
       {...rest}
       isDisabled={disabled}
-      styles={customSelectStyles(theme, color) as any}
+      styles={customSelectStyles(siteTheme, color) as any}
     />
   ) : (
     <StyledSelect
       {...rest}
       isDisabled={disabled}
-      styles={customSelectStyles(theme, color) as any}
+      styles={customSelectStyles(siteTheme, color) as any}
     />
   );
 };

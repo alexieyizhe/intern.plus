@@ -20,14 +20,14 @@ export const UnstyledButton = styled.button`
 const BaseButton = styled(UnstyledButton)<IButtonProps>`
   position: relative;
   padding: ${({ theme }) => theme.padding.input};
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
 
   background-color: ${({ color = "", theme }) =>
     theme.color[color] || color || "inherit"};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 
   transition: all 100ms;
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
   border: 2px solid transparent;
 
   & > * {

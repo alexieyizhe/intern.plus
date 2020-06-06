@@ -72,7 +72,7 @@ const Indicator = styled.div<ITooltipProps>`
 
     color: ${({ theme }) => theme.color.textPrimary};
     background-color: ${({ theme }) => theme.color.backgroundPrimary};
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
     ${({ theme }) => theme.mediaQueries.xlMobile`

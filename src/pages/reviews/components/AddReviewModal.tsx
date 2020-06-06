@@ -248,7 +248,7 @@ const LocationInput = styled(TextInput)`
   & ~ .ap-dropdown-menu {
     margin-top: 6px;
 
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     background-color: ${({ theme }) => theme.color.backgroundSecondary};
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 

@@ -4,17 +4,17 @@ import { SiteTheme } from "../helpers";
 
 export const darkTheme: SiteTheme = {
   color: {
-    backgroundPrimary: "#ffffff",
-    backgroundSecondary: "#f1f1f1",
+    backgroundPrimary: "#333333",
+    backgroundSecondary: "#787878",
 
-    textPrimary: "#333333",
-    textSecondary: "#787878",
-    textTertiary: "#ffffff",
+    textPrimary: "#ffffff",
+    textSecondary: "#c6c6c6",
+    textTertiary: "#787878",
 
-    goldPrimary: "#CFB316",
-    goldSecondary: "#ffdc76",
-    greenPrimary: "#507561",
-    greenSecondary: "#779e89",
+    goldPrimary: "#ffdc76",
+    goldSecondary: "#CFB316",
+    greenPrimary: "#779e89",
+    greenSecondary: "#507561",
     error: "#FF6166",
     warning: "#f7a536",
   },

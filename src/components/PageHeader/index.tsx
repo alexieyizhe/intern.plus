@@ -38,7 +38,7 @@ const Container = styled.header`
   height: ${HEADER_HEIGHT}px;
 
   z-index: ${({ theme }) => theme.zIndex.header};
-  background-color: white;
+  background-color: ${({ theme }) => theme.color.backgroundPrimary};
 
   &::after {
     content: "";
@@ -49,7 +49,7 @@ const Container = styled.header`
     bottom: 0;
 
     background-color: ${({ theme }) => theme.color.backgroundPrimary};
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
     transition: all 100ms ease-in;
@@ -181,8 +181,9 @@ const HeaderActionContainer = styled.div`
 
     transition: transform 100ms ease-out;
     transform: scale(0.9);
+    transform-origin: center;
     &:hover,
-    &:focus {
+    &.focus-visible {
       transform: scale(1);
     }
   }
