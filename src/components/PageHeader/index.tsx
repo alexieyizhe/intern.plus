@@ -219,17 +219,11 @@ const Header: React.FC = () => {
     toggleAddReviewModal,
     isAddReviewModalOpen,
   } = useAddReviewModalContext();
-  const { curTheme, setCurTheme } = useSiteThemeContext();
+  const { toggleDarkMode, curMode } = useSiteThemeContext();
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [
     setMobileMenuOpen,
   ]);
-
-  const toggleLightDarkMode = useCallback(
-    () =>
-      setCurTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light")),
-    [setCurTheme]
-  );
 
   /**
    * If the add review button is clicked, set the background page to
@@ -275,7 +269,6 @@ const Header: React.FC = () => {
             />
           </UnstyledButton>
         </Logo>
-
         <NavLinks
           className={isMobileMenuOpen ? "show" : undefined}
           aria-hidden={isMobileUser && !isMobileMenuOpen ? "false" : "true"}
@@ -293,15 +286,15 @@ const Header: React.FC = () => {
             <Text>home</Text>
           </Link>
         </NavLinks>
-
+        :0
         <HeaderActionContainer>
           <UnstyledButton
-            onClick={toggleLightDarkMode}
+            onClick={toggleDarkMode}
             aria-label="Toggle theme button"
           >
             <Icon
               name={
-                curTheme === "dark"
+                curMode === "dark"
                   ? copy.toggleTheme.light.name
                   : copy.toggleTheme.dark.name
               }
