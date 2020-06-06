@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
-import { Size } from "src/theme/constants";
+import { Size } from "src/theme";
 import { RouteName } from "src/shared/constants/routing";
 import { getDarkColor } from "src/shared/utils/color";
 import { SearchParamKey } from "src/shared/constants/search";
@@ -213,7 +213,7 @@ const CloseButton = styled(UnstyledButton)`
 
   &:hover > .bg,
   &:focus > .bg {
-    transition: transform 150ms ease-out;
+    transition: transform 100ms ease-out;
     transform: scale(1.1);
   }
 
@@ -233,7 +233,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
 }) => (
   <DetailsCard
     className={classNames("company", className)}
-    color="greyLight"
+    color="backgroundSecondary"
     {...rest}
   >
     <div>
@@ -256,7 +256,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
             <Text
               className="subheading location"
               variant="heading3"
-              color="greyDark"
+              color="textSecondary"
             >
               {` • ${reviewDetails?.location}`}
             </Text>
@@ -272,7 +272,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
 
       <ReviewPrefixContainer>
         <Text variant="subheading">{reviewDetails?.author} </Text>
-        <Text variant="subheading" color="greyDark">
+        <Text variant="subheading" color="textSecondary">
           mentioned the following{" "}
         </Text>
         <Text variant="subheading" title={reviewDetails?.date}>
@@ -296,7 +296,11 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
             value={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
             readOnly
           >
-            <Text variant="subheading" className="rating-text" color="greyDark">
+            <Text
+              variant="subheading"
+              className="rating-text"
+              color="textSecondary"
+            >
               Meaningful work
             </Text>
           </ReviewRating>
@@ -305,7 +309,11 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
             value={reviewDetails?.workLifeBalanceRating}
             readOnly
           >
-            <Text variant="subheading" className="rating-text" color="greyDark">
+            <Text
+              variant="subheading"
+              className="rating-text"
+              color="textSecondary"
+            >
               Work life balance
             </Text>
           </ReviewRating>
@@ -314,7 +322,11 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
             value={reviewDetails?.learningMentorshipRating}
             readOnly
           >
-            <Text variant="subheading" className="rating-text" color="greyDark">
+            <Text
+              variant="subheading"
+              className="rating-text"
+              color="textSecondary"
+            >
               Learning &amp; mentorship
             </Text>
           </ReviewRating>
@@ -356,7 +368,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
 
     <CloseButton onClick={onExit} tabIndex={1}>
       <span className="bg" />
-      <Icon name={IconName.X} color="white" size={13} />
+      <Icon name={IconName.X} color="backgroundPrimary" size={13} />
     </CloseButton>
   </DetailsCard>
 );

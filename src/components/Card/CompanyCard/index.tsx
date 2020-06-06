@@ -26,13 +26,13 @@ export interface ICompanyCardProps extends ICardProps {
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const NO_RATINGS_TEXT = "No ratings yet";
-const FALLBACK_BG_COLOR = "greyLight";
+const FALLBACK_BG_COLOR = "backgroundSecondary";
 
 const getRatingMarkup = (numRatings: number, avgRating: number) => {
   if (numRatings === 0) {
     return (
       <>
-        <Text variant="body" color="greyDark">
+        <Text variant="body" color="textSecondary">
           {NO_RATINGS_TEXT}
         </Text>
       </>
@@ -41,11 +41,11 @@ const getRatingMarkup = (numRatings: number, avgRating: number) => {
 
   return (
     <StarRating maxStars={5} value={Math.round(avgRating)} readOnly>
-      <Text variant="body" className="avgRating" color="black">
+      <Text variant="body" className="avgRating" color="textPrimary">
         {avgRating.toFixed(1)}
       </Text>
       &nbsp;
-      <Text variant="body" color="greyDark">
+      <Text variant="body" color="textSecondary">
         ({numRatings})
       </Text>
     </StarRating>
@@ -138,7 +138,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
       )}
 
       {desc && (
-        <Text className="desc" variant="subheading" color="greyDark">
+        <Text className="desc" variant="subheading" color="textSecondary">
           {desc}
         </Text>
       )}

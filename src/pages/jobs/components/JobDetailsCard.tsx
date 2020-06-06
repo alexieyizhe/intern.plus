@@ -155,7 +155,7 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
         to={`${RouteName.COMPANIES}/${jobDetails?.companySlug}`}
         bare
       >
-        <Text variant="heading3" color="greyDark">
+        <Text variant="heading3" color="textSecondary">
           {jobDetails?.companyName}
         </Text>
       </Link>
@@ -163,7 +163,7 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
         <Text
           className="subheading location"
           variant="heading3"
-          color="greyDark"
+          color="textSecondary"
         >
           {` • ${jobDetails?.location}`}
         </Text>
@@ -177,10 +177,18 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
             value={Math.round(jobDetails ? jobDetails.avgRating : 0)}
             readOnly
           >
-            <Text variant="subheading" className="rating-text" color="black">
+            <Text
+              variant="subheading"
+              className="rating-text"
+              color="textPrimary"
+            >
               {jobDetails?.avgRating.toFixed(1)}
             </Text>
-            <Text variant="subheading" className="rating-text" color="black">
+            <Text
+              variant="subheading"
+              className="rating-text"
+              color="textPrimary"
+            >
               Overall
             </Text>
           </StarRating>
@@ -192,10 +200,10 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
             )}
             readOnly
           >
-            <Text variant="body" className="rating-text" color="black">
+            <Text variant="body" className="rating-text" color="textPrimary">
               {jobDetails?.avgLearningMentorshipRating.toFixed(1)}
             </Text>
-            <Text variant="body" className="rating-text" color="greyDark">
+            <Text variant="body" className="rating-text" color="textSecondary">
               Learning &amp; mentorship
             </Text>
           </StarRating>
@@ -207,10 +215,10 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
             )}
             readOnly
           >
-            <Text variant="body" className="rating-text" color="black">
+            <Text variant="body" className="rating-text" color="textPrimary">
               {jobDetails?.avgMeaningfulWorkRating.toFixed(1)}
             </Text>
-            <Text variant="body" className="rating-text" color="greyDark">
+            <Text variant="body" className="rating-text" color="textSecondary">
               Meaningful work
             </Text>
           </StarRating>
@@ -222,10 +230,10 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
             )}
             readOnly
           >
-            <Text variant="body" className="rating-text" color="black">
+            <Text variant="body" className="rating-text" color="textPrimary">
               {jobDetails?.avgWorkLifeBalanceRating.toFixed(1)}
             </Text>
-            <Text variant="body" className="rating-text" color="greyDark">
+            <Text variant="body" className="rating-text" color="textSecondary">
               Work-life balance
             </Text>
           </StarRating>
@@ -233,7 +241,7 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
             variant="subheading"
             as="div"
             className="num-ratings-text"
-            color="greyDark"
+            color="textSecondary"
           >
             {getRatingsText(jobDetails?.numRatings)}
           </Text>

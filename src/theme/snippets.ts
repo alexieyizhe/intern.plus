@@ -1,5 +1,5 @@
 import { css, keyframes } from "styled-components";
-import { Size } from "src/theme/constants";
+import { Size } from "src/theme";
 
 export const spin = keyframes`
   0% {
@@ -24,7 +24,7 @@ export const hoverStyles = css`
     border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: opacity 150ms ease-in;
+    transition: opacity 100ms ease-in;
     opacity: 0;
     backface-visibility: hidden; /* for this issue: https://stackoverflow.com/questions/11045451/white-flash-blink-on-hover-with-chrome */
   }
@@ -93,16 +93,16 @@ export const inputStyles = css<IInputStyleOptions>`
   border: 2px solid transparent;
 
   &:hover:not(:read-only):not(:disabled) {
-    border: 2px solid ${({ theme }) => theme.color.greyMedium};
+    border: 2px solid ${({ theme }) => theme.color.textTertiary};
   }
   
   &:focus:not(:read-only):not(:disabled) {
     outline: none;
-    border: 2px solid ${({ theme }) => theme.color.black};
+    border: 2px solid ${({ theme }) => theme.color.textPrimary};
   }
 
   &:disabled {
-    color: ${({ theme }) => theme.color.greyDark};
+    color: ${({ theme }) => theme.color.textSecondary};
     opacity: 0.6;
   }
 `;

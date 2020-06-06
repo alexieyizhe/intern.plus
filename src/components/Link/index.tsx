@@ -19,7 +19,7 @@ export const baseLinkStyles = css`
   color: inherit;
   cursor: pointer;
 
-  text-decoration-color: ${({ theme }) => theme.color.greyLight};
+  text-decoration-color: ${({ theme }) => theme.color.backgroundSecondary};
   text-decoration: underline;
   &.bare {
     text-decoration: none;

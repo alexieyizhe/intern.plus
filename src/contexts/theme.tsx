@@ -2,7 +2,7 @@ import React, { createContext, useContext, useMemo } from "react";
 import { ThemeProvider } from "styled-components";
 import useDarkMode from "use-dark-mode";
 
-import siteTheme from "src/theme";
+import { lightTheme, darkTheme } from "src/theme";
 
 export type ThemeMode = "light" | "dark";
 
@@ -32,10 +32,7 @@ export const SiteThemeContextProvider: React.FC = ({ children, ...rest }) => {
     toggleDarkMode,
   };
 
-  const themeValue =
-    curMode === "light"
-      ? siteTheme
-      : { ...siteTheme, color: { ...(siteTheme as any).color, black: "#fff" } };
+  const themeValue = curMode === "light" ? lightTheme : darkTheme;
 
   return (
     <SiteThemeContext.Provider value={stateValue} {...rest}>

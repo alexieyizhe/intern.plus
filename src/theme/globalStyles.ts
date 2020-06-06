@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
   @font-face {
     font-family: "Sharp Sans";
     font-weight: bold;
+    font-display: swap;
     src: url(${SharpSansBold});
   }
 

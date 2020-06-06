@@ -34,7 +34,7 @@ const Logo = styled.img`
   opacity: 0.7;
   width: 30px;
 
-  transition: opacity 150ms ease-out;
+  transition: opacity 100ms ease-out;
   &:hover,
   &:focus {
     opacity: 0.8;
@@ -64,7 +64,7 @@ const Footer = () => (
 
     {copy.sublinks.map(({ label, to, newTab }) => (
       <Link newTab={newTab} to={to} bare key={label}>
-        <Text variant="body" color="greyMedium">
+        <Text variant="body" color="textTertiary">
           {label}
         </Text>
       </Link>

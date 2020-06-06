@@ -38,8 +38,8 @@ export interface ISearchFieldProps
 const ENTER_KEY_CODE = 13;
 
 const renderSuggestion = (suggestion: string) => (
-  <Suggestion color="greyLight">
-    <Text variant="subheading" color="greyDark">
+  <Suggestion color="backgroundSecondary">
+    <Text variant="subheading" color="textSecondary">
       {suggestion}
     </Text>
   </Suggestion>
@@ -70,7 +70,7 @@ const Container = styled.div`
     border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: opacity 150ms ease-in;
+    transition: opacity 100ms ease-in;
     opacity: 0;
   }
 
@@ -112,8 +112,8 @@ const Container = styled.div`
   }
 
   & .react-autosuggest__suggestion--highlighted span {
-    transition: color 150ms ease-in;
-    color: ${({ theme }) => theme.color.black};
+    transition: color 100ms ease-in;
+    color: ${({ theme }) => theme.color.textPrimary};
   }
 `;
 
@@ -131,11 +131,11 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   onTriggerSearch,
   fuseOptions = {},
   suggestions,
-  inputProps = { color: "greyLight" },
+  inputProps = { color: "backgroundSecondary" },
   buttonProps = {
-    color: "greenDark",
+    color: "greenPrimary",
     contents: (
-      <Text variant="body" color="white">
+      <Text variant="body" color="backgroundPrimary">
         Search
       </Text>
     ),

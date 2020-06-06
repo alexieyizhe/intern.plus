@@ -139,7 +139,7 @@ const JobCard: React.FC<IJobCardProps> = ({
 }) => (
   <Container
     className={classNames("job-card", className)}
-    color="greyLight"
+    color="backgroundSecondary"
     {...rest}
   >
     <Link to={linkTo} tabIndex={0}>
@@ -150,17 +150,22 @@ const JobCard: React.FC<IJobCardProps> = ({
       >
         {heading}
       </Text>
-      <Text className="subheading" variant="heading4" as="div" color="greyDark">
+      <Text
+        className="subheading"
+        variant="heading4"
+        as="div"
+        color="textSecondary"
+      >
         {subheading}
       </Text>
 
       <div className="ratings">
         <StarRating maxStars={5} value={Math.round(avgRating)} readOnly>
-          <Text variant="body" color="black">
+          <Text variant="body" color="textPrimary">
             {avgRating.toFixed(1)}
           </Text>
           &nbsp;
-          <Text variant="body" color="greyDark">
+          <Text variant="body" color="textSecondary">
             ({numRatings})
           </Text>
         </StarRating>

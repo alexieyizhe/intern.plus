@@ -5,7 +5,7 @@ import Button from "./index";
 
 describe("Button component", () => {
   it("renders properly", () => {
-    mount(withTheme(<Button color="greenDark">Sup</Button>));
+    mount(withTheme(<Button color="greenPrimary">Sup</Button>));
     cy.get("button").contains("Sup");
   });
 });

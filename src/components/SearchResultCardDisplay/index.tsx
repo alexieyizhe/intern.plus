@@ -63,7 +63,7 @@ const getMiscContent = (
   if (state === SearchState.INITIAL) {
     mood = "blissful";
     markup = (
-      <Text variant="subheading" as="div" align="center" color="greyDark">
+      <Text variant="subheading" as="div" align="center" color="textSecondary">
         {START_SEARCH_TEXT}
       </Text>
     );
@@ -83,14 +83,14 @@ const getMiscContent = (
   } else if (state === SearchState.NO_RESULTS) {
     mood = "sad";
     markup = (
-      <Text variant="subheading" as="div" align="center" color="greyDark">
+      <Text variant="subheading" as="div" align="center" color="textSecondary">
         {NO_RESULTS_TEXT}
       </Text>
     );
   } else if (state === SearchState.NO_MORE_RESULTS) {
     mood = "sad";
     markup = (
-      <Text variant="subheading" as="div" align="center" color="greyDark">
+      <Text variant="subheading" as="div" align="center" color="textSecondary">
         {NO_MORE_RESULTS_TEXT}
       </Text>
     );
@@ -146,7 +146,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
       : result.relativeDate;
     const tags = isReviewJobCardItem(result)
       ? [
-          { label: "review", bgColor: "greyMedium" },
+          { label: "review", bgColor: "textTertiary" },
           ...getReviewCardTags(result.tags, result.date),
         ]
       : undefined;

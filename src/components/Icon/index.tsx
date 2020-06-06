@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
-import { Size } from "src/theme/constants";
+import { Size } from "src/theme";
 
 import icons, { IconName } from "./icons";
 

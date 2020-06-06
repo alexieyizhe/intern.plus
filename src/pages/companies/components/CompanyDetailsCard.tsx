@@ -114,7 +114,7 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
           <Text
             className="subheading"
             variant="subheading"
-            color="greyDark"
+            color="textSecondary"
             as="div"
           >
             {companyDetails?.desc}
@@ -130,10 +130,18 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
             value={Math.round(companyDetails ? companyDetails.avgRating : 0)}
             readOnly
           >
-            <Text variant="subheading" className="rating-text" color="black">
+            <Text
+              variant="subheading"
+              className="rating-text"
+              color="textPrimary"
+            >
               {companyDetails?.avgRating.toFixed(1)}
             </Text>
-            <Text variant="subheading" className="rating-text" color="greyDark">
+            <Text
+              variant="subheading"
+              className="rating-text"
+              color="textSecondary"
+            >
               Overall
             </Text>
           </StarRating>
@@ -141,14 +149,14 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
             variant="subheading"
             as="div"
             className="num-ratings-text"
-            color="greyDark"
+            color="textSecondary"
           >
             {getRatingsText(companyDetails?.numRatings)}
           </Text>
         </div>
         {companyDetails?.websiteUrl && (
           <Link className="website" to={companyDetails?.websiteUrl} newTab>
-            <Text variant="subheading" color="black">
+            <Text variant="subheading" color="textPrimary">
               Website&nbsp;
             </Text>
             <Icon name={IconName.EXTERNAL_LINK} />

@@ -48,11 +48,11 @@ const Container = styled.header`
     height: 400%;
     bottom: 0;
 
-    background-color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.backgroundPrimary};
     border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: all 150ms ease-in;
+    transition: all 100ms ease-in;
     opacity: 0;
   }
 
@@ -119,7 +119,7 @@ const Logo = styled.div`
       display: inline-block;
       margin-top: 1px;
 
-      transition: transform 150ms ease-in;
+      transition: transform 100ms ease-in;
       &.up {
         transform: rotate(180deg);
       }
@@ -151,7 +151,7 @@ const NavLinks = styled.nav`
     justify-content: flex-start;
     align-items: flex-start;
 
-    transition: all 150ms ease-out;
+    transition: all 100ms ease-out;
     pointer-events: none;
     opacity: 0;
     &.show {
@@ -161,7 +161,7 @@ const NavLinks = styled.nav`
 
     & > * {
       margin: 0 0 10px 0;
-      color: ${theme.color.greyDark};
+      color: ${theme.color.textSecondary};
       font-size: 14px;
       font-weight: 500;
     }
@@ -179,7 +179,7 @@ const HeaderActionContainer = styled.div`
     cursor: pointer;
     margin-left: 10px;
 
-    transition: transform 150ms ease-out;
+    transition: transform 100ms ease-out;
     transform: scale(0.9);
     &:hover,
     &:focus {
@@ -286,7 +286,7 @@ const Header: React.FC = () => {
             <Text>home</Text>
           </Link>
         </NavLinks>
-        :0
+
         <HeaderActionContainer>
           <UnstyledButton
             onClick={toggleDarkMode}

@@ -50,7 +50,7 @@ const Indicator = styled.div<ITooltipProps>`
     display: block;
 
     z-index: 10;
-    animation: fadeIn 150ms ease-in-out;
+    animation: fadeIn 100ms ease-in-out;
     transform-origin: top
       ${({ position }) => (position === "right" ? "left" : "right")};
   }
@@ -70,8 +70,8 @@ const Indicator = styled.div<ITooltipProps>`
     text-align: left;
     line-height: 1.4;
 
-    color: ${({ theme }) => theme.color.black};
-    background-color: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.color.textPrimary};
+    background-color: ${({ theme }) => theme.color.backgroundPrimary};
     border-radius: ${({ theme }) => theme.borderRadius.button}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 

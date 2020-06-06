@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import { Size, VariantList } from "src/theme/constants";
+import { Size, VariantList } from "src/theme";
 import { useEasterEggContext } from "src/contexts";
 
 /*******************************************************************
@@ -44,7 +44,7 @@ export const TEXT_VARIANTS: VariantList<ITextProps> = {
   heading1: {
     heading: true,
     bold: true,
-    size: Size.XLARGE,
+    size: Size.XL,
   },
   heading2: {
     heading: true,

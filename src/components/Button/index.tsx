@@ -26,7 +26,7 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
     theme.color[color] || color || "inherit"};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 
-  transition: all 150ms;
+  transition: all 100ms;
   border-radius: ${({ theme }) => theme.borderRadius.button}px;
   border: 2px solid transparent;
 
@@ -40,7 +40,7 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
 
   &:focus:not(:disabled).focus-visible,
   &:active:not(:disabled) {
-    border: 2px solid ${({ theme }) => theme.color.greyMedium};
+    border: 2px solid ${({ theme }) => theme.color.textTertiary};
   }
 `;
 

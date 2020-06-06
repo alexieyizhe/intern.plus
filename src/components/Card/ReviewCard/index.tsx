@@ -123,7 +123,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
   return (
     <Container
       className={classNames("review-card", className)}
-      color="greyLight"
+      color="backgroundSecondary"
       {...rest}
     >
       <Link to={linkToWithState} tabIndex={0}>
@@ -135,7 +135,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
           {heading}
         </Text>
 
-        <Text className="subheading" variant="heading4" color="greyDark">
+        <Text className="subheading" variant="heading4" color="textSecondary">
           {subheading}
         </Text>
         <StarRating maxStars={5} value={rating || 0} readOnly />

@@ -97,7 +97,7 @@ export const Heading = styled(Text)`
   margin-bottom: 10px;
 
   & .grey {
-    color: ${({ theme }) => theme.color.greyDark};
+    color: ${({ theme }) => theme.color.textSecondary};
   }
 `;
 

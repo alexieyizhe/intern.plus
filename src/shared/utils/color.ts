@@ -2,8 +2,6 @@
  * Utility methods for dealing with colors.
  */
 
-import themeConstants from "src/theme/constants";
-
 export const strToHSL = (string: string) => {
   let hash = 0;
   if (string.length !== 0) {
@@ -25,11 +23,7 @@ export const changeColorLightness = (hslString: string, newLum: number) => {
 };
 
 export const getDarkColor = (hslString?: string) =>
-  hslString
-    ? changeColorLightness(hslString, 42)
-    : (themeConstants.color.black as string);
+  hslString ? changeColorLightness(hslString, 42) : "#333333";
 
 export const getLightColor = (hslString?: string) =>
-  hslString
-    ? changeColorLightness(hslString, 90)
-    : (themeConstants.color.greyLight as string);
+  hslString ? changeColorLightness(hslString, 90) : "#f1f1f1";

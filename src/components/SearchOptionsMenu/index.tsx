@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 import { SearchType } from "src/shared/constants/search";
-import { Size } from "src/theme/constants";
+import { Size } from "src/theme";
 
 import { ChevronImg } from "src/assets";
 import { useMobileMenuContext } from "src/contexts";
@@ -78,7 +78,7 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
   box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
   z-index: ${({ theme }) => theme.zIndex.header - 1};
-  transition: transform 150ms;
+  transition: transform 100ms;
   transform: ${({ menuOpen }) =>
     menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH - 65}px)`};
 
@@ -179,7 +179,7 @@ const VerticalAlignContainer = styled.div`
 `;
 
 const CloseIndicator = styled(UnstyledButton)`
-  transition: transform 150ms;
+  transition: transform 100ms;
   transform: scale(0.9);
   cursor: pointer;
 
@@ -354,7 +354,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       className={classNames("options-menu", className, {
         "mobile-menu-open": isMobileMenuOpen,
       })}
-      color="greyLight"
+      color="backgroundSecondary"
       menuOpen={menuOpen}
       onFocus={() => setMenuOpen(true)}
       onClick={() => setMenuOpen(true)}
@@ -378,7 +378,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
           <CenterContainer>
             <Text variant="heading4">Sort</Text>
-            <Tooltip color="greyMedium">
+            <Tooltip color="textTertiary">
               <Text variant="body" as="div">
                 When sorting by salary: companies are sorted by their median,
                 whereas jobs are sorted by their average review salary.
@@ -392,7 +392,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
 
           <SortOptionSelect
             className="sort select"
-            color="white"
+            color="backgroundPrimary"
             placeholder="by..."
             options={sortOption.options}
             value={internalSortOptionVal || ""}
@@ -408,7 +408,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <VerticalAlignContainer>
             <TypeCheckbox
               className="type checkbox companies"
-              color="white"
+              color="backgroundPrimary"
               checked={internalTypeOptionVal === SearchType.COMPANIES}
               onChange={(e) =>
                 setInternalTypeOptionVal(
@@ -417,13 +417,13 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               }
               tabIndex={menuOpen ? 0 : -1}
             >
-              <Text variant="subheading" color="greyDark">
+              <Text variant="subheading" color="textSecondary">
                 companies only
               </Text>
             </TypeCheckbox>
             <TypeCheckbox
               className="type checkbox jobs"
-              color="white"
+              color="backgroundPrimary"
               checked={internalTypeOptionVal === SearchType.JOBS}
               onChange={(e) =>
                 setInternalTypeOptionVal(
@@ -432,13 +432,13 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               }
               tabIndex={menuOpen ? 0 : -1}
             >
-              <Text variant="subheading" color="greyDark">
+              <Text variant="subheading" color="textSecondary">
                 positions only
               </Text>
             </TypeCheckbox>
             <TypeCheckbox
               className="type checkbox reviews"
-              color="white"
+              color="backgroundPrimary"
               checked={internalTypeOptionVal === SearchType.REVIEWS}
               onChange={(e) =>
                 setInternalTypeOptionVal(
@@ -447,7 +447,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
               }
               tabIndex={menuOpen ? 0 : -1}
             >
-              <Text variant="subheading" color="greyDark">
+              <Text variant="subheading" color="textSecondary">
                 reviews only
               </Text>
             </TypeCheckbox>
@@ -460,7 +460,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
             <CenterContainer>
               <Text variant="heading4">Salary</Text>
-              <Tooltip color="greyMedium">
+              <Tooltip color="textTertiary">
                 <Text variant="body">
                   The minimum and maximum hourly salary to search for.
                 </Text>
@@ -482,7 +482,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                     ]);
                   }
                 }}
-                color="white"
+                color="backgroundPrimary"
                 placeholder="min"
                 className="salary min"
               />
@@ -504,7 +504,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                   ]);
                 }
               }}
-              color="white"
+              color="backgroundPrimary"
               placeholder="max"
               className="salary max"
             />
@@ -517,7 +517,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <Text variant="heading4">Location</Text>
           <SortOptionSelect
             className="location select"
-            color="white"
+            color="backgroundPrimary"
             placeholder="California"
             isMulti
             value={internalLocationFilterOptionVal}
@@ -543,7 +543,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 ])
               }
             >
-              <Text variant="subheading" color="greyDark">
+              <Text variant="subheading" color="textSecondary">
                 min
               </Text>
             </StarRating>
@@ -558,7 +558,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
                 ])
               }
             >
-              <Text variant="subheading" color="greyDark">
+              <Text variant="subheading" color="textSecondary">
                 max
               </Text>
             </StarRating>
@@ -569,16 +569,16 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       <ActionContainer>
         <Button
           onClick={applyOptions}
-          color="greenDark"
+          color="greenPrimary"
           className="apply-button"
         >
-          <Text variant="subheading" color="white">
+          <Text variant="subheading" color="backgroundPrimary">
             Apply
           </Text>
         </Button>
 
         <UnstyledButton onClick={resetOptions} className="reset-options-button">
-          <Text variant="subheading" color="greyDark">
+          <Text variant="subheading" color="textSecondary">
             reset all
           </Text>
         </UnstyledButton>
