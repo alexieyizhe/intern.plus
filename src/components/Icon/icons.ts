@@ -5,6 +5,8 @@ import {
   StarEmptyIcon,
   StarFilledIcon,
   ExternalLinkIcon,
+  SunIcon,
+  MoonIcon,
 } from "src/assets";
 
 export enum IconName {
@@ -14,6 +16,8 @@ export enum IconName {
   STAR_EMPTY = "star-empty",
   STAR_FILLED = "star-filled",
   EXTERNAL_LINK = "external-link",
+  SUN = "sun",
+  MOON = "moon",
 }
 
 export default {
@@ -23,4 +27,6 @@ export default {
   [IconName.STAR_EMPTY]: StarEmptyIcon,
   [IconName.STAR_FILLED]: StarFilledIcon,
   [IconName.EXTERNAL_LINK]: ExternalLinkIcon,
+  [IconName.SUN]: SunIcon,
+  [IconName.MOON]: MoonIcon,
 };

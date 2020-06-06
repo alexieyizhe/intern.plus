@@ -5,7 +5,11 @@ import classNames from "classnames";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/shared/constants/routing";
-import { useMobileMenuContext, useAddReviewModalContext } from "src/contexts";
+import {
+  useMobileMenuContext,
+  useAddReviewModalContext,
+  useSiteThemeContext,
+} from "src/contexts";
 import copy from "./copy";
 
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
@@ -172,16 +176,15 @@ const HeaderActionContainer = styled.div`
   justify-content: flex-end;
 
   & button {
+    cursor: pointer;
+    margin-left: 10px;
+
     transition: transform 150ms ease-out;
     transform: scale(0.9);
     &:hover,
     &:focus {
       transform: scale(1);
     }
-  }
-
-  & svg {
-    cursor: pointer;
   }
 `;
 
@@ -216,10 +219,17 @@ const Header: React.FC = () => {
     toggleAddReviewModal,
     isAddReviewModalOpen,
   } = useAddReviewModalContext();
+  const { curTheme, setCurTheme } = useSiteThemeContext();
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [
     setMobileMenuOpen,
   ]);
+
+  const toggleLightDarkMode = useCallback(
+    () =>
+      setCurTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light")),
+    [setCurTheme]
+  );
 
   /**
    * If the add review button is clicked, set the background page to
@@ -285,6 +295,19 @@ const Header: React.FC = () => {
         </NavLinks>
 
         <HeaderActionContainer>
+          <UnstyledButton
+            onClick={toggleLightDarkMode}
+            aria-label="Toggle theme button"
+          >
+            <Icon
+              name={
+                curTheme === "dark"
+                  ? copy.toggleTheme.light.name
+                  : copy.toggleTheme.dark.name
+              }
+              size={24}
+            />
+          </UnstyledButton>
           <UnstyledButton
             onClick={toggleAddReviewModal}
             aria-label="Add review button"

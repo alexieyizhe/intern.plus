@@ -22,4 +22,14 @@ export default {
       alt: "Icon to dismiss add review modal",
     },
   },
+  toggleTheme: {
+    dark: {
+      name: IconName.MOON,
+      alt: "Moon icon indicating dark mode",
+    },
+    light: {
+      name: IconName.SUN,
+      alt: "Sun icon indicating light mode",
+    },
+  },
 };
