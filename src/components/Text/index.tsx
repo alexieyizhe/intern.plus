@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 
 import { Size, VariantList } from "src/theme/constants";
-import { useSiteContext } from "src/context";
+import { useEasterEggContext } from "src/contexts";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -105,7 +105,7 @@ const Text: React.FC<ITextProps> = ({
   children,
   ...rest
 }) => {
-  const { state } = useSiteContext();
+  const { isEasterEggActive } = useEasterEggContext();
   /**
    * Calculate the styles that will be applied to the Text component from the provided props.
    * If a variant is supplied, use those styles, and override with other props.
@@ -119,9 +119,9 @@ const Text: React.FC<ITextProps> = ({
     return {
       ...stylesFromVariant,
       ...rest, // override variant if needed
-      easterEgg: state.easterEggActive,
+      easterEgg: isEasterEggActive,
     };
-  }, [rest, state.easterEggActive, variant]);
+  }, [isEasterEggActive, rest, variant]);
 
   return (
     <BaseText as={as} {...propsToApply}>

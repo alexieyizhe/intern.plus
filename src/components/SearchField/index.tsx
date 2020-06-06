@@ -9,7 +9,7 @@ import Autosuggest, {
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
-import { useSiteContext } from "src/context";
+import { useMobileMenuContext } from "src/contexts";
 
 import Button, { IButtonProps } from "src/components/Button";
 import Text from "src/components/Text";
@@ -142,9 +142,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   },
   ...rest
 }) => {
-  const {
-    state: { mobileMenuOpen },
-  } = useSiteContext();
+  const { isMobileMenuOpen } = useMobileMenuContext();
 
   const { scrollY } = useWindowScrollPos();
   const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
@@ -215,7 +213,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
     <Container
       className={classNames(className, "search-field", {
         scrolled: scrolledDown,
-        "mobile-menu-open": mobileMenuOpen,
+        "mobile-menu-open": isMobileMenuOpen,
       })}
       {...rest}
     >

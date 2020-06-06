@@ -6,7 +6,6 @@ import { RouteName } from "src/shared/constants/routing";
 import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
 import ReviewPage from "src/pages/reviews/components/ReviewPage";
-import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 
 /**
  * Page router will either:
@@ -27,9 +26,6 @@ const ReviewsRouteHandler = () => {
           to={`${RouteName.SEARCH}?${SearchParamKey.TYPE}=${SearchType.REVIEWS}`}
         />
       </Route>
-
-      {/* TODO: make this into a ModalRenderer */}
-      <AddReviewModal />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from "react";
-import { useSiteContext, ActionType } from "src/context";
+import { useEasterEggContext } from "src/contexts";
 
 const UP = 38;
 const DOWN = 40;
@@ -15,7 +15,7 @@ const CODE_SEQUENCE = [UP, UP, DOWN, DOWN, LEFT, RIGHT, LEFT, RIGHT, B, A]; // k
  * just for funsies.
  */
 export const useEasterEgg = () => {
-  const { dispatch } = useSiteContext();
+  const { toggleEasterEgg } = useEasterEggContext();
 
   const [sequenceSoFar, setSequenceSoFar] = useState(0);
 
@@ -32,9 +32,9 @@ export const useEasterEgg = () => {
 
   useEffect(() => {
     if (sequenceSoFar === CODE_SEQUENCE.length) {
-      dispatch({ type: ActionType.TOGGLE_EASTER_EGG });
+      toggleEasterEgg();
     }
-  }, [dispatch, sequenceSoFar]);
+  }, [sequenceSoFar, toggleEasterEgg]);
 
   useEffect(() => {
     window.addEventListener("keydown", trackCode);

@@ -9,7 +9,7 @@ import { SearchType } from "src/shared/constants/search";
 import { Size } from "src/theme/constants";
 
 import { ChevronImg } from "src/assets";
-import { useSiteContext } from "src/context";
+import { useMobileMenuContext } from "src/contexts";
 
 import Button, { UnstyledButton } from "src/components/Button";
 import Card from "src/components/Card";
@@ -228,9 +228,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   locationOption,
   onOptionChange,
 }) => {
-  const {
-    state: { mobileMenuOpen },
-  } = useSiteContext();
+  const { isMobileMenuOpen } = useMobileMenuContext();
   const { windowWidth } = useWindowWidth();
 
   /**
@@ -354,7 +352,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   return (
     <Container
       className={classNames("options-menu", className, {
-        "mobile-menu-open": mobileMenuOpen,
+        "mobile-menu-open": isMobileMenuOpen,
       })}
       color="greyLight"
       menuOpen={menuOpen}

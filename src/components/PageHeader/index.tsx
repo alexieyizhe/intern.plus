@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/shared/constants/routing";
-import { useSiteContext, ActionType } from "src/context";
+import { useMobileMenuContext, useAddReviewModalContext } from "src/contexts";
 import copy from "./copy";
 
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
@@ -208,22 +208,18 @@ const Header: React.FC = () => {
    * State and callbacks for mobile menu and add review modal.
    */
   const {
-    state: { mobileMenuOpen, addReviewModalOpen },
-    dispatch,
-  } = useSiteContext();
+    isMobileMenuOpen,
+    toggleMobileMenu,
+    setMobileMenuOpen,
+  } = useMobileMenuContext();
+  const {
+    toggleAddReviewModal,
+    isAddReviewModalOpen,
+  } = useAddReviewModalContext();
 
-  const closeMobileMenu = useCallback(
-    () => dispatch({ type: ActionType.CLOSE_MOBILE_MENU }),
-    [dispatch]
-  );
-  const toggleMobileMenu = useCallback(
-    () => dispatch({ type: ActionType.TOGGLE_MOBILE_MENU }),
-    [dispatch]
-  );
-  const toggleAddReviewModal = useCallback(
-    () => dispatch({ type: ActionType.TOGGLE_ADD_REVIEW_MODAL }),
-    [dispatch]
-  );
+  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [
+    setMobileMenuOpen,
+  ]);
 
   /**
    * If the add review button is clicked, set the background page to
@@ -253,7 +249,7 @@ const Header: React.FC = () => {
     <Container
       className={classNames({
         scrolled: scrolledDown,
-        "mobile-menu-open": mobileMenuOpen,
+        "mobile-menu-open": isMobileMenuOpen,
       })}
       ref={headerRef}
     >
@@ -263,7 +259,7 @@ const Header: React.FC = () => {
             <img className="logo-img" src={copy.logo.src} alt={copy.logo.alt} />
 
             <img
-              className={`chevron ${mobileMenuOpen ? "up" : "down"}`}
+              className={`chevron ${isMobileMenuOpen ? "up" : "down"}`}
               src={copy.mobileToggle.src}
               alt={copy.mobileToggle.alt}
             />
@@ -271,8 +267,8 @@ const Header: React.FC = () => {
         </Logo>
 
         <NavLinks
-          className={mobileMenuOpen ? "show" : undefined}
-          aria-hidden={isMobileUser && !mobileMenuOpen ? "false" : "true"}
+          className={isMobileMenuOpen ? "show" : undefined}
+          aria-hidden={isMobileUser && !isMobileMenuOpen ? "false" : "true"}
         >
           <Link to={RouteName.COMPANIES} bare>
             <Text>companies</Text>
@@ -295,7 +291,7 @@ const Header: React.FC = () => {
           >
             <Icon
               name={
-                addReviewModalOpen
+                isAddReviewModalOpen
                   ? copy.addReview.openIcon.name
                   : copy.addReview.closedIcon.name
               }

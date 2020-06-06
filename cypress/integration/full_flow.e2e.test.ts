@@ -1,3 +1,4 @@
+/// <reference types="../support" />
 /**
  * - Visit landing page
  * - Type: 'Google' in search input
