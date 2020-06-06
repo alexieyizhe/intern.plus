@@ -27,9 +27,14 @@ export const SiteThemeContextProvider: React.FC = ({ children, ...rest }) => {
     setCurTheme,
   };
 
+  const themeValue =
+    curTheme === "light"
+      ? siteTheme
+      : { ...siteTheme, color: { ...(siteTheme as any).color, black: "#fff" } };
+
   return (
     <SiteThemeContext.Provider value={stateValue} {...rest}>
-      <ThemeProvider theme={siteTheme}>{children}</ThemeProvider>
+      <ThemeProvider theme={themeValue}>{children}</ThemeProvider>
     </SiteThemeContext.Provider>
   );
 };
