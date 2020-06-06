@@ -8,7 +8,6 @@ import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 import { SearchType } from "src/shared/constants/search";
 import { Size } from "src/theme";
 
-import { ChevronImg } from "src/assets";
 import { useMobileMenuContext } from "src/contexts";
 
 import Button, { UnstyledButton } from "src/components/Button";
@@ -21,6 +20,7 @@ import Checkbox from "src/components/Checkbox";
 import StarRating from "src/components/StarRating";
 import { HEADER_HEIGHT, MOBILE_MENU_HEIGHT } from "src/components/PageHeader";
 import { baseLinkStyles } from "src/components/Link";
+import Icon, { IconName } from "src/components/Icon";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -188,8 +188,7 @@ const CloseIndicator = styled(UnstyledButton)`
     transform: scale(1);
   }
 
-  & > img {
-    width: 20px;
+  & > svg {
     transform: rotate(-90deg);
   }
 `;
@@ -370,7 +369,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           onClick={onCloseIndicatorClick}
           tabIndex={menuOpen ? 0 : -1}
         >
-          <img src={ChevronImg} alt="Chevron icon" />
+          <Icon name={IconName.CHEVRON} size={16} />
         </CloseIndicator>
       </CenterContainer>
 

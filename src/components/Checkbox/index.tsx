@@ -94,8 +94,8 @@ const checkedStyles = css`
 const StyledCheckbox = styled.span<{ color?: string }>`
   ${sharedStyles}
 
-  background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
+  background-color: ${({ color = "inherit", theme }) =>
+    theme.color[color] || color};
 
   border: 1.5px solid ${({ theme }) => theme.color.textTertiary};
   border-radius: ${({ theme }) => theme.borderRadius.small}px;

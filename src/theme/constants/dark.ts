@@ -9,7 +9,7 @@ export const darkTheme: SiteTheme = {
 
     textPrimary: "#ffffff",
     textSecondary: "#c6c6c6",
-    textTertiary: "#787878",
+    textTertiary: "#aaaaaa",
 
     goldPrimary: "#ffdc76",
     goldSecondary: "#CFB316",

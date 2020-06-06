@@ -56,13 +56,20 @@ const Icon: React.FC<IconProps> = ({
   const iconSize = sizeForWidth
     ? fontSize[sizeForWidth] || sizeForWidth
     : fontSize[DEFAULT_ICON_SIZE];
-  const iconColor = color ? themeColors[color] || color : themeColors.black;
+  const iconColor = color
+    ? themeColors[color] || color
+    : themeColors.textPrimary;
   const IconSVG = useMemo(() => icons[name], [name]);
 
   const RenderedComponent = useMemo(
     () =>
       icons[name] ? (
-        <IconSVG width={iconSize} height={iconSize} color={iconColor} />
+        <IconSVG
+          width={iconSize}
+          height={iconSize}
+          color={iconColor}
+          className={className}
+        />
       ) : (
         <NoIconFound
           name={name}

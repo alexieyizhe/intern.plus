@@ -5,6 +5,7 @@ import copy from "./copy";
 
 import Link from "src/components/Link";
 import Text from "src/components/Text";
+import Icon, { IconName } from "src/components/Icon";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -29,7 +30,7 @@ const Container = styled.footer`
   }
 `;
 
-const Logo = styled.img`
+const Logo = styled(Icon).attrs({ name: IconName.LOGO })`
   cursor: pointer;
   opacity: 0.7;
   width: 30px;
@@ -51,11 +52,10 @@ const Logo = styled.img`
 const Footer = () => (
   <Container>
     <Logo
-      src={copy.logo.src}
-      alt={copy.logo.alt}
       role="button"
       tabIndex={0}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      size={24}
     />
 
     <Text className="subheading" variant="heading4">

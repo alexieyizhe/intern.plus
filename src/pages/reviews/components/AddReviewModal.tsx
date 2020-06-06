@@ -748,8 +748,8 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   maxStars={5}
                   value={reviewState.values["overallRating"]}
                   onChange={(stars) => onReviewChange("overallRating", stars)}
-                  color="goldPrimary"
                   disabled={isConfirmingSubmit || isSubmitting}
+                  golden
                 />
               </HorizontalField>
               <HorizontalField

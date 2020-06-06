@@ -17,7 +17,7 @@ import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 
 import { UnstyledButton } from "src/components/Button";
-import Icon from "src/components/Icon";
+import Icon, { IconName } from "src/components/Icon";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
@@ -261,12 +261,12 @@ const Header: React.FC = () => {
       <InnerContainer>
         <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
           <UnstyledButton>
-            <img className="logo-img" src={copy.logo.src} alt={copy.logo.alt} />
+            <Icon className="logo-img" name={IconName.LOGO_TEXT} size={100} />
 
-            <img
+            <Icon
               className={`chevron ${isMobileMenuOpen ? "up" : "down"}`}
-              src={copy.mobileToggle.src}
-              alt={copy.mobileToggle.alt}
+              name={IconName.CHEVRON}
+              color="textSecondary"
             />
           </UnstyledButton>
         </Logo>

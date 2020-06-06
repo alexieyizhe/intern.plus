@@ -71,8 +71,8 @@ export const inputStyles = css<IInputStyleOptions>`
   width: 100%;
   padding: ${({ theme }) => theme.padding.input};
 
-  color: ${({ textColor = "", theme }) =>
-    theme.color[textColor] || textColor || "inherit"};
+  color: ${({ textColor = "textPrimary", theme }) =>
+    theme.color[textColor] || textColor};
   font-family: ${({ heading, theme }) =>
     theme.fontFamily[heading ? "heading" : "body"]};
   font-size: ${({ textSize = Size.SMALL, theme }) =>
