@@ -6,7 +6,7 @@ import places, { PlacesInstance, ChangeEvent } from "places.js";
 
 import { useAddReviewModalContext, useMobileMenuContext } from "src/contexts";
 import { slugify } from "src/shared/utils/misc";
-import { Size } from "src/theme/constants";
+import { Size } from "src/theme";
 
 import { useCompanySuggestions } from "src/shared/hooks/useCompanySuggestions";
 import { useJobSuggestions } from "src/shared/hooks/useJobSuggestions";
@@ -58,7 +58,7 @@ const salaryPeriodOptions = ["hourly", "weekly", "monthly"].map((period) => ({
 const ModalContainer = styled.div`
   position: fixed;
   width: 650px;
-  top: ${HEADER_HEIGHT + 5}px;
+  top: ${HEADER_HEIGHT + 15}px;
   right: ${({ theme }) => theme.padding.pageHorizontal}px;
   z-index: -1;
 
@@ -79,7 +79,7 @@ const ModalContainer = styled.div`
   `}
 `;
 
-const InnerContainer = styled(Card)`
+const InnerContainer = styled(Card)<{ inert?: true }>`
   position: relative;
   margin-left: auto;
   max-width: 100%;
@@ -89,10 +89,11 @@ const InnerContainer = styled(Card)`
   display: flex;
   flex-direction: column;
 
-  box-shadow: ${({ theme }) => theme.boxShadow.hover};
+  box-shadow: ${({ theme }) => theme.boxShadow.hover},
+    0px 0px 0px 2px ${({ theme }) => theme.color.backgroundSecondary};
   overflow-y: scroll;
 
-  transition: all 150ms ease-out;
+  transition: all 100ms ease-out;
   opacity: 0;
   transform: translateY(10px);
   &.open {
@@ -248,8 +249,8 @@ const LocationInput = styled(TextInput)`
   & ~ .ap-dropdown-menu {
     margin-top: 6px;
 
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
-    background-color: ${({ theme }) => theme.color.greyLight};
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
+    background-color: ${({ theme }) => theme.color.backgroundSecondary};
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
     font-family: ${({ theme }) => theme.fontFamily.body};
@@ -260,12 +261,13 @@ const LocationInput = styled(TextInput)`
       line-height: 40px;
 
       & .ap-name {
-        color: ${({ theme }) => theme.color.greyDark};
+        color: ${({ theme }) => theme.color.textSecondary};
       }
 
       &.ap-cursor {
+        background: none;
         & .ap-name {
-          color: ${({ theme }) => theme.color.black};
+          color: ${({ theme }) => theme.color.textPrimary};
         }
       }
     }
@@ -314,7 +316,7 @@ const SubmittedText = styled(Text)`
 
 const ActionButton = styled(Button)`
   min-width: 100px;
-  transition: all 150ms ease;
+  transition: all 100ms ease;
 
   display: flex;
   justify-content: center;
@@ -523,12 +525,13 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
           isConfirmingSubmit,
         })}
         aria-hidden={isAddReviewModalOpen ? "false" : "true"}
-        color="white"
+        inert={isAddReviewModalOpen ? true : undefined}
+        color="backgroundPrimary"
       >
         {submitted ? (
           <SubmittedText
             variant="subheading"
-            color={submitSuccess ? "greenDark" : "error"}
+            color={submitSuccess ? "greenPrimary" : "error"}
             align="center"
           >
             {submitSuccess ? SUBMIT_SUCCESS_TEXT : SUBMIT_ERROR_TEXT}
@@ -546,18 +549,19 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   variant="subheading"
                   className="label"
                   as="h4"
-                  color="greyDark"
+                  color="textSecondary"
                 >
                   Company name*
                 </Text>
                 <Select
                   placeholder="Search or create"
-                  color="greyLight"
+                  color="backgroundSecondary"
                   disabled={isConfirmingSubmit || isSubmitting}
                   creatable
                   options={companyOptions}
                   value={reviewState.values["company"]}
                   onChange={(option) => onReviewChange("company", option)}
+                  tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                 />
               </VerticalField>
               <VerticalField
@@ -566,10 +570,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 })}
               >
                 <LabelTooltipCombo className="label">
-                  <Text variant="subheading" as="h4" color="greyDark">
+                  <Text variant="subheading" as="h4" color="textSecondary">
                     Position title*
                   </Text>
-                  <Tooltip color="greyMedium">
+                  <Tooltip color="textTertiary">
                     <Text variant="body" as="div">
                       The name of the position in your review. If the position
                       doesn't exist, create one using the 'Create' option.
@@ -590,7 +594,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       ? "Select company first"
                       : "Search or create"
                   }
-                  color="greyLight"
+                  color="backgroundSecondary"
                   disabled={
                     isConfirmingSubmit ||
                     isSubmitting ||
@@ -610,6 +614,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       )?.location
                     );
                   }}
+                  tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                 />
               </VerticalField>
             </RowContainer>
@@ -623,14 +628,14 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   variant="subheading"
                   className="label"
                   as="h4"
-                  color="greyDark"
+                  color="textSecondary"
                 >
                   Location*
                 </Text>
                 <LocationInput
                   id="location-input"
                   placeholder="e.g. Waterloo, ON"
-                  color="greyLight"
+                  color="backgroundSecondary"
                   disabled={
                     isConfirmingSubmit ||
                     isSubmitting ||
@@ -639,6 +644,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   }
                   value={reviewState.values["location"] || ""}
                   onChange={(e) => onReviewChange("location", e.target.value)}
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 />
               </LocationField>
               <SalaryField
@@ -653,7 +659,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   variant="subheading"
                   className="label"
                   as="h4"
-                  color="greyDark"
+                  color="textSecondary"
                 >
                   Salary*
                 </Text>
@@ -663,7 +669,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     placeholder="Amount"
                     type="number"
                     min={0}
-                    color="greyLight"
+                    color="backgroundSecondary"
                     disabled={
                       isConfirmingSubmit ||
                       isSubmitting ||
@@ -673,11 +679,12 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onChange={(e) =>
                       onReviewChange("salary", parseInt(e.target.value))
                     }
+                    tabIndex={isAddReviewModalOpen ? 0 : -1}
                   />
                   <Select
                     className="salary-currency"
                     placeholder="$€¥"
-                    color="greyLight"
+                    color="backgroundSecondary"
                     disabled={
                       isConfirmingSubmit ||
                       isSubmitting ||
@@ -693,11 +700,12 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onChange={(option) =>
                       onReviewChange("salaryCurrency", option)
                     }
+                    tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                   />
                   <Select
                     className="salary-period"
                     placeholder="Period"
-                    color="greyLight"
+                    color="backgroundSecondary"
                     disabled={
                       isConfirmingSubmit ||
                       isSubmitting ||
@@ -714,17 +722,19 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                         (option as { value: string })?.value
                       )
                     }
+                    tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                   />
                 </div>
                 <Checkbox
                   className="no-salary-provided-checkbox"
-                  color="greyLight"
+                  color="backgroundSecondary"
                   checked={reviewState.values.noSalaryProvided}
                   onChange={(e) =>
                     onReviewChange("noSalaryProvided", e.target.checked)
                   }
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 >
-                  <Text variant="body" color="greyDark">
+                  <Text variant="body" color="textSecondary">
                     I do not wish to disclose my salary.
                   </Text>
                 </Checkbox>
@@ -740,7 +750,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   variant="subheading"
                   className="label"
                   as="h4"
-                  color="greyDark"
+                  color="textSecondary"
                 >
                   Overall rating*
                 </Text>
@@ -748,8 +758,9 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   maxStars={5}
                   value={reviewState.values["overallRating"]}
                   onChange={(stars) => onReviewChange("overallRating", stars)}
-                  color="goldDark"
                   disabled={isConfirmingSubmit || isSubmitting}
+                  golden
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 />
               </HorizontalField>
               <HorizontalField
@@ -765,7 +776,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   variant="subheading"
                   className="label"
                   as="h4"
-                  color="greyDark"
+                  color="textSecondary"
                 >
                   Work-life balance*
                 </Text>
@@ -792,7 +803,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   variant="subheading"
                   className="label"
                   as="h4"
-                  color="greyDark"
+                  color="textSecondary"
                 >
                   Learning &amp; mentorship*
                 </Text>
@@ -818,7 +829,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   variant="subheading"
                   className="label"
                   as="h4"
-                  color="greyDark"
+                  color="textSecondary"
                 >
                   Meaningful work*
                 </Text>
@@ -842,19 +853,20 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   variant="subheading"
                   className="label"
                   as="h4"
-                  color="greyDark"
+                  color="textSecondary"
                 >
                   Review*
                 </Text>
                 <TextArea
                   placeholder="Share your thoughts"
-                  color="greyLight"
+                  color="backgroundSecondary"
                   disabled={isConfirmingSubmit || isSubmitting}
                   value={reviewState.values["body"]}
                   onChange={(e) => onReviewChange("body", e.target.value)}
                   maxLength={5000}
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 />
-                <CountText variant="subheading" color="greyDark">
+                <CountText variant="subheading" color="textSecondary">
                   {`${4000 - (reviewState.values["body"]?.length || 0)}/4000`}
                 </CountText>
               </VerticalField>
@@ -866,10 +878,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 })}
               >
                 <LabelTooltipCombo className="label">
-                  <Text variant="subheading" as="h4" color="greyDark">
+                  <Text variant="subheading" as="h4" color="textSecondary">
                     Tags
                   </Text>
-                  <Tooltip position="right" color="greyMedium">
+                  <Tooltip position="right" color="textTertiary">
                     <Text variant="body" as="div">
                       Optional keywords related to your review. Maximum of 5.
                     </Text>
@@ -877,7 +889,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 </LabelTooltipCombo>
                 <Select
                   placeholder="e.g. hardware, startup"
-                  color="greyLight"
+                  color="backgroundSecondary"
                   components={{ DropdownIndicator: null }}
                   disabled={isConfirmingSubmit || isSubmitting}
                   creatable
@@ -889,8 +901,9 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   onInputChange={onTagsInputChange}
                   value={reviewState.values["tags"]}
                   inputValue={tagsInputValue}
+                  tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                 />
-                <CountText variant="subheading" color="greyDark">
+                <CountText variant="subheading" color="textSecondary">
                   {`${5 - (reviewState.values["tags"]?.length || 0)}/5`}
                 </CountText>
               </VerticalField>
@@ -902,10 +915,10 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 })}
               >
                 <LabelTooltipCombo className="label">
-                  <Text variant="subheading" as="h4" color="greyDark">
+                  <Text variant="subheading" as="h4" color="textSecondary">
                     Email*
                   </Text>
-                  <Tooltip position="right" color="greyMedium">
+                  <Tooltip position="right" color="textTertiary">
                     <Text variant="body" as="div">
                       Your email will only be used for spam prevention.
                     </Text>
@@ -913,7 +926,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 </LabelTooltipCombo>
 
                 <TextInput
-                  color="greyLight"
+                  color="backgroundSecondary"
                   placeholder="jimothy@example.com"
                   type="email"
                   disabled={isConfirmingSubmit || isSubmitting}
@@ -921,6 +934,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   onChange={(e) =>
                     onReviewChange("authorEmail", e.target.value)
                   }
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 />
               </VerticalField>
             </RowContainer>
@@ -933,18 +947,19 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 className="submit-button"
                 color={
                   isSubmitting
-                    ? "greyMedium"
+                    ? "textTertiary"
                     : isConfirmingSubmit
-                    ? "greenDark"
-                    : "black"
+                    ? "greenSecondary"
+                    : "textPrimary"
                 }
                 disabled={isSubmitting}
                 onClick={isConfirmingSubmit ? onSubmit : onPotentialSubmit}
+                tabIndex={isAddReviewModalOpen ? 0 : -1}
               >
                 {isSubmitting ? (
-                  <Spinner color="white" size={16} />
+                  <Spinner color="backgroundPrimary" size={16} />
                 ) : (
-                  <Text variant="subheading" color="white">
+                  <Text variant="subheading" color="backgroundPrimary">
                     {isConfirmingSubmit ? "Confirm" : "Submit"}
                   </Text>
                 )}
@@ -956,7 +971,11 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   onClick={() => setIsConfirmingSubmit(false)}
                   aria-hidden={isConfirmingSubmit ? "false" : "true"}
                 >
-                  <Text variant="subheading" color="greyDark" align="center">
+                  <Text
+                    variant="subheading"
+                    color="textSecondary"
+                    align="center"
+                  >
                     cancel
                   </Text>
                 </UnstyledButton>

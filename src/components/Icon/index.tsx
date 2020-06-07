@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { deviceBreakpoints } from "src/theme/mediaQueries";
-import { Size } from "src/theme/constants";
+import { Size } from "src/theme";
 
 import icons, { IconName } from "./icons";
 
@@ -31,7 +31,7 @@ const NoIconFound = styled.span<IconProps>`
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
   background-color: ${({ color }) => color};
-  border-radius: ${({ theme }) => theme.borderRadius.card}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
 `;
 
 /*******************************************************************
@@ -56,13 +56,20 @@ const Icon: React.FC<IconProps> = ({
   const iconSize = sizeForWidth
     ? fontSize[sizeForWidth] || sizeForWidth
     : fontSize[DEFAULT_ICON_SIZE];
-  const iconColor = color ? themeColors[color] || color : themeColors.black;
+  const iconColor = color
+    ? themeColors[color] || color
+    : themeColors.textPrimary;
   const IconSVG = useMemo(() => icons[name], [name]);
 
   const RenderedComponent = useMemo(
     () =>
       icons[name] ? (
-        <IconSVG width={iconSize} height={iconSize} color={iconColor} />
+        <IconSVG
+          width={iconSize}
+          height={iconSize}
+          color={iconColor}
+          className={className}
+        />
       ) : (
         <NoIconFound
           name={name}

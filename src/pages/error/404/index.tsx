@@ -80,7 +80,7 @@ const NotFoundPage = () => {
           <Text variant="heading1" as="h1">
             This page doesn't exist. Spooky!
           </Text>
-          <Text variant="subheading" color="greyDark" as="div" size={20}>
+          <Text variant="subheading" color="textSecondary" as="div" size={20}>
             You'll be redirected to somewhere safe shortly.
           </Text>
         </div>

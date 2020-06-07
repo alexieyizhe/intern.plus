@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
-import { getLightColor } from "src/shared/utils/color";
+import { getSecondaryColor } from "src/shared/utils/color";
 
 import {
   IDetailsCardProps,
@@ -14,6 +14,7 @@ import {
 } from "src/components";
 
 import { IconName } from "src/components/Icon";
+import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                           *
@@ -99,64 +100,76 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   className,
   companyDetails,
   ...rest
-}) => (
-  <DetailsCard
-    className={classNames("company", className)}
-    color={getLightColor(companyDetails?.color)}
-    {...rest}
-  >
-    <Container>
-      <TitleContainer>
-        <div>
-          <Text variant="heading1" as="div">
-            {companyDetails?.name}
-          </Text>
-          <Text
-            className="subheading"
-            variant="subheading"
-            color="greyDark"
-            as="div"
-          >
-            {companyDetails?.desc}
-          </Text>
-        </div>
-        <Logo imgSrc={companyDetails?.logoSrc} />
-      </TitleContainer>
+}) => {
+  const { value: isDark } = useDarkMode();
 
-      <MiscDetails>
-        <div className="ratings">
-          <StarRating
-            maxStars={5}
-            value={Math.round(companyDetails ? companyDetails.avgRating : 0)}
-            readOnly
-          >
-            <Text variant="subheading" className="rating-text" color="black">
-              {companyDetails?.avgRating.toFixed(1)}
+  return (
+    <DetailsCard
+      className={classNames("company", className)}
+      color={getSecondaryColor(isDark, companyDetails?.color)}
+      {...rest}
+    >
+      <Container>
+        <TitleContainer>
+          <div>
+            <Text variant="heading1" as="div">
+              {companyDetails?.name}
             </Text>
-            <Text variant="subheading" className="rating-text" color="greyDark">
-              Overall
+            <Text
+              className="subheading"
+              variant="subheading"
+              color="textSecondary"
+              as="div"
+            >
+              {companyDetails?.desc}
             </Text>
-          </StarRating>
-          <Text
-            variant="subheading"
-            as="div"
-            className="num-ratings-text"
-            color="greyDark"
-          >
-            {getRatingsText(companyDetails?.numRatings)}
-          </Text>
-        </div>
-        {companyDetails?.websiteUrl && (
-          <Link className="website" to={companyDetails?.websiteUrl} newTab>
-            <Text variant="subheading" color="black">
-              Website&nbsp;
+          </div>
+          <Logo imgSrc={companyDetails?.logoSrc} />
+        </TitleContainer>
+
+        <MiscDetails>
+          <div className="ratings">
+            <StarRating
+              maxStars={5}
+              value={Math.round(companyDetails ? companyDetails.avgRating : 0)}
+              readOnly
+            >
+              <Text
+                variant="subheading"
+                className="rating-text"
+                color="textPrimary"
+              >
+                {companyDetails?.avgRating.toFixed(1)}
+              </Text>
+              <Text
+                variant="subheading"
+                className="rating-text"
+                color="textSecondary"
+              >
+                Overall
+              </Text>
+            </StarRating>
+            <Text
+              variant="subheading"
+              as="div"
+              className="num-ratings-text"
+              color="textSecondary"
+            >
+              {getRatingsText(companyDetails?.numRatings)}
             </Text>
-            <Icon name={IconName.EXTERNAL_LINK} />
-          </Link>
-        )}
-      </MiscDetails>
-    </Container>
-  </DetailsCard>
-);
+          </div>
+          {companyDetails?.websiteUrl && (
+            <Link className="website" to={companyDetails?.websiteUrl} newTab>
+              <Text variant="subheading" color="textPrimary">
+                Website&nbsp;
+              </Text>
+              <Icon name={IconName.EXTERNAL_LINK} />
+            </Link>
+          )}
+        </MiscDetails>
+      </Container>
+    </DetailsCard>
+  );
+};
 
 export default CompanyDetailsCard;

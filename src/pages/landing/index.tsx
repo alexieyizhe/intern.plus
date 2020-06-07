@@ -38,20 +38,17 @@ const LandingPage = () => {
 
   /**
    * Tracks the value a user is searching for. If a search is
-   * being attempted, redirect to the search page with the
+   * triggered, redirect to the search page with the
    * query provided by the user pre-filled in.
    */
-  const [searchStarted, setSearchStarted] = useState<string | false>(false);
-  const onTriggerSearch = useCallback(
-    (val: string) => setSearchStarted(val),
-    []
-  );
+  const [searchValue, setSearchValue] = useState<string | null>(null);
+  const onTriggerSearch = useCallback((val: string) => setSearchValue(val), []);
 
-  if (searchStarted !== false) {
+  if (searchValue !== null) {
     return (
       <Redirect
         to={`${RouteName.SEARCH}${
-          searchStarted ? `?${SearchParamKey.QUERY}=${searchStarted}` : ""
+          searchValue ? `?${SearchParamKey.QUERY}=${searchValue}` : ""
         }`}
       />
     );

@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { spin } from "src/theme/snippets";
-import { Size } from "src/theme/constants";
+import { spin, Size } from "src/theme";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -31,10 +30,10 @@ const Ring = styled.div<SpinnerProps>`
   height: ${({ size = 23, theme }) => `${theme.fontSize[size] || size}px`};
 
   border: 2px solid
-    ${({ theme, color = "" }) => theme.color[color] || color || "black"};
+    ${({ theme, color = "" }) => theme.color[color] || color || "textPrimary"};
   border-radius: 50%;
   border-color: ${({ theme, color = "" }) =>
-      theme.color[color] || color || "black"}
+      theme.color[color] || color || "textPrimary"}
     transparent transparent transparent;
 
   animation: ${spin} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;

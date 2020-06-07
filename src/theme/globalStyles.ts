@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
   @font-face {
     font-family: "Sharp Sans";
     font-weight: bold;
+    font-display: swap;
     src: url(${SharpSansBold});
   }
 
@@ -13,6 +14,12 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: ${({ theme }) => theme.color.backgroundPrimary};
+  }
+  
+  body,
+  body * {
+    transition: background-color 200ms ease-in, color 200ms ease-in;
   }
   
   *, *:before, *:after {

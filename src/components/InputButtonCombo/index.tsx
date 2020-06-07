@@ -54,13 +54,13 @@ const Container = styled.div`
  *                           **Component**                         *
  *******************************************************************/
 const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
-  inputColor = "greyLight",
+  inputColor = "backgroundSecondary",
   placeholder,
   value,
   onChange,
   onEnterTrigger,
   onKeyDown,
-  buttonColor = "greenDark",
+  buttonColor = "greenSecondary",
   buttonText,
   buttonTextColor = "white",
   ...rest
@@ -87,7 +87,7 @@ const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
         placeholder={placeholder}
       />
       <Button color={buttonColor} onClick={onEnterTrigger}>
-        <Text variant="body" color="white">
+        <Text variant="body" color="textPrimary">
           {buttonText}
         </Text>
       </Button>

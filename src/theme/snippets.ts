@@ -1,5 +1,5 @@
 import { css, keyframes } from "styled-components";
-import { Size } from "src/theme/constants";
+import { Size } from "src/theme";
 
 export const spin = keyframes`
   0% {
@@ -21,10 +21,10 @@ export const hoverStyles = css`
     width: 100%;
     height: 100%;
 
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: opacity 150ms ease-in;
+    transition: opacity 100ms ease-in;
     opacity: 0;
     backface-visibility: hidden; /* for this issue: https://stackoverflow.com/questions/11045451/white-flash-blink-on-hover-with-chrome */
   }
@@ -71,14 +71,18 @@ export const inputStyles = css<IInputStyleOptions>`
   width: 100%;
   padding: ${({ theme }) => theme.padding.input};
 
-  color: ${({ textColor = "", theme }) =>
-    theme.color[textColor] || textColor || "inherit"};
+  color: ${({ textColor = "textPrimary", theme }) =>
+    theme.color[textColor] || textColor};
+  ::placeholder {
+    color: ${({ theme }) => theme.color.textSecondary};
+    opacity: 1; 
+  }
   font-family: ${({ heading, theme }) =>
     theme.fontFamily[heading ? "heading" : "body"]};
   font-size: ${({ textSize = Size.SMALL, theme }) =>
     theme.fontSize[textSize] || textSize}px;
 
-  ${({ underline }) => underline && `text-decoration: underline;`}
+  ${({ underline }) => underline && `text-decoration-line: underline;`}
   ${({ bold }) =>
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}
@@ -89,20 +93,20 @@ export const inputStyles = css<IInputStyleOptions>`
     disabled || readOnly ? "not-allowed" : "text"};
 
   transition: all 100ms;
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
   border: 2px solid transparent;
 
   &:hover:not(:read-only):not(:disabled) {
-    border: 2px solid ${({ theme }) => theme.color.greyMedium};
+    border: 2px solid ${({ theme }) => theme.color.textTertiary};
   }
   
   &:focus:not(:read-only):not(:disabled) {
     outline: none;
-    border: 2px solid ${({ theme }) => theme.color.black};
+    border: 2px solid ${({ theme }) => theme.color.textPrimary};
   }
 
   &:disabled {
-    color: ${({ theme }) => theme.color.greyDark};
+    color: ${({ theme }) => theme.color.textSecondary};
     opacity: 0.6;
   }
 `;

@@ -1,48 +1,28 @@
-import {
-  css,
-  ThemedCssFunction,
-  DefaultTheme,
-  FlattenSimpleInterpolation,
-} from "styled-components";
+import { css, ThemedCssFunction, DefaultTheme } from "styled-components";
 
 /**
  * Breakpoints for device sizes. Each value represents
  * the max width for the breakpoint, measured in `px`.
  */
-export interface DeviceBreakpoints {
-  [device: string]: number;
-}
+export type DeviceBreakpoint =
+  | "large"
+  | "medium"
+  | "tablet"
+  | "xlMobile"
+  | "largeMobile"
+  | "mobile"
+  | "smallMobile";
 
 /**
  * The interface of the media query tool. It allows css to be wrapped in a media query
  * specifying the breakpoint for the wrapped css.
  */
-export interface MediaQueryTemplates {
-  [breakpoint: string]: ThemedCssFunction<DefaultTheme>;
-}
+export type MediaQueryTemplates = Record<
+  DeviceBreakpoint,
+  ThemedCssFunction<DefaultTheme>
+>;
 
-/**
- * Converts device breakpoints to tagged template literals that can be used as media queries
- * @param breakpoints - A dictionary of device breakpoints, representing a value `w` (measured in `px`). Any width `x` that falls in the range `0 <= x <= w` will have the css defined in the media query applied.
- */
-export const createMediaQueryTemplates = (breakpoints: DeviceBreakpoints) =>
-  Object.keys(breakpoints).reduce(
-    (acc, label) => {
-      acc[label] = (literals: TemplateStringsArray, ...args: []) => css`
-        @media (max-width: ${breakpoints[label]}px) {
-          ${css(literals, ...args)}
-        }
-      `;
-      return acc;
-    },
-    {} as {
-      [key: string]: (
-        literals: TemplateStringsArray
-      ) => FlattenSimpleInterpolation;
-    }
-  );
-
-export const deviceBreakpoints = {
+export const deviceBreakpoints: Record<DeviceBreakpoint, number> = {
   large: 1440,
   medium: 1024,
   tablet: 768,
@@ -52,4 +32,23 @@ export const deviceBreakpoints = {
   smallMobile: 320,
 };
 
-export default createMediaQueryTemplates(deviceBreakpoints);
+/**
+ * Convert device breakpoints to tagged template literals that can be used as media queries
+ * @param breakpoints - A dictionary of device breakpoints, representing a value `w` (measured in `px`). Any width `x` that falls in the range `0 <= x <= w` will have the css defined in the media query applied.
+ */
+export const mediaQueries = Object.keys(deviceBreakpoints).reduce(
+  (acc, key) => {
+    const queryFn = ((literals: TemplateStringsArray, ...args: []) =>
+      css`
+        @media (max-width: ${deviceBreakpoints[key as DeviceBreakpoint]}px) {
+          ${css(literals, ...args)}
+        }
+      ` as unknown) as ThemedCssFunction<DefaultTheme>;
+
+    acc[key as DeviceBreakpoint] = queryFn;
+    return acc;
+  },
+  {} as MediaQueryTemplates
+);
+
+export default mediaQueries;

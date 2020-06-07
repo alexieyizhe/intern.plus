@@ -26,7 +26,7 @@ const Container = styled.div`
 const Section: React.FC<ISectionProps> = ({ heading, children, ...rest }) => (
   <Container {...rest}>
     {heading && (
-      <Text variant="heading2" as="h2" color="greyDark">
+      <Text variant="heading2" as="h2" color="textSecondary">
         {heading}
       </Text>
     )}

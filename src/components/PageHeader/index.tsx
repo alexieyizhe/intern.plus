@@ -5,7 +5,11 @@ import classNames from "classnames";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/shared/constants/routing";
-import { useMobileMenuContext, useAddReviewModalContext } from "src/contexts";
+import {
+  useMobileMenuContext,
+  useAddReviewModalContext,
+  useSiteThemeContext,
+} from "src/contexts";
 import copy from "./copy";
 
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
@@ -13,7 +17,7 @@ import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
 import { useOnClickOutside } from "src/shared/hooks/useOnClickOutside";
 
 import { UnstyledButton } from "src/components/Button";
-import Icon from "src/components/Icon";
+import Icon, { IconName } from "src/components/Icon";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
 
@@ -34,7 +38,7 @@ const Container = styled.header`
   height: ${HEADER_HEIGHT}px;
 
   z-index: ${({ theme }) => theme.zIndex.header};
-  background-color: white;
+  background-color: ${({ theme }) => theme.color.backgroundPrimary};
 
   &::after {
     content: "";
@@ -44,16 +48,17 @@ const Container = styled.header`
     height: 400%;
     bottom: 0;
 
-    background-color: ${({ theme }) => theme.color.white};
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    background-color: ${({ theme }) => theme.color.backgroundPrimary};
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: all 150ms ease-in;
+    transition: all 100ms ease-in;
     opacity: 0;
   }
 
   &.scrolled::after,
   &.mobile-menu-open::after {
+    box-shadow: ${({ theme }) => theme.boxShadow.hover},
+      0px 0px 0px 2px ${({ theme }) => theme.color.backgroundSecondary};
     opacity: 1;
   }
 
@@ -115,7 +120,7 @@ const Logo = styled.div`
       display: inline-block;
       margin-top: 1px;
 
-      transition: transform 150ms ease-in;
+      transition: transform 100ms ease-in;
       &.up {
         transform: rotate(180deg);
       }
@@ -147,7 +152,7 @@ const NavLinks = styled.nav`
     justify-content: flex-start;
     align-items: flex-start;
 
-    transition: all 150ms ease-out;
+    transition: all 100ms ease-out;
     pointer-events: none;
     opacity: 0;
     &.show {
@@ -157,7 +162,7 @@ const NavLinks = styled.nav`
 
     & > * {
       margin: 0 0 10px 0;
-      color: ${theme.color.greyDark};
+      color: ${theme.color.textSecondary};
       font-size: 14px;
       font-weight: 500;
     }
@@ -172,16 +177,16 @@ const HeaderActionContainer = styled.div`
   justify-content: flex-end;
 
   & button {
-    transition: transform 150ms ease-out;
+    cursor: pointer;
+    margin-left: 10px;
+
+    transition: transform 100ms ease-out;
     transform: scale(0.9);
+    transform-origin: center;
     &:hover,
-    &:focus {
+    &.focus-visible {
       transform: scale(1);
     }
-  }
-
-  & svg {
-    cursor: pointer;
   }
 `;
 
@@ -216,6 +221,7 @@ const Header: React.FC = () => {
     toggleAddReviewModal,
     isAddReviewModalOpen,
   } = useAddReviewModalContext();
+  const { toggleDarkMode, curMode } = useSiteThemeContext();
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [
     setMobileMenuOpen,
@@ -256,16 +262,15 @@ const Header: React.FC = () => {
       <InnerContainer>
         <Logo onClick={isMobileUser ? toggleMobileMenu : goHome}>
           <UnstyledButton>
-            <img className="logo-img" src={copy.logo.src} alt={copy.logo.alt} />
+            <Icon className="logo-img" name={IconName.LOGO_TEXT} size={100} />
 
-            <img
+            <Icon
               className={`chevron ${isMobileMenuOpen ? "up" : "down"}`}
-              src={copy.mobileToggle.src}
-              alt={copy.mobileToggle.alt}
+              name={IconName.CHEVRON}
+              color="textSecondary"
             />
           </UnstyledButton>
         </Logo>
-
         <NavLinks
           className={isMobileMenuOpen ? "show" : undefined}
           aria-hidden={isMobileUser && !isMobileMenuOpen ? "false" : "true"}
@@ -285,6 +290,19 @@ const Header: React.FC = () => {
         </NavLinks>
 
         <HeaderActionContainer>
+          <UnstyledButton
+            onClick={toggleDarkMode}
+            aria-label="Toggle theme button"
+          >
+            <Icon
+              name={
+                curMode === "dark"
+                  ? copy.toggleTheme.light.name
+                  : copy.toggleTheme.dark.name
+              }
+              size={24}
+            />
+          </UnstyledButton>
           <UnstyledButton
             onClick={toggleAddReviewModal}
             aria-label="Add review button"

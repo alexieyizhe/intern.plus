@@ -79,7 +79,8 @@ const PaletteSquare = styled(Card)`
   align-items: center;
 
   ${({ theme, color }) =>
-    color === theme.color.white && `border: 2px solid ${theme.color.black}`};
+    color === theme.color.backgroundPrimary &&
+    `border: 2px solid ${theme.color.textPrimary}`};
 `;
 
 /*******************************************************************
@@ -108,7 +109,9 @@ const DesignSystemPage = () => {
               <PaletteSquare color={color} key={color}>
                 <Text
                   variant="subheading"
-                  color={color === theme.color.black ? "white" : "black"}
+                  color={
+                    color === theme.color.textPrimary ? "white" : "textPrimary"
+                  }
                 >
                   {color}
                 </Text>
@@ -183,15 +186,18 @@ const DesignSystemPage = () => {
         </Section>
 
         <Section heading="TextInput">
-          <TextInput color="greyLight" variant="body" />
-          <TextInput color="greyLight" placeholder="I have placeholder text." />
+          <TextInput color="backgroundSecondary" variant="body" />
           <TextInput
-            color="greyLight"
+            color="backgroundSecondary"
+            placeholder="I have placeholder text."
+          />
+          <TextInput
+            color="backgroundSecondary"
             disabled
             placeholder="I'm a disabled input."
           />
           <TextInput
-            color="greyLight"
+            color="backgroundSecondary"
             variant="heading2"
             placeholder="I'm a big input."
           />
@@ -200,7 +206,7 @@ const DesignSystemPage = () => {
         <Section>
           <Section heading="TextArea">
             <TextArea
-              color="greyLight"
+              color="backgroundSecondary"
               variant="body"
               placeholder="I can hold lots of text."
             />
@@ -208,7 +214,7 @@ const DesignSystemPage = () => {
 
           <Section heading="Select">
             <Select
-              color="greyLight"
+              color="backgroundSecondary"
               variant="body"
               options={inputOptions}
               placeholder="Go ahead, pick something."
@@ -218,15 +224,15 @@ const DesignSystemPage = () => {
 
         <Section heading="Button">
           <SectionSpacer>
-            <Button color="greyLight">
+            <Button color="backgroundSecondary">
               <Text variant="body">Regular</Text>
             </Button>
             <Button color="#9e7fa3">
-              <Text variant="body" color="white">
+              <Text variant="body" color="backgroundPrimary">
                 Colored
               </Text>
             </Button>
-            <Button disabled color="greyLight">
+            <Button disabled color="backgroundSecondary">
               <Text variant="body">Disabled</Text>
             </Button>
           </SectionSpacer>
@@ -274,7 +280,10 @@ const DesignSystemPage = () => {
         </Section>
 
         <Section heading="Card">
-          <Card color="greyLight" onClick={() => alert("clicked card")}>
+          <Card
+            color="backgroundSecondary"
+            onClick={() => alert("clicked card")}
+          >
             <Text variant="heading3" as="div">
               I'm a normal card.
             </Text>

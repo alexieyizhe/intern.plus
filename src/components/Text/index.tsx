@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import { Size, VariantList } from "src/theme/constants";
+import { Size, VariantList } from "src/theme";
 import { useEasterEggContext } from "src/contexts";
 
 /*******************************************************************
@@ -44,7 +44,7 @@ export const TEXT_VARIANTS: VariantList<ITextProps> = {
   heading1: {
     heading: true,
     bold: true,
-    size: Size.XLARGE,
+    size: Size.XL,
   },
   heading2: {
     heading: true,
@@ -80,7 +80,7 @@ const BaseText = styled.span<ITextProps & { easterEgg: boolean }>`
   margin: 0;
   padding: 0;
 
-  color: ${({ color = "", theme }) => theme.color[color] || color || "inherit"};
+  color: ${({ color = "textPrimary", theme }) => theme.color[color] || color};
   font-family: ${({ heading, easterEgg, theme }) =>
     easterEgg
       ? "Comic Sans MS"
@@ -89,7 +89,7 @@ const BaseText = styled.span<ITextProps & { easterEgg: boolean }>`
     size ? `${theme.fontSize[size] || size}px` : "inherit"};
 
 
-  ${({ underline }) => underline && `text-decoration: underline;`}
+  ${({ underline }) => underline && `text-decoration-line: underline;`}
   ${({ bold }) =>
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}

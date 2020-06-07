@@ -5,6 +5,7 @@ import copy from "./copy";
 
 import Link from "src/components/Link";
 import Text from "src/components/Text";
+import Icon, { IconName } from "src/components/Icon";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -29,12 +30,12 @@ const Container = styled.footer`
   }
 `;
 
-const Logo = styled.img`
+const Logo = styled(Icon).attrs({ name: IconName.LOGO })`
   cursor: pointer;
   opacity: 0.7;
   width: 30px;
 
-  transition: opacity 150ms ease-out;
+  transition: opacity 100ms ease-out;
   &:hover,
   &:focus {
     opacity: 0.8;
@@ -51,11 +52,10 @@ const Logo = styled.img`
 const Footer = () => (
   <Container>
     <Logo
-      src={copy.logo.src}
-      alt={copy.logo.alt}
       role="button"
       tabIndex={0}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      size={24}
     />
 
     <Text className="subheading" variant="heading4">
@@ -63,8 +63,8 @@ const Footer = () => (
     </Text>
 
     {copy.sublinks.map(({ label, to, newTab }) => (
-      <Link newTab={newTab} to={to} bare key={label}>
-        <Text variant="body" color="greyMedium">
+      <Link newTab={newTab} to={to} bare key={label} color="textTertiary">
+        <Text variant="body" color="textTertiary">
           {label}
         </Text>
       </Link>

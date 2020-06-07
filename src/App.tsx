@@ -1,7 +1,6 @@
 import "focus-visible";
 import "array-flat-polyfill";
 import React, { useState, useEffect } from "react";
-import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/react-hooks";
 import DefaultClient from "apollo-boost";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -13,8 +12,8 @@ import {
   MobileMenuContextProvider,
   AddReviewModalContextProvider,
   EasterEggContextProvider,
+  SiteThemeContextProvider,
 } from "src/contexts";
-import siteTheme from "src/theme";
 import GlobalStyles from "src/theme/globalStyles";
 import { RouteName } from "src/shared/constants/routing";
 import Analytics, { analytics } from "src/shared/utils/analytics";
@@ -77,7 +76,7 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={apiClient}>
-      <ThemeProvider theme={siteTheme}>
+      <SiteThemeContextProvider>
         <AddReviewModalContextProvider>
           <MobileMenuContextProvider>
             <EasterEggContextProvider>
@@ -111,7 +110,7 @@ const App: React.FC = () => {
             </EasterEggContextProvider>
           </MobileMenuContextProvider>
         </AddReviewModalContextProvider>
-      </ThemeProvider>
+      </SiteThemeContextProvider>
     </ApolloProvider>
   );
 };
