@@ -49,7 +49,6 @@ const Container = styled.header`
     bottom: 0;
 
     background-color: ${({ theme }) => theme.color.backgroundPrimary};
-    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
     transition: all 100ms ease-in;
@@ -58,6 +57,8 @@ const Container = styled.header`
 
   &.scrolled::after,
   &.mobile-menu-open::after {
+    box-shadow: ${({ theme }) => theme.boxShadow.hover},
+      0px 0px 0px 2px ${({ theme }) => theme.color.backgroundSecondary};
     opacity: 1;
   }
 

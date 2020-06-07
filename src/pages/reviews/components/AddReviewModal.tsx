@@ -58,7 +58,7 @@ const salaryPeriodOptions = ["hourly", "weekly", "monthly"].map((period) => ({
 const ModalContainer = styled.div`
   position: fixed;
   width: 650px;
-  top: ${HEADER_HEIGHT + 5}px;
+  top: ${HEADER_HEIGHT + 15}px;
   right: ${({ theme }) => theme.padding.pageHorizontal}px;
   z-index: -1;
 
@@ -79,7 +79,7 @@ const ModalContainer = styled.div`
   `}
 `;
 
-const InnerContainer = styled(Card)`
+const InnerContainer = styled(Card)<{ inert?: true }>`
   position: relative;
   margin-left: auto;
   max-width: 100%;
@@ -89,7 +89,8 @@ const InnerContainer = styled(Card)`
   display: flex;
   flex-direction: column;
 
-  box-shadow: ${({ theme }) => theme.boxShadow.hover};
+  box-shadow: ${({ theme }) => theme.boxShadow.hover},
+    0px 0px 0px 2px ${({ theme }) => theme.color.backgroundSecondary};
   overflow-y: scroll;
 
   transition: all 100ms ease-out;
@@ -523,6 +524,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
           isConfirmingSubmit,
         })}
         aria-hidden={isAddReviewModalOpen ? "false" : "true"}
+        inert={isAddReviewModalOpen ? true : undefined}
         color="backgroundPrimary"
       >
         {submitted ? (
@@ -558,6 +560,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   options={companyOptions}
                   value={reviewState.values["company"]}
                   onChange={(option) => onReviewChange("company", option)}
+                  tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                 />
               </VerticalField>
               <VerticalField
@@ -610,6 +613,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                       )?.location
                     );
                   }}
+                  tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                 />
               </VerticalField>
             </RowContainer>
@@ -639,6 +643,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   }
                   value={reviewState.values["location"] || ""}
                   onChange={(e) => onReviewChange("location", e.target.value)}
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 />
               </LocationField>
               <SalaryField
@@ -673,6 +678,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onChange={(e) =>
                       onReviewChange("salary", parseInt(e.target.value))
                     }
+                    tabIndex={isAddReviewModalOpen ? 0 : -1}
                   />
                   <Select
                     className="salary-currency"
@@ -693,6 +699,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                     onChange={(option) =>
                       onReviewChange("salaryCurrency", option)
                     }
+                    tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                   />
                   <Select
                     className="salary-period"
@@ -714,6 +721,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                         (option as { value: string })?.value
                       )
                     }
+                    tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                   />
                 </div>
                 <Checkbox
@@ -723,6 +731,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   onChange={(e) =>
                     onReviewChange("noSalaryProvided", e.target.checked)
                   }
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 >
                   <Text variant="body" color="textSecondary">
                     I do not wish to disclose my salary.
@@ -750,6 +759,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   onChange={(stars) => onReviewChange("overallRating", stars)}
                   disabled={isConfirmingSubmit || isSubmitting}
                   golden
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 />
               </HorizontalField>
               <HorizontalField
@@ -853,6 +863,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   value={reviewState.values["body"]}
                   onChange={(e) => onReviewChange("body", e.target.value)}
                   maxLength={5000}
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 />
                 <CountText variant="subheading" color="textSecondary">
                   {`${4000 - (reviewState.values["body"]?.length || 0)}/4000`}
@@ -889,6 +900,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   onInputChange={onTagsInputChange}
                   value={reviewState.values["tags"]}
                   inputValue={tagsInputValue}
+                  tabIndex={isAddReviewModalOpen ? "0" : "-1"}
                 />
                 <CountText variant="subheading" color="textSecondary">
                   {`${5 - (reviewState.values["tags"]?.length || 0)}/5`}
@@ -921,6 +933,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   onChange={(e) =>
                     onReviewChange("authorEmail", e.target.value)
                   }
+                  tabIndex={isAddReviewModalOpen ? 0 : -1}
                 />
               </VerticalField>
             </RowContainer>
@@ -940,6 +953,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                 }
                 disabled={isSubmitting}
                 onClick={isConfirmingSubmit ? onSubmit : onPotentialSubmit}
+                tabIndex={isAddReviewModalOpen ? 0 : -1}
               >
                 {isSubmitting ? (
                   <Spinner color="backgroundPrimary" size={16} />

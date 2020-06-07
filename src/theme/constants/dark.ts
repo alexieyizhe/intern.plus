@@ -5,7 +5,7 @@ import { SiteTheme } from "../helpers";
 export const darkTheme: SiteTheme = {
   color: {
     backgroundPrimary: "#333333",
-    backgroundSecondary: "#787878",
+    backgroundSecondary: "#565656",
 
     textPrimary: "#fdfdfd",
     textSecondary: "#c6c6c6",
