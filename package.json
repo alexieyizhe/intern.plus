@@ -54,6 +54,7 @@
     "react-scripts": "^3.3.0",
     "react-select": "^3.0.8",
     "react-waypoint": "^9.0.2",
+    "scroll-behavior-polyfill": "^2.0.13",
     "styled-components": "^5.1.1",
     "tti-polyfill": "^0.2.2",
     "use-dark-mode": "^2.3.1",
