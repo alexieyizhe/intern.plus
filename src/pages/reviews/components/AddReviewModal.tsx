@@ -265,6 +265,7 @@ const LocationInput = styled(TextInput)`
       }
 
       &.ap-cursor {
+        background: none;
         & .ap-name {
           color: ${({ theme }) => theme.color.textPrimary};
         }

@@ -37,7 +37,7 @@ const customSelectStyles = (theme: any, color?: string) => ({
     borderWidth: "2px",
     borderColor:
       state.isFocused && !state.isDisabled
-        ? `${theme.color.textPrimary} !important`
+        ? `${theme.color.backgroundSecondary} !important`
         : "transparent",
     boxShadow: "none",
     borderRadius: theme.borderRadius.large,
@@ -55,6 +55,7 @@ const customSelectStyles = (theme: any, color?: string) => ({
     ...provided,
     padding: "1.5px 0",
     margin: 0,
+    color: theme.color.textPrimary,
   }),
   placeholder: (provided: any) => ({
     ...provided,
@@ -76,11 +77,11 @@ const customSelectStyles = (theme: any, color?: string) => ({
     cursor: "pointer",
     padding: 0,
   }),
-  menu: (provided: any, state: any) => ({
+  menu: (provided: any) => ({
     ...provided,
-    boxShadow: theme.boxShadow.hover,
+    boxShadow: `${theme.boxShadow.hover}, inset 0px 0px 2px ${theme.color.textTertiary}`,
     borderRadius: 10,
-    backgroundColor: "#F1F1F1",
+    backgroundColor: theme.color.backgroundSecondary,
     zIndex: 50,
   }),
   menuList: (provided: any) => ({
@@ -113,7 +114,7 @@ const customSelectStyles = (theme: any, color?: string) => ({
     const opacity = state.isDisabled ? 0.5 : 1;
     const transition = "opacity 300ms";
 
-    return { ...provided, opacity, transition };
+    return { ...provided, opacity, transition, color: theme.color.textPrimary };
   },
   multiValue: (provided: any) => ({
     ...provided,
