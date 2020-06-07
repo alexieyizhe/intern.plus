@@ -60,7 +60,7 @@ const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
   onChange,
   onEnterTrigger,
   onKeyDown,
-  buttonColor = "greenPrimary",
+  buttonColor = "greenSecondary",
   buttonText,
   buttonTextColor = "white",
   ...rest
@@ -87,7 +87,7 @@ const InputButtonCombo: React.FC<IInputButtonComboProps> = ({
         placeholder={placeholder}
       />
       <Button color={buttonColor} onClick={onEnterTrigger}>
-        <Text variant="body" color="backgroundPrimary">
+        <Text variant="body" color="textPrimary">
           {buttonText}
         </Text>
       </Button>

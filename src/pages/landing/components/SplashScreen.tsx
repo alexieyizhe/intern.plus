@@ -122,7 +122,7 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
           {isMobile ? (
             <Button
               onClick={() => history.push(RouteName.SEARCH)}
-              color="greenPrimary"
+              color="greenSecondary"
             >
               <Text variant="subheading" color="backgroundPrimary">
                 {copy.splashCard.searchButtonText}

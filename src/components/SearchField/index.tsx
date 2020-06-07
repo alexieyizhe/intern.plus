@@ -133,9 +133,9 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   suggestions,
   inputProps = { color: "backgroundSecondary" },
   buttonProps = {
-    color: "greenPrimary",
+    color: "greenSecondary",
     contents: (
-      <Text variant="body" color="backgroundPrimary">
+      <Text variant="body" color="textPrimary">
         Search
       </Text>
     ),

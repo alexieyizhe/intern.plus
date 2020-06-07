@@ -935,7 +935,7 @@ const AddReviewModal: React.FC<IAddReviewModalProps> = () => {
                   isSubmitting
                     ? "textTertiary"
                     : isConfirmingSubmit
-                    ? "greenPrimary"
+                    ? "greenSecondary"
                     : "textPrimary"
                 }
                 disabled={isSubmitting}

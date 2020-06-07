@@ -211,6 +211,7 @@ const ActionContainer = styled.div`
   }
 
   & .reset-options-button {
+    color: ${({ theme }) => theme.color.textSecondary};
     ${baseLinkStyles}
   }
 `;
@@ -568,10 +569,10 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       <ActionContainer>
         <Button
           onClick={applyOptions}
-          color="greenPrimary"
+          color="greenSecondary"
           className="apply-button"
         >
-          <Text variant="subheading" color="backgroundPrimary">
+          <Text variant="subheading" color="textPrimary">
             Apply
           </Text>
         </Button>
