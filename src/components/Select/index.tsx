@@ -5,7 +5,7 @@ import BaseSelect from "react-select";
 import Creatable from "react-select/creatable";
 import { Props as SelectProps } from "react-select/src/Select";
 
-import { Size, IInputStyleOptions } from "src/theme";
+import { Size, IInputStyleOptions, SiteTheme } from "src/theme";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -23,8 +23,7 @@ export interface ISelectProps extends IInputStyleOptions, SelectProps {
  * wherever possible to be more maintainable.
  */
 
-// @todo: type this `theme` variable
-const customSelectStyles = (theme: any, color?: string) => ({
+const customSelectStyles = (theme: SiteTheme, color?: string) => ({
   container: (provided: any, state: any) => ({
     ...provided,
     opacity: state.isDisabled ? 0.6 : 1,

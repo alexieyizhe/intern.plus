@@ -99,7 +99,6 @@ const App: React.FC = () => {
 
                       <PageFooter />
 
-                      {/* TODO: make this into a ModalRenderer */}
                       <AddReviewModal />
                     </div>
                   </ErrorBoundary>

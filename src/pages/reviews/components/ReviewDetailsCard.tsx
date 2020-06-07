@@ -357,8 +357,9 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           </SalaryInfo>
         </FlexRowContainer>
         <ReviewBody variant="body">
-          {reviewDetails?.body}
-          {/* TODO: is there a way to render new lines without dangerouslySetInnerHTML? don't want to be exposed to XSS */}
+          {reviewDetails?.body.split("\n").map((text) => (
+            <p key={text}>{text}</p>
+          ))}
         </ReviewBody>
 
         {reviewDetails?.tags && (
