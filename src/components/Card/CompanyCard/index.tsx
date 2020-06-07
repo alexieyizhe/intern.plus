@@ -131,7 +131,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
         <Text
           className="name"
           variant="heading2"
-          color={color && getPrimaryColor(isDark, color)}
+          color={getPrimaryColor(isDark, color)}
         >
           {name}
         </Text>
