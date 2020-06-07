@@ -35,7 +35,7 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
   }
 
   &:hover:not(:disabled) > * {
-    opacity: 0.8;
+    opacity: 0.7;
   }
 
   &:focus:not(:disabled).focus-visible,

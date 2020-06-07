@@ -17,6 +17,11 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.color.backgroundPrimary};
   }
   
+  body,
+  body * {
+    transition: background-color 200ms ease-in, color 200ms ease-in;
+  }
+  
   *, *:before, *:after {
     box-sizing: inherit;
   }
