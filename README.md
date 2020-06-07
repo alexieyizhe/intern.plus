@@ -4,7 +4,8 @@
     </a>
 </p>
 <p align="center">
-    <img src="https://github.com/alexieyizhe/intern.plus/workflows/continuous%20integration/badge.svg">
+    <img src="https://github.com/alexieyizhe/intern.plus/workflows/ci/badge.svg">
+    <img src="https://img.shields.io/github/v/tag/alexieyizhe/intern.plus?label=version">
 </p>
 
 ## ✨ Design

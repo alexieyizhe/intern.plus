@@ -72,7 +72,6 @@ const Container = styled(Card)`
       "desc    logo"
       "ratings logo";
 
-    color: inherit;
     text-decoration: none;
 
     & > .name {

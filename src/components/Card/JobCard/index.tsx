@@ -84,7 +84,6 @@ const Container = styled(Card)`
       "salaryAmt   salaryAmt"
       "ratings     salaryInfo";
 
-    color: inherit;
     text-decoration: none;
 
     & > .heading {

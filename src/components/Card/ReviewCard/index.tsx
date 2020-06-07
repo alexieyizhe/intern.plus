@@ -43,7 +43,6 @@ const Container = styled(Card)`
       "contents    contents"
       "tags        tags";
 
-    color: inherit;
     text-decoration: none;
 
     & > .heading {
