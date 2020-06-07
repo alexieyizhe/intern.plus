@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import siteTheme from "../../src/theme";
+import { lightTheme } from "..";
 
 export const withTheme = (component: React.ReactElement) => (
-  <ThemeProvider theme={siteTheme}>{component}</ThemeProvider>
+  <ThemeProvider theme={lightTheme}>{component}</ThemeProvider>
 );
