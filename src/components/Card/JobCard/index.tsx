@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 
 import { hoverStyles, itemCardStyles } from "src/theme/snippets";
-import { getDarkColor } from "src/shared/utils/color";
+import { getPrimaryColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
+import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -83,7 +84,6 @@ const Container = styled(Card)`
       "salaryAmt   salaryAmt"
       "ratings     salaryInfo";
 
-    color: inherit;
     text-decoration: none;
 
     & > .heading {
@@ -136,49 +136,58 @@ const JobCard: React.FC<IJobCardProps> = ({
   linkTo,
   color,
   ...rest
-}) => (
-  <Container
-    className={classNames("job-card", className)}
-    color="greyLight"
-    {...rest}
-  >
-    <Link to={linkTo} tabIndex={0}>
-      <Text
-        className="heading"
-        variant="heading3"
-        color={color && getDarkColor(color)}
-      >
-        {heading}
-      </Text>
-      <Text className="subheading" variant="heading4" as="div" color="greyDark">
-        {subheading}
-      </Text>
+}) => {
+  const { value: isDark } = useDarkMode();
 
-      <div className="ratings">
-        <StarRating maxStars={5} value={Math.round(avgRating)} readOnly>
-          <Text variant="body" color="black">
-            {avgRating.toFixed(1)}
-          </Text>
-          &nbsp;
-          <Text variant="body" color="greyDark">
-            ({numRatings})
-          </Text>
-        </StarRating>
-      </div>
-
-      {minHourlySalary && minHourlySalary >= 0 && (
-        <Text className="salaryAmt" variant="heading2" align="right">
-          {minHourlySalary === maxHourlySalary
-            ? minHourlySalary
-            : `${minHourlySalary} - ${maxHourlySalary}`}
+  return (
+    <Container
+      className={classNames("job-card", className)}
+      color="backgroundSecondary"
+      {...rest}
+    >
+      <Link to={linkTo} tabIndex={0}>
+        <Text
+          className="heading"
+          variant="heading3"
+          color={getPrimaryColor(isDark, color)}
+        >
+          {heading}
         </Text>
-      )}
+        <Text
+          className="subheading"
+          variant="heading4"
+          as="div"
+          color="textSecondary"
+        >
+          {subheading}
+        </Text>
 
-      <Text className="salaryInfo" variant="heading3">
-        {getSalaryText(minHourlySalary, hourlySalaryCurrency, "hourly")}
-      </Text>
-    </Link>
-  </Container>
-);
+        <div className="ratings">
+          <StarRating maxStars={5} value={Math.round(avgRating)} readOnly>
+            <Text variant="body" color="textPrimary">
+              {avgRating.toFixed(1)}
+            </Text>
+            &nbsp;
+            <Text variant="body" color="textSecondary">
+              ({numRatings})
+            </Text>
+          </StarRating>
+        </div>
+
+        {minHourlySalary && minHourlySalary >= 0 && (
+          <Text className="salaryAmt" variant="heading2" align="right">
+            {minHourlySalary === maxHourlySalary
+              ? minHourlySalary
+              : `${minHourlySalary} - ${maxHourlySalary}`}
+          </Text>
+        )}
+
+        <Text className="salaryInfo" variant="heading3">
+          {getSalaryText(minHourlySalary, hourlySalaryCurrency, "hourly")}
+        </Text>
+      </Link>
+    </Container>
+  );
+};
 
 export default React.memo(JobCard);

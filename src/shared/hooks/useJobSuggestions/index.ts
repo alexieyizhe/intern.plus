@@ -17,7 +17,7 @@ export const GET_JOB_SUGGESTIONS = gql`
 
 const buildJobSuggestions = (data: GetJobSuggestions) => {
   if (data) {
-    return data.jobsList.items.map(item => item);
+    return data.jobsList.items.map((item) => item);
   }
 
   return [];

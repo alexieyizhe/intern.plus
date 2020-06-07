@@ -69,38 +69,39 @@ const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
 
 const focusedStyles = css`
   ${HiddenCheckbox}:not(:disabled).focus-visible + & {
-    border: 1.5px solid ${({ theme }) => theme.color.black};
+    border: 1.5px solid ${({ theme }) => theme.color.textPrimary};
   }
 `;
 
 const hoveredStyles = css`
   ${HiddenCheckbox}:not(:disabled):checked:hover + & {
-    border: 1.5px solid ${({ theme }) => theme.color.white};
-    background-color: ${({ theme }) => theme.color.black};
+    border: 1.5px solid ${({ theme }) => theme.color.backgroundPrimary};
+    background-color: ${({ theme }) => theme.color.textPrimary};
   }
 
   ${HiddenCheckbox}:not(:disabled):not(:checked):hover + & {
-    border: 1.5px solid ${({ theme }) => theme.color.greyMedium};
+    border: 1.5px solid ${({ theme }) => theme.color.textPrimary};
   }
 `;
 
 const checkedStyles = css`
   ${HiddenCheckbox}:checked + & {
-    background-color: ${({ theme }) => theme.color.black};
+    background-color: ${({ theme }) => theme.color.textPrimary};
+    border-color: ${({ theme }) => theme.color.textPrimary};
   }
 `;
 
 const StyledCheckbox = styled.span<{ color?: string }>`
   ${sharedStyles}
 
-  background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
+  background-color: ${({ color = "inherit", theme }) =>
+    theme.color[color] || color};
 
-  border-radius: ${({ theme }) => theme.borderRadius.checkbox}px;
+  border: 1.5px solid ${({ theme }) => theme.color.textTertiary};
+  border-radius: ${({ theme }) => theme.borderRadius.small}px;
   z-index: 1;
 
-  transition: all 100ms;
-  border: 1.5px solid transparent;
+  transition: all 150ms;
   ${hoveredStyles}
   ${focusedStyles}
   ${checkedStyles}

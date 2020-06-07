@@ -16,7 +16,7 @@ export const GET_COMPANY_SUGGESTIONS = gql`
 
 const buildCompanySuggestions = (data: GetCompanySuggestions) => {
   if (data) {
-    return data.companiesList.items.map(item => item);
+    return data.companiesList.items.map((item) => item);
   }
 
   return [];

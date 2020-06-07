@@ -70,9 +70,9 @@ const Indicator = styled.div<ITooltipProps>`
     text-align: left;
     line-height: 1.4;
 
-    color: ${({ theme }) => theme.color.black};
-    background-color: ${({ theme }) => theme.color.white};
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    color: ${({ theme }) => theme.color.textPrimary};
+    background-color: ${({ theme }) => theme.color.backgroundPrimary};
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
     ${({ theme }) => theme.mediaQueries.xlMobile`

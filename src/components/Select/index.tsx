@@ -1,17 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import BaseSelect from "react-select";
 import Creatable from "react-select/creatable";
-import { Props } from "react-select/src/Select";
+import { Props as SelectProps } from "react-select/src/Select";
 
-import { IInputStyleOptions } from "src/theme/snippets";
-import themeConstants, { Size } from "src/theme/constants";
+import { Size, IInputStyleOptions, SiteTheme } from "src/theme";
 
 /*******************************************************************
  *                            **Types**                            *
  *******************************************************************/
-export interface ISelectProps extends IInputStyleOptions, Props {
+export interface ISelectProps extends IInputStyleOptions, SelectProps {
   creatable?: boolean;
 }
 
@@ -23,12 +22,13 @@ export interface ISelectProps extends IInputStyleOptions, Props {
  * the rest of the input component styles. Use theme constants
  * wherever possible to be more maintainable.
  */
-const customSelectStyles = (color?: string) => ({
+
+const customSelectStyles = (theme: SiteTheme, color?: string) => ({
   container: (provided: any, state: any) => ({
     ...provided,
     opacity: state.isDisabled ? 0.6 : 1,
-    fontSize: `${themeConstants.fontSize[Size.SMALL]}px`,
-    fontFamily: themeConstants.fontFamily.body,
+    fontSize: `${theme.fontSize[Size.SMALL]}px`,
+    fontFamily: theme.fontFamily.body,
     pointerEvents: "auto",
   }),
   control: (provided: any, state: any) => ({
@@ -36,24 +36,29 @@ const customSelectStyles = (color?: string) => ({
     borderWidth: "2px",
     borderColor:
       state.isFocused && !state.isDisabled
-        ? `${themeConstants.color.black} !important`
+        ? `${theme.color.backgroundSecondary} !important`
         : "transparent",
     boxShadow: "none",
-    borderRadius: themeConstants.borderRadius.button,
-    padding: themeConstants.padding.input,
+    borderRadius: theme.borderRadius.large,
+    padding: theme.padding.input,
     cursor: state.isDisabled ? "not-allowed" : "text",
-    backgroundColor: themeConstants.color[color || "greyLight"],
+    backgroundColor: theme.color[color || "backgroundSecondary"],
     "&:hover": {
       borderColor:
         !state.isFocused &&
         !state.isDisabled &&
-        `${themeConstants.color.greyMedium} !important`,
+        `${theme.color.textTertiary} !important`,
     },
   }),
   input: (provided: any) => ({
     ...provided,
     padding: "1.5px 0",
     margin: 0,
+    color: theme.color.textPrimary,
+  }),
+  placeholder: (provided: any) => ({
+    ...provided,
+    color: theme.color.textSecondary,
   }),
   indicatorSeparator: () => {},
   indicatorsContainer: (provided: any, state: any) => ({
@@ -71,16 +76,16 @@ const customSelectStyles = (color?: string) => ({
     cursor: "pointer",
     padding: 0,
   }),
-  menu: (provided: any, state: any) => ({
+  menu: (provided: any) => ({
     ...provided,
-    boxShadow: themeConstants.boxShadow.hover,
+    boxShadow: `${theme.boxShadow.hover}, inset 0px 0px 2px ${theme.color.textTertiary}`,
     borderRadius: 10,
-    backgroundColor: "#F1F1F1",
+    backgroundColor: theme.color.backgroundSecondary,
     zIndex: 50,
   }),
   menuList: (provided: any) => ({
     ...provided,
-    borderRadius: themeConstants.borderRadius.button,
+    borderRadius: theme.borderRadius.large,
     padding: 0,
     margin: 0,
   }),
@@ -88,17 +93,17 @@ const customSelectStyles = (color?: string) => ({
     ...provided,
     cursor: "pointer",
     backgroundColor: state.isSelected
-      ? themeConstants.color.greenLight
-      : themeConstants.color.greyLight,
+      ? theme.color.greenSecondary
+      : theme.color.backgroundSecondary,
     color:
       state.isSelected || state.isFocused
-        ? themeConstants.color.black
-        : themeConstants.color.greyDark,
-    padding: themeConstants.padding.input,
+        ? theme.color.textPrimary
+        : theme.color.textSecondary,
+    padding: theme.padding.input,
   }),
   noOptionsMessage: (provided: any) => ({
     ...provided,
-    padding: themeConstants.padding.input,
+    padding: theme.padding.input,
   }),
   valueContainer: (provided: any) => ({
     ...provided,
@@ -108,7 +113,7 @@ const customSelectStyles = (color?: string) => ({
     const opacity = state.isDisabled ? 0.5 : 1;
     const transition = "opacity 300ms";
 
-    return { ...provided, opacity, transition };
+    return { ...provided, opacity, transition, color: theme.color.textPrimary };
   },
   multiValue: (provided: any) => ({
     ...provided,
@@ -139,20 +144,23 @@ const Select: React.FC<ISelectProps> = ({
   color,
   creatable,
   disabled,
+  theme, // @todo: omit this from ISelectProps
   ...rest
-}) =>
-  creatable ? (
+}) => {
+  const siteTheme = useTheme();
+  return creatable ? (
     <StyledCreatable
       {...rest}
       isDisabled={disabled}
-      styles={customSelectStyles(color) as any}
+      styles={customSelectStyles(siteTheme, color) as any}
     />
   ) : (
     <StyledSelect
       {...rest}
       isDisabled={disabled}
-      styles={customSelectStyles(color) as any}
+      styles={customSelectStyles(siteTheme, color) as any}
     />
   );
+};
 
 export default React.memo(Select);

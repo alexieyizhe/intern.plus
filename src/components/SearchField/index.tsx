@@ -9,7 +9,7 @@ import Autosuggest, {
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
-import { useSiteContext } from "src/context";
+import { useMobileMenuContext } from "src/contexts";
 
 import Button, { IButtonProps } from "src/components/Button";
 import Text from "src/components/Text";
@@ -38,8 +38,8 @@ export interface ISearchFieldProps
 const ENTER_KEY_CODE = 13;
 
 const renderSuggestion = (suggestion: string) => (
-  <Suggestion color="greyLight">
-    <Text variant="subheading" color="greyDark">
+  <Suggestion color="backgroundSecondary">
+    <Text variant="subheading" color="textSecondary">
       {suggestion}
     </Text>
   </Suggestion>
@@ -67,7 +67,7 @@ const Container = styled.div`
     height: 100%;
     top: 0;
 
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
     transition: opacity 150ms ease-in;
@@ -106,14 +106,14 @@ const Container = styled.div`
     margin: 10px 0;
     list-style-type: none;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
-    border-radius: ${({ theme }) => theme.borderRadius.button}px;
+    border-radius: ${({ theme }) => theme.borderRadius.large}px;
     overflow: hidden;
     cursor: pointer;
   }
 
   & .react-autosuggest__suggestion--highlighted span {
     transition: color 150ms ease-in;
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.color.textPrimary};
   }
 `;
 
@@ -131,20 +131,18 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   onTriggerSearch,
   fuseOptions = {},
   suggestions,
-  inputProps = { color: "greyLight" },
+  inputProps = { color: "backgroundSecondary" },
   buttonProps = {
-    color: "greenDark",
+    color: "greenSecondary",
     contents: (
-      <Text variant="body" color="white">
+      <Text variant="body" color="textPrimary">
         Search
       </Text>
     ),
   },
   ...rest
 }) => {
-  const {
-    state: { mobileMenuOpen },
-  } = useSiteContext();
+  const { isMobileMenuOpen } = useMobileMenuContext();
 
   const { scrollY } = useWindowScrollPos();
   const scrolledDown = useMemo(() => scrollY > 0, [scrollY]);
@@ -197,7 +195,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         const results = fuse.search(inputVal);
 
         filteredSuggestions = (results as string[])
-          .map(result => suggestions[(result as unknown) as number])
+          .map((result) => suggestions[(result as unknown) as number])
           .slice(0, 5) as string[];
       }
 
@@ -215,7 +213,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
     <Container
       className={classNames(className, "search-field", {
         scrolled: scrolledDown,
-        "mobile-menu-open": mobileMenuOpen,
+        "mobile-menu-open": isMobileMenuOpen,
       })}
       {...rest}
     >
@@ -224,7 +222,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         onSuggestionSelected={onSuggestionSelected}
         suggestions={filteredSuggestions}
         getSuggestionValue={getSuggestionValue}
-        renderInputComponent={innerInputProps => (
+        renderInputComponent={(innerInputProps) => (
           <TextInput color={inputProps.color} {...(innerInputProps as any)} /> // eslint-disable-line @typescript-eslint/no-explicit-any
         )}
         renderSuggestion={renderSuggestion}

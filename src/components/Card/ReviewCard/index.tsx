@@ -2,14 +2,16 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
+import { Location } from "history";
 
 import { hoverStyles, itemCardStyles } from "src/theme/snippets";
-import { getDarkColor } from "src/shared/utils/color";
+import { getPrimaryColor } from "src/shared/utils/color";
 
 import Tag from "src/components/Tag";
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
+import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -41,7 +43,6 @@ const Container = styled(Card)`
       "contents    contents"
       "tags        tags";
 
-    color: inherit;
     text-decoration: none;
 
     & > .heading {
@@ -107,7 +108,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
    * so that the current page now becomes the
    * background for the review modal.
    */
-  const location = useLocation();
+  const location = useLocation<{ background: Location }>();
   const linkToWithState = useMemo(
     () => ({
       pathname: linkTo,
@@ -119,22 +120,23 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
     [linkTo, location]
   );
 
+  const { value: isDark } = useDarkMode();
   return (
     <Container
       className={classNames("review-card", className)}
-      color="greyLight"
+      color="backgroundSecondary"
       {...rest}
     >
       <Link to={linkToWithState} tabIndex={0}>
         <Text
           variant="heading3"
           className="heading"
-          color={color && getDarkColor(color)}
+          color={getPrimaryColor(isDark, color)}
         >
           {heading}
         </Text>
 
-        <Text className="subheading" variant="heading4" color="greyDark">
+        <Text className="subheading" variant="heading4" color="textSecondary">
           {subheading}
         </Text>
         <StarRating maxStars={5} value={rating || 0} readOnly />

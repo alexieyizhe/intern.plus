@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
-import { Size, VariantList } from "src/theme/constants";
-import { useSiteContext } from "src/context";
+import { Size, VariantList } from "src/theme";
+import { useEasterEggContext } from "src/contexts";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -44,7 +44,7 @@ export const TEXT_VARIANTS: VariantList<ITextProps> = {
   heading1: {
     heading: true,
     bold: true,
-    size: Size.XLARGE,
+    size: Size.XL,
   },
   heading2: {
     heading: true,
@@ -80,7 +80,7 @@ const BaseText = styled.span<ITextProps & { easterEgg: boolean }>`
   margin: 0;
   padding: 0;
 
-  color: ${({ color = "", theme }) => theme.color[color] || color || "inherit"};
+  color: ${({ color = "textPrimary", theme }) => theme.color[color] || color};
   font-family: ${({ heading, easterEgg, theme }) =>
     easterEgg
       ? "Comic Sans MS"
@@ -89,7 +89,7 @@ const BaseText = styled.span<ITextProps & { easterEgg: boolean }>`
     size ? `${theme.fontSize[size] || size}px` : "inherit"};
 
 
-  ${({ underline }) => underline && `text-decoration: underline;`}
+  ${({ underline }) => underline && `text-decoration-line: underline;`}
   ${({ bold }) =>
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}
@@ -105,7 +105,7 @@ const Text: React.FC<ITextProps> = ({
   children,
   ...rest
 }) => {
-  const { state } = useSiteContext();
+  const { isEasterEggActive } = useEasterEggContext();
   /**
    * Calculate the styles that will be applied to the Text component from the provided props.
    * If a variant is supplied, use those styles, and override with other props.
@@ -119,9 +119,9 @@ const Text: React.FC<ITextProps> = ({
     return {
       ...stylesFromVariant,
       ...rest, // override variant if needed
-      easterEgg: state.easterEggActive,
+      easterEgg: isEasterEggActive,
     };
-  }, [rest, state.easterEggActive, variant]);
+  }, [isEasterEggActive, rest, variant]);
 
   return (
     <BaseText as={as} {...propsToApply}>

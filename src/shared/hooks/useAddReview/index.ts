@@ -21,41 +21,16 @@ const optionSchema = yup
 const addReviewSchema = yup.object({
   company: optionSchema.nullable().required(),
   job: optionSchema.nullable().required(),
-  location: yup
-    .string()
-    .max(100)
-    .required(),
-  body: yup
-    .string()
-    .max(5000)
-    .required(),
-  overallRating: yup
-    .number()
-    .min(0)
-    .max(5)
-    .required(),
-  meaningfulWorkRating: yup
-    .number()
-    .min(0)
-    .max(5)
-    .required(),
-  workLifeBalanceRating: yup
-    .number()
-    .min(0)
-    .max(5)
-    .required(),
-  learningMentorshipRating: yup
-    .number()
-    .min(0)
-    .max(5)
-    .required(),
+  location: yup.string().max(100).required(),
+  body: yup.string().max(5000).required(),
+  overallRating: yup.number().min(0).max(5).required(),
+  meaningfulWorkRating: yup.number().min(0).max(5).required(),
+  workLifeBalanceRating: yup.number().min(0).max(5).required(),
+  learningMentorshipRating: yup.number().min(0).max(5).required(),
   salary: yup.number().when("noSalaryProvided", {
     is: true,
     then: yup.number().notRequired(),
-    otherwise: yup
-      .number()
-      .min(0)
-      .required(),
+    otherwise: yup.number().min(0).required(),
   }),
   salaryCurrency: optionSchema.when("noSalaryProvided", {
     is: true,
@@ -72,15 +47,8 @@ const addReviewSchema = yup.object({
         .oneOf(["hourly", "weekly", "monthly"]),
     }),
   noSalaryProvided: yup.boolean().notRequired(),
-  tags: yup
-    .array()
-    .of(optionSchema)
-    .nullable()
-    .notRequired(),
-  authorEmail: yup
-    .string()
-    .email()
-    .required(),
+  tags: yup.array().of(optionSchema).nullable().notRequired(),
+  authorEmail: yup.string().email().required(),
 });
 
 export type IAddReviewFields = yup.InferType<typeof addReviewSchema>;
@@ -156,7 +124,7 @@ export const useAddReview = () => {
       | ValueType<{ label: string; value: string }>
       | undefined
   ) => {
-    setReviewState(prevState => ({
+    setReviewState((prevState) => ({
       ...prevState,
       values: {
         ...prevState.values,
@@ -178,13 +146,13 @@ export const useAddReview = () => {
       /**
        * We've passed validation, reset errors to original state
        */
-      setReviewState(prevState => ({
+      setReviewState((prevState) => ({
         ...prevState,
         errors: DEFAULT_REVIEW_STATE.errors,
       }));
     } catch (e) {
       if (e instanceof yup.ValidationError) {
-        setReviewState(prevState => ({
+        setReviewState((prevState) => ({
           ...prevState,
           errors: {
             ...DEFAULT_REVIEW_STATE.errors,
@@ -242,7 +210,7 @@ export const useAddReview = () => {
         ? -1
         : reviewState.values.salary,
       salaryCurrency: reviewState.values.salaryCurrency?.value,
-      tags: reviewState.values.tags?.map(option => option.value).join(","),
+      tags: reviewState.values.tags?.map((option) => option.value).join(","),
     };
   }, [reviewState.values]);
 

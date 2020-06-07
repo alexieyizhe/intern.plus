@@ -20,6 +20,7 @@ const Contents = styled.div`
   & > div.textContainer {
     margin-left: 50px;
     max-width: 300px;
+    line-height: 1.3;
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
@@ -68,7 +69,7 @@ const CrashPage = () => (
         <Text variant="heading1" as="h1">
           Yikes! Something went wrong.
         </Text>
-        <Text variant="subheading" color="greyDark" as="div" size={20}>
+        <Text variant="subheading" color="textSecondary" as="div" size={20}>
           If you have the time, please{" "}
           <Link to={FEEDBACK_LINK}>report the issue</Link> you encountered.
           Thank you!

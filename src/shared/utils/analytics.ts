@@ -17,8 +17,8 @@ const init = (options = {}) => {
      * Track timing of server requests.
      */
     if (typeof PerformanceObserver === "function") {
-      const callback: PerformanceObserverCallback = list => {
-        list.getEntries().forEach(entry => {
+      const callback: PerformanceObserverCallback = (list) => {
+        list.getEntries().forEach((entry) => {
           timing({
             category: "Load Performace",
             variable: "Server latency",
@@ -34,7 +34,7 @@ const init = (options = {}) => {
       observer.observe({ entryTypes: ["navigation"] });
     }
 
-    ttiPolyfill.getFirstConsistentlyInteractive().then(tti => {
+    ttiPolyfill.getFirstConsistentlyInteractive().then((tti) => {
       if (tti) {
         timing({
           category: "Load Performace",

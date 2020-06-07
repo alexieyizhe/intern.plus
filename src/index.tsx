@@ -1,3 +1,6 @@
+import "focus-visible";
+import "array-flat-polyfill";
+import "scroll-behavior-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 import * as Sentry from "@sentry/browser";

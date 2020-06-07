@@ -13,7 +13,7 @@ const client =
   process.env.NODE_ENV === "production"
     ? Promise.resolve(apiClient)
     : import(/* webpackChunkName: "mock" */ "./mock").then(
-        mock => mock.default
+        (mock) => mock.default
       );
 
 export default client;

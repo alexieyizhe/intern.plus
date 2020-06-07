@@ -75,7 +75,7 @@ export const useSearch = <TData>(
       query: searchQuery || "",
       locations:
         searchLocationFilter &&
-        searchLocationFilter.map(val => (LOCATION_MAP[val] || {}).label),
+        searchLocationFilter.map((val) => (LOCATION_MAP[val] || {}).label),
       minSalary: searchSalaryFilter && searchSalaryFilter[0],
       maxSalary: searchSalaryFilter && searchSalaryFilter[1],
       minRating: searchRatingFilter && searchRatingFilter[0],
@@ -104,7 +104,10 @@ export const useSearch = <TData>(
         setUnfilteredResults(newResults);
       } else {
         if (newResults.length > 0) {
-          setUnfilteredResults(prevResults => [...prevResults, ...newResults]);
+          setUnfilteredResults((prevResults) => [
+            ...prevResults,
+            ...newResults,
+          ]);
         }
       }
 
@@ -160,7 +163,7 @@ export const useSearch = <TData>(
     });
 
     // increment page since we fetched a page
-    setPage(prevPage => prevPage + 1);
+    setPage((prevPage) => prevPage + 1);
     setIsNewSearch(false);
 
     // indicate that a search has started
@@ -173,10 +176,10 @@ export const useSearch = <TData>(
   const searchResults = useMemo(() => {
     let results: IGenericCardItem[] = unfilteredResults;
     if (searchLocationFilter) {
-      results = results.filter(item => {
+      results = results.filter((item) => {
         if (isCompanyCardItem(item)) {
-          return searchLocationFilter.some(filterLoc =>
-            item.jobLocations.some(jobLoc => slugify(jobLoc) === filterLoc)
+          return searchLocationFilter.some((filterLoc) =>
+            item.jobLocations.some((jobLoc) => slugify(jobLoc) === filterLoc)
           );
         } else if (isJobCardItem(item)) {
           return searchLocationFilter.includes(slugify(item.location));

@@ -12,7 +12,7 @@ const defaultOptions: OptionTypeBase[] = [
 ];
 
 const getOptionFromValue = (options: OptionTypeBase[], value: SearchSort) =>
-  options.filter(option => option.value === value)[0];
+  options.filter((option) => option.value === value)[0];
 
 export const useSearchSort = (availableSort?: SearchSort[]) => {
   const { searchSort, setSearchSort } = useSearchParams();
@@ -20,7 +20,9 @@ export const useSearchSort = (availableSort?: SearchSort[]) => {
   const options = useMemo(
     () =>
       availableSort
-        ? defaultOptions.filter(option => availableSort.includes(option.value))
+        ? defaultOptions.filter((option) =>
+            availableSort.includes(option.value)
+          )
         : defaultOptions,
     [availableSort]
   );

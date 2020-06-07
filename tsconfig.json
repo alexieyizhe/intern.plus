@@ -1,34 +1,26 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": ".",
     "module": "esnext",
     "moduleResolution": "node",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
-    "incremental": true,
-
     "baseUrl": ".",
-
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": false,
-
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-
     "strict": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react",
-    "types": ["cypress"],
-    "typeRoots": ["./support"]
+    "noEmit": true
   },
-  "include": ["src/**/*", "cypress/**/*"],
-  "exclude": ["node_modules", "src/**/*.e2e.test.ts", "src/**/*.unit.test.tsx"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "src/**/*.unit.test.tsx", "src/theme/cypress/**"]
 }

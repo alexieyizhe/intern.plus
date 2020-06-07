@@ -190,7 +190,7 @@ const getQueryForType = (type?: SearchType) => {
   }
 };
 
-export const getSearchBuilder: SearchQueryBuilder = options => {
+export const getSearchBuilder: SearchQueryBuilder = (options) => {
   const queryForType = getQueryForType(options.type);
   const QUERY_DEF = gql`
     query GetSearch(

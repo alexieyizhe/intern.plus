@@ -33,7 +33,8 @@ const Container = styled(Card)`
   flex-direction: column;
   justify-content: space-between;
 
-  background-color: ${({ theme, color }) => theme.color[color || "greyLight"]};
+  background-color: ${({ theme, color }) =>
+    theme.color[color || "backgroundSecondary"]};
 
   & .loading {
     margin: auto;

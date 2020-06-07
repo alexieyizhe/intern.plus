@@ -1,7 +1,4 @@
-import "focus-visible";
-import "array-flat-polyfill";
 import React, { useState, useEffect } from "react";
-import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/react-hooks";
 import DefaultClient from "apollo-boost";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -9,9 +6,13 @@ import { QueryParamProvider } from "use-query-params";
 import ErrorBoundary from "react-error-boundary";
 
 import apiClientLoader from "src/api/client";
-import { SiteContextProvider } from "src/context";
-import siteTheme from "src/theme";
-import GlobalStyles from "src/theme/globalStyles";
+import {
+  MobileMenuContextProvider,
+  AddReviewModalContextProvider,
+  EasterEggContextProvider,
+  SiteThemeContextProvider,
+} from "src/contexts";
+import GlobalStyles, { HeadingFontDefinition } from "src/theme/globalStyles";
 import { RouteName } from "src/shared/constants/routing";
 import Analytics, { analytics } from "src/shared/utils/analytics";
 
@@ -28,6 +29,7 @@ import { NotFoundPage, CrashPage } from "src/pages/error";
 import CompaniesRouteHandler from "src/pages/companies";
 import JobsRouteHandler from "src/pages/jobs";
 import ReviewsRouteHandler from "src/pages/reviews";
+import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 
 /**
  * Main route handler for all pages in the app.
@@ -63,7 +65,7 @@ export const AppRouteHandler: React.FC = () => {
 const App: React.FC = () => {
   const [apiClient, setApiClient] = useState<DefaultClient<any> | null>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
   useEffect(() => {
-    apiClientLoader.then(client => setApiClient(client));
+    apiClientLoader.then((client) => setApiClient(client));
   }, []);
 
   if (!apiClient) {
@@ -71,35 +73,45 @@ const App: React.FC = () => {
   }
 
   return (
-    <ApolloProvider client={apiClient}>
-      <ThemeProvider theme={siteTheme}>
-        <SiteContextProvider>
-          <Router>
-            <QueryParamProvider ReactRouterRoute={Route}>
-              <ErrorBoundary FallbackComponent={CrashPage}>
-                <div className="App">
-                  <GlobalStyles />
-                  {analytics.init() && <Analytics />}
+    <>
+      <HeadingFontDefinition />
+      <ApolloProvider client={apiClient}>
+        <SiteThemeContextProvider>
+          <AddReviewModalContextProvider>
+            <MobileMenuContextProvider>
+              <EasterEggContextProvider>
+                <Router>
+                  <QueryParamProvider ReactRouterRoute={Route}>
+                    <ErrorBoundary FallbackComponent={CrashPage}>
+                      <div className="App">
+                        <GlobalStyles />
+                        {analytics.init() && <Analytics />}
 
-                  <PageHeader />
-                  <Switch>
-                    <Route exact path={Object.values(RouteName)}>
-                      <AppRouteHandler />
-                    </Route>
+                        <PageHeader />
+                        <Switch>
+                          <Route exact path={Object.values(RouteName)}>
+                            <AppRouteHandler />
+                          </Route>
 
-                    {/* Render 404 if no other routes match */}
-                    <Route>
-                      <NotFoundPage />
-                    </Route>
-                  </Switch>
-                  <PageFooter />
-                </div>
-              </ErrorBoundary>
-            </QueryParamProvider>
-          </Router>
-        </SiteContextProvider>
-      </ThemeProvider>
-    </ApolloProvider>
+                          {/* Render 404 if no other routes match */}
+                          <Route>
+                            <NotFoundPage />
+                          </Route>
+                        </Switch>
+
+                        <PageFooter />
+
+                        <AddReviewModal />
+                      </div>
+                    </ErrorBoundary>
+                  </QueryParamProvider>
+                </Router>
+              </EasterEggContextProvider>
+            </MobileMenuContextProvider>
+          </AddReviewModalContextProvider>
+        </SiteThemeContextProvider>
+      </ApolloProvider>
+    </>
   );
 };
 

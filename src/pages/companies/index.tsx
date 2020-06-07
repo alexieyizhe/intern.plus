@@ -5,7 +5,7 @@ import { useCalculatedLocation } from "src/shared/hooks/useCalculatedLocation";
 import { RouteName } from "src/shared/constants/routing";
 import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
-import CompanyPage from "./components/CompanyPage";
+import Company from "./page";
 
 /**
  * Page router will either:
@@ -18,7 +18,7 @@ const CompaniesRouteHandler = () => {
   return (
     <Switch location={calculatedLocation}>
       <Route exact path={RouteName.COMPANY}>
-        <CompanyPage />
+        <Company />
       </Route>
 
       <Route exact path={RouteName.COMPANIES}>

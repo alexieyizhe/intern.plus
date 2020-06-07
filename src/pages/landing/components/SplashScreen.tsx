@@ -114,7 +114,7 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
           <Text variant="heading1" as="h1">
             {copy.splashCard.heading}
           </Text>
-          <Text variant="heading3" color="greyDark" as="h3">
+          <Text variant="heading3" color="textSecondary" as="h3">
             {copy.splashCard.subheading}
           </Text>
         </div>
@@ -122,9 +122,9 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
           {isMobile ? (
             <Button
               onClick={() => history.push(RouteName.SEARCH)}
-              color="greenDark"
+              color="greenSecondary"
             >
-              <Text variant="subheading" color="white">
+              <Text variant="subheading" color="backgroundPrimary">
                 {copy.splashCard.searchButtonText}
               </Text>
             </Button>

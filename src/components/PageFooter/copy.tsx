@@ -1,6 +1,5 @@
 import React from "react";
 
-import { LogoSmall } from "src/assets";
 import { RouteName } from "src/shared/constants/routing";
 
 const emojis = [
@@ -79,10 +78,6 @@ export const FEEDBACK_LINK =
   "https://github.com/alexieyizhe/intern.plus/issues/new?title=Feedback%20for%20intern.plus&body=Explain%20your%20issue%20here";
 
 export default {
-  logo: {
-    src: LogoSmall,
-    alt: "Small intern.plus logo",
-  },
   getSubtext,
   sublinks: [
     {

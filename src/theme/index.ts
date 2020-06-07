@@ -1,9 +1,8 @@
-import mediaQueries from "./mediaQueries";
-import constants from "./constants";
+export * from "./constants/light";
+export * from "./constants/dark";
+export * from "./constants/shared";
 
-const siteTheme = {
-  ...constants,
-  mediaQueries,
-};
-
-export default siteTheme;
+export * from "./globalStyles";
+export * from "./mediaQueries";
+export * from "./snippets";
+export * from "./helpers";

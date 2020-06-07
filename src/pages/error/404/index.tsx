@@ -22,6 +22,7 @@ const Contents = styled.div`
   & > div.textContainer {
     margin-left: 50px;
     max-width: 300px;
+    line-height: 1.3;
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`
@@ -80,7 +81,7 @@ const NotFoundPage = () => {
           <Text variant="heading1" as="h1">
             This page doesn't exist. Spooky!
           </Text>
-          <Text variant="subheading" color="greyDark" as="div" size={20}>
+          <Text variant="subheading" color="textSecondary" as="div" size={20}>
             You'll be redirected to somewhere safe shortly.
           </Text>
         </div>

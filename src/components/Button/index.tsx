@@ -20,14 +20,14 @@ export const UnstyledButton = styled.button`
 const BaseButton = styled(UnstyledButton)<IButtonProps>`
   position: relative;
   padding: ${({ theme }) => theme.padding.input};
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
 
   background-color: ${({ color = "", theme }) =>
     theme.color[color] || color || "inherit"};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 
   transition: all 150ms;
-  border-radius: ${({ theme }) => theme.borderRadius.button}px;
+  border-radius: ${({ theme }) => theme.borderRadius.large}px;
   border: 2px solid transparent;
 
   & > * {
@@ -35,12 +35,12 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
   }
 
   &:hover:not(:disabled) > * {
-    opacity: 0.8;
+    opacity: 0.7;
   }
 
   &:focus:not(:disabled).focus-visible,
   &:active:not(:disabled) {
-    border: 2px solid ${({ theme }) => theme.color.greyMedium};
+    border: 2px solid ${({ theme }) => theme.color.textTertiary};
   }
 `;
 

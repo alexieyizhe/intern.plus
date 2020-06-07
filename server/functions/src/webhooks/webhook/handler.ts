@@ -1,9 +1,9 @@
 /**
  * This file was generated using 8base CLI.
- * 
+ *
  * To learn more about writing custom GraphQL resolver functions, visit
  * the 8base documentation at:
- * 
+ *
  * https://docs.8base.com/8base-console/custom-functions/webhooks
  *
  * To update this functions invocation settings, update its configuration block
@@ -20,11 +20,11 @@
  */
 
 type WebhookResult = {
-  statusCode: number,
-  body: string,
+  statusCode: number;
+  body: string;
 };
 
-export default async (event: any, ctx: any) : Promise<WebhookResult> => {
+export default async (event: any, ctx: any): Promise<WebhookResult> => {
   const { foo } = JSON.parse(event.body);
 
   return {

@@ -17,7 +17,7 @@ import {
 const MAX_OPTIONS = 5;
 
 const buildOptions = (options: string[]): OptionTypeBase[] =>
-  options.map(loc => ({
+  options.map((loc) => ({
     label: loc,
     value: slugify(loc),
   }));
@@ -25,7 +25,7 @@ const buildOptions = (options: string[]): OptionTypeBase[] =>
 const getLocationSuggestions = (results: IGenericCardItem[]) =>
   Array.from(
     results
-      .flatMap(item => {
+      .flatMap((item) => {
         if (isCompanyCardItem(item)) {
           return item.jobLocations;
         } else if (isJobCardItem(item)) {
@@ -35,7 +35,7 @@ const getLocationSuggestions = (results: IGenericCardItem[]) =>
         }
         return null;
       })
-      .filter(item => !!item)
+      .filter((item) => !!item)
       .reduce((acc, cur) => {
         acc.add(cur);
         return acc;
@@ -68,7 +68,7 @@ export const useSearchLocationFilter = (results?: IGenericCardItem[]) => {
       } else {
         newFilterVal =
           newOptions.length <= MAX_OPTIONS
-            ? newOptions.map(option => option.value)
+            ? newOptions.map((option) => option.value)
             : searchLocationFilter;
       }
 
@@ -81,7 +81,7 @@ export const useSearchLocationFilter = (results?: IGenericCardItem[]) => {
     options,
     value:
       searchLocationFilter &&
-      searchLocationFilter.map(val => LOCATION_MAP[val]),
+      searchLocationFilter.map((val) => LOCATION_MAP[val]),
     onChange: onChange,
   };
 };

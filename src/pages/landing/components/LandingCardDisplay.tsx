@@ -121,6 +121,13 @@ const CardsContainer = styled.div`
   align-items: center;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 
   position: relative;
   padding: 25px 0;
@@ -225,7 +232,7 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
 
       {subLinkTo && (
         <SubLink to={subLinkTo}>
-          <Text variant="subheading" color="greyDark">
+          <Text variant="subheading" color="textSecondary">
             {subLinkText}
           </Text>
         </SubLink>
