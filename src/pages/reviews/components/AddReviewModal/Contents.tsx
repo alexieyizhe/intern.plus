@@ -248,7 +248,7 @@ const SubmittedText = styled(Text)`
 
 const ActionButton = styled(Button)`
   min-width: 100px;
-  transition: all 100ms ease;
+  transition: all 150ms ease;
 
   display: flex;
   justify-content: center;

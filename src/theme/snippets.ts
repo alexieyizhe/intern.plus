@@ -77,7 +77,7 @@ export const inputStyles = css<IInputStyleOptions>`
   cursor: ${({ disabled, readOnly }) =>
     disabled || readOnly ? "not-allowed" : "text"};
 
-  transition: all 100ms;
+  transition: all 150ms;
   border-radius: ${({ theme }) => theme.borderRadius.large}px;
   border: 2px solid transparent;
 
