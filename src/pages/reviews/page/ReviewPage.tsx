@@ -11,7 +11,7 @@ import { GetReviewDetails } from "../graphql/types/GetReviewDetails";
 import { GET_REVIEW_DETAILS } from "../graphql/queries";
 import { buildReviewDetails } from "../graphql/utils";
 
-import ReviewDetailsCard from "./ReviewDetailsCard";
+import ReviewDetailsCard from "../components/ReviewDetailsCard";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *

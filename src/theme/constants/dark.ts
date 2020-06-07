@@ -12,10 +12,10 @@ export const darkTheme: SiteTheme = {
     textTertiary: "#aaaaaa",
 
     goldPrimary: "#ffdc76",
-    goldSecondary: "#CFB316",
+    goldSecondary: "#cfb316",
     greenPrimary: "#779e89",
     greenSecondary: "#507561",
-    error: "#FF6166",
+    error: "#ff6166",
     warning: "#f7a536",
   },
   ...sharedConstants,

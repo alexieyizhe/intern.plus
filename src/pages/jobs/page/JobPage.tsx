@@ -5,30 +5,24 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
-import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
-import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
 import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
 import { useSearch } from "src/shared/hooks/useSearch";
 
-import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
-import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
-import {
-  GET_COMPANY_DETAILS,
-  getCompanyJobsQueryBuilder,
-} from "../graphql/queries";
-import {
-  buildCompanyDetails,
-  buildCompanyJobCardsList,
-} from "../graphql/utils";
+import { availableSortOptions, SearchType } from "src/shared/constants/search";
+
+import { GetJobDetails } from "../graphql/types/GetJobDetails";
+import { GetJobReviews } from "../graphql/types/GetJobReviews";
+import { GET_JOB_DETAILS, getJobReviewsQueryBuilder } from "../graphql/queries";
+import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
 import {
   PageContainer,
   SearchOptionsMenu,
   SearchResultCardDisplay,
 } from "src/components";
-import CompanyDetailsCard from "./CompanyDetailsCard";
+import JobDetailsCard from "../components/JobDetailsCard";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -36,89 +30,91 @@ import CompanyDetailsCard from "./CompanyDetailsCard";
 /**
  * Creates markup for the title in the tab bar.
  */
-const getTitleMarkup = (companyName?: string) =>
-  companyName ? `${companyName} • intern+` : "Company details • intern+";
+const getTitleMarkup = (jobName?: string, companyName?: string) =>
+  jobName && companyName
+    ? `${jobName} at ${companyName} • intern+`
+    : "Job details • intern+";
 
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const CompanyPage: React.FC = () => {
+const JobPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const { companySlug } = useParams();
-  const searchSuggestions = useSearchSuggestions({ companySlug });
+  const { jobId } = useParams();
 
   /**
-   * Fetch *details of the company* with the corresponding slug.
+   * Fetch the *details of the job* with corresponding id.
    */
   const {
     loading: detailsLoading,
     error: detailsError,
     data: detailsData,
-  } = useQuery<GetCompanyDetails>(GET_COMPANY_DETAILS, {
-    variables: { slug: companySlug },
+  } = useQuery<GetJobDetails>(GET_JOB_DETAILS, {
+    variables: { id: jobId },
   });
 
-  const companyDetails = useMemo(
+  const jobDetails = useMemo(
     () =>
-      detailsData && detailsData.company
-        ? buildCompanyDetails(detailsData.company)
+      detailsData && detailsData.job
+        ? buildJobDetails(detailsData.job)
         : undefined,
     [detailsData]
   );
 
   /**
-   * Fetch *jobs at the company*.
+   * Fetch *reviews of the job*.
    */
-  const { QUERY_DEF } = useSearchQueryDef(getCompanyJobsQueryBuilder);
+  const { QUERY_DEF } = useSearchQueryDef(getJobReviewsQueryBuilder);
   const {
     // search info
     searchState,
     searchResults,
-    unfilteredResults,
 
     // callbacks
     triggerSearchNew,
     triggerSearchNextBatch,
-  } = useSearch<GetCompanyJobs>(
+  } = useSearch<GetJobReviews>(
     QUERY_DEF,
     {
       variables: {
-        slug: companySlug,
+        id: jobId,
       },
     },
-    buildCompanyJobCardsList
+    buildJobReviewsCardList
   );
 
   /**
    * For search options menu
    */
-  const sortOption = useSearchSort();
+  const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]);
   const salaryOption = useSearchSalaryFilter();
-  const locationOption = useSearchLocationFilter(unfilteredResults);
   const ratingOption = useSearchRatingFilter();
 
   return (
     <>
       <Helmet>
-        <title>{getTitleMarkup(companyDetails && companyDetails.name)}</title>
+        <title>
+          {getTitleMarkup(
+            jobDetails && jobDetails.name,
+            jobDetails && jobDetails.companyName
+          )}
+        </title>
       </Helmet>
 
-      <PageContainer id="company-page">
-        <CompanyDetailsCard
+      <PageContainer id="job-page">
+        <JobDetailsCard
           loading={detailsLoading}
           error={detailsError !== undefined}
-          companyDetails={companyDetails}
+          jobDetails={jobDetails}
           searchFieldProps={{
             onTriggerSearch: triggerSearchNew,
-            suggestions: searchSuggestions,
-            inputProps: { placeholder: "Find a position" },
+            inputProps: { placeholder: "Find a review" },
           }}
         />
 
         <SearchOptionsMenu
           sortOption={sortOption}
-          locationOption={locationOption}
           salaryOption={salaryOption}
           ratingOption={ratingOption}
           onOptionChange={() => triggerSearchNew(undefined, true)}
@@ -134,4 +130,4 @@ const CompanyPage: React.FC = () => {
   );
 };
 
-export default React.memo(CompanyPage);
+export default JobPage;

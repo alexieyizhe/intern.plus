@@ -5,7 +5,7 @@ import { useCalculatedLocation } from "src/shared/hooks/useCalculatedLocation";
 import { RouteName } from "src/shared/constants/routing";
 import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
-import ReviewPage from "src/pages/reviews/components/ReviewPage";
+import Review from "./page";
 
 /**
  * Page router will either:
@@ -18,7 +18,7 @@ const ReviewsRouteHandler = () => {
   return (
     <>
       <Route exact path={RouteName.REVIEW}>
-        <ReviewPage /> {/* this is actually a modal */}
+        <Review /> {/* this is actually a modal */}
       </Route>
 
       <Route exact path={RouteName.REVIEWS} location={calculatedLocation}>

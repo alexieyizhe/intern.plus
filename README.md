@@ -79,14 +79,13 @@ Branch names contain the issue number on which the development efforts are focus
 
 When branches are merged back into `master`, they must be squashed committed.
 
-The commit name is usually also prefixed with one of the following emojis based on the changes made in the commit, for better readability when skimming through the `master` branch history:
+The commit name must be prefixed with one of the following, according to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) guidelines:
 
-- ✨: new feature
-- 🐛: bug fixes
-- ♻️: refactoring
-- 💄: style changes
-- 🧹: chore-related changes
-- 📚: documentation & tests
+- `feat:` new feature
+- `bug:` bug fixes
+- `style:` style changes
+- `chore:` refactoringchore-related changes
+- `docs:` documentation & tests
 
 #### Commits into `release` branch (releases)
 

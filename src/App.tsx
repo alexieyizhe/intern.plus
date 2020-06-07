@@ -1,5 +1,3 @@
-import "focus-visible";
-import "array-flat-polyfill";
 import React, { useState, useEffect } from "react";
 import { ApolloProvider } from "@apollo/react-hooks";
 import DefaultClient from "apollo-boost";
