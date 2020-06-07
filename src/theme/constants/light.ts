@@ -11,11 +11,11 @@ export const lightTheme: SiteTheme = {
     textSecondary: "#787878",
     textTertiary: "#c6c6c6",
 
-    goldPrimary: "#CFB316",
+    goldPrimary: "#cfb316",
     goldSecondary: "#ffdc76",
     greenPrimary: "#507561",
     greenSecondary: "#779e89",
-    error: "#FF6166",
+    error: "#ff6166",
     warning: "#f7a536",
   },
   ...sharedConstants,
