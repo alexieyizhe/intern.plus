@@ -73,6 +73,10 @@ export const inputStyles = css<IInputStyleOptions>`
 
   color: ${({ textColor = "textPrimary", theme }) =>
     theme.color[textColor] || textColor};
+  ::placeholder {
+    color: ${({ theme }) => theme.color.textSecondary};
+    opacity: 1; 
+  }
   font-family: ${({ heading, theme }) =>
     theme.fontFamily[heading ? "heading" : "body"]};
   font-size: ${({ textSize = Size.SMALL, theme }) =>

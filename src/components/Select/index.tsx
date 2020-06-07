@@ -56,6 +56,10 @@ const customSelectStyles = (theme: any, color?: string) => ({
     padding: "1.5px 0",
     margin: 0,
   }),
+  placeholder: (provided: any) => ({
+    ...provided,
+    color: theme.color.textSecondary,
+  }),
   indicatorSeparator: () => {},
   indicatorsContainer: (provided: any, state: any) => ({
     ...provided,
