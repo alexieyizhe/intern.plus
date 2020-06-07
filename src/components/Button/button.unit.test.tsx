@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 import React from "react";
 import { mount } from "cypress-react-unit-test";
 
@@ -6,7 +8,7 @@ import { withTheme } from "../../theme/cypress/withTheme";
 
 describe("Button component", () => {
   it("renders properly", () => {
-    mount(withTheme(<Button color="greenPrimary">Sup</Button>)); // @todo: Fix this
+    mount(withTheme(<Button color="greenPrimary">Sup</Button>));
     cy.get("button").contains("Sup");
     cy.get("button")
       .should("have.css", "background-color")

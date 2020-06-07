@@ -1,4 +1,3 @@
-// @todo: better name for this file
 import { MediaQueryTemplates } from "./mediaQueries";
 
 export enum Size {
