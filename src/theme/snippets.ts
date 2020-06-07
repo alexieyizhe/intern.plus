@@ -82,7 +82,7 @@ export const inputStyles = css<IInputStyleOptions>`
   font-size: ${({ textSize = Size.SMALL, theme }) =>
     theme.fontSize[textSize] || textSize}px;
 
-  ${({ underline }) => underline && `text-decoration: underline;`}
+  ${({ underline }) => underline && `text-decoration-line: underline;`}
   ${({ bold }) =>
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}

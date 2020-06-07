@@ -10,35 +10,37 @@ export interface ILinkProps extends React.ComponentPropsWithoutRef<"a"> {
   newTab?: boolean;
   to: string;
   bare?: boolean;
+  color?: string;
 }
 
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
 export const baseLinkStyles = css`
-  color: inherit;
   cursor: pointer;
 
-  text-decoration-color: ${({ theme }) => theme.color.backgroundSecondary};
-  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-line: underline;
   &.bare {
-    text-decoration: none;
+    text-decoration-line: none;
   }
 
   &:hover:not(:disabled),
   &:focus:not(:disabled) {
-    text-decoration: none;
+    text-decoration-line: none;
 
     &.bare {
-      text-decoration: underline;
+      text-decoration-line: underline;
     }
   }
 `;
 export const BaseLink = styled.a`
+  color: ${({ color = "textPrimary", theme }) => theme.color[color] || color};
   ${baseLinkStyles}
 `;
 
 export const BaseRouterLink = styled(RouterLink)`
+  color: ${({ color = "textPrimary", theme }) => theme.color[color] || color};
   ${baseLinkStyles}
 `;
 
@@ -49,8 +51,9 @@ const Link: React.FC<ILinkProps> = ({
   className,
   newTab,
   to,
-  children,
   bare,
+  color,
+  children,
   ...rest
 }) => {
   /**
@@ -66,6 +69,7 @@ const Link: React.FC<ILinkProps> = ({
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : ""}
       tabIndex={0}
+      color={color}
       {...rest}
     >
       {children}
@@ -77,6 +81,7 @@ const Link: React.FC<ILinkProps> = ({
       target={newTab ? "_blank" : undefined}
       rel={newTab ? "noopener noreferrer" : ""}
       tabIndex={0}
+      color={color}
       {...rest}
     >
       {children}
