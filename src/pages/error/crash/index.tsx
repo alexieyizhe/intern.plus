@@ -20,6 +20,7 @@ const Contents = styled.div`
   & > div.textContainer {
     margin-left: 50px;
     max-width: 300px;
+    line-height: 1.3;
   }
 
   ${({ theme }) => theme.mediaQueries.tablet`

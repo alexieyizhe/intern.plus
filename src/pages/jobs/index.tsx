@@ -5,7 +5,7 @@ import { useCalculatedLocation } from "src/shared/hooks/useCalculatedLocation";
 import { RouteName } from "src/shared/constants/routing";
 import { SearchParamKey, SearchType } from "src/shared/constants/search";
 
-import JobPage from "./components/JobPage";
+import Job from "./page";
 
 /**
  * Page router will either:
@@ -18,7 +18,7 @@ const JobsRouteHandler = () => {
   return (
     <Switch location={calculatedLocation}>
       <Route exact path={RouteName.JOB}>
-        <JobPage />
+        <Job />
       </Route>
 
       <Route exact path={RouteName.JOBS}>
