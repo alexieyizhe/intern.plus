@@ -1,4 +1,4 @@
-import { strToHSL, getLightColor } from "src/shared/utils/color";
+import { strToHSL, getSecondaryColor } from "src/shared/utils/color";
 
 export const slugify = (str: string): string => {
   const a =
@@ -21,7 +21,11 @@ export const slugify = (str: string): string => {
 
 const REVIEW_IS_NEW_THRESHOLD = 15_552_000_000; // 6 months in ms // 31536000000; // 1 year in ms
 
-export const getReviewCardTags = (tags: string, date?: string) => [
+export const getReviewCardTags = (
+  tags: string,
+  isDark: boolean,
+  date?: string
+) => [
   ...(date &&
   Number(new Date()) - Number(new Date(date)) < REVIEW_IS_NEW_THRESHOLD
     ? [{ label: "new", bgColor: "goldSecondary" }]
@@ -31,6 +35,6 @@ export const getReviewCardTags = (tags: string, date?: string) => [
     .filter((t) => !!t)
     .map((tagText) => ({
       label: tagText,
-      bgColor: getLightColor(strToHSL(tagText)),
+      bgColor: getSecondaryColor(isDark, strToHSL(tagText)),
     })),
 ];

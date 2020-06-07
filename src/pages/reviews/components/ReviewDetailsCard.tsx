@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 import { Size } from "src/theme";
 import { RouteName } from "src/shared/constants/routing";
-import { getDarkColor } from "src/shared/utils/color";
+import { getPrimaryColor } from "src/shared/utils/color";
 import { SearchParamKey } from "src/shared/constants/search";
 import { getReviewCardTags } from "src/shared/utils/misc";
 
@@ -20,6 +20,7 @@ import {
   Icon,
   IconName,
 } from "src/components";
+import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                           *
@@ -230,147 +231,161 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
   onExit,
   reviewDetails,
   ...rest
-}) => (
-  <DetailsCard
-    className={classNames("company", className)}
-    color="backgroundSecondary"
-    {...rest}
-  >
-    <div>
-      <FlexRowContainer>
-        <div>
-          <Link to={`${RouteName.JOBS}/${reviewDetails?.jobId}`} bare>
-            <Text variant="heading1" as="h1">
-              {reviewDetails?.jobName}
-            </Text>
-          </Link>
+}) => {
+  const { value: isDark } = useDarkMode();
+
+  return (
+    <DetailsCard
+      className={classNames("company", className)}
+      color="backgroundSecondary"
+      {...rest}
+    >
+      <div>
+        <FlexRowContainer>
+          <div>
+            <Link to={`${RouteName.JOBS}/${reviewDetails?.jobId}`} bare>
+              <Text variant="heading1" as="h1">
+                {reviewDetails?.jobName}
+              </Text>
+            </Link>
+            <Link
+              to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`}
+              bare
+            >
+              <Text
+                variant="heading3"
+                color={getPrimaryColor(isDark, reviewDetails?.color)}
+              >
+                {reviewDetails?.companyName}
+              </Text>
+            </Link>
+            {reviewDetails?.location && (
+              <Text
+                className="subheading location"
+                variant="heading3"
+                color="textSecondary"
+              >
+                {` • ${reviewDetails?.location}`}
+              </Text>
+            )}
+          </div>
           <Link
             to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`}
             bare
           >
-            <Text variant="heading3" color={getDarkColor(reviewDetails?.color)}>
-              {reviewDetails?.companyName}
-            </Text>
+            <LogoImg
+              src={reviewDetails?.logoSrc}
+              alt={`Logo of ${reviewDetails?.companyName}`}
+            />
           </Link>
-          {reviewDetails?.location && (
-            <Text
-              className="subheading location"
-              variant="heading3"
-              color="textSecondary"
-            >
-              {` • ${reviewDetails?.location}`}
-            </Text>
-          )}
-        </div>
-        <Link to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`} bare>
-          <LogoImg
-            src={reviewDetails?.logoSrc}
-            alt={`Logo of ${reviewDetails?.companyName}`}
-          />
-        </Link>
-      </FlexRowContainer>
+        </FlexRowContainer>
 
-      <ReviewPrefixContainer>
-        <Text variant="subheading">{reviewDetails?.author} </Text>
-        <Text variant="subheading" color="textSecondary">
-          mentioned the following{" "}
-        </Text>
-        <Text variant="subheading" title={reviewDetails?.date}>
-          {reviewDetails?.relativeDate}...
-        </Text>
-      </ReviewPrefixContainer>
-
-      <FlexRowContainer className="misc-info">
-        <div>
-          <ReviewRating
-            maxStars={5}
-            value={reviewDetails ? reviewDetails.overallRating : 0}
-            readOnly
-          >
-            <Text variant="subheading" className="rating-text">
-              Overall
-            </Text>
-          </ReviewRating>
-          <ReviewRating
-            maxStars={5}
-            value={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
-            readOnly
-          >
-            <Text
-              variant="subheading"
-              className="rating-text"
-              color="textSecondary"
-            >
-              Meaningful work
-            </Text>
-          </ReviewRating>
-          <ReviewRating
-            maxStars={5}
-            value={reviewDetails?.workLifeBalanceRating}
-            readOnly
-          >
-            <Text
-              variant="subheading"
-              className="rating-text"
-              color="textSecondary"
-            >
-              Work life balance
-            </Text>
-          </ReviewRating>
-          <ReviewRating
-            maxStars={5}
-            value={reviewDetails?.learningMentorshipRating}
-            readOnly
-          >
-            <Text
-              variant="subheading"
-              className="rating-text"
-              color="textSecondary"
-            >
-              Learning &amp; mentorship
-            </Text>
-          </ReviewRating>
-        </div>
-        <SalaryInfo>
-          {reviewDetails?.salary && reviewDetails?.salary >= 0 && (
-            <Text variant="heading2" className="salary-amt">
-              {reviewDetails?.salary}
-            </Text>
-          )}
-          <Text variant="heading3" className="salary-text">
-            {getSalaryText(
-              reviewDetails?.salary,
-              reviewDetails?.salaryCurrency,
-              reviewDetails?.salaryPeriod
-            )}
+        <ReviewPrefixContainer>
+          <Text variant="subheading">{reviewDetails?.author} </Text>
+          <Text variant="subheading" color="textSecondary">
+            mentioned the following{" "}
           </Text>
-        </SalaryInfo>
-      </FlexRowContainer>
-      <ReviewBody variant="body">
-        {reviewDetails?.body}
-        {/* TODO: is there a way to render new lines without dangerouslySetInnerHTML? don't want to be exposed to XSS */}
-      </ReviewBody>
+          <Text variant="subheading" title={reviewDetails?.date}>
+            {reviewDetails?.relativeDate}...
+          </Text>
+        </ReviewPrefixContainer>
 
-      {reviewDetails?.tags && (
-        <ReviewTags className="tags">
-          {getReviewCardTags(reviewDetails?.tags).map(({ label, bgColor }) => (
-            <Link to={`${RouteName.SEARCH}?${SearchParamKey.QUERY}=${label}`}>
-              <Tag key={label} color={bgColor}>
-                <Text size={12} bold={500}>
-                  {label}
-                </Text>
-              </Tag>
-            </Link>
-          ))}
-        </ReviewTags>
-      )}
-    </div>
+        <FlexRowContainer className="misc-info">
+          <div>
+            <ReviewRating
+              maxStars={5}
+              value={reviewDetails ? reviewDetails.overallRating : 0}
+              readOnly
+            >
+              <Text variant="subheading" className="rating-text">
+                Overall
+              </Text>
+            </ReviewRating>
+            <ReviewRating
+              maxStars={5}
+              value={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
+              readOnly
+            >
+              <Text
+                variant="subheading"
+                className="rating-text"
+                color="textSecondary"
+              >
+                Meaningful work
+              </Text>
+            </ReviewRating>
+            <ReviewRating
+              maxStars={5}
+              value={reviewDetails?.workLifeBalanceRating}
+              readOnly
+            >
+              <Text
+                variant="subheading"
+                className="rating-text"
+                color="textSecondary"
+              >
+                Work life balance
+              </Text>
+            </ReviewRating>
+            <ReviewRating
+              maxStars={5}
+              value={reviewDetails?.learningMentorshipRating}
+              readOnly
+            >
+              <Text
+                variant="subheading"
+                className="rating-text"
+                color="textSecondary"
+              >
+                Learning &amp; mentorship
+              </Text>
+            </ReviewRating>
+          </div>
+          <SalaryInfo>
+            {reviewDetails?.salary && reviewDetails?.salary >= 0 && (
+              <Text variant="heading2" className="salary-amt">
+                {reviewDetails?.salary}
+              </Text>
+            )}
+            <Text variant="heading3" className="salary-text">
+              {getSalaryText(
+                reviewDetails?.salary,
+                reviewDetails?.salaryCurrency,
+                reviewDetails?.salaryPeriod
+              )}
+            </Text>
+          </SalaryInfo>
+        </FlexRowContainer>
+        <ReviewBody variant="body">
+          {reviewDetails?.body}
+          {/* TODO: is there a way to render new lines without dangerouslySetInnerHTML? don't want to be exposed to XSS */}
+        </ReviewBody>
 
-    <CloseButton onClick={onExit} tabIndex={1}>
-      <span className="bg" />
-      <Icon name={IconName.X} color="backgroundPrimary" size={13} />
-    </CloseButton>
-  </DetailsCard>
-);
+        {reviewDetails?.tags && (
+          <ReviewTags className="tags">
+            {getReviewCardTags(reviewDetails.tags, isDark).map(
+              ({ label, bgColor }) => (
+                <Link
+                  to={`${RouteName.SEARCH}?${SearchParamKey.QUERY}=${label}`}
+                >
+                  <Tag key={label} color={bgColor}>
+                    <Text size={12} bold={500}>
+                      {label}
+                    </Text>
+                  </Tag>
+                </Link>
+              )
+            )}
+          </ReviewTags>
+        )}
+      </div>
+
+      <CloseButton onClick={onExit} tabIndex={1}>
+        <span className="bg" />
+        <Icon name={IconName.X} color="backgroundPrimary" size={13} />
+      </CloseButton>
+    </DetailsCard>
+  );
+};
 
 export default ReviewDetailsCard;

@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 
 import { hoverStyles, itemCardStyles } from "src/theme/snippets";
-import { getLightColor, getDarkColor } from "src/shared/utils/color";
+import { getSecondaryColor, getPrimaryColor } from "src/shared/utils/color";
 
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
+import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -118,34 +119,38 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   linkTo,
   color,
   ...rest
-}) => (
-  <Container
-    className={classNames("company-card", className)}
-    color={color ? getLightColor(color) : FALLBACK_BG_COLOR}
-    {...rest}
-  >
-    <Link to={linkTo} tabIndex={0}>
-      <Text
-        className="name"
-        variant="heading2"
-        color={color && getDarkColor(color)}
-      >
-        {name}
-      </Text>
+}) => {
+  const { value: isDark } = useDarkMode();
 
-      {logoSrc && (
-        <img className="logo" src={logoSrc} alt={`Logo of ${name}`} />
-      )}
-
-      {desc && (
-        <Text className="desc" variant="subheading" color="textSecondary">
-          {desc}
+  return (
+    <Container
+      className={classNames("company-card", className)}
+      color={color ? getSecondaryColor(isDark, color) : FALLBACK_BG_COLOR}
+      {...rest}
+    >
+      <Link to={linkTo} tabIndex={0}>
+        <Text
+          className="name"
+          variant="heading2"
+          color={color && getPrimaryColor(isDark, color)}
+        >
+          {name}
         </Text>
-      )}
 
-      <div className="ratings">{getRatingMarkup(numRatings, avgRating)}</div>
-    </Link>
-  </Container>
-);
+        {logoSrc && (
+          <img className="logo" src={logoSrc} alt={`Logo of ${name}`} />
+        )}
+
+        {desc && (
+          <Text className="desc" variant="subheading" color="textSecondary">
+            {desc}
+          </Text>
+        )}
+
+        <div className="ratings">{getRatingMarkup(numRatings, avgRating)}</div>
+      </Link>
+    </Container>
+  );
+};
 
 export default React.memo(CompanyCard);

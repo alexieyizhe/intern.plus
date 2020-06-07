@@ -21,6 +21,7 @@ import { getReviewCardTags } from "src/shared/utils/misc";
 import Text from "src/components/Text";
 import { ReviewCard, CompanyCard, JobCard } from "src/components/Card";
 import Spinner from "src/components/Spinner";
+import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -104,7 +105,7 @@ const getMiscContent = (
  * the data in the search result.
  * @param result object containing item data for a specific search result
  */
-const getResultCardMarkup = (result: IGenericCardItem) => {
+const getResultCardMarkup = (result: IGenericCardItem, isDark: boolean) => {
   if (isCompanyCardItem(result)) {
     return (
       <ResultCompanyCard
@@ -147,7 +148,7 @@ const getResultCardMarkup = (result: IGenericCardItem) => {
     const tags = isReviewJobCardItem(result)
       ? [
           { label: "review", bgColor: "textTertiary" },
-          ...getReviewCardTags(result.tags, result.date),
+          ...getReviewCardTags(result.tags, isDark, result.date),
         ]
       : undefined;
 
@@ -236,6 +237,8 @@ const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
   onResultsEndReached,
   ...rest
 }) => {
+  const { value: isDark } = useDarkMode();
+
   const { mood, markup } = useMemo(() => getMiscContent(searchState), [
     searchState,
   ]);
@@ -255,7 +258,7 @@ const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
         <Planet size={200} mood={mood} color="#DDDDDD" />
       </div>
 
-      {searchResults.map(getResultCardMarkup)}
+      {searchResults.map((result) => getResultCardMarkup(result, isDark))}
 
       <MarkupContainer>{markup}</MarkupContainer>
 

@@ -5,12 +5,13 @@ import classNames from "classnames";
 import { Location } from "history";
 
 import { hoverStyles, itemCardStyles } from "src/theme/snippets";
-import { getDarkColor } from "src/shared/utils/color";
+import { getPrimaryColor } from "src/shared/utils/color";
 
 import Tag from "src/components/Tag";
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
 import Card, { ICardProps } from "../RawCard";
+import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -120,6 +121,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
     [linkTo, location]
   );
 
+  const { value: isDark } = useDarkMode();
   return (
     <Container
       className={classNames("review-card", className)}
@@ -130,7 +132,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
         <Text
           variant="heading3"
           className="heading"
-          color={color && getDarkColor(color)}
+          color={color && getPrimaryColor(isDark, color)}
         >
           {heading}
         </Text>

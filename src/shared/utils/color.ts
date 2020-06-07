@@ -22,8 +22,30 @@ export const changeColorLightness = (hslString: string, newLum: number) => {
   return `hsl(${h}, ${s}%, ${newLum}%)`;
 };
 
-export const getDarkColor = (hslString?: string) =>
-  hslString ? changeColorLightness(hslString, 42) : "#333333";
+export const changeColorSaturation = (hslString: string, newSat: number) => {
+  const [h, , l] = hslString.replace(/[^\d.,]/g, "").split(",");
 
-export const getLightColor = (hslString?: string) =>
-  hslString ? changeColorLightness(hslString, 90) : "#f1f1f1";
+  return `hsl(${h}, ${newSat}%, ${l}%)`;
+};
+
+/**
+ * Returns a shade of `hslString` that's close to the current
+ * textPrimary text color.
+ */
+export const getPrimaryColor = (isDark: boolean, hslString?: string) =>
+  hslString
+    ? isDark
+      ? changeColorLightness(changeColorSaturation(hslString, 75), 80)
+      : changeColorLightness(hslString, 45)
+    : "#333333";
+
+/**
+ * Returns a shade of `hslString` that's close to the current
+ * backgroundPrimary text color.
+ */
+export const getSecondaryColor = (isDark: boolean, hslString?: string) =>
+  hslString
+    ? isDark
+      ? changeColorSaturation(hslString, 10)
+      : changeColorLightness(hslString, 90)
+    : "#f1f1f1";

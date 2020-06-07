@@ -3,7 +3,7 @@ import styled from "styled-components";
 import classNames from "classnames";
 
 import { RouteName } from "src/shared/constants/routing";
-import { getDarkColor } from "src/shared/utils/color";
+import { getPrimaryColor } from "src/shared/utils/color";
 
 import {
   IDetailsCardProps,
@@ -12,6 +12,7 @@ import {
   Link,
   StarRating,
 } from "src/components";
+import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -144,128 +145,147 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
   className,
   jobDetails,
   ...rest
-}) => (
-  <DetailsCard className={classNames("job", className)} {...rest}>
-    <div>
-      <Text variant="heading1" as="div" color={getDarkColor(jobDetails?.color)}>
-        {jobDetails?.name}
-      </Text>
-      <Link
-        className="subheading"
-        to={`${RouteName.COMPANIES}/${jobDetails?.companySlug}`}
-        bare
-      >
-        <Text variant="heading3" color="textSecondary">
-          {jobDetails?.companyName}
-        </Text>
-      </Link>
-      {jobDetails?.location && (
+}) => {
+  const { value: isDark } = useDarkMode();
+  return (
+    <DetailsCard className={classNames("job", className)} {...rest}>
+      <div>
         <Text
-          className="subheading location"
-          variant="heading3"
-          color="textSecondary"
+          variant="heading1"
+          as="div"
+          color={getPrimaryColor(isDark, jobDetails?.color)}
         >
-          {` • ${jobDetails?.location}`}
+          {jobDetails?.name}
         </Text>
-      )}
-
-      <MiscDetails>
-        <div className="ratings">
-          <StarRating
-            className="rating"
-            maxStars={5}
-            value={Math.round(jobDetails ? jobDetails.avgRating : 0)}
-            readOnly
-          >
-            <Text
-              variant="subheading"
-              className="rating-text"
-              color="textPrimary"
-            >
-              {jobDetails?.avgRating.toFixed(1)}
-            </Text>
-            <Text
-              variant="subheading"
-              className="rating-text"
-              color="textPrimary"
-            >
-              Overall
-            </Text>
-          </StarRating>
-          <StarRating
-            className="rating"
-            maxStars={5}
-            value={Math.round(
-              jobDetails ? jobDetails.avgLearningMentorshipRating : 0
-            )}
-            readOnly
-          >
-            <Text variant="body" className="rating-text" color="textPrimary">
-              {jobDetails?.avgLearningMentorshipRating.toFixed(1)}
-            </Text>
-            <Text variant="body" className="rating-text" color="textSecondary">
-              Learning &amp; mentorship
-            </Text>
-          </StarRating>
-          <StarRating
-            className="rating"
-            maxStars={5}
-            value={Math.round(
-              jobDetails ? jobDetails.avgMeaningfulWorkRating : 0
-            )}
-            readOnly
-          >
-            <Text variant="body" className="rating-text" color="textPrimary">
-              {jobDetails?.avgMeaningfulWorkRating.toFixed(1)}
-            </Text>
-            <Text variant="body" className="rating-text" color="textSecondary">
-              Meaningful work
-            </Text>
-          </StarRating>
-          <StarRating
-            className="rating"
-            maxStars={5}
-            value={Math.round(
-              jobDetails ? jobDetails.avgWorkLifeBalanceRating : 0
-            )}
-            readOnly
-          >
-            <Text variant="body" className="rating-text" color="textPrimary">
-              {jobDetails?.avgWorkLifeBalanceRating.toFixed(1)}
-            </Text>
-            <Text variant="body" className="rating-text" color="textSecondary">
-              Work-life balance
-            </Text>
-          </StarRating>
+        <Link
+          className="subheading"
+          to={`${RouteName.COMPANIES}/${jobDetails?.companySlug}`}
+          bare
+        >
+          <Text variant="heading3" color="textSecondary">
+            {jobDetails?.companyName}
+          </Text>
+        </Link>
+        {jobDetails?.location && (
           <Text
-            variant="subheading"
-            as="div"
-            className="num-ratings-text"
+            className="subheading location"
+            variant="heading3"
             color="textSecondary"
           >
-            {getRatingsText(jobDetails?.numRatings)}
+            {` • ${jobDetails?.location}`}
           </Text>
-        </div>
+        )}
 
-        <div className="salary">
-          {jobDetails?.minHourlySalary && jobDetails?.minHourlySalary >= 0 && (
-            <Text variant="heading2" as="div">
-              {jobDetails?.minHourlySalary === jobDetails?.maxHourlySalary
-                ? jobDetails?.minHourlySalary
-                : `${jobDetails?.minHourlySalary} - ${jobDetails?.maxHourlySalary}`}
+        <MiscDetails>
+          <div className="ratings">
+            <StarRating
+              className="rating"
+              maxStars={5}
+              value={Math.round(jobDetails ? jobDetails.avgRating : 0)}
+              readOnly
+            >
+              <Text
+                variant="subheading"
+                className="rating-text"
+                color="textPrimary"
+              >
+                {jobDetails?.avgRating.toFixed(1)}
+              </Text>
+              <Text
+                variant="subheading"
+                className="rating-text"
+                color="textPrimary"
+              >
+                Overall
+              </Text>
+            </StarRating>
+            <StarRating
+              className="rating"
+              maxStars={5}
+              value={Math.round(
+                jobDetails ? jobDetails.avgLearningMentorshipRating : 0
+              )}
+              readOnly
+            >
+              <Text variant="body" className="rating-text" color="textPrimary">
+                {jobDetails?.avgLearningMentorshipRating.toFixed(1)}
+              </Text>
+              <Text
+                variant="body"
+                className="rating-text"
+                color="textSecondary"
+              >
+                Learning &amp; mentorship
+              </Text>
+            </StarRating>
+            <StarRating
+              className="rating"
+              maxStars={5}
+              value={Math.round(
+                jobDetails ? jobDetails.avgMeaningfulWorkRating : 0
+              )}
+              readOnly
+            >
+              <Text variant="body" className="rating-text" color="textPrimary">
+                {jobDetails?.avgMeaningfulWorkRating.toFixed(1)}
+              </Text>
+              <Text
+                variant="body"
+                className="rating-text"
+                color="textSecondary"
+              >
+                Meaningful work
+              </Text>
+            </StarRating>
+            <StarRating
+              className="rating"
+              maxStars={5}
+              value={Math.round(
+                jobDetails ? jobDetails.avgWorkLifeBalanceRating : 0
+              )}
+              readOnly
+            >
+              <Text variant="body" className="rating-text" color="textPrimary">
+                {jobDetails?.avgWorkLifeBalanceRating.toFixed(1)}
+              </Text>
+              <Text
+                variant="body"
+                className="rating-text"
+                color="textSecondary"
+              >
+                Work-life balance
+              </Text>
+            </StarRating>
+            <Text
+              variant="subheading"
+              as="div"
+              className="num-ratings-text"
+              color="textSecondary"
+            >
+              {getRatingsText(jobDetails?.numRatings)}
             </Text>
-          )}
-          <Text variant="heading3" as="div">
-            {getSalaryText(
-              jobDetails?.minHourlySalary,
-              jobDetails?.hourlySalaryCurrency,
-              "hourly"
+          </div>
+
+          <div className="salary">
+            {jobDetails?.minHourlySalary && jobDetails?.minHourlySalary >= 0 && (
+              <Text variant="heading2" as="div">
+                {jobDetails?.minHourlySalary === jobDetails?.maxHourlySalary
+                  ? jobDetails?.minHourlySalary
+                  : `${jobDetails?.minHourlySalary} - ${jobDetails?.maxHourlySalary}`}
+              </Text>
             )}
-          </Text>
-        </div>
-      </MiscDetails>
-    </div>
-  </DetailsCard>
-);
+            <Text variant="heading3" as="div">
+              {getSalaryText(
+                jobDetails?.minHourlySalary,
+                jobDetails?.hourlySalaryCurrency,
+                "hourly"
+              )}
+            </Text>
+          </div>
+        </MiscDetails>
+      </div>
+    </DetailsCard>
+  );
+};
 
 export default React.memo(JobDetailsCard);
