@@ -12,7 +12,7 @@ import {
   EasterEggContextProvider,
   SiteThemeContextProvider,
 } from "src/contexts";
-import GlobalStyles from "src/theme/globalStyles";
+import GlobalStyles, { HeadingFontDefinition } from "src/theme/globalStyles";
 import { RouteName } from "src/shared/constants/routing";
 import Analytics, { analytics } from "src/shared/utils/analytics";
 
@@ -73,42 +73,45 @@ const App: React.FC = () => {
   }
 
   return (
-    <ApolloProvider client={apiClient}>
-      <SiteThemeContextProvider>
-        <AddReviewModalContextProvider>
-          <MobileMenuContextProvider>
-            <EasterEggContextProvider>
-              <Router>
-                <QueryParamProvider ReactRouterRoute={Route}>
-                  <ErrorBoundary FallbackComponent={CrashPage}>
-                    <div className="App">
-                      <GlobalStyles />
-                      {analytics.init() && <Analytics />}
+    <>
+      <HeadingFontDefinition />
+      <ApolloProvider client={apiClient}>
+        <SiteThemeContextProvider>
+          <AddReviewModalContextProvider>
+            <MobileMenuContextProvider>
+              <EasterEggContextProvider>
+                <Router>
+                  <QueryParamProvider ReactRouterRoute={Route}>
+                    <ErrorBoundary FallbackComponent={CrashPage}>
+                      <div className="App">
+                        <GlobalStyles />
+                        {analytics.init() && <Analytics />}
 
-                      <PageHeader />
-                      <Switch>
-                        <Route exact path={Object.values(RouteName)}>
-                          <AppRouteHandler />
-                        </Route>
+                        <PageHeader />
+                        <Switch>
+                          <Route exact path={Object.values(RouteName)}>
+                            <AppRouteHandler />
+                          </Route>
 
-                        {/* Render 404 if no other routes match */}
-                        <Route>
-                          <NotFoundPage />
-                        </Route>
-                      </Switch>
+                          {/* Render 404 if no other routes match */}
+                          <Route>
+                            <NotFoundPage />
+                          </Route>
+                        </Switch>
 
-                      <PageFooter />
+                        <PageFooter />
 
-                      <AddReviewModal />
-                    </div>
-                  </ErrorBoundary>
-                </QueryParamProvider>
-              </Router>
-            </EasterEggContextProvider>
-          </MobileMenuContextProvider>
-        </AddReviewModalContextProvider>
-      </SiteThemeContextProvider>
-    </ApolloProvider>
+                        <AddReviewModal />
+                      </div>
+                    </ErrorBoundary>
+                  </QueryParamProvider>
+                </Router>
+              </EasterEggContextProvider>
+            </MobileMenuContextProvider>
+          </AddReviewModalContextProvider>
+        </SiteThemeContextProvider>
+      </ApolloProvider>
+    </>
   );
 };
 
