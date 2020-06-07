@@ -20,7 +20,7 @@ const GlobalStyles = createGlobalStyle`
   
   body,
   body * {
-    transition: background-color 200ms ease-in, color 200ms ease-in;
+    transition: background-color 200ms ease-in, color 150ms ease-in;
   }
   
   *, *:before, *:after {

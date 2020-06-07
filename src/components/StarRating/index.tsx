@@ -56,11 +56,8 @@ const Star = styled.span`
     cursor: not-allowed;
   }
 
-  & > div {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
+  & > svg {
+    transition: color 10ms linear;
   }
 `;
 
