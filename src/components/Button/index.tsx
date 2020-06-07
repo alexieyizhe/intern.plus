@@ -26,7 +26,7 @@ const BaseButton = styled(UnstyledButton)<IButtonProps>`
     theme.color[color] || color || "inherit"};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 
-  transition: all 100ms;
+  transition: all 150ms;
   border-radius: ${({ theme }) => theme.borderRadius.large}px;
   border: 2px solid transparent;
 

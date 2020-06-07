@@ -24,6 +24,8 @@ import {
   Icon,
   IconName,
 } from "src/components";
+import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
+
 import Section from "./components/Section";
 
 /*******************************************************************
@@ -87,6 +89,8 @@ const PaletteSquare = styled(Card)`
  *                           **Component**                         *
  *******************************************************************/
 const DesignSystemPage = () => {
+  useScrollTopOnMount();
+
   const [numvalue, setNumvalue] = useState(3);
   const [checkboxChecked, setChecked] = useState(false);
 

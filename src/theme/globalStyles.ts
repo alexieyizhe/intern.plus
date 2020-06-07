@@ -2,14 +2,15 @@ import { createGlobalStyle } from "styled-components";
 
 import { SharpSansBold } from "src/assets";
 
-const GlobalStyles = createGlobalStyle`
+export const HeadingFontDefinition = createGlobalStyle`
   @font-face {
     font-family: "Sharp Sans";
     font-weight: bold;
-    font-display: swap;
     src: url(${SharpSansBold});
   }
+`;
 
+const GlobalStyles = createGlobalStyle`
   html, body {
     margin: 0;
     padding: 0;
@@ -19,7 +20,7 @@ const GlobalStyles = createGlobalStyle`
   
   body,
   body * {
-    transition: background-color 200ms ease-in, color 200ms ease-in;
+    transition: background-color 200ms ease-in, color 150ms ease-in;
   }
   
   *, *:before, *:after {

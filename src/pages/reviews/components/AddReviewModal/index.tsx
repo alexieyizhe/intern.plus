@@ -49,7 +49,7 @@ const InnerContainer = styled(Card)`
     0px 0px 0px 2px ${({ theme }) => theme.color.backgroundSecondary};
   overflow-y: scroll;
 
-  transition: all 100ms ease-out;
+  transition: all 150ms ease-out;
   opacity: 0;
   transform: translateY(10px);
   &.open {

@@ -72,7 +72,6 @@ const Container = styled(Card)`
       "desc    logo"
       "ratings logo";
 
-    color: inherit;
     text-decoration: none;
 
     & > .name {
@@ -132,7 +131,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
         <Text
           className="name"
           variant="heading2"
-          color={color && getPrimaryColor(isDark, color)}
+          color={getPrimaryColor(isDark, color)}
         >
           {name}
         </Text>

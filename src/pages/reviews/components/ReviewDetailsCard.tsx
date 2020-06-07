@@ -214,7 +214,7 @@ const CloseButton = styled(UnstyledButton)`
 
   &:hover > .bg,
   &:focus > .bg {
-    transition: transform 100ms ease-out;
+    transition: transform 150ms ease-out;
     transform: scale(1.1);
   }
 

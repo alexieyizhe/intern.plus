@@ -84,7 +84,6 @@ const Container = styled(Card)`
       "salaryAmt   salaryAmt"
       "ratings     salaryInfo";
 
-    color: inherit;
     text-decoration: none;
 
     & > .heading {
@@ -150,7 +149,7 @@ const JobCard: React.FC<IJobCardProps> = ({
         <Text
           className="heading"
           variant="heading3"
-          color={color && getPrimaryColor(isDark, color)}
+          color={getPrimaryColor(isDark, color)}
         >
           {heading}
         </Text>

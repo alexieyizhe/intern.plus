@@ -101,7 +101,7 @@ const StyledCheckbox = styled.span<{ color?: string }>`
   border-radius: ${({ theme }) => theme.borderRadius.small}px;
   z-index: 1;
 
-  transition: all 100ms;
+  transition: all 150ms;
   ${hoveredStyles}
   ${focusedStyles}
   ${checkedStyles}

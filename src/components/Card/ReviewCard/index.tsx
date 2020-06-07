@@ -43,7 +43,6 @@ const Container = styled(Card)`
       "contents    contents"
       "tags        tags";
 
-    color: inherit;
     text-decoration: none;
 
     & > .heading {
@@ -132,7 +131,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
         <Text
           variant="heading3"
           className="heading"
-          color={color && getPrimaryColor(isDark, color)}
+          color={getPrimaryColor(isDark, color)}
         >
           {heading}
         </Text>

@@ -35,7 +35,7 @@ const Logo = styled(Icon).attrs({ name: IconName.LOGO })`
   opacity: 0.7;
   width: 30px;
 
-  transition: opacity 100ms ease-out;
+  transition: opacity 150ms ease-out;
   &:hover,
   &:focus {
     opacity: 0.8;

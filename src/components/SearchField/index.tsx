@@ -70,7 +70,7 @@ const Container = styled.div`
     border-radius: ${({ theme }) => theme.borderRadius.large}px;
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: opacity 100ms ease-in;
+    transition: opacity 150ms ease-in;
     opacity: 0;
   }
 
@@ -112,7 +112,7 @@ const Container = styled.div`
   }
 
   & .react-autosuggest__suggestion--highlighted span {
-    transition: color 100ms ease-in;
+    transition: color 150ms ease-in;
     color: ${({ theme }) => theme.color.textPrimary};
   }
 `;

@@ -50,7 +50,7 @@ const Indicator = styled.div<ITooltipProps>`
     display: block;
 
     z-index: 10;
-    animation: fadeIn 100ms ease-in-out;
+    animation: fadeIn 150ms ease-in-out;
     transform-origin: top
       ${({ position }) => (position === "right" ? "left" : "right")};
   }

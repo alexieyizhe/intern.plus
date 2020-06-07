@@ -51,7 +51,7 @@ const Container = styled.header`
     background-color: ${({ theme }) => theme.color.backgroundPrimary};
     box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
-    transition: all 100ms ease-in;
+    transition: all 150ms ease-in;
     opacity: 0;
   }
 
@@ -120,7 +120,7 @@ const Logo = styled.div`
       display: inline-block;
       margin-top: 1px;
 
-      transition: transform 100ms ease-in;
+      transition: transform 150ms ease-in;
       &.up {
         transform: rotate(180deg);
       }
@@ -152,7 +152,7 @@ const NavLinks = styled.nav`
     justify-content: flex-start;
     align-items: flex-start;
 
-    transition: all 100ms ease-out;
+    transition: all 150ms ease-out;
     pointer-events: none;
     opacity: 0;
     &.show {
@@ -180,7 +180,7 @@ const HeaderActionContainer = styled.div`
     cursor: pointer;
     margin-left: 10px;
 
-    transition: transform 100ms ease-out;
+    transition: transform 150ms ease-out;
     transform: scale(0.9);
     transform-origin: center;
     &:hover,

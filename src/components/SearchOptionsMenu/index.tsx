@@ -78,7 +78,7 @@ const Container = styled(Card)<{ menuOpen: boolean }>`
   box-shadow: ${({ theme }) => theme.boxShadow.hover};
 
   z-index: ${({ theme }) => theme.zIndex.header - 1};
-  transition: transform 100ms;
+  transition: transform 150ms;
   transform: ${({ menuOpen }) =>
     menuOpen ? "translateX(0)" : `translateX(${MENU_WIDTH - 65}px)`};
 
@@ -179,7 +179,7 @@ const VerticalAlignContainer = styled.div`
 `;
 
 const CloseIndicator = styled(UnstyledButton)`
-  transition: transform 100ms;
+  transition: transform 150ms;
   transform: scale(0.9);
   cursor: pointer;
 
