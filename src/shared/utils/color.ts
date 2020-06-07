@@ -46,6 +46,6 @@ export const getPrimaryColor = (isDark: boolean, hslString?: string) =>
 export const getSecondaryColor = (isDark: boolean, hslString?: string) =>
   hslString
     ? isDark
-      ? changeColorSaturation(hslString, 10)
+      ? changeColorLightness(changeColorSaturation(hslString, 10), 30)
       : changeColorLightness(hslString, 90)
     : "#f1f1f1";
