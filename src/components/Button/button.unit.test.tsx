@@ -1,15 +1,20 @@
 /// <reference types="cypress" />
 
 import React from "react";
-import { mount } from "cypress-react-unit-test";
 
-import Button from "./index";
-import { withTheme } from "../../theme/cypress/withTheme";
+import Button from ".";
+import { mountWithTheme } from "../../theme/cypress/utils";
 
 describe("Button component", () => {
   it("renders properly", () => {
-    mount(withTheme(<Button color="greenPrimary">Sup</Button>));
+    mountWithTheme(<Button>Sup</Button>);
+
     cy.get("button").contains("Sup");
+  });
+
+  it("renders theme colors", () => {
+    mountWithTheme(<Button color="greenPrimary">Hello</Button>);
+
     cy.get("button")
       .should("have.css", "background-color")
       .and("eq", "rgb(80, 117, 97)");
