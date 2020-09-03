@@ -57,7 +57,7 @@ const LandingPage = () => {
   const onTabChange = useCallback(
     (newTab: LandingTab) => () => {
       setChanging(true);
-      setTimeout(() => setCurTab(newTab), FADE_CHANGE_DURATION_MS / 2);
+      setTimeout(() => setCurTab(newTab), FADE_CHANGE_DURATION_MS / 2); // trigger tab switch in the middle of visible animation
       setTimeout(() => setChanging(false), FADE_CHANGE_DURATION_MS);
     },
     []

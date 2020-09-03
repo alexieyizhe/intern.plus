@@ -105,7 +105,7 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
   return; // should never happen
 };
 
-export const FADE_CHANGE_DURATION_MS = 500;
+export const FADE_CHANGE_DURATION_MS = 400;
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -120,7 +120,7 @@ const Container = styled.section`
 const CardsContainer = styled.div<{ isChanging: boolean }>`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 350px);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 350px));
   grid-column-gap: 1em;
   grid-row-gap: 2em;
   justify-content: space-between;
