@@ -5,7 +5,7 @@ import {
   reviewResultJobFragment,
 } from "src/api/fragments";
 
-export const MAX_LANDING_CARDS = 5;
+export const MAX_LANDING_CARDS = 6;
 
 export const GET_COMPANIES_REVIEWS_LANDING = gql`
   query GetCompaniesReviewsLanding {

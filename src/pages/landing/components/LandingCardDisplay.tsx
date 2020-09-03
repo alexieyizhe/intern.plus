@@ -119,7 +119,8 @@ const CardsContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 350px);
-  grid-gap: 1em;
+  grid-column-gap: 1em;
+  grid-row-gap: 2em;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -128,22 +129,6 @@ const CardsContainer = styled.div`
 
   position: relative;
   padding: 25px 0;
-
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 0)
-  );
 
   ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
     width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
