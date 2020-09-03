@@ -28,11 +28,11 @@ import {
  *******************************************************************/
 export interface ILandingCardDisplayProps
   extends React.ComponentPropsWithoutRef<"div"> {
-  heading: string;
   subLinkText?: string;
   subLinkTo?: string;
   loading: boolean;
   error: boolean;
+  isChanging: boolean;
   cards: IGenericCardItem[];
 }
 
@@ -105,6 +105,8 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
   return; // should never happen
 };
 
+export const FADE_CHANGE_DURATION_MS = 500;
+
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
@@ -115,17 +117,16 @@ const Container = styled.section`
   margin: 0 auto 50px;
 `;
 
-const CardsContainer = styled.div`
+const CardsContainer = styled.div<{ isChanging: boolean }>`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 350px);
   grid-column-gap: 1em;
   grid-row-gap: 2em;
+  justify-content: space-between;
 
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
+  transition: opacity ${FADE_CHANGE_DURATION_MS / 2}ms;
+  opacity: ${({ isChanging }) => (isChanging ? 0 : 1)};
 
   position: relative;
   padding: 25px 0;
@@ -155,7 +156,6 @@ const landingCardStyles = css`
   height: 180px;
   flex-shrink: 0;
   flex-grow: 0;
-  margin-right: 22px;
 
   ${({ theme }) => theme.mediaQueries.largeMobile`
     width: 80%;
@@ -178,7 +178,7 @@ const SubLink = styled(Link)`
  *                           **Component**                         *
  *******************************************************************/
 const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
-  heading,
+  isChanging,
   loading,
   error,
   subLinkText,
@@ -194,7 +194,7 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
 
   return (
     <Container {...rest}>
-      <CardsContainer>
+      <CardsContainer isChanging={isChanging}>
         {showMisc ? (
           <MiscContentContainer>
             {loading && <Spinner />}

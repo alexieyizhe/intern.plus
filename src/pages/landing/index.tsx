@@ -14,7 +14,9 @@ import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
 import { buildLandingCardsList } from "./graphql/utils";
 
 import { PageContainer } from "src/components";
-import LandingCardDisplay from "./components/LandingCardDisplay";
+import LandingCardDisplay, {
+  FADE_CHANGE_DURATION_MS,
+} from "./components/LandingCardDisplay";
 import TabHeadings from "./components/TabHeadings";
 import SplashScreen from "./components/SplashScreen";
 import { LandingTab } from "./constants";
@@ -49,7 +51,17 @@ const LandingPage = () => {
   /**
    * Track the tab the user is currently viewing
    */
+  const [isChanging, setChanging] = useState(false);
   const [curTab, setCurTab] = useState(LandingTab.TOP_COMPANIES);
+
+  const onTabChange = useCallback(
+    (newTab: LandingTab) => () => {
+      setChanging(true);
+      setTimeout(() => setCurTab(newTab), FADE_CHANGE_DURATION_MS / 2);
+      setTimeout(() => setChanging(false), FADE_CHANGE_DURATION_MS);
+    },
+    []
+  );
 
   if (searchValue !== null) {
     return (
@@ -69,17 +81,14 @@ const LandingPage = () => {
       <PageContainer id="landing-page">
         <SplashScreen onTriggerSearch={onTriggerSearch} />
 
-        <TabHeadings
-          curTab={curTab}
-          onTabClick={(newTab) => () => setCurTab(newTab)}
-        />
+        <TabHeadings curTab={curTab} onTabClick={onTabChange} />
 
         <LandingCardDisplay
-          heading={copy.sections[curTab].heading}
           subLinkText={copy.sections[curTab].subLink.text}
           subLinkTo={copy.sections[curTab].subLink.to}
           loading={loading}
           error={error !== undefined}
+          isChanging={isChanging}
           cards={
             curTab === LandingTab.TOP_COMPANIES ? companyCards : reviewCards
           }
