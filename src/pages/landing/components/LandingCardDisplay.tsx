@@ -112,17 +112,14 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
 
-  margin: 50px auto;
+  margin: 0 auto 50px;
 `;
 
 const CardsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 350px);
+  grid-gap: 1em;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -170,7 +167,6 @@ const MiscContentContainer = styled.span`
 `;
 
 const landingCardStyles = css`
-  width: 350px;
   height: 180px;
   flex-shrink: 0;
   flex-grow: 0;
@@ -213,8 +209,6 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
 
   return (
     <Container {...rest}>
-      <Text variant="heading2">{heading}</Text>
-
       <CardsContainer>
         {showMisc ? (
           <MiscContentContainer>

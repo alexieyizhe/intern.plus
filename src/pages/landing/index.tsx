@@ -15,7 +15,9 @@ import { buildLandingCardsList } from "./graphql/utils";
 
 import { PageContainer } from "src/components";
 import LandingCardDisplay from "./components/LandingCardDisplay";
+import TabHeadings from "./components/TabHeadings";
 import SplashScreen from "./components/SplashScreen";
+import { LandingTab } from "./constants";
 
 /*******************************************************************
  *                           **Component**                         *
@@ -44,6 +46,11 @@ const LandingPage = () => {
   const [searchValue, setSearchValue] = useState<string | null>(null);
   const onTriggerSearch = useCallback((val: string) => setSearchValue(val), []);
 
+  /**
+   * Track the tab the user is currently viewing
+   */
+  const [curTab, setCurTab] = useState(LandingTab.TOP_COMPANIES);
+
   if (searchValue !== null) {
     return (
       <Redirect
@@ -62,22 +69,20 @@ const LandingPage = () => {
       <PageContainer id="landing-page">
         <SplashScreen onTriggerSearch={onTriggerSearch} />
 
-        <LandingCardDisplay
-          heading={copy.sections.topCompanies.heading}
-          subLinkText={copy.sections.topCompanies.subLink.text}
-          subLinkTo={copy.sections.topCompanies.subLink.to}
-          loading={loading}
-          error={error !== undefined}
-          cards={companyCards}
+        <TabHeadings
+          curTab={curTab}
+          onTabClick={(newTab) => () => setCurTab(newTab)}
         />
 
         <LandingCardDisplay
-          heading={copy.sections.recentlyReviewed.heading}
-          subLinkText={copy.sections.recentlyReviewed.subLink.text}
-          subLinkTo={copy.sections.recentlyReviewed.subLink.to}
+          heading={copy.sections[curTab].heading}
+          subLinkText={copy.sections[curTab].subLink.text}
+          subLinkTo={copy.sections[curTab].subLink.to}
           loading={loading}
           error={error !== undefined}
-          cards={reviewCards}
+          cards={
+            curTab === LandingTab.TOP_COMPANIES ? companyCards : reviewCards
+          }
         />
       </PageContainer>
     </>

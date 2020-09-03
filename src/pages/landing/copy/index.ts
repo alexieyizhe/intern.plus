@@ -1,5 +1,6 @@
 import { RouteName } from "src/shared/constants/routing";
 import { StarCityImg } from "src/assets";
+import { LandingTab } from "../constants";
 
 const pageCopy = {
   splashCard: {
@@ -12,14 +13,14 @@ const pageCopy = {
     },
   },
   sections: {
-    topCompanies: {
+    [LandingTab.TOP_COMPANIES]: {
       heading: "Top companies",
       subLink: {
         text: "See more companies",
         to: `${RouteName.COMPANIES}`,
       },
     },
-    recentlyReviewed: {
+    [LandingTab.RECENTLY_REVIEWED]: {
       heading: "Recently reviewed",
       subLink: {
         text: "See more reviews",
