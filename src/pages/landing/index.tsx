@@ -91,6 +91,7 @@ const LandingPage = () => {
           isChanging={isChanging}
           cards={
             curTab === LandingTab.TOP_COMPANIES ? companyCards : reviewCards
+            // todo: make this more scalable if other categories are added
           }
         />
       </PageContainer>

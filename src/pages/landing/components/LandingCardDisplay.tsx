@@ -14,14 +14,7 @@ import {
 } from "src/shared/constants/card";
 import pageCopy from "../copy";
 
-import {
-  MOBILE_MENU_MEDIA_QUERY,
-  CompanyCard,
-  ReviewCard,
-  Link,
-  Spinner,
-  Text,
-} from "src/components";
+import { CompanyCard, ReviewCard, Link, Spinner, Text } from "src/components";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -118,7 +111,6 @@ const Container = styled.section`
 `;
 
 const CardsContainer = styled.div<{ isChanging: boolean }>`
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 350px));
   grid-column-gap: 1em;
@@ -130,15 +122,6 @@ const CardsContainer = styled.div<{ isChanging: boolean }>`
 
   position: relative;
   padding: 25px 0;
-
-  ${({ theme }) => theme.mediaQueries[MOBILE_MENU_MEDIA_QUERY]`
-    width: calc(100% + ${theme.padding.pageHorizontalMobile * 2}px);
-    left: -${theme.padding.pageHorizontalMobile}px;
-
-    & > :first-child {
-      margin-left: ${theme.padding.pageHorizontalMobile}px;
-    }
-  `}
 `;
 
 const MiscContentContainer = styled.span`

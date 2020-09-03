@@ -10,7 +10,9 @@ export interface TabHeadingProps {
 }
 
 const HeadingContainer = styled.div`
+  margin-top: 48px;
   display: flex;
+  overflow: scroll;
 `;
 
 const TabHeading = styled(Text).attrs({ variant: "heading2", role: "button" })<{
