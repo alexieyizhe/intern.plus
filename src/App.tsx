@@ -30,6 +30,9 @@ import CompaniesRouteHandler from "src/pages/companies";
 import JobsRouteHandler from "src/pages/jobs";
 import ReviewsRouteHandler from "src/pages/reviews";
 import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
+import DownForMaintenance from "src/pages/maintenance";
+
+export const IS_MAINTENANCE = true;
 
 /**
  * Main route handler for all pages in the app.
@@ -87,17 +90,23 @@ const App: React.FC = () => {
                         <GlobalStyles />
                         {analytics.init() && <Analytics />}
 
-                        <PageHeader />
-                        <Switch>
-                          <Route exact path={Object.values(RouteName)}>
-                            <AppRouteHandler />
-                          </Route>
+                        {IS_MAINTENANCE ? (
+                          <DownForMaintenance />
+                        ) : (
+                          <>
+                            <PageHeader />
+                            <Switch>
+                              <Route exact path={Object.values(RouteName)}>
+                                <AppRouteHandler />
+                              </Route>
 
-                          {/* Render 404 if no other routes match */}
-                          <Route>
-                            <NotFoundPage />
-                          </Route>
-                        </Switch>
+                              {/* Render 404 if no other routes match */}
+                              <Route>
+                                <NotFoundPage />
+                              </Route>
+                            </Switch>
+                          </>
+                        )}
 
                         <PageFooter />
 
