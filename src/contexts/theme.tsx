@@ -21,7 +21,9 @@ export const SiteThemeContext: React.Context<ISiteThemeState> = createContext(
 );
 
 export const SiteThemeContextProvider: React.FC = ({ children, ...rest }) => {
-  const { value: isDarkMode, toggle: toggleDarkMode } = useDarkMode();
+  const { value: isDarkMode, toggle: toggleDarkMode } = useDarkMode(false, {
+    storageKey: undefined,
+  });
 
   const curMode = useMemo<ThemeMode>(() => (isDarkMode ? "dark" : "light"), [
     isDarkMode,
