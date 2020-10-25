@@ -18,6 +18,9 @@ export { ReactComponent as ChevronIcon } from "./img/icons/chevron-down.svg";
 // Original image attributed to Nerman and Glaze stock photos at https://www.glazestock.com/image/qlEEZvejP
 export { default as StarCityImg } from "./img/star-city.png";
 
+// Original image attributed to Guillaume Kurkdjian at https://dribbble.com/shots/1690169-Crane
+export { default as MaintenanceGif } from "./img/maintenance.gif";
+
 /**
  * **FONTS**
  */
