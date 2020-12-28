@@ -21,7 +21,7 @@ Styled with [styled-components](https://www.styled-components.com).
 Tested through [Cypress](https://www.cypress.io/), [`cypress-react-unit-test`](https://github.com/bahmutov/cypress-react-unit-test) and [Percy](https://percy.io/).  
 Code style enforced with [eslint](https://eslint.org/) and [Prettier](https://prettier.io/).  
 Continuous integration with [Github Actions](https://github.com/features/actions).  
-Deploys through [Netlify](http://netlify.com).
+Deploys through [Vercel](https://vercel.com).
 
 ## 🚀 Development
 
@@ -39,8 +39,8 @@ npm start
 The project is split into the following parts:
 
 - `/cypress` holds logic for the Cypress end-to-end testing suite tool, as well as E2E tests.
-- `/server` holds some miscellaneous scripts and database migration stuff for use by the backend.
-- `/src` contains most of the code:
+- `/backend` contains the code for the Django backend.
+- `/src` contains the code for the React frontend:
   - `/api` contains client code for interacting with the graphql api.
   - `/assets` contains images, fonts, and other static assets.
   - `/components` contains all components that are shared between different parts of the project.
@@ -64,7 +64,7 @@ Each of these will contain logic like queries, fragments, etc. The types associa
 This project (loosely) follows a [trunk based development](https://trunkbaseddevelopment.com/) style.
 
 - Branches are split off from the `master` branch for features, fixes, and all other development.
-- The `release` branch contains production code that must always kept in a ready-to-deploy state.
+- The `release` branch contains production code that is able to be hosted live.
 
 #### Branch naming
 
@@ -84,14 +84,13 @@ The commit name must be prefixed with one of the following, according to [Conven
 
 - `feat:` new feature
 - `bug:` bug fixes
-- `style:` style changes
 - `chore:` refactoringchore-related changes
-- `docs:` documentation & tests
+- `docs:` documentation
 
 #### Commits into `release` branch (releases)
 
-When a release is ready, a pull request should be made from `master` to `release`. This pull request title must be tagged with one of `#major|#minor|#patch`, determined by [semver rules](https://semver.org/). This is used by CI when deploying.
+When code is ready to be reflected on production, add a Github release with an appropriate version tag. This will trigger a Github Actions workflow that bumps the version according to the tag and pushes this to both `master` and `release`.
 
-Once merged into `release`, CI will tag the last commit with the appropriate version number according to the pull request title.
+Any new changes on the `release` branch is automatically built by Vercel and made live.
 
 ###### Wanna get in touch? [Shoot Alex an email.](mailto:hi@alexxie.ca)
