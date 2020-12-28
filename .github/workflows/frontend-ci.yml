@@ -17,7 +17,7 @@ jobs:
         run: npm run type-check
 
   unit-tests:
-    if: contains(github.ref, "release") || contains(github.ref, "master")
+    if: contains(github.ref, 'release') || contains(github.ref, 'master')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -32,7 +32,7 @@ jobs:
           REACT_APP_DB_GRAPHQL_API_URL: ${{ secrets.REACT_APP_DB_GRAPHQL_API_URL }}
 
   e2e-tests:
-    if: contains(github.ref, "release") || contains(github.ref, "master")
+    if: contains(github.ref, 'release') || contains(github.ref, 'master')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
