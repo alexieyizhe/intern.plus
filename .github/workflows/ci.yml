@@ -1,9 +1,8 @@
-name: ci
-
+name: Continuous Integration
 on: push
 
 jobs:
-  checks:
+  frontend-checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,3 +15,11 @@ jobs:
         run: npm run lint
       - name: Check types
         run: npm run type-check
+
+  backend-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1
