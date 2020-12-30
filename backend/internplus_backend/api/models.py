@@ -14,20 +14,27 @@ class Tag(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
-    description = models.CharField(max_length=500)
-    link = models.URLField()
-    logo = models.URLField()
+    description = models.CharField(max_length=500)  # used to be `desc`
+    link = models.URLField()  # used to be `websiteUrl`
+    logo = models.URLField()  # used to be `logoSrc`
 
-    numReviews = models.IntegerField()
-    avgOverallRating = models.FloatField()
+    numReviews = models.IntegerField()  # used to be `numRatings``
+
+    totRating = models.FloatField()
+    avgRating = models.FloatField()
+
     avgLearningMentorshipRating = models.FloatField()
+    totLearningMentorshipRating = models.FloatField()
     avgMeaningfulWorkRating = models.FloatField()
+    totMeaningfulWorkRating = models.FloatField()
     avgWorkLifeBalanceRating = models.FloatField()
+    totWorkLifeBalanceRating = models.FloatField()
 
-    numSalaries = models.IntegerField()
+    totHourlySalary = models.FloatField()
     avgHourlySalary = models.FloatField()
     minHourlySalary = models.FloatField()
     maxHourlySalary = models.FloatField()
+    hourlySalaryCurrency = models.CharField(max_length=3)
 
     def __str__(self):
         return self.name
@@ -37,18 +44,24 @@ class Job(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    locations = models.ManyToManyField(Location)
+    location = models.CharField(max_length=100)
+    # locations = models.ManyToManyField(Location)
 
-    numReviews = models.IntegerField()
-    avgOverallRating = models.FloatField()
+    totRating = models.FloatField()
+    avgRating = models.FloatField()
+
     avgLearningMentorshipRating = models.FloatField()
+    totLearningMentorshipRating = models.FloatField()
     avgMeaningfulWorkRating = models.FloatField()
+    totMeaningfulWorkRating = models.FloatField()
     avgWorkLifeBalanceRating = models.FloatField()
+    totWorkLifeBalanceRating = models.FloatField()
 
-    numSalaries = models.IntegerField()
+    totHourlySalary = models.FloatField()
     avgHourlySalary = models.FloatField()
     minHourlySalary = models.FloatField()
     maxHourlySalary = models.FloatField()
+    hourlySalaryCurrency = models.CharField(max_length=3)
 
     def __str__(self):
         return self.name
@@ -72,8 +85,9 @@ class Review(models.Model):
     workLifeBalanceRating = models.FloatField()
 
     salary = models.FloatField()
-    salaryCurrency = models.CharField(max_length=5)
-    salaryPeriod = models.CharField(choices=SalaryPeriod.choices)
+    salaryCurrency = models.CharField(max_length=3)
+    salaryPeriod = models.CharField(
+        max_length=20, choices=SalaryPeriod.choices)
 
     def __str__(self):
         return self.name
