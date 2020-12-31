@@ -32,7 +32,7 @@ import ReviewsRouteHandler from "src/pages/reviews";
 import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 import DownForMaintenance from "src/pages/maintenance";
 
-export const IS_MAINTENANCE = true;
+export const IS_MAINTENANCE = false;
 
 /**
  * Main route handler for all pages in the app.

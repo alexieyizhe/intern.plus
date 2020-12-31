@@ -3,24 +3,25 @@ import { gql } from "apollo-boost";
 export const companyResultFragment = gql`
   fragment CompanyResult on Company {
     __typename
-    slug
+
     name
-    desc
+    slug
+    description
+
     minHourlySalary
     maxHourlySalary
-    logoImg {
-      downloadUrl
-    }
-    logoColor
+    logo
+
     avgRating
-    reviews {
-      count
-    }
-    jobs {
-      items {
-        location
-      }
-    }
+
+    # reviews {
+    #   count
+    # }
+    # jobs {
+    #   items {
+    #     location
+    #   }
+    # }
   }
 `;
 

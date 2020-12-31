@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
+    "start:backend": "python backend/manage.py runserver",
     "build": "react-scripts build",
     "start:ci": "npm start & wait-on http://localhost:3000",
     "lint": "eslint src --ext ts,tsx",
