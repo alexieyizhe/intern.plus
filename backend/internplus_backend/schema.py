@@ -8,7 +8,8 @@ class CompanyType(DjangoObjectType):
     class Meta:
         name = 'Company'
         model = Company
-        fields = ("id", "name", "slug")
+        fields = ("id", "name", "slug", "description", "link",
+                  "logo", "numReviews", "totRating", "avgRating")
 
 
 class Query(graphene.ObjectType):
