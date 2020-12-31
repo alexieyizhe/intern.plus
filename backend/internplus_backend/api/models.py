@@ -20,7 +20,7 @@ class Company(models.Model):
 
     numReviews = models.IntegerField()  # used to be `numRatings``
 
-    totRating = models.FloatField()
+    totRating = models.DecimalField(max_digits=11, decimal_places=2)
     avgRating = models.FloatField()
 
     avgLearningMentorshipRating = models.FloatField()
@@ -44,8 +44,7 @@ class Job(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    location = models.CharField(max_length=100)
-    # locations = models.ManyToManyField(Location)
+    locations = models.ManyToManyField(Location)
 
     totRating = models.FloatField()
     avgRating = models.FloatField()
@@ -65,6 +64,10 @@ class Job(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Rating(models.Model):
+    overall = models.IntegerField()
 
 
 class Review(models.Model):
