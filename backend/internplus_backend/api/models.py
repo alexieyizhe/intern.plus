@@ -11,17 +11,19 @@ class CommonModel(models.Model):
 
 class Location(CommonModel):
     city = models.CharField(max_length=100)
-    subdivision = models.CharField(max_length=100, null=True)
+    subdivision = models.CharField(max_length=100, null=True, blank=True)
     country = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.city}, {self.country}'
 
 
 class Tag(CommonModel):
-    value = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
+    label = models.CharField(max_length=100)
 
-
-class HourlySalary(CommonModel):
-    value = models.PositiveIntegerField()  # normalized to HOURLY value
-    currencyCode = models.CharField(max_length=3)
+    def __str__(self):
+        return self.label
 
 
 class Company(CommonModel):
@@ -31,12 +33,18 @@ class Company(CommonModel):
     website = models.URLField()
     logo = models.ImageField()
 
+    def __str__(self):
+        return self.slug
+
 
 class Job(CommonModel):
     slug = models.SlugField(max_length=100, unique=True)
     name = models.CharField(max_length=100)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     locations = models.ManyToManyField(Location)
+
+    def __str__(self):
+        return self.slug
 
 
 class Review(CommonModel):
@@ -50,8 +58,13 @@ class Review(CommonModel):
     meaningfulWork = models.PositiveIntegerField()
     workLifeBalance = models.PositiveIntegerField()
 
-    salary = models.OneToOneField(
-        HourlySalary, on_delete=models.CASCADE, null=True)
+    salary = models.PositiveIntegerField(blank=True)
+    salaryCurrency = models.CharField(max_length=3, blank=True)
+
     body = models.CharField(max_length=100)
     tags = models.ManyToManyField(Tag, blank=True)
     #  can add benefits, etc
+
+    def __str__(self):
+        body = f'{self.body[:40]}...' if len(self.body) > 40 else self.body
+        return f'{str(self.id)}: {body}'
