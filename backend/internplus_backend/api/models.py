@@ -2,8 +2,8 @@ from django.db import models
 
 
 class CommonModel(models.Model):
-    createdAt = models.DateTimeField(auto_now_add=True)
-    updatedAt = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
@@ -13,6 +13,7 @@ class Location(CommonModel):
     city = models.CharField(max_length=100)
     subdivision = models.CharField(max_length=100, null=True, blank=True)
     country = models.CharField(max_length=100)
+    #  can add lat-long, etc
 
     def __str__(self):
         return f'{self.city}, {self.country}'
@@ -40,7 +41,8 @@ class Company(CommonModel):
 class Job(CommonModel):
     slug = models.SlugField(max_length=100, unique=True)
     name = models.CharField(max_length=100)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name='companies')
     locations = models.ManyToManyField(Location)
 
     def __str__(self):
@@ -48,22 +50,27 @@ class Job(CommonModel):
 
 
 class Review(CommonModel):
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    job = models.ForeignKey(
+        Job, on_delete=models.CASCADE, related_name='reviews')
+    company = models.ForeignKey(
+        Company, on_delete=models.CASCADE, related_name='reviews')
 
-    author = models.EmailField()
+    author = models.EmailField(null=True, blank=True)
 
-    overall = models.PositiveIntegerField()
-    learningMentorship = models.PositiveIntegerField()
-    meaningfulWork = models.PositiveIntegerField()
-    workLifeBalance = models.PositiveIntegerField()
+    rating_overall = models.PositiveIntegerField()
+    rating_learning_mentorship = models.PositiveIntegerField()
+    rating_meaningful_work = models.PositiveIntegerField()
+    rating_work_life_balance = models.PositiveIntegerField()
 
     salary = models.PositiveIntegerField(blank=True)
-    salaryCurrency = models.CharField(max_length=3, blank=True)
+    salary_usd = models.PositiveIntegerField(blank=True)
+    salary_currency = models.CharField(max_length=3, blank=True)
 
     body = models.CharField(max_length=100)
     tags = models.ManyToManyField(Tag, blank=True)
     #  can add benefits, etc
+
+    is_live = models.BooleanField(default=False)
 
     def __str__(self):
         body = f'{self.body[:40]}...' if len(self.body) > 40 else self.body
