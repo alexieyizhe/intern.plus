@@ -70,6 +70,7 @@ class ReviewType(DjangoObjectType):
     class Meta:
         name = 'Review'
         model = Review
+        exclude = ('is_live', )
         interfaces = (Node, )
         connection_class = ConnectionWithCount
         filter_fields = ["author"]
@@ -92,11 +93,6 @@ class JobType(DjangoObjectType):
         filter_fields = ["slug"]
 
 
-class JobConnection(Connection):
-    class Meta:
-        node = JobType
-
-
 class CompanyType(DjangoObjectType):
     max_salary = Field(
         Salary, resolver=min_max_salary_resolver(Company, 'max'))
@@ -111,20 +107,17 @@ class CompanyType(DjangoObjectType):
         name = 'Company'
         model = Company
         interfaces = (Node, )
-
-
-class CompanyConnection(Connection):
-    class Meta:
-        node = CompanyType
+        connection_class = ConnectionWithCount
+        filter_fields = ["slug"]
 
 
 class Query(ObjectType):
-    companies = DjangoListField(CompanyType)
-    company_by_slug = Field(
-        CompanyType, slug=String(required=True))
+    companies = DjangoFilterConnectionField(CompanyType)
+    jobs = DjangoFilterConnectionField(JobType)
+    reviews = DjangoFilterConnectionField(ReviewType)
 
-    jobs = DjangoListField(JobType)
-    reviews = DjangoListField(ReviewType)
+    locations = DjangoListField(LocationType)
+    tags = DjangoListField(TagType)
 
 
 schema = Schema(query=Query)
