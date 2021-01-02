@@ -9,12 +9,16 @@ export const MAX_LANDING_CARDS = 5;
 
 export const GET_COMPANIES_REVIEWS_LANDING = gql`
   query GetCompaniesReviewsLanding {
-    companies {
-      ...CompanyResult
+    companies(first: ${MAX_LANDING_CARDS}) {
+      edges {
+        node {
+          id 
+          slug
+          name
+        }
+      }
     }
   }
-
-  ${companyResultFragment}
 `;
 
 // @deprecated
