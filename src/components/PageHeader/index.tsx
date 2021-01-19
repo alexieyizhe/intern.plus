@@ -217,10 +217,12 @@ const Header: React.FC = () => {
     toggleMobileMenu,
     setMobileMenuOpen,
   } = useMobileMenuContext();
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const {
     toggleAddReviewModal,
     isAddReviewModalOpen,
   } = useAddReviewModalContext();
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   const { toggleDarkMode, curMode } = useSiteThemeContext();
 
   const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [
