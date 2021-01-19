@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { ThemeProvider } from "styled-components";
 import useDarkMode from "use-dark-mode";
 
@@ -22,12 +22,6 @@ export const SiteThemeContext: React.Context<ISiteThemeState> = createContext(
 
 export const SiteThemeContextProvider: React.FC = ({ children, ...rest }) => {
   const { value: isDarkMode, toggle: toggleDarkMode } = useDarkMode();
-
-  useEffect(() => {
-    if (isDarkMode) {
-      toggleDarkMode();
-    }
-  }, [isDarkMode, toggleDarkMode]);
 
   const curMode = useMemo<ThemeMode>(() => (isDarkMode ? "dark" : "light"), [
     isDarkMode,
