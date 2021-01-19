@@ -3,6 +3,7 @@ from graphene.relay import Connection, Node, ConnectionField
 from graphene_django import DjangoObjectType, DjangoListField, DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
 from django.db.models import Min, Count, Avg
+import django_filters
 
 from internplus_backend.api.models import Company, Job, Review, Location, Tag
 
@@ -118,6 +119,14 @@ class Query(ObjectType):
 
     locations = DjangoListField(LocationType)
     tags = DjangoListField(TagType)
+   
+    company = graphene.Field(
+        CompanyType, slug=graphene.String(required=True))
+    def resolve_company(root, info, slug):
+        try:
+            return Company.objects.get(slug=slug)
+        except Company.DoesNotExist:
+            return None
 
 
 schema = Schema(query=Query)
