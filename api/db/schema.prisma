@@ -16,7 +16,6 @@ model Company {
   name        String
   description String?
   websiteUrl  String?
-  logo        Bytes?
   jobs        Job[]
   reviews     Review[]
 }
