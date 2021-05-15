@@ -1,29 +1,12 @@
-import { ApolloServer, gql } from 'apollo-server-micro';
+import { ApolloServer, gql } from "apollo-server-micro";
 
-const typeDefs = gql`
-  type Product {
-    id: Int
-    name: String
-    price: Int
-  }
-
-  type Query {
-    products: [Product]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    products: () => {
-      return [];
-    },
-  },
-};
+import typeDefs from "./types";
+import resolvers from "./resolvers";
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
 export default server.createHandler({
-  path: '/api/graphql',
+  path: "/api/graphql",
 });
 
 export const config = {
