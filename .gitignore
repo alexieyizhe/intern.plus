@@ -254,4 +254,6 @@ psd
 thumb
 sketch
 
+.vercel
+
 # End of https://www.toptal.com/developers/gitignore/api/django,python,react,macos

@@ -1,9 +1,6 @@
 import { gql } from "apollo-boost";
 
-import {
-  companyResultFragment,
-  reviewResultJobFragment,
-} from "src/api/fragments";
+import { companyResultFragment } from "src/api/fragments";
 
 export const MAX_LANDING_CARDS = 5;
 

@@ -112,129 +112,129 @@ const DEFAULT_REVIEW_STATE: IAddReviewState = {
   },
 };
 
-export const useAddReview = () => {
-  const [reviewState, setReviewState] = useState(DEFAULT_REVIEW_STATE);
+// export const useAddReview = () => {
+//   const [reviewState, setReviewState] = useState(DEFAULT_REVIEW_STATE);
 
-  const onReviewChange = (
-    key: keyof IAddReviewFields,
-    value:
-      | string
-      | number
-      | boolean
-      | ValueType<{ label: string; value: string }>
-      | undefined
-  ) => {
-    setReviewState((prevState) => ({
-      ...prevState,
-      values: {
-        ...prevState.values,
-        [key]: value,
-        job:
-          key === "company"
-            ? null
-            : key === "job"
-            ? (value as IAddReviewFields["job"])
-            : prevState.values.job, // remove selected job if new company is selected since job corresponds to previous company
-      },
-    }));
-  };
+//   const onReviewChange = (
+//     key: keyof IAddReviewFields,
+//     value:
+//       | string
+//       | number
+//       | boolean
+//       | ValueType<{ label: string; value: string }>
+//       | undefined
+//   ) => {
+//     setReviewState((prevState) => ({
+//       ...prevState,
+//       values: {
+//         ...prevState.values,
+//         [key]: value,
+//         job:
+//           key === "company"
+//             ? null
+//             : key === "job"
+//             ? (value as IAddReviewFields["job"])
+//             : prevState.values.job, // remove selected job if new company is selected since job corresponds to previous company
+//       },
+//     }));
+//   };
 
-  const onReviewPotentialSubmit = () => {
-    try {
-      addReviewSchema.validateSync(reviewState.values, { abortEarly: false });
+//   const onReviewPotentialSubmit = () => {
+//     try {
+//       addReviewSchema.validateSync(reviewState.values, { abortEarly: false });
 
-      /**
-       * We've passed validation, reset errors to original state
-       */
-      setReviewState((prevState) => ({
-        ...prevState,
-        errors: DEFAULT_REVIEW_STATE.errors,
-      }));
-    } catch (e) {
-      if (e instanceof yup.ValidationError) {
-        setReviewState((prevState) => ({
-          ...prevState,
-          errors: {
-            ...DEFAULT_REVIEW_STATE.errors,
-            ...(e as yup.ValidationError).inner.reduce(
-              (acc, { path, message }) => ({
-                ...acc,
-                [path]: { error: true, text: message },
-              }),
-              {}
-            ),
-          },
-        }));
-        return false;
-      } else {
-        throw e;
-      }
-    }
+//       /**
+//        * We've passed validation, reset errors to original state
+//        */
+//       setReviewState((prevState) => ({
+//         ...prevState,
+//         errors: DEFAULT_REVIEW_STATE.errors,
+//       }));
+//     } catch (e) {
+//       if (e instanceof yup.ValidationError) {
+//         setReviewState((prevState) => ({
+//           ...prevState,
+//           errors: {
+//             ...DEFAULT_REVIEW_STATE.errors,
+//             ...(e as yup.ValidationError).inner.reduce(
+//               (acc, { path, message }) => ({
+//                 ...acc,
+//                 [path]: { error: true, text: message },
+//               }),
+//               {}
+//             ),
+//           },
+//         }));
+//         return false;
+//       } else {
+//         throw e;
+//       }
+//     }
 
-    return true;
-  };
+//     return true;
+//   };
 
-  /**
-   * Build add-review query
-   */
-  const ADD_REVIEW_QUERY = useMemo(
-    () =>
-      addReviewBuilder(
-        !!reviewState.values.company?.__isNew__,
-        !!reviewState.values.job?.__isNew__
-      ),
-    [reviewState.values.company, reviewState.values.job]
-  );
-  const [addReview] = useMutation(ADD_REVIEW_QUERY);
+//   /**
+//    * Build add-review query
+//    */
+//   const ADD_REVIEW_QUERY = useMemo(
+//     () =>
+//       addReviewBuilder(
+//         !!reviewState.values.company?.__isNew__,
+//         !!reviewState.values.job?.__isNew__
+//       ),
+//     [reviewState.values.company, reviewState.values.job]
+//   );
+//   const [addReview] = useMutation(ADD_REVIEW_QUERY);
 
-  /**
-   * Interpret the review state into values that can be
-   * used in the query/mutation.
-   */
-  const queryVariables = useMemo(() => {
-    const isNewCompany = reviewState.values.company?.__isNew__;
-    const isNewJob = reviewState.values.job?.__isNew__;
+//   /**
+//    * Interpret the review state into values that can be
+//    * used in the query/mutation.
+//    */
+//   const queryVariables = useMemo(() => {
+//     const isNewCompany = reviewState.values.company?.__isNew__;
+//     const isNewJob = reviewState.values.job?.__isNew__;
 
-    return {
-      ...reviewState.values,
-      companyName: reviewState.values.company?.label,
-      companySlug: isNewCompany
-        ? slugify(reviewState.values.company?.value || "")
-        : reviewState.values.company?.value,
-      jobId: reviewState.values.job?.value,
-      jobName: reviewState.values.job?.label,
-      jobSlug: isNewJob
-        ? slugify(reviewState.values.job?.value || "")
-        : reviewState.values.job?.value,
-      salary: reviewState.values.noSalaryProvided
-        ? -1
-        : reviewState.values.salary,
-      salaryCurrency: reviewState.values.salaryCurrency?.value,
-      tags: reviewState.values.tags?.map((option) => option.value).join(","),
-    };
-  }, [reviewState.values]);
+//     return {
+//       ...reviewState.values,
+//       companyName: reviewState.values.company?.label,
+//       companySlug: isNewCompany
+//         ? slugify(reviewState.values.company?.value || "")
+//         : reviewState.values.company?.value,
+//       jobId: reviewState.values.job?.value,
+//       jobName: reviewState.values.job?.label,
+//       jobSlug: isNewJob
+//         ? slugify(reviewState.values.job?.value || "")
+//         : reviewState.values.job?.value,
+//       salary: reviewState.values.noSalaryProvided
+//         ? -1
+//         : reviewState.values.salary,
+//       salaryCurrency: reviewState.values.salaryCurrency?.value,
+//       tags: reviewState.values.tags?.map((option) => option.value).join(","),
+//     };
+//   }, [reviewState.values]);
 
-  const onReviewSubmit = async () => {
-    /**
-     * Execute the mutation
-     */
-    const { errors } = await addReview({
-      variables: queryVariables,
-    });
+//   const onReviewSubmit = async () => {
+//     /**
+//      * Execute the mutation
+//      */
+//     const { errors } = await addReview({
+//       variables: queryVariables,
+//     });
 
-    if (!errors) {
-      // review add successful, reset
-      setReviewState(DEFAULT_REVIEW_STATE);
-      return true;
-    } else {
-      return false;
-    }
-  };
+//     if (!errors) {
+//       // review add successful, reset
+//       setReviewState(DEFAULT_REVIEW_STATE);
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   };
 
-  return {
-    reviewState,
-    onReviewChange,
-    onReviewPotentialSubmit,
-    onReviewSubmit,
-  };
-};
+//   return {
+//     reviewState,
+//     onReviewChange,
+//     onReviewPotentialSubmit,
+//     onReviewSubmit,
+//   };
+// };
