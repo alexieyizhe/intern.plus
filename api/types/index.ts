@@ -1,13 +1,21 @@
 import { ApolloServer, gql } from "apollo-server-micro";
 
 export default gql`
-  type Product {
-    id: Int
+  type Company {
+    id: ID
+    slug: String
     name: String
-    price: Int
+  }
+
+  type Job {
+    id: ID
+  }
+
+  type Review {
+    id: ID
   }
 
   type Query {
-    products: [Product]
+    companies: [Company]
   }
 `;
