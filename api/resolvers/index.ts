@@ -1,7 +1,15 @@
+import * as data from "../seed/data.json";
+
 const resolvers = {
   Query: {
-    products: () => {
-      return [];
+    companies: (root, args, context, info) => {
+      console.log(root, args, context, info);
+      return data.companies.slice(0, 5);
+    },
+
+    company: (root, args, context, info) => {
+      console.log(root, args, context, info);
+      return null;
     },
   },
 };
