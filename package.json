@@ -39,6 +39,8 @@
     "array-flat-polyfill": "^1.0.1",
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
+    "firebase": "^8.6.1",
+    "firebase-admin": "^9.8.0",
     "focus-visible": "^5.0.2",
     "fuse.js": "^3.4.6",
     "graphql": "^14.5.8",
