@@ -8,9 +8,11 @@
     <img src="https://img.shields.io/github/v/tag/alexieyizhe/intern.plus?label=version">
 </p>
 
-## ✨ Design
+##### ✨ intern+ aggregates information about the quality of a company's internship program, sourced directly through reviews from your peers – all designed to help you make an informed decision when it comes to choosing your next internship. Interested in how it was built? Check out a [timelapse of the design process](https://youtu.be/0Ioruq2xIXw) on YouTube. You can also watch a .
 
-Check out [the mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/intern?node-id=0%3A1) on Figma! You can also watch a [timelapse of the design process](https://youtu.be/0Ioruq2xIXw) on YouTube.
+## 🎨 Design
+
+See [the finished mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/intern?node-id=0%3A1) on Figma!
 
 ## 🥞 Tech Stack
 
@@ -30,7 +32,7 @@ To get started:
 ```sh
 git clone https://github.com/alexieyizhe/intern.plus.git
 cd intern.plus
-npm install
+npm i
 npm start
 ```
 
@@ -39,7 +41,7 @@ npm start
 The project is split into the following parts:
 
 - `/cypress` holds logic for the Cypress end-to-end testing suite tool, as well as E2E tests.
-- `/backend` contains the code for the Django backend.
+- `/api` contains the code for the GraphQL server & API.
 - `/src` contains the code for the React frontend:
   - `/api` contains client code for interacting with the graphql api.
   - `/assets` contains images, fonts, and other static assets.
@@ -87,9 +89,9 @@ The commit name must be prefixed with one of the following, according to [Conven
 - `chore:` refactoringchore-related changes
 - `docs:` documentation
 
-#### Commits into `release` branch (releases)
+#### Releasing a new version
 
-When code is ready to be reflected on production, add a Github release with an appropriate version tag. This will trigger a Github Actions workflow that bumps the version according to the tag and pushes this to both `master` and `release`.
+When code is ready to be reflected on production, cut a Github release with an appropriate version tag. This will trigger a Github Actions workflow that bumps the version according to the tag and pushes this to both `master` and `release`.
 
 Any new changes on the `release` branch is automatically built by Vercel and made live.
 
