@@ -1,16 +1,22 @@
-import * as data from "../seed/data.json";
+import { IResolvers } from "apollo-server-micro";
 
-const resolvers = {
+import { db } from "../db";
+
+const resolvers: IResolvers = {
   Query: {
-    companies: (root, args, context, info) => {
-      console.log(root, args, context, info);
-      return data.companies.slice(0, 5);
-    },
+    companies: (root, args, context, info) =>
+      db
+        .collection("companies")
+        .limit(2)
+        .get()
+        .then((qSnap) =>
+          qSnap.docs.map((doc) => {
+            console.log(doc.id);
+            return doc.data();
+          })
+        ),
 
-    company: (root, args, context, info) => {
-      console.log(root, args, context, info);
-      return null;
-    },
+    // company: (root, args, context, info) => data.companies[0],
   },
 };
 
