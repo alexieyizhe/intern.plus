@@ -90,7 +90,6 @@ const COPY = {
       label: "submit feedback",
       newTab: true,
     },
-
     {
       to: "https://github.com/alexieyizhe/intern.plus",
       label: "open source",
