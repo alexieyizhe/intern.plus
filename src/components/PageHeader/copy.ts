@@ -1,6 +1,6 @@
 import { IconName } from "src/components/Icon";
 
-export default {
+const COPY = {
   addReview: {
     closedIcon: {
       name: IconName.EDIT,
@@ -22,3 +22,5 @@ export default {
     },
   },
 };
+
+export default COPY;

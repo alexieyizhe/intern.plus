@@ -270,18 +270,12 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   const [internalTypeOptionVal, setInternalTypeOptionVal] = useState(
     typeOption && typeOption.value
   );
-  const [
-    internalRatingFilterOptionVal,
-    setInternalRatingFilterOptionVal,
-  ] = useState((ratingOption && ratingOption.value) || []);
-  const [
-    internalSalaryFilterOptionVal,
-    setInternalSalaryFilterOptionVal,
-  ] = useState((salaryOption && salaryOption.value) || []);
-  const [
-    internalLocationFilterOptionVal,
-    setInternalLocationFilterOptionVal,
-  ] = useState((locationOption && locationOption.value) || []);
+  const [internalRatingFilterOptionVal, setInternalRatingFilterOptionVal] =
+    useState((ratingOption && ratingOption.value) || []);
+  const [internalSalaryFilterOptionVal, setInternalSalaryFilterOptionVal] =
+    useState((salaryOption && salaryOption.value) || []);
+  const [internalLocationFilterOptionVal, setInternalLocationFilterOptionVal] =
+    useState((locationOption && locationOption.value) || []);
 
   /**
    * Callback to reset all options to their empty state.

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { IJobCardItem } from "src/shared/constants/card";
 import { ICompanyDetails } from "../components/CompanyDetailsCard";
 import { GetCompanyDetails_company } from "./types/GetCompanyDetails";

@@ -88,7 +88,6 @@ const BaseText = styled.span<ITextProps & { easterEgg: boolean }>`
   font-size: ${({ size, theme }) =>
     size ? `${theme.fontSize[size] || size}px` : "inherit"};
 
-
   ${({ underline }) => underline && `text-decoration-line: underline;`}
   ${({ bold }) =>
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}

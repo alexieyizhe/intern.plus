@@ -29,7 +29,6 @@ import { NotFoundPage, CrashPage } from "src/pages/error";
 import CompaniesRouteHandler from "src/pages/companies";
 import JobsRouteHandler from "src/pages/jobs";
 import ReviewsRouteHandler from "src/pages/reviews";
-import AddReviewModal from "src/pages/reviews/components/AddReviewModal";
 import DownForMaintenance from "src/pages/maintenance";
 
 export const IS_MAINTENANCE = false;
@@ -109,8 +108,6 @@ const App: React.FC = () => {
                         )}
 
                         <PageFooter />
-
-                        <AddReviewModal />
                       </div>
                     </ErrorBoundary>
                   </QueryParamProvider>

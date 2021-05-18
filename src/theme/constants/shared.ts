@@ -12,8 +12,7 @@ export const sharedConstants = {
   fontFamily: {
     heading:
       'Sharp Sans, Ubuntu, Cantarell, "Helvetica Neue", apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-    body:
-      'Roboto, Oxygen-Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    body: 'Roboto, Oxygen-Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   },
   boxShadow: {
     hover: "0px 10px 25px rgba(50, 50, 50, 0.1)",

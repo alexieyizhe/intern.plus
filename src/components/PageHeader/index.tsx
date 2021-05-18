@@ -212,20 +212,16 @@ const Header: React.FC = () => {
   /**
    * State and callbacks for mobile menu and add review modal.
    */
-  const {
-    isMobileMenuOpen,
-    toggleMobileMenu,
-    setMobileMenuOpen,
-  } = useMobileMenuContext();
-  const {
-    toggleAddReviewModal,
-    isAddReviewModalOpen,
-  } = useAddReviewModalContext();
+  const { isMobileMenuOpen, toggleMobileMenu, setMobileMenuOpen } =
+    useMobileMenuContext();
+  const { toggleAddReviewModal, isAddReviewModalOpen } =
+    useAddReviewModalContext();
   const { toggleDarkMode, curMode } = useSiteThemeContext();
 
-  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [
-    setMobileMenuOpen,
-  ]);
+  const closeMobileMenu = useCallback(
+    () => setMobileMenuOpen(false),
+    [setMobileMenuOpen]
+  );
 
   /**
    * If the add review button is clicked, set the background page to

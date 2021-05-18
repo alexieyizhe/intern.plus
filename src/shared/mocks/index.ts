@@ -57,7 +57,7 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
     const companyImgUrl = `https://picsum.photos/seed/${companyId}/256`;
 
     return {
-      __typename: "Company" as "Company",
+      __typename: "Company" as const,
       id: companyId,
       name: companyName,
       slug: faker.helpers.slugify(companyName),
@@ -69,7 +69,7 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
       hourlySalaryCurrency: faker.random.arrayElement(["CAD", "USD", "EUR"]),
 
       logoImg: {
-        __typename: "File" as "File",
+        __typename: "File" as const,
         downloadUrl: companyImgUrl,
       },
       logoColor: getRandomColor(),
@@ -86,12 +86,12 @@ export const MOCK_COMPANIES_LIST = new Array(NUM_COMPANIES)
       avgWorkLifeBalanceRating: 0,
 
       jobs: {
-        __typename: "JobListResponse" as "JobListResponse",
+        __typename: "JobListResponse" as const,
         count: 0,
         items: [],
       },
       reviews: {
-        __typename: "ReviewListResponse" as "ReviewListResponse",
+        __typename: "ReviewListResponse" as const,
         count: 0,
         items: [],
       },
@@ -103,7 +103,7 @@ export const MOCK_JOBS_LIST = new Array(NUM_JOBS).fill(null).map(() => {
   const jobName = faker.name.jobTitle();
 
   return {
-    __typename: "Job" as "Job",
+    __typename: "Job" as const,
     id: jobId,
     updatedAt: faker.date.recent(60),
 
@@ -127,13 +127,13 @@ export const MOCK_JOBS_LIST = new Array(NUM_JOBS).fill(null).map(() => {
     avgWorkLifeBalanceRating: 0,
 
     company: {
-      __typename: "Company" as "Company",
+      __typename: "Company" as const,
       name: "",
       slug: "",
       logoColor: "",
     },
     reviews: {
-      __typename: "ReviewListResponse" as "ReviewListResponse",
+      __typename: "ReviewListResponse" as const,
       count: 0,
       items: [],
     },
@@ -147,14 +147,16 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
     "hourly",
     "monthly",
   ]);
-  const salaryNum = ({
-    hourly: faker.random.number({ min: -1, max: 50 }),
-    weekly: faker.random.number({ min: 800, max: 3000 }),
-    monthly: faker.random.number({ min: 4000, max: 12000 }),
-  } as any)[currencyPeriod];
+  const salaryNum = (
+    {
+      hourly: faker.random.number({ min: -1, max: 50 }),
+      weekly: faker.random.number({ min: 800, max: 3000 }),
+      monthly: faker.random.number({ min: 4000, max: 12000 }),
+    } as any
+  )[currencyPeriod];
 
   return {
-    __typename: "Review" as "Review",
+    __typename: "Review" as const,
     id: reviewId,
     createdAt: faker.date.recent(100).toString(),
     updatedAt: faker.date.recent(60).toString(),
@@ -177,12 +179,12 @@ export const MOCK_REVIEWS_LIST = new Array(NUM_REVIEWS).fill(null).map(() => {
     isAnonymous: faker.random.boolean(),
 
     job: {
-      __typename: "Job" as "Job",
+      __typename: "Job" as const,
       name: "",
       location: "",
     },
     company: {
-      __typename: "Company" as "Company",
+      __typename: "Company" as const,
       name: "",
       slug: "",
       logoColor: "",

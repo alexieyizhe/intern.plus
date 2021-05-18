@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   MOCK_COMPANIES_LIST,
@@ -59,7 +58,7 @@ export const getMockCompaniesSearch = (
 
   return {
     companiesList: {
-      __typename: "CompanyListResponse" as "CompanyListResponse",
+      __typename: "CompanyListResponse" as const,
       items: filteredCompanies,
     },
   };
@@ -113,7 +112,7 @@ export const getMockJobsSearch = (
 
   return {
     jobsList: {
-      __typename: "JobListResponse" as "JobListResponse",
+      __typename: "JobListResponse" as const,
       items: filteredJobs,
     },
   };
@@ -168,7 +167,7 @@ export const getMockReviewsSearch = (
 
   return {
     reviewsList: {
-      __typename: "ReviewListResponse" as "ReviewListResponse",
+      __typename: "ReviewListResponse" as const,
       items: filteredReviews,
     },
   };

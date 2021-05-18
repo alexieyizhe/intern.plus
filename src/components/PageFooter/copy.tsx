@@ -77,7 +77,7 @@ export const EMAIL = "hello@intern.plus";
 export const FEEDBACK_LINK =
   "https://github.com/alexieyizhe/intern.plus/issues/new?title=Feedback%20for%20intern.plus&body=Explain%20your%20issue%20here";
 
-export default {
+const COPY = {
   getSubtext,
   sublinks: [
     {
@@ -90,7 +90,6 @@ export default {
       label: "submit feedback",
       newTab: true,
     },
-
     {
       to: "https://github.com/alexieyizhe/intern.plus",
       label: "open source",
@@ -103,3 +102,5 @@ export default {
     // },
   ],
 };
+
+export default COPY;

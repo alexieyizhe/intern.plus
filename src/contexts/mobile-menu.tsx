@@ -12,9 +12,8 @@ const DEFAULT_STATE = {
   setMobileMenuOpen: (_: boolean) => {},
 };
 
-export const MobileMenuContext: React.Context<IMobileMenuState> = createContext(
-  DEFAULT_STATE
-);
+export const MobileMenuContext: React.Context<IMobileMenuState> =
+  createContext(DEFAULT_STATE);
 
 export const MobileMenuContextProvider: React.FC = ({ children, ...rest }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
