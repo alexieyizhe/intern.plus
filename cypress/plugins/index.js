@@ -14,7 +14,6 @@
 /* eslint-disable */
 const percyHealthCheck = require("@percy/cypress/task");
 const webpack = require("@cypress/webpack-preprocessor");
-const reactScriptsPlugin = require("cypress-react-unit-test/plugins/react-scripts");
 
 module.exports = (on, config) => {
   const options = {
@@ -36,8 +35,6 @@ module.exports = (on, config) => {
   on("file:preprocessor", webpack(options));
 
   on("task", percyHealthCheck);
-
-  reactScriptsPlugin(on, config); // bootstrap unit test
 
   return config;
 };
