@@ -20,7 +20,7 @@ Created with [React](https://reactjs.org/) and bootstrapped with [`create-react-
 Developed in [TypeScript](https://www.typescriptlang.org/).  
 API powered by [GraphQL](https://graphql.org/), [Apollo](https://www.apollographql.com/), and [Vercel serverless](https://vercel.com).  
 Styled with [styled-components](https://www.styled-components.com).  
-Tested through [Cypress](https://www.cypress.io/), [`cypress-react-unit-test`](https://github.com/bahmutov/cypress-react-unit-test) and [Percy](https://percy.io/).  
+Tested through [Cypress](https://www.cypress.io/) and [Percy](https://percy.io/).  
 Code style enforced with [eslint](https://eslint.org/) and [Prettier](https://prettier.io/).  
 Continuous integration through [Github Actions](https://github.com/features/actions).  
 Hosted and deployed on [Vercel](https://vercel.com) and [Firebase](https://firebase.google.com/).
