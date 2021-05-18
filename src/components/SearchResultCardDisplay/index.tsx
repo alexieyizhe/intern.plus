@@ -239,9 +239,10 @@ const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
 }) => {
   const { value: isDark } = useDarkMode();
 
-  const { mood, markup } = useMemo(() => getMiscContent(searchState), [
-    searchState,
-  ]);
+  const { mood, markup } = useMemo(
+    () => getMiscContent(searchState),
+    [searchState]
+  );
 
   const shouldShowResults = useMemo(
     () =>

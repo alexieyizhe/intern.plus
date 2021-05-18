@@ -205,11 +205,10 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
   cards,
   ...rest
 }) => {
-  const showMisc = useMemo(() => loading || error || !cards.length, [
-    cards,
-    error,
-    loading,
-  ]);
+  const showMisc = useMemo(
+    () => loading || error || !cards.length,
+    [cards, error, loading]
+  );
 
   return (
     <Container {...rest}>

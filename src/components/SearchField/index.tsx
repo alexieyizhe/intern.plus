@@ -172,42 +172,43 @@ const SearchField: React.FC<ISearchFieldProps> = ({
     []
   );
 
-  const {
-    onSuggestionSelected,
-    getSuggestionValue,
-    filteredSuggestions,
-  } = useMemo(() => {
-    const getSuggestionValue = (suggestedVal: string) => suggestedVal;
+  const { onSuggestionSelected, getSuggestionValue, filteredSuggestions } =
+    useMemo(() => {
+      const getSuggestionValue = (suggestedVal: string) => suggestedVal;
 
-    if (suggestions) {
-      const onSuggestionSelected: OnSuggestionSelected<string> = (
-        e,
-        { suggestion }
-      ) => setInputVal(suggestion);
+      if (suggestions) {
+        const onSuggestionSelected: OnSuggestionSelected<string> = (
+          e,
+          { suggestion }
+        ) => setInputVal(suggestion);
 
-      let filteredSuggestions: string[] = [];
-      if (inputVal) {
-        const fuse = new Fuse(suggestions, {
-          shouldSort: true,
-          threshold: 0.4,
-          ...fuseOptions,
-        });
-        const results = fuse.search(inputVal);
+        let filteredSuggestions: string[] = [];
+        if (inputVal) {
+          const fuse = new Fuse(suggestions, {
+            shouldSort: true,
+            threshold: 0.4,
+            ...fuseOptions,
+          });
+          const results = fuse.search(inputVal);
 
-        filteredSuggestions = (results as string[])
-          .map((result) => suggestions[(result as unknown) as number])
-          .slice(0, 5) as string[];
+          filteredSuggestions = (results as string[])
+            .map((result) => suggestions[result as unknown as number])
+            .slice(0, 5) as string[];
+        }
+
+        return {
+          onSuggestionSelected,
+          getSuggestionValue,
+          filteredSuggestions,
+        };
+      } else {
+        return {
+          onSuggestionSelected: () => {},
+          getSuggestionValue,
+          filteredSuggestions: [],
+        };
       }
-
-      return { onSuggestionSelected, getSuggestionValue, filteredSuggestions };
-    } else {
-      return {
-        onSuggestionSelected: () => {},
-        getSuggestionValue,
-        filteredSuggestions: [],
-      };
-    }
-  }, [fuseOptions, inputVal, suggestions]);
+    }, [fuseOptions, inputVal, suggestions]);
 
   return (
     <Container

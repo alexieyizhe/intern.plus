@@ -60,7 +60,7 @@ export const inputStyles = css<IInputStyleOptions>`
     theme.color[textColor] || textColor};
   ::placeholder {
     color: ${({ theme }) => theme.color.textSecondary};
-    opacity: 1; 
+    opacity: 1;
   }
   font-family: ${({ heading, theme }) =>
     theme.fontFamily[heading ? "heading" : "body"]};
@@ -84,7 +84,7 @@ export const inputStyles = css<IInputStyleOptions>`
   &:hover:not(:read-only):not(:disabled) {
     border: 2px solid ${({ theme }) => theme.color.textTertiary};
   }
-  
+
   &:focus:not(:read-only):not(:disabled) {
     outline: none;
     border: 2px solid ${({ theme }) => theme.color.textPrimary};

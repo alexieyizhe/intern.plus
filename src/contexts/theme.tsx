@@ -16,16 +16,16 @@ const DEFAULT_STATE: ISiteThemeState = {
   toggleDarkMode: () => {},
 };
 
-export const SiteThemeContext: React.Context<ISiteThemeState> = createContext(
-  DEFAULT_STATE
-);
+export const SiteThemeContext: React.Context<ISiteThemeState> =
+  createContext(DEFAULT_STATE);
 
 export const SiteThemeContextProvider: React.FC = ({ children, ...rest }) => {
   const { value: isDarkMode, toggle: toggleDarkMode } = useDarkMode();
 
-  const curMode = useMemo<ThemeMode>(() => (isDarkMode ? "dark" : "light"), [
-    isDarkMode,
-  ]);
+  const curMode = useMemo<ThemeMode>(
+    () => (isDarkMode ? "dark" : "light"),
+    [isDarkMode]
+  );
 
   const stateValue = {
     curMode,

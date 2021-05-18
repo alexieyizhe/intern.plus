@@ -12,9 +12,8 @@ const DEFAULT_STATE = {
   setAddReviewModalOpen: (_: boolean) => {},
 };
 
-export const AddReviewModalContext: React.Context<IAddReviewModalState> = createContext(
-  DEFAULT_STATE
-);
+export const AddReviewModalContext: React.Context<IAddReviewModalState> =
+  createContext(DEFAULT_STATE);
 
 export const AddReviewModalContextProvider: React.FC = ({
   children,

@@ -4,7 +4,7 @@ import { GetCompanySuggestions } from "./types/GetCompanySuggestions";
 
 export const getMockCompanySuggestions = (): GetCompanySuggestions => ({
   companiesList: {
-    __typename: "CompanyListResponse" as "CompanyListResponse",
+    __typename: "CompanyListResponse" as const,
     items: MOCK_COMPANIES_LIST.map((company) => ({
       __typename: "Company",
       name: company.name,

@@ -6,7 +6,7 @@ export const getMockJobSuggestions = (
   companySlug?: string
 ): GetJobSuggestions => ({
   jobsList: {
-    __typename: "JobListResponse" as "JobListResponse",
+    __typename: "JobListResponse" as const,
     items: MOCK_JOBS_LIST.filter(
       (job) => !companySlug || job.company.slug === companySlug
     ).map((job) => ({

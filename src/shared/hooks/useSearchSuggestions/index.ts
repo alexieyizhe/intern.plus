@@ -48,11 +48,10 @@ export const useSearchSuggestions = (variables?: ISuggestionsVariables) => {
     }
   );
 
-  const suggestions = useMemo(() => suggestionsBuilder(data, variables), [
-    suggestionsBuilder,
-    data,
-    variables,
-  ]);
+  const suggestions = useMemo(
+    () => suggestionsBuilder(data, variables),
+    [suggestionsBuilder, data, variables]
+  );
 
   return suggestions;
 };
