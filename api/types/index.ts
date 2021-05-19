@@ -60,5 +60,11 @@ export default gql`
   type Query {
     companies: [Company!]!
     company(id: ID!): Company
+
+    jobs: [Job!]!
+    job(id: ID!): Job
+
+    reviews: [Review!]!
+    review(id: ID!): Review
   }
 `;

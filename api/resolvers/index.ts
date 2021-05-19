@@ -15,8 +15,13 @@ const resolvers: IResolvers = {
             return doc.data();
           })
         ),
+    company: (root, args, context, info) => {},
 
-    // company: (root, args, context, info) => data.companies[0],
+    jobs: (root, args, context, info) => {},
+    job: (root, args, context, info) => {},
+
+    reviews: (root, args, context, info) => {},
+    review: (root, args, context, info) => {},
   },
 };
 
