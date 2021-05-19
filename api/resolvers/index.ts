@@ -1,27 +1,46 @@
 import { IResolvers } from "apollo-server-micro";
 
-import { db } from "../db";
+import { companiesQueryResolver, companyResolver } from "./company";
+import { jobsResolver, jobResolver, jobsQueryResolver } from "./job";
+import {
+  reviewsResolver,
+  reviewResolver,
+  reviewsQueryResolver,
+} from "./review";
 
 const resolvers: IResolvers = {
   Query: {
-    companies: (root, args, context, info) =>
-      db
-        .collection("companies")
-        .limit(2)
-        .get()
-        .then((qSnap) =>
-          qSnap.docs.map((doc) => {
-            console.log(doc.id);
-            return doc.data();
-          })
-        ),
-    company: (root, args, context, info) => {},
+    companies: companiesQueryResolver,
+    company: companyResolver,
 
-    jobs: (root, args, context, info) => {},
-    job: (root, args, context, info) => {},
+    jobs: jobsQueryResolver,
+    job: jobResolver,
 
-    reviews: (root, args, context, info) => {},
-    review: (root, args, context, info) => {},
+    reviews: reviewsQueryResolver,
+    review: reviewResolver,
+  },
+  Company: {
+    jobs: jobsResolver,
+    reviews: reviewsResolver,
+  },
+  Job: {
+    company: companyResolver,
+    reviews: reviewsResolver,
+  },
+  Review: {
+    company: companyResolver,
+    job: jobResolver,
+  },
+  SalaryPeriod: {
+    HOURLY: "hourly",
+    WEEKLY: "weekly",
+    MONTHLY: "monthly",
+    YEARLY: "yearly",
+  },
+  Listable: {
+    __resolveType(listable) {
+      return listable.__typename ?? null;
+    },
   },
 };
 
