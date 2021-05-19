@@ -22,6 +22,6 @@
     "jsx": "react",
     "noEmit": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "api/**/*"],
   "exclude": ["node_modules", "src/**/*.unit.test.tsx", "src/theme/cypress/**"]
 }
