@@ -47,41 +47,11 @@ export const LOCATION_MAP = buildOptions(LOCATIONS).reduce((acc, cur) => {
   return acc;
 }, {} as { [key: string]: OptionTypeBase });
 
-export const useSearchLocationFilter = (results?: IGenericCardItem[]) => {
+export const useSearchLocationFilter = () => {
   const { searchLocationFilter, setSearchLocationFilter } = useSearchParams();
 
-  const { suggestions: locationSuggestions } = useLocationSuggestions();
-
-  const options = useMemo(
-    () =>
-      results && results.length > 0
-        ? buildOptions(getLocationSuggestions(results))
-        : buildOptions(locationSuggestions),
-    [locationSuggestions, results]
-  );
-
-  const onChange = useCallback(
-    (newOptions: OptionTypeBase[]) => {
-      let newFilterVal;
-      if (newOptions === null) {
-        newFilterVal = newOptions;
-      } else {
-        newFilterVal =
-          newOptions.length <= MAX_OPTIONS
-            ? newOptions.map((option) => option.value)
-            : searchLocationFilter;
-      }
-
-      setSearchLocationFilter(newFilterVal);
-    },
-    [searchLocationFilter, setSearchLocationFilter]
-  );
-
   return {
-    options,
-    value:
-      searchLocationFilter &&
-      searchLocationFilter.map((val) => LOCATION_MAP[val]),
-    onChange: onChange,
+    value: searchLocationFilter,
+    onChange: setSearchLocationFilter,
   };
 };

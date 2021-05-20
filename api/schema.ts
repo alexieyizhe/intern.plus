@@ -10,6 +10,13 @@ export default gql`
     YEARLY
   }
 
+  enum SortBy {
+    ALPHANUMERIC
+    CREATION_DATE
+    NUM_REVIEWS
+    OVERALL_RATING
+  }
+
   interface Listable {
     count: Int!
   }
@@ -57,8 +64,8 @@ export default gql`
   }
 
   input CompanySearchInput {
+    query: String
     sort: String # "name" | "createdAt" | "reviewCount" | "jobCount" | "overallRating"
-    sortDirection: String # "ASC" | "DESC"
     filterOverallRatingLt: Float
     filterOverallRatingGt: Float
   }
@@ -83,8 +90,8 @@ export default gql`
   }
 
   input JobSearchInput {
+    query: String
     sort: String # "name" | "createdAt" | "reviewCount" | "overallRating"
-    sortDirection: String # "ASC" | "DESC"
     filterOverallRatingLt: Float
     filterOverallRatingGt: Float
     filterSalaryHourlyAmountLt: Float
@@ -114,8 +121,8 @@ export default gql`
   }
 
   input ReviewSearchInput {
+    query: String
     sort: String # "body" | "createdAt" | "overallRating" | "salaryAmount"
-    sortDirection: String # "ASC" | "DESC"
     filterOverallRatingLt: Float
     filterOverallRatingGt: Float
     filterSalaryAmountLt: Float

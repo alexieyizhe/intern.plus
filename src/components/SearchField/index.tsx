@@ -131,7 +131,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   onTriggerSearch,
   fuseOptions = {},
   suggestions,
-  inputProps = { color: "backgroundSecondary" },
+  inputProps,
   buttonProps = {
     color: "greenSecondary",
     contents: (
@@ -224,7 +224,10 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         suggestions={filteredSuggestions}
         getSuggestionValue={getSuggestionValue}
         renderInputComponent={(innerInputProps) => (
-          <TextInput color={inputProps.color} {...(innerInputProps as any)} /> // eslint-disable-line @typescript-eslint/no-explicit-any
+          <TextInput
+            color={inputProps?.color ?? "backgroundSecondary"}
+            {...(innerInputProps as any)}
+          /> // eslint-disable-line @typescript-eslint/no-explicit-any
         )}
         renderSuggestion={renderSuggestion}
         inputProps={{

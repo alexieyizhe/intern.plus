@@ -69,7 +69,7 @@ export const useSearchParams = () => {
 
   const [searchLocationFilter, setSearchLocationFilter] = useQueryParam(
     SearchParamKey.LOCATION_FILTER,
-    ArrayParam
+    StringParam
   );
 
   return {
