@@ -43,6 +43,7 @@ export default gql`
     name: String!
     description: String
     logo: String
+    websiteUrl: String
     scoreTotals: Score!
     createdAt: ISODate!
     updatedAt: ISODate!

@@ -46,7 +46,7 @@ const CompanyPage: React.FC = () => {
   useScrollTopOnMount();
 
   // const { companySlug } = useParams();
-  const searchSuggestions = useSearchSuggestions({ companySlug });
+  // const searchSuggestions = useSearchSuggestions({ companySlug });
 
   /**
    * Fetch *details of the company* with the corresponding slug.
