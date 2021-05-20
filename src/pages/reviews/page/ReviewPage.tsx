@@ -95,11 +95,11 @@ const ReviewPage: React.FC = () => {
    * Fetch the data for the review with
    * a corresponding id.
    */
-  const { reviewId } = useParams();
+  const { reviewId } = useParams<{ reviewId: string }>();
   const { loading, error, data } = useQuery<GetReviewDetails>(
     GET_REVIEW_DETAILS,
     {
-      variables: { id: reviewId },
+      variables: { reviewId },
     }
   );
 

@@ -21,6 +21,7 @@ import {
   IconName,
 } from "src/components";
 import useDarkMode from "use-dark-mode";
+import { SalaryPeriod } from "src/api/globalTypes";
 
 /*******************************************************************
  *                            **Types**                           *
@@ -39,7 +40,7 @@ export interface IReviewDetails {
   learningMentorshipRating: number;
   salary: number;
   salaryCurrency: string;
-  salaryPeriod: string;
+  salaryPeriod: SalaryPeriod;
   logoSrc: string;
   color: string;
   date: Date | null;
@@ -62,34 +63,31 @@ export interface IReviewDetailsCardProps extends IDetailsCardProps {
  * internCompass data.
  * @param salary salary amount
  * @param salaryCurrency currency
- * @param salaryPeriod one of `weekly`, `hourly`, `monthly`
+ * @param salaryPeriod SalaryPeriod
  */
 const getSalaryText = (
   salary?: number,
   salaryCurrency?: string,
-  salaryPeriod?: string
+  salaryPeriod?: SalaryPeriod
 ) => {
   if (salary === -1) {
     return "No salary provided";
   }
 
-  let salaryText = salaryCurrency;
-
   switch (salaryPeriod) {
-    case "monthly":
-      salaryText += "/month";
-      break;
-    case "weekly":
-      salaryText += "/week";
-      break;
-    case "hourly":
-      salaryText += "/hr";
-      break;
+    case "YEARLY":
+      return `${salaryCurrency}/month`;
+    case "MONTHLY":
+      return `${salaryCurrency}/month`;
+    case "WEEKLY":
+      return `${salaryCurrency}/month`;
+    case "HOURLY":
+      return `${salaryCurrency}/month`;
     default:
-      return "";
+      throw new Error(
+        `Exhaustive salary period check found unknown value: ${salaryPeriod}`
+      );
   }
-
-  return salaryText;
 };
 
 /*******************************************************************
@@ -240,146 +238,148 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
       color="backgroundSecondary"
       {...rest}
     >
-      <div>
-        <FlexRowContainer>
-          <div>
-            <Link to={`${RouteName.JOBS}/${reviewDetails?.jobId}`} bare>
-              <Text variant="heading1" as="h1">
-                {reviewDetails?.jobName}
-              </Text>
-            </Link>
-            <Link
-              to={`${RouteName.COMPANIES}/${reviewDetails?.companyId}`}
-              bare
-            >
-              <Text
-                variant="heading3"
-                color={getPrimaryColor(isDark, reviewDetails?.color)}
+      {reviewDetails && (
+        <div>
+          <FlexRowContainer>
+            <div>
+              <Link to={`${RouteName.JOBS}/${reviewDetails.jobId}`} bare>
+                <Text variant="heading1" as="h1">
+                  {reviewDetails.jobName}
+                </Text>
+              </Link>
+              <Link
+                to={`${RouteName.COMPANIES}/${reviewDetails.companyId}`}
+                bare
               >
-                {reviewDetails?.companyName}
-              </Text>
-            </Link>
-            {reviewDetails?.location && (
-              <Text
-                className="subheading location"
-                variant="heading3"
-                color="textSecondary"
-              >
-                {` • ${reviewDetails?.location}`}
-              </Text>
-            )}
-          </div>
-          <Link to={`${RouteName.COMPANIES}/${reviewDetails?.companyId}`} bare>
-            <LogoImg
-              src={reviewDetails?.logoSrc}
-              alt={`Logo of ${reviewDetails?.companyName}`}
-            />
-          </Link>
-        </FlexRowContainer>
-
-        <ReviewPrefixContainer>
-          <Text variant="subheading">{reviewDetails?.author} </Text>
-          <Text variant="subheading" color="textSecondary">
-            mentioned the following{" "}
-          </Text>
-          <Text
-            variant="subheading"
-            title={reviewDetails?.date?.toDateString() ?? ""}
-          >
-            {reviewDetails?.relativeDate}...
-          </Text>
-        </ReviewPrefixContainer>
-
-        <FlexRowContainer className="misc-info">
-          <div>
-            <ReviewRating
-              maxStars={5}
-              value={reviewDetails ? reviewDetails.overallRating : 0}
-              readOnly
-            >
-              <Text variant="subheading" className="rating-text">
-                Overall
-              </Text>
-            </ReviewRating>
-            <ReviewRating
-              maxStars={5}
-              value={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
-              readOnly
-            >
-              <Text
-                variant="subheading"
-                className="rating-text"
-                color="textSecondary"
-              >
-                Meaningful work
-              </Text>
-            </ReviewRating>
-            <ReviewRating
-              maxStars={5}
-              value={reviewDetails?.workLifeBalanceRating}
-              readOnly
-            >
-              <Text
-                variant="subheading"
-                className="rating-text"
-                color="textSecondary"
-              >
-                Work life balance
-              </Text>
-            </ReviewRating>
-            <ReviewRating
-              maxStars={5}
-              value={reviewDetails?.learningMentorshipRating}
-              readOnly
-            >
-              <Text
-                variant="subheading"
-                className="rating-text"
-                color="textSecondary"
-              >
-                Learning &amp; mentorship
-              </Text>
-            </ReviewRating>
-          </div>
-          <SalaryInfo>
-            {reviewDetails?.salary && reviewDetails?.salary >= 0 && (
-              <Text variant="heading2" className="salary-amt">
-                {reviewDetails?.salary}
-              </Text>
-            )}
-            <Text variant="heading3" className="salary-text">
-              {getSalaryText(
-                reviewDetails?.salary,
-                reviewDetails?.salaryCurrency,
-                reviewDetails?.salaryPeriod
-              )}
-            </Text>
-          </SalaryInfo>
-        </FlexRowContainer>
-        <ReviewBody variant="body">
-          {reviewDetails?.body?.split("\n").map((text) => (
-            <p key={text}>{text}</p>
-          ))}
-        </ReviewBody>
-
-        {reviewDetails?.tags && (
-          <ReviewTags className="tags">
-            {getReviewCardTags(reviewDetails.tags, isDark).map(
-              ({ label, bgColor }) => (
-                <Link
-                  to={`${RouteName.SEARCH}?${SearchParamKey.QUERY}=${label}`}
+                <Text
+                  variant="heading3"
+                  color={getPrimaryColor(isDark, reviewDetails.color)}
                 >
-                  <Tag key={label} color={bgColor}>
-                    <Text size={12} bold={500}>
-                      {label}
-                    </Text>
-                  </Tag>
-                </Link>
-              )
-            )}
-          </ReviewTags>
-        )}
-      </div>
+                  {reviewDetails.companyName}
+                </Text>
+              </Link>
+              {reviewDetails.location && (
+                <Text
+                  className="subheading location"
+                  variant="heading3"
+                  color="textSecondary"
+                >
+                  {` • ${reviewDetails.location}`}
+                </Text>
+              )}
+            </div>
+            <Link to={`${RouteName.COMPANIES}/${reviewDetails.companyId}`} bare>
+              <LogoImg
+                src={reviewDetails.logoSrc}
+                alt={`Logo of ${reviewDetails.companyName}`}
+              />
+            </Link>
+          </FlexRowContainer>
+
+          <ReviewPrefixContainer>
+            <Text variant="subheading">{reviewDetails.author} </Text>
+            <Text variant="subheading" color="textSecondary">
+              mentioned the following{" "}
+            </Text>
+            <Text
+              variant="subheading"
+              title={reviewDetails.date?.toDateString() ?? ""}
+            >
+              {reviewDetails.relativeDate.toLowerCase()}...
+            </Text>
+          </ReviewPrefixContainer>
+
+          <FlexRowContainer className="misc-info">
+            <div>
+              <ReviewRating
+                maxStars={5}
+                value={reviewDetails ? reviewDetails.overallRating : 0}
+                readOnly
+              >
+                <Text variant="subheading" className="rating-text">
+                  Overall
+                </Text>
+              </ReviewRating>
+              <ReviewRating
+                maxStars={5}
+                value={reviewDetails ? reviewDetails.meaningfulWorkRating : 0}
+                readOnly
+              >
+                <Text
+                  variant="subheading"
+                  className="rating-text"
+                  color="textSecondary"
+                >
+                  Meaningful work
+                </Text>
+              </ReviewRating>
+              <ReviewRating
+                maxStars={5}
+                value={reviewDetails.workLifeBalanceRating}
+                readOnly
+              >
+                <Text
+                  variant="subheading"
+                  className="rating-text"
+                  color="textSecondary"
+                >
+                  Work life balance
+                </Text>
+              </ReviewRating>
+              <ReviewRating
+                maxStars={5}
+                value={reviewDetails.learningMentorshipRating}
+                readOnly
+              >
+                <Text
+                  variant="subheading"
+                  className="rating-text"
+                  color="textSecondary"
+                >
+                  Learning &amp; mentorship
+                </Text>
+              </ReviewRating>
+            </div>
+            <SalaryInfo>
+              {reviewDetails.salary && reviewDetails.salary >= 0 && (
+                <Text variant="heading2" className="salary-amt">
+                  {reviewDetails.salary}
+                </Text>
+              )}
+              <Text variant="heading3" className="salary-text">
+                {getSalaryText(
+                  reviewDetails.salary,
+                  reviewDetails.salaryCurrency,
+                  reviewDetails.salaryPeriod
+                )}
+              </Text>
+            </SalaryInfo>
+          </FlexRowContainer>
+          <ReviewBody variant="body">
+            {reviewDetails.body?.split("\n").map((text) => (
+              <p key={text}>{text}</p>
+            ))}
+          </ReviewBody>
+
+          {reviewDetails.tags && (
+            <ReviewTags className="tags">
+              {getReviewCardTags(reviewDetails.tags, isDark).map(
+                ({ label, bgColor }) => (
+                  <Link
+                    to={`${RouteName.SEARCH}?${SearchParamKey.QUERY}=${label}`}
+                  >
+                    <Tag key={label} color={bgColor}>
+                      <Text size={12} bold={500}>
+                        {label}
+                      </Text>
+                    </Tag>
+                  </Link>
+                )
+              )}
+            </ReviewTags>
+          )}
+        </div>
+      )}
 
       <CloseButton onClick={onExit} tabIndex={1}>
         <span className="bg" />

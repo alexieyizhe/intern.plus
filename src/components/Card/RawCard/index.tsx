@@ -15,8 +15,8 @@ const BaseCard = styled.div`
   display: inline-block;
 
   border-radius: ${({ theme }) => theme.borderRadius.large}px;
-  background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
+  background-color: ${({ color = "inherit", theme }) =>
+    theme.color[color] ?? color};
 `;
 
 /*******************************************************************

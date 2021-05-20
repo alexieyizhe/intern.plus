@@ -72,8 +72,8 @@ export const inputStyles = css<IInputStyleOptions>`
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}
 
-  background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
+  background-color: ${({ color = "inherit", theme }) =>
+    theme.color[color] ?? color};
   cursor: ${({ disabled, readOnly }) =>
     disabled || readOnly ? "not-allowed" : "text"};
 

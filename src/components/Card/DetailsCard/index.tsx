@@ -71,26 +71,29 @@ const DetailsCard: React.FC<IDetailsCardProps> = ({
   searchFieldProps,
   children,
   ...rest
-}) => (
-  <Container className={classNames("details-card", className)} {...rest}>
-    {error ? (
-      <Text
-        variant="subheading"
-        className="error"
-        color="error"
-        as="div"
-        align="center"
-      >
-        {ERROR_OCCURRED_TEXT}
-      </Text>
-    ) : loading ? (
-      <Spinner className="loading" />
-    ) : (
-      children
-    )}
+}) => {
+  console.log("loading is", loading);
+  return (
+    <Container className={classNames("details-card", className)} {...rest}>
+      {error ? (
+        <Text
+          variant="subheading"
+          className="error"
+          color="error"
+          as="div"
+          align="center"
+        >
+          {ERROR_OCCURRED_TEXT}
+        </Text>
+      ) : loading ? (
+        <Spinner className="loading" />
+      ) : (
+        children
+      )}
 
-    {searchFieldProps && <SearchField {...searchFieldProps} />}
-  </Container>
-);
+      {searchFieldProps && <SearchField {...searchFieldProps} />}
+    </Container>
+  );
+};
 
 export default DetailsCard;
