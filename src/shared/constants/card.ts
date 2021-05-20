@@ -29,7 +29,7 @@ export interface IReviewJobCardItem {
   companyName: string; // company name
   jobName: string; // role/position
   jobLocation: string;
-  date: Date; 
+  date: Date | null; 
   overallRating: number; // score out of 5
   body: string | null;
   tags: string[] | null;

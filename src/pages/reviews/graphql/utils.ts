@@ -12,35 +12,25 @@ const timeAgo = new TimeAgo("en-US");
 export const buildReviewDetails = (
   item: GetReviewDetails_review
 ): IReviewDetails => ({
-  jobName: (item.job && item.job.name) || "",
-  jobId: (item.job && item.job.id) || "",
-  companyName: (item.company && item.company.name) || "",
-  companySlug: item.company ? item.company.slug || "" : "",
+  jobName: item.job.name,
+  jobId: item.job.id,
+  companyName: item.company.name,
+  companyId: item.company.id,
   location: (item.job && item.job.location) || "",
-  author: item.isLegacy ? "An InternCompass user" : "Anonymous",
-  tags: item.tags || "",
-  body: item.body || "",
-  overallRating: item.overallRating || 0,
-  meaningfulWorkRating: item.meaningfulWorkRating || 0,
-  workLifeBalanceRating: item.workLifeBalanceRating || 0,
-  learningMentorshipRating: item.learningMentorshipRating || 0,
-  salary: item.salary || 0,
-  salaryCurrency: item.salaryCurrency || "",
-  salaryPeriod: item.salaryPeriod || "",
-  logoSrc:
-    (item.company &&
-      item.company.logoImg &&
-      item.company.logoImg.downloadUrl) ||
-    "",
-  color: (item.company && item.company.logoColor) || "",
-  date: item.isLegacy
-    ? item.legacyUpdatedAt || ""
-    : item.updatedAt || item.createdAt || "",
-  relativeDate: timeAgo.format(
-    new Date(
-      item.isLegacy
-        ? item.legacyUpdatedAt || ""
-        : item.updatedAt || item.createdAt || ""
-    )
-  ),
+  author: item.isLegacy
+    ? "An InternCompass user"
+    : item.author.name ?? "An intern+ user",
+  tags: item.tags,
+  body: item.body,
+  overallRating: item.score.overall,
+  meaningfulWorkRating: item.score.meaningfulWork,
+  workLifeBalanceRating: item.score.workLifeBalance,
+  learningMentorshipRating: item.score.learningMentorship,
+  salary: item.salary.amount,
+  salaryCurrency: item.salary.currency,
+  salaryPeriod: item.salary.period,
+  logoSrc: "",
+  color: "",
+  date: item.isLegacy ? null : item.createdAt,
+  relativeDate: item.isLegacy ? "A while ago" : timeAgo.format(item.createdAt),
 });

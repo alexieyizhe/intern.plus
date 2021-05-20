@@ -29,10 +29,10 @@ export interface IReviewDetails {
   jobName: string;
   jobId: string;
   companyName: string;
-  companySlug: string;
-  location?: string;
+  companyId: string;
+  location: string | null;
   author: string;
-  body: string;
+  body: string | null;
   overallRating: number;
   meaningfulWorkRating: number;
   workLifeBalanceRating: number;
@@ -42,7 +42,7 @@ export interface IReviewDetails {
   salaryPeriod: string;
   logoSrc: string;
   color: string;
-  date: string;
+  date: Date | null;
   relativeDate: string;
   tags: string[] | null;
 }
@@ -249,7 +249,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
               </Text>
             </Link>
             <Link
-              to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`}
+              to={`${RouteName.COMPANIES}/${reviewDetails?.companyId}`}
               bare
             >
               <Text
@@ -269,10 +269,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
               </Text>
             )}
           </div>
-          <Link
-            to={`${RouteName.COMPANIES}/${reviewDetails?.companySlug}`}
-            bare
-          >
+          <Link to={`${RouteName.COMPANIES}/${reviewDetails?.companyId}`} bare>
             <LogoImg
               src={reviewDetails?.logoSrc}
               alt={`Logo of ${reviewDetails?.companyName}`}
@@ -285,7 +282,10 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           <Text variant="subheading" color="textSecondary">
             mentioned the following{" "}
           </Text>
-          <Text variant="subheading" title={reviewDetails?.date}>
+          <Text
+            variant="subheading"
+            title={reviewDetails?.date?.toDateString() ?? ""}
+          >
             {reviewDetails?.relativeDate}...
           </Text>
         </ReviewPrefixContainer>
@@ -357,7 +357,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
           </SalaryInfo>
         </FlexRowContainer>
         <ReviewBody variant="body">
-          {reviewDetails?.body.split("\n").map((text) => (
+          {reviewDetails?.body?.split("\n").map((text) => (
             <p key={text}>{text}</p>
           ))}
         </ReviewBody>

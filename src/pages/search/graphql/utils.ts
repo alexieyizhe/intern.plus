@@ -53,10 +53,10 @@ export const buildReviewCard = (
   companyName: (item.company && item.company.name) || "",
   jobName: item.job ? item.job.name || "" : "",
   jobLocation: item.job ? item.job.location || "" : "",
-  date: (item.isLegacy ? item.legacyUpdatedAt : item.updatedAt) || "",
+  date: null,
   overallRating: item.overallRating || 0,
   body: item.body || "",
-  tags: item.tags || "",
+  tags: item.tags,
   color: (item.company && item.company.logoColor) || "",
 });
 

@@ -51,7 +51,7 @@ export interface GetJobDetails_job_reviews_items {
   score: GetJobDetails_job_reviews_items_score;
   author: GetJobDetails_job_reviews_items_author;
   isLegacy: boolean;
-  createdAt: Date;
+  createdAt: InternPlusISODate;
 }
 
 export interface GetJobDetails_job_reviews {
@@ -76,5 +76,5 @@ export interface GetJobDetails {
 }
 
 export interface GetJobDetailsVariables {
-  id?: string | null;
+  id: string;
 }

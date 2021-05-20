@@ -2,39 +2,35 @@ import { gql } from "apollo-boost";
 
 // used in reviews/:reviewId page
 export const GET_REVIEW_DETAILS = gql`
-  query GetReviewDetails {
-    companies {
-      count
+  query GetReviewDetails($reviewId: ID!) {
+    review(id: $reviewId) {
+      body
+      tags
+      isLegacy
+      createdAt
+      author {
+        name
+      }
+      salary {
+        amount
+        currency
+        period
+      }
+      score {
+        overall
+        learningMentorship
+        meaningfulWork
+        workLifeBalance
+      }
+      job {
+        id
+        name
+        location
+      }
+      company {
+        id
+        name
+      }
     }
   }
-  # query GetReviewDetails($id: ID) {
-  #   review(id: $id) {
-  #     body
-  #     tags
-  #     job {
-  #       id
-  #       name
-  #       location
-  #     }
-  #     company {
-  #       name
-  #       slug
-  #       logoImg {
-  #         downloadUrl
-  #       }
-  #       logoColor
-  #     }
-  #     salary
-  #     salaryPeriod
-  #     salaryCurrency
-  #     overallRating
-  #     learningMentorshipRating
-  #     meaningfulWorkRating
-  #     workLifeBalanceRating
-  #     isLegacy
-  #     legacyUpdatedAt
-  #     createdAt
-  #     updatedAt
-  #   }
-  # }
 `;
