@@ -81,7 +81,6 @@ export const buildSearchResultCardsList = (
   let jobResults: IJobCardItem[] = [];
   let reviewResults: IReviewJobCardItem[] = [];
 
-  console.log(data);
   if (data) {
     if (isCompaniesData(data)) {
       companyResults = data.companies.items.map(buildCompanyCard);

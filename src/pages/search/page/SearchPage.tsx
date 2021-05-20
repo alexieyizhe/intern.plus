@@ -126,6 +126,8 @@ const SearchPage: React.FC = () => {
     buildSearchResultCardsList
   );
 
+  console.log({ searchResults });
+
   /**
    * For search options menu
    */
@@ -157,7 +159,7 @@ const SearchPage: React.FC = () => {
           typeOption={typeOption}
           salaryOption={salaryOption}
           ratingOption={ratingOption}
-          // onOptionChange={() => triggerSearchNew(searchQuery, true)}
+          onOptionChange={() => triggerSearchNew()}
         />
 
         <SearchResultCardDisplay

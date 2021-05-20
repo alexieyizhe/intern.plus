@@ -24,6 +24,7 @@ const transformCompanyData = (doc) => {
 export const companiesQueryResolver = (parent, args, context, info) => {
   const { search, limit, after } = args;
 
+  console.log({ after });
   const query = after
     ? db.collection("companies").orderBy("name").startAfter(after).limit(limit)
     : db.collection("companies").orderBy("name").limit(limit);

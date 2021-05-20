@@ -9,7 +9,7 @@ import { isCompanyCardItem } from "./../constants/card";
  */
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { DocumentNode } from "graphql";
-import { QueryHookOptions, useQuery } from "@apollo/react-hooks";
+import { QueryHookOptions, useLazyQuery, useQuery } from "@apollo/react-hooks";
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { LOCATION_MAP } from "src/shared/hooks/useSearchLocationFilter";
@@ -111,20 +111,23 @@ export const useSearch = <GetSearchData>(
 ) => {
   const { searchQuery, searchSort, searchType } = useSearchParams();
   const searchInputVariables = useSearchInputVariables();
-  const [data, setData] = useState<any | undefined>(); // https://github.com/apollographql/react-apollo/issues/3634 :(((((
+  const [data, setData] = useState<any | undefined>(); // https://github.com/apollographql/react-apollo/issues/3634 dumb apollo-client v2 issue :(((((
 
-  const { loading, error, fetchMore } = useQuery<GetSearchData>(query, {
-    ...options,
-    variables: {
-      search: {
-        query: searchQuery,
-        sort: searchSort,
-        ...searchInputVariables,
+  const [fetch, { loading, error, fetchMore }] = useLazyQuery<GetSearchData>(
+    query,
+    {
+      ...options,
+      variables: {
+        search: {
+          query: searchQuery,
+          sort: searchSort,
+          ...searchInputVariables,
+        },
       },
-    },
-    fetchPolicy: "no-cache",
-    onCompleted: (data) => setData(data),
-  });
+      fetchPolicy: "no-cache",
+      onCompleted: (data) => setData(data),
+    }
+  );
 
   const searchState = useMemo(() => {
     if (error) {
@@ -154,19 +157,31 @@ export const useSearch = <GetSearchData>(
         after: (data as any)?.[searchTypeName].lastCursor,
       },
       updateQuery: (_, { fetchMoreResult }: { fetchMoreResult: any }) => {
-        console.log(`aaa`, fetchMoreResult);
         if (fetchMoreResult) {
           setData((prev: any) => ({
-            count:
-              prev[searchTypeName].count +
-              fetchMoreResult[searchTypeName].count,
-            items: [
-              ...prev[searchTypeName].items,
-              ...fetchMoreResult[searchTypeName].items,
-            ],
-            lastCursor: fetchMoreResult[searchTypeName].lastCursor,
+            [searchTypeName]: {
+              count:
+                prev[searchTypeName].count +
+                fetchMoreResult[searchTypeName].count,
+              items: [
+                ...prev[searchTypeName].items,
+                ...fetchMoreResult[searchTypeName].items,
+              ],
+              lastCursor: fetchMoreResult[searchTypeName].lastCursor,
+            },
           }));
         }
+      },
+    });
+
+  const triggerSearchNew = () =>
+    fetch({
+      variables: {
+        search: {
+          query: searchQuery,
+          sort: searchSort,
+          ...searchInputVariables,
+        },
       },
     });
 
@@ -320,12 +335,10 @@ export const useSearch = <GetSearchData>(
   // ]);
 
   return {
-    // search info
     searchState,
     searchResults: transformData(data),
 
-    // callbacks
-    triggerSearchNew: () => {},
+    triggerSearchNew,
     triggerSearchNextBatch,
   };
 };
