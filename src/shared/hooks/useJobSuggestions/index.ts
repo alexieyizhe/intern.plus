@@ -4,12 +4,11 @@ import { gql } from "apollo-boost";
 import { GetJobSuggestions } from "./graphql/types/GetJobSuggestions";
 
 export const GET_JOB_SUGGESTIONS = gql`
-  query GetJobSuggestions($slug: String) {
-    jobsList(filter: { company: { slug: { equals: $slug } } }) {
+  query GetJobSuggestions {
+    companies {
       items {
         name
         id
-        location
       }
     }
   }

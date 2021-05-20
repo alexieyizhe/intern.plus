@@ -45,7 +45,7 @@ const getTitleMarkup = (companyName?: string) =>
 const CompanyPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const { companySlug } = useParams();
+  // const { companySlug } = useParams();
   const searchSuggestions = useSearchSuggestions({ companySlug });
 
   /**
@@ -56,7 +56,7 @@ const CompanyPage: React.FC = () => {
     error: detailsError,
     data: detailsData,
   } = useQuery<GetCompanyDetails>(GET_COMPANY_DETAILS, {
-    variables: { slug: companySlug },
+    variables: { id: "" },
   });
 
   const companyDetails = useMemo(

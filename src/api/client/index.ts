@@ -5,7 +5,7 @@ const apiURL =
     ? process.env.REACT_APP_DB_GRAPHQL_API_URL
     : "http://localhost:8000/graphql";
 const apiClient = new ApolloClient({
-  uri: apiURL,
+  uri: "/api/graphql",
   fetch,
 });
 

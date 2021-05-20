@@ -8,21 +8,30 @@ import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
  * For *details of a company.*
  */
 export const GET_COMPANY_DETAILS = gql`
-  query GetCompanyDetails($slug: String) {
-    company(slug: $slug) {
+  query GetCompanyDetails($id: ID!) {
+    company(id: $id) {
       name
-      desc
-      logoImg {
-        downloadUrl
-      }
-      logoColor
+      description
       reviews {
         count
       }
-      avgRating
-      websiteUrl
     }
   }
+  # query GetCompanyDetails($slug: String) {
+  #   company(slug: $slug) {
+  #     name
+  #     desc
+  #     logoImg {
+  #       downloadUrl
+  #     }
+  #     logoColor
+  #     reviews {
+  #       count
+  #     }
+  #     avgRating
+  #     websiteUrl
+  #   }
+  # }
 `;
 
 /**
@@ -43,52 +52,59 @@ const getSort = (sort?: SearchSort) => {
 };
 
 export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
-  query GetCompanyJobs(
-    $slug: String,
-    $query: String,
-    $locations: [String!],
-    $minSalary: Int, $maxSalary: Int,
-    $minRating: Float, $maxRating: Float,
-    $offset: Int,
-    $limit: Int,
-  ) {
-    company(slug: $slug) {
-      jobs(
-        filter: {
-          AND: [
-            {
-              OR: [
-                { name: { contains: $query } }
-                { location: { contains: $query } }
-                { hourlySalaryCurrency: { contains: $query } }
-              ]
-            },
-            { numRatings: { gt: 0 } },
-            { location: { in: $locations } }
-            {
-              AND: [
-                { minHourlySalary: { lte: $maxSalary } }
-                { maxHourlySalary: { gt: $minSalary } }
-              ]
-            },
-            {
-              AND: [
-                { avgRating: { lte: $maxRating } }
-                { avgRating: { gte: $minRating } }
-              ]
-            },
-          ]
-        }
-        sort: ${getSort(sort)}
-        skip: $offset
-        first: $limit
-      ) {
-        items {
-          ...JobResult
-        }
+  query GetCompanyJobs {
+    companies {
+      items {
+        id
       }
     }
   }
+  # query GetCompanyJobs(
+  #   $slug: String,
+  #   $query: String,
+  #   $locations: [String!],
+  #   $minSalary: Int, $maxSalary: Int,
+  #   $minRating: Float, $maxRating: Float,
+  #   $offset: Int,
+  #   $limit: Int,
+  # ) {
+    # company(slug: $slug) {
+    #   jobs(
+    #     filter: {
+    #       AND: [
+    #         {
+    #           OR: [
+    #             { name: { contains: $query } }
+    #             { location: { contains: $query } }
+    #             { hourlySalaryCurrency: { contains: $query } }
+    #           ]
+    #         },
+    #         { numRatings: { gt: 0 } },
+    #         { location: { in: $locations } }
+    #         {
+    #           AND: [
+    #             { minHourlySalary: { lte: $maxSalary } }
+    #             { maxHourlySalary: { gt: $minSalary } }
+    #           ]
+    #         },
+    #         {
+    #           AND: [
+    #             { avgRating: { lte: $maxRating } }
+    #             { avgRating: { gte: $minRating } }
+    #           ]
+    #         },
+    #       ]
+    #     }
+    #     sort: ${getSort(sort)}
+    #     skip: $offset
+    #     first: $limit
+    #   ) {
+    #     items {
+    #       ...JobResult
+    #     }
+    #   }
+    # }
+  # }
 
-  ${jobResultFragment}
+  # ${jobResultFragment}
 `;

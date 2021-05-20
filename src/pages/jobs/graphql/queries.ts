@@ -6,27 +6,32 @@ import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
  * For *details of a job.*
  */
 export const GET_JOB_DETAILS = gql`
-  query GetJobDetails($id: ID) {
-    job(id: $id) {
-      name
-      location
-      company {
-        name
-        slug
-        logoColor
-      }
-      minHourlySalary
-      maxHourlySalary
-      hourlySalaryCurrency
-      reviews {
-        count
-      }
-      avgRating
-      avgLearningMentorshipRating
-      avgMeaningfulWorkRating
-      avgWorkLifeBalanceRating
+  query GetJobDetails {
+    companies {
+      count
     }
   }
+  # query GetJobDetails($id: ID) {
+  #   job(id: $id) {
+  #     name
+  #     location
+  #     company {
+  #       name
+  #       slug
+  #       logoColor
+  #     }
+  #     minHourlySalary
+  #     maxHourlySalary
+  #     hourlySalaryCurrency
+  #     reviews {
+  #       count
+  #     }
+  #     avgRating
+  #     avgLearningMentorshipRating
+  #     avgMeaningfulWorkRating
+  #     avgWorkLifeBalanceRating
+  #   }
+  # }
 `;
 
 /**
@@ -45,59 +50,64 @@ const getSortStr = (sort?: SearchSort) => {
 };
 
 export const getJobReviewsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
-  query GetJobReviews(
-    $id: ID, 
-    $query: String,
-    $minSalary: Int, $maxSalary: Int,  
-    $minRating: Float, $maxRating: Float,
-    $offset: Int, 
-    $limit: Int
-  ) {
-    job(id: $id) {
-      reviews(
-        filter: {
-          AND: [
-            {
-              OR: [
-                { body: { contains: $query } }
-                { tags: { contains: $query } }
-              ]
-            },
-            { 
-              OR: [
-                {
-                  AND: [         
-                    { isVerified: { equals: true } },
-                    { isSpam: { equals: false } }
-                  ]
-                },
-                { isLegacy: { equals: true } }
-              ]
-            },
-            {
-              AND: [
-                { salary: { gte: $minSalary } }
-                { salary: { lte: $maxSalary } }
-              ]
-            },
-            {
-              AND: [
-                { overallRating: { lte: $maxRating } }
-                { overallRating: { gte: $minRating } }
-              ]
-            },
-          ]
-        }
-        sort: ${getSortStr(sort)}
-        skip: $offset
-        first: $limit
-      ) {
-        items {
-          ...ReviewResultUser
-        }
-      }
+  query GetJobReviews {
+    companies {
+      count
     }
   }
+  # query GetJobReviews(
+  #   $id: ID, 
+  #   $query: String,
+  #   $minSalary: Int, $maxSalary: Int,  
+  #   $minRating: Float, $maxRating: Float,
+  #   $offset: Int, 
+  #   $limit: Int
+  # ) {
+  #   job(id: $id) {
+  #     reviews(
+  #       filter: {
+  #         AND: [
+  #           {
+  #             OR: [
+  #               { body: { contains: $query } }
+  #               { tags: { contains: $query } }
+  #             ]
+  #           },
+  #           { 
+  #             OR: [
+  #               {
+  #                 AND: [         
+  #                   { isVerified: { equals: true } },
+  #                   { isSpam: { equals: false } }
+  #                 ]
+  #               },
+  #               { isLegacy: { equals: true } }
+  #             ]
+  #           },
+  #           {
+  #             AND: [
+  #               { salary: { gte: $minSalary } }
+  #               { salary: { lte: $maxSalary } }
+  #             ]
+  #           },
+  #           {
+  #             AND: [
+  #               { overallRating: { lte: $maxRating } }
+  #               { overallRating: { gte: $minRating } }
+  #             ]
+  #           },
+  #         ]
+  #       }
+  #       sort: ${getSortStr(sort)}
+  #       skip: $offset
+  #       first: $limit
+  #     ) {
+  #       items {
+  #         ...ReviewResultUser
+  #       }
+  #     }
+  #   }
+  # }
 
-  ${reviewResultUserFragment}
+  # ${reviewResultUserFragment}
 `;

@@ -11,12 +11,12 @@ export default gql`
   }
 
   interface Listable {
-    count: Int
+    count: Int!
   }
 
   input PaginationInput {
     limit: Int = 20
-    after: ID!
+    after: ID
   }
 
   type Salary {
@@ -51,7 +51,7 @@ export default gql`
   }
 
   type CompanyList implements Listable {
-    count: Int
+    count: Int!
     items: [Company!]!
   }
 
@@ -77,7 +77,7 @@ export default gql`
   }
 
   type JobList implements Listable {
-    count: Int
+    count: Int!
     items: [Job!]!
   }
 
@@ -108,7 +108,7 @@ export default gql`
   }
 
   type ReviewList implements Listable {
-    count: Int
+    count: Int!
     items: [Review!]!
   }
 
@@ -125,13 +125,13 @@ export default gql`
     companies(
       search: CompanySearchInput
       paginate: PaginationInput
-    ): CompanyList
+    ): CompanyList!
     company(id: ID!): Company
 
-    jobs(search: JobSearchInput, paginate: PaginationInput): [Job!]!
+    jobs(search: JobSearchInput, paginate: PaginationInput): JobList!
     job(id: ID!): Job
 
-    reviews(search: ReviewSearchInput, paginate: PaginationInput): [Review!]!
+    reviews(search: ReviewSearchInput, paginate: PaginationInput): ReviewList!
     review(id: ID!): Review
   }
 `;

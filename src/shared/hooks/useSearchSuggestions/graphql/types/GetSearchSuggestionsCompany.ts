@@ -1,40 +1,17 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
 // GraphQL query operation: GetSearchSuggestionsCompany
 // ====================================================
 
-export interface GetSearchSuggestionsCompany_company_jobs_items {
-  __typename: "Job";
-  /**
-   * Job title
-   */
-  name: string | null;
-}
-
-export interface GetSearchSuggestionsCompany_company_jobs {
-  __typename: "JobListResponse";
-  /**
-   * List items
-   */
-  items: GetSearchSuggestionsCompany_company_jobs_items[];
-}
-
-export interface GetSearchSuggestionsCompany_company {
-  __typename: "Company";
-  /**
-   * Name of a company.
-   */
-  name: string | null;
-  jobs: GetSearchSuggestionsCompany_company_jobs | null;
+export interface GetSearchSuggestionsCompany_companies {
+  __typename: "CompanyList";
+  count: number;
 }
 
 export interface GetSearchSuggestionsCompany {
-  company: GetSearchSuggestionsCompany_company | null;
-}
-
-export interface GetSearchSuggestionsCompanyVariables {
-  slug?: string | null;
+  companies: GetSearchSuggestionsCompany_companies;
 }

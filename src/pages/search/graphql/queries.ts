@@ -193,31 +193,10 @@ const getQueryForType = (type?: SearchType) => {
 export const getSearchBuilder: SearchQueryBuilder = (options) => {
   const queryForType = getQueryForType(options.type);
   const QUERY_DEF = gql`
-    query GetSearch(
-      $query: String, 
-      $locations: [String!], 
-      $minSalary: Int, $maxSalary: Int, 
-      $minRating: Float, $maxRating: Float, 
-      $offset: Int, 
-      $limit: Int
-    ) {
-      ${queryForType(options)}
-    }
-
-    ${
-      [undefined, SearchType.COMPANIES].includes(options.type)
-        ? companyResultFragment
-        : ""
-    }
-    ${
-      [undefined, SearchType.JOBS].includes(options.type)
-        ? jobResultFragment
-        : ""
-    }
-    ${
-      [undefined, SearchType.REVIEWS].includes(options.type)
-        ? reviewResultJobFragment
-        : ""
+    query GetSearch {
+      companies {
+        count
+      }
     }
   `;
 

@@ -1,31 +1,23 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
 // GraphQL query operation: GetCompanySuggestions
 // ====================================================
 
-export interface GetCompanySuggestions_companiesList_items {
+export interface GetCompanySuggestions_companies_items {
   __typename: "Company";
-  /**
-   * Name of a company.
-   */
-  name: string | null;
-  /**
-   * Unique slug for a company.
-   */
-  slug: string | null;
+  name: string;
+  slug: string;
 }
 
-export interface GetCompanySuggestions_companiesList {
-  __typename: "CompanyListResponse";
-  /**
-   * List items
-   */
-  items: GetCompanySuggestions_companiesList_items[];
+export interface GetCompanySuggestions_companies {
+  __typename: "CompanyList";
+  items: GetCompanySuggestions_companies_items[];
 }
 
 export interface GetCompanySuggestions {
-  companiesList: GetCompanySuggestions_companiesList;
+  companies: GetCompanySuggestions_companies;
 }

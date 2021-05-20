@@ -47,7 +47,7 @@ export const AppRouteHandler: React.FC = () => {
         <LandingPage />
       </Route>
 
-      <Route exact path={RouteName.SEARCH} location={calculatedLocation}>
+      {/* <Route exact path={RouteName.SEARCH} location={calculatedLocation}>
         <SearchPage />
       </Route>
 
@@ -59,7 +59,7 @@ export const AppRouteHandler: React.FC = () => {
 
       <JobsRouteHandler />
 
-      <ReviewsRouteHandler />
+      <ReviewsRouteHandler /> */}
     </>
   );
 };

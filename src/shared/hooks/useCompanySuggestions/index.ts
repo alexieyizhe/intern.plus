@@ -5,7 +5,7 @@ import { GetCompanySuggestions } from "./graphql/types/GetCompanySuggestions";
 
 export const GET_COMPANY_SUGGESTIONS = gql`
   query GetCompanySuggestions {
-    companiesList {
+    companies {
       items {
         name
         slug

@@ -3,30 +3,25 @@ import {
   IReviewJobCardItem,
 } from "src/shared/constants/card";
 import {
-  GetCompaniesReviewsLanding,
-  GetCompaniesReviewsLanding_companiesList_items,
-  GetCompaniesReviewsLanding_reviewsList_items,
-} from "./types/GetCompaniesReviewsLanding";
+  GetCompaniesLanding,
+  GetCompaniesLanding_companies_items,
+} from "./types/GetCompaniesLanding";
 
 export const buildCompanyCard = (
-  item: GetCompaniesReviewsLanding_companiesList_items
+  item: GetCompaniesLanding_companies_items
 ): ICompanyCardItem => ({
   slug: item.slug || "",
   name: item.name || "",
-  desc: item.desc || "",
-  numRatings: item.reviews ? item.reviews.count : 0,
-  avgRating: item.avgRating || 0,
-  logoSrc: (item.logoImg && item.logoImg.downloadUrl) || "",
-  color: item.logoColor || "",
-  jobLocations:
-    ((item.jobs &&
-      item.jobs.items
-        .map((item) => item.location)
-        .filter((item) => item !== null)) as string[]) || [],
+  desc: item.description || "",
+  numRatings: item.reviews.count,
+  avgRating: 0,
+  logoSrc: "",
+  color: "",
+  jobLocations: [],
 });
 
 export const buildReviewCard = (
-  item: GetCompaniesReviewsLanding_reviewsList_items
+  item: any
 ): IReviewJobCardItem => ({
   id: item.id || "",
   companyName: (item.company && item.company.name) || "",
@@ -39,18 +34,18 @@ export const buildReviewCard = (
   color: (item.company && item.company.logoColor) || "",
 });
 
-export const buildLandingCardsList = (data?: GetCompaniesReviewsLanding) => {
+export const buildLandingCardsList = (data?: GetCompaniesLanding) => {
   let companyCards: ICompanyCardItem[] = [];
-  let reviewCards: IReviewJobCardItem[] = [];
+  const reviewCards: IReviewJobCardItem[] = [];
 
   if (data) {
-    if (data.companiesList) {
-      companyCards = data.companiesList.items.map(buildCompanyCard);
+    if (data.companies) {
+      companyCards = data.companies.items.map(buildCompanyCard);
     }
 
-    if (data.reviewsList) {
-      reviewCards = data.reviewsList.items.map(buildReviewCard);
-    }
+    // if (data.reviewsList) {
+    //   reviewCards = data.reviewsList.items.map(buildReviewCard);
+    // }
   }
 
   return { companyCards, reviewCards };

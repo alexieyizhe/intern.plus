@@ -1,14 +1,8 @@
 import { IJobCardItem } from "src/shared/constants/card";
 import { ICompanyDetails } from "../components/CompanyDetailsCard";
-import { GetCompanyDetails_company } from "./types/GetCompanyDetails";
-import {
-  GetCompanyJobs,
-  GetCompanyJobs_company_jobs_items,
-} from "./types/GetCompanyJobs";
+import { GetCompanyJobs } from "./types/GetCompanyJobs";
 
-export const buildCompanyDetails = (
-  company: GetCompanyDetails_company
-): ICompanyDetails => ({
+export const buildCompanyDetails = (company: any): ICompanyDetails => ({
   name: company.name || "",
   desc: company.desc || undefined,
   numRatings: company.reviews ? company.reviews.count : 0,
@@ -18,9 +12,7 @@ export const buildCompanyDetails = (
   color: company.logoColor || "",
 });
 
-export const buildCompanyJobCard = (
-  item: GetCompanyJobs_company_jobs_items
-) => ({
+export const buildCompanyJobCard = (item: any) => ({
   id: item.id || "",
   slug: item.slug || "",
   companyName: "", // we don't need to display company name in job card since the company name is evident in the details card at top of page
@@ -35,9 +27,7 @@ export const buildCompanyJobCard = (
   color: (item.company && item.company.logoColor) || "",
 });
 
-export const buildCompanyJobCardsList = (
-  data?: GetCompanyJobs
-): IJobCardItem[] =>
+export const buildCompanyJobCardsList = (data?: any): IJobCardItem[] =>
   data && data.company && data.company.jobs
     ? data.company.jobs.items.map(buildCompanyJobCard)
     : [];

@@ -1,17 +1,23 @@
 import { gql } from "apollo-boost";
 
-import { companyResultFragment } from "src/api/fragments";
+// import { companyResultFragment } from "src/api/fragments";
 
 export const MAX_LANDING_CARDS = 5;
 
-export const GET_COMPANIES_REVIEWS_LANDING = gql`
-  query GetCompaniesReviewsLanding {
-    companies {
-      ...CompanyResult
+export const getCompaniesLandingQuery = gql`
+  query GetCompaniesLanding {
+    companies(paginate: { limit: 5 }) {
+      items {
+        id
+        name
+        description
+        slug
+        reviews {
+          count
+        }
+      }
     }
   }
-
-  ${companyResultFragment}
 `;
 
 // @deprecated
