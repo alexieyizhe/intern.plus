@@ -1,15 +1,26 @@
 import { db } from "../db";
 
+const transformReviewData = (doc) => {
+  const { createdAt, updatedAt, ...rest } = doc.data();
+
+  return {
+    id: doc.id,
+    createdAt: createdAt.toDate(),
+    updatedAt: updatedAt.toDate(),
+    ...rest,
+  };
+};
+
 export const reviewsQueryResolver = (parent, args, context, info) => {
-  const { search, paginate } = args;
+  const { search, limit, after } = args;
 
   return db
     .collection("reviews")
-    .limit(2)
+    .limit(limit)
     .get()
     .then((qSnap) => ({
       count: qSnap.size,
-      items: qSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+      items: qSnap.docs.map((doc) => transformReviewData(doc)),
     }));
 };
 
@@ -18,7 +29,7 @@ export const reviewsResolver = (parent, args, context, info) => {
   return {
     count: parent.reviewCount,
     items: parent.reviewRefs.map((ref) =>
-      ref.get().then((dSnap) => ({ id: dSnap.id, ...dSnap.data() }))
+      ref.get().then((dSnap) => transformReviewData(dSnap))
     ),
   };
 };
@@ -30,11 +41,9 @@ export const reviewResolver = (parent, args, context, info) => {
       .collection("reviews")
       .doc(id)
       .get()
-      .then((dSnap) => ({ id: dSnap.id, ...dSnap.data() }));
+      .then((dSnap) => transformReviewData(dSnap));
   } else if (parent?.reviewRef) {
-    return parent.reviewRef
-      .get()
-      .then((dSnap) => ({ id: dSnap.id, ...dSnap.data() }));
+    return parent.reviewRef.get().then((dSnap) => transformReviewData(dSnap));
   } else {
     throw new Error("No identifier or reference provided for review field");
   }

@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
 import ErrorBoundary from "react-error-boundary";
 
-import apiClientLoader from "src/api/client";
+import apolloClient from "src/api/client";
 import {
   MobileMenuContextProvider,
   AddReviewModalContextProvider,
@@ -22,14 +22,13 @@ import { useCalculatedLocation } from "src/shared/hooks/useCalculatedLocation";
 import { PageHeader, PageFooter } from "src/components";
 
 import LandingPage from "src/pages/landing";
-import SearchPage from "src/pages/search";
-import DesignSystemPage from "src/pages/design-system";
-import { NotFoundPage, CrashPage } from "src/pages/error";
-
-import CompaniesRouteHandler from "src/pages/companies";
-import JobsRouteHandler from "src/pages/jobs";
-import ReviewsRouteHandler from "src/pages/reviews";
+// import SearchPage from "src/pages/search";
+// import DesignSystemPage from "src/pages/design-system";
+// import CompaniesRouteHandler from "src/pages/companies";
+// import JobsRouteHandler from "src/pages/jobs";
+// import ReviewsRouteHandler from "src/pages/reviews";
 import DownForMaintenance from "src/pages/maintenance";
+import { NotFoundPage, CrashPage } from "src/pages/error";
 
 export const IS_MAINTENANCE = false;
 
@@ -64,61 +63,50 @@ export const AppRouteHandler: React.FC = () => {
   );
 };
 
-const App: React.FC = () => {
-  const [apiClient, setApiClient] = useState<DefaultClient<any> | null>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
-  useEffect(() => {
-    apiClientLoader.then((client) => setApiClient(client));
-  }, []);
+const App: React.FC = () => (
+  <>
+    <HeadingFontDefinition />
+    <ApolloProvider client={apolloClient}>
+      <SiteThemeContextProvider>
+        <AddReviewModalContextProvider>
+          <MobileMenuContextProvider>
+            <EasterEggContextProvider>
+              <Router>
+                <QueryParamProvider ReactRouterRoute={Route}>
+                  <ErrorBoundary FallbackComponent={CrashPage}>
+                    <div className="App">
+                      <GlobalStyles />
+                      {analytics.init() && <Analytics />}
 
-  if (!apiClient) {
-    return null;
-  }
+                      {IS_MAINTENANCE ? (
+                        <DownForMaintenance />
+                      ) : (
+                        <>
+                          <PageHeader />
+                          <Switch>
+                            <Route exact path={Object.values(RouteName)}>
+                              <AppRouteHandler />
+                            </Route>
 
-  return (
-    <>
-      <HeadingFontDefinition />
-      <ApolloProvider client={apiClient}>
-        <SiteThemeContextProvider>
-          <AddReviewModalContextProvider>
-            <MobileMenuContextProvider>
-              <EasterEggContextProvider>
-                <Router>
-                  <QueryParamProvider ReactRouterRoute={Route}>
-                    <ErrorBoundary FallbackComponent={CrashPage}>
-                      <div className="App">
-                        <GlobalStyles />
-                        {analytics.init() && <Analytics />}
+                            {/* Render 404 if no other routes match */}
+                            <Route>
+                              <NotFoundPage />
+                            </Route>
+                          </Switch>
+                        </>
+                      )}
 
-                        {IS_MAINTENANCE ? (
-                          <DownForMaintenance />
-                        ) : (
-                          <>
-                            <PageHeader />
-                            <Switch>
-                              <Route exact path={Object.values(RouteName)}>
-                                <AppRouteHandler />
-                              </Route>
-
-                              {/* Render 404 if no other routes match */}
-                              <Route>
-                                <NotFoundPage />
-                              </Route>
-                            </Switch>
-                          </>
-                        )}
-
-                        <PageFooter />
-                      </div>
-                    </ErrorBoundary>
-                  </QueryParamProvider>
-                </Router>
-              </EasterEggContextProvider>
-            </MobileMenuContextProvider>
-          </AddReviewModalContextProvider>
-        </SiteThemeContextProvider>
-      </ApolloProvider>
-    </>
-  );
-};
+                      <PageFooter />
+                    </div>
+                  </ErrorBoundary>
+                </QueryParamProvider>
+              </Router>
+            </EasterEggContextProvider>
+          </MobileMenuContextProvider>
+        </AddReviewModalContextProvider>
+      </SiteThemeContextProvider>
+    </ApolloProvider>
+  </>
+);
 
 export default App;

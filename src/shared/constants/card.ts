@@ -31,8 +31,8 @@ export interface IReviewJobCardItem {
   jobLocation: string;
   date: string; // date string
   overallRating: number; // score out of 5
-  body: string;
-  tags: string;
+  body: string | null;
+  tags: string[] | null;
   color: string;
 }
 

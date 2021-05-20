@@ -31,10 +31,10 @@ export default gql`
   }
 
   type Score {
-    overall: Float
-    learningMentorship: Float
-    meaningfulWork: Float
-    workLifeBalance: Float
+    overall: Float!
+    learningMentorship: Float!
+    meaningfulWork: Float!
+    workLifeBalance: Float!
   }
 
   type Company {
@@ -44,7 +44,7 @@ export default gql`
     description: String
     logo: String
     websiteUrl: String
-    scoreTotals: Score!
+    scoreAverages: Score!
     createdAt: ISODate!
     updatedAt: ISODate!
     jobs: JobList!
@@ -70,7 +70,7 @@ export default gql`
     location: String
     salaryMax: Salary!
     salaryMin: Salary!
-    scoreTotals: Score!
+    scoreAverages: Score!
     createdAt: ISODate!
     updatedAt: ISODate!
     reviews: ReviewList!
@@ -125,14 +125,15 @@ export default gql`
   type Query {
     companies(
       search: CompanySearchInput
-      paginate: PaginationInput
+      limit: Int = 20
+      after: ID
     ): CompanyList!
     company(id: ID!): Company
 
-    jobs(search: JobSearchInput, paginate: PaginationInput): JobList!
+    jobs(search: JobSearchInput, limit: Int = 20, after: ID): JobList!
     job(id: ID!): Job
 
-    reviews(search: ReviewSearchInput, paginate: PaginationInput): ReviewList!
+    reviews(search: ReviewSearchInput, limit: Int = 20, after: ID): ReviewList!
     review(id: ID!): Review
   }
 `;

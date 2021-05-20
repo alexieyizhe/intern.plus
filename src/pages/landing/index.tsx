@@ -9,8 +9,8 @@ import { RouteName } from "src/shared/constants/routing";
 import { SearchParamKey } from "src/shared/constants/search";
 import copy from "./copy";
 
+import { getCompaniesReviewsLandingQuery } from "./graphql/queries";
 import { GetCompaniesReviewsLanding } from "./graphql/types/GetCompaniesReviewsLanding";
-import { getCompaniesLandingQuery } from "./graphql/queries";
 import { buildLandingCardsList } from "./graphql/utils";
 
 import { PageContainer } from "src/components";
@@ -28,7 +28,7 @@ const LandingPage = () => {
    * landing page.
    */
   const { loading, error, data } = useQuery<GetCompaniesReviewsLanding>(
-    getCompaniesLandingQuery
+    getCompaniesReviewsLandingQuery
   );
 
   const { companyCards, reviewCards } = useMemo(

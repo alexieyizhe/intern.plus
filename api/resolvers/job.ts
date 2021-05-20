@@ -1,15 +1,36 @@
 import { db } from "../db";
 
+const transformJobData = (doc) => {
+  const { scoreTotals, createdAt, updatedAt, reviewCount, ...rest } =
+    doc.data();
+  const scoreAverages = Object.entries(scoreTotals).reduce(
+    (acc, [scoreName, scoreValue]) => {
+      acc[scoreName] = scoreValue / reviewCount;
+      return acc;
+    },
+    {}
+  );
+
+  return {
+    id: doc.id,
+    scoreAverages,
+    reviewCount,
+    createdAt: createdAt.toDate(),
+    updatedAt: updatedAt.toDate(),
+    ...rest,
+  };
+};
+
 export const jobsQueryResolver = (parent, args, context, info) => {
-  const { search, paginate } = args;
+  const { search, limit, after } = args;
 
   return db
     .collection("jobs")
-    .limit(2)
+    .limit(limit)
     .get()
     .then((qSnap) => ({
       count: qSnap.size,
-      items: qSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+      items: qSnap.docs.map((doc) => transformJobData(doc)),
     }));
 };
 
@@ -19,7 +40,7 @@ export const jobsResolver = (parent, args, context, info) => {
   return {
     count: parent.jobCount,
     items: parent.jobRefs.map((ref) =>
-      ref.get().then((dSnap) => ({ id: dSnap.id, ...dSnap.data() }))
+      ref.get().then((dSnap) => transformJobData(dSnap))
     ),
   };
 };
@@ -31,11 +52,9 @@ export const jobResolver = (parent, args, context, info) => {
       .collection("jobs")
       .doc(id)
       .get()
-      .then((dSnap) => ({ id: dSnap.id, ...dSnap.data() }));
+      .then((dSnap) => transformJobData(dSnap));
   } else if (parent?.jobRef) {
-    return parent.jobRef
-      .get()
-      .then((dSnap) => ({ id: dSnap.id, ...dSnap.data() }));
+    return parent.jobRef.get().then((dSnap) => transformJobData(dSnap));
   } else {
     throw new Error("No identifier or reference provided for job field");
   }
