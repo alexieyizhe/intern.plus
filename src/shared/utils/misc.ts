@@ -24,7 +24,7 @@ const REVIEW_IS_NEW_THRESHOLD = 15_552_000_000; // 6 months in ms // 31536000000
 export const getReviewCardTags = (
   tags: string[] | null,
   isDark: boolean,
-  date?: Date
+  date?: Date | null
 ) => [
   ...(date && Number(new Date()) - Number(date) < REVIEW_IS_NEW_THRESHOLD
     ? [{ label: "new", bgColor: "goldSecondary" }]

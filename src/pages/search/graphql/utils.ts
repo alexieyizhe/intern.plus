@@ -15,6 +15,7 @@ import {
 export const buildCompanyCard = (
   item: GetAllSearch_companiesList_items
 ): ICompanyCardItem => ({
+  id: item.id,
   slug: item.slug || "",
   name: item.name || "",
   desc: item.desc || "",
@@ -22,6 +23,7 @@ export const buildCompanyCard = (
   avgRating: item.avgRating || 0,
   logoSrc: (item.logoImg && item.logoImg.downloadUrl) || "",
   color: item.logoColor || "",
+  websiteUrl: null,
   jobLocations:
     ((item.jobs &&
       item.jobs.items
@@ -56,7 +58,7 @@ export const buildReviewCard = (
   date: null,
   overallRating: item.overallRating || 0,
   body: item.body || "",
-  tags: item.tags,
+  tags: [],
   color: (item.company && item.company.logoColor) || "",
 });
 

@@ -157,7 +157,7 @@ const SearchPage: React.FC = () => {
           onTriggerSearch={triggerSearchNew}
           suggestions={searchSuggestions}
         />
-
+        {/* 
         <SearchOptionsMenu
           sortOption={sortOption}
           typeOption={typeOption}
@@ -165,7 +165,7 @@ const SearchPage: React.FC = () => {
           locationOption={locationOption}
           ratingOption={ratingOption}
           onOptionChange={() => triggerSearchNew(searchQuery, true)}
-        />
+        /> */}
 
         <SearchResultCardDisplay
           searchState={searchState}

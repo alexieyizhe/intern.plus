@@ -11,6 +11,7 @@ import {
 export const buildCompanyCard = (
   item: GetCompaniesReviewsLanding_companies_items
 ): ICompanyCardItem => ({
+  id: item.id,
   slug: "",
   name: item.name || "",
   desc: item.description || "",
@@ -18,6 +19,7 @@ export const buildCompanyCard = (
   avgRating: item.scoreAverages.overall,
   logoSrc: "",
   color: "",
+  websiteUrl: null,
   jobLocations: [],
 });
 

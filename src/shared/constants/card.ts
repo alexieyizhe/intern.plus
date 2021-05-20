@@ -1,4 +1,5 @@
 export interface ICompanyCardItem {
+  id: string;
   slug: string; // unique slug for company
   name: string;
   desc: string;
@@ -7,6 +8,7 @@ export interface ICompanyCardItem {
   logoSrc: string;
   color: string;
   jobLocations: string[];
+  websiteUrl: string | null;
 }
 
 export interface IJobCardItem {
@@ -29,7 +31,7 @@ export interface IReviewJobCardItem {
   companyName: string; // company name
   jobName: string; // role/position
   jobLocation: string;
-  date: Date | null; 
+  date: Date | null;
   overallRating: number; // score out of 5
   body: string | null;
   tags: string[] | null;
@@ -55,7 +57,7 @@ export type IGenericCardItem =
 
 export const isCompanyCardItem = (
   item: IGenericCardItem
-): item is ICompanyCardItem => "slug" in item && "logoSrc" in item;
+): item is ICompanyCardItem => "id" in item && "websiteUrl" in item;
 
 export const isJobCardItem = (item: IGenericCardItem): item is IJobCardItem =>
   "location" in item && "hourlySalaryCurrency" in item;

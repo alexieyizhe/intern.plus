@@ -7,11 +7,25 @@
 // GraphQL query operation: GetSearchSuggestionsCompany
 // ====================================================
 
-export interface GetSearchSuggestionsCompany_companies {
-  __typename: "CompanyList";
-  count: number;
+export interface GetSearchSuggestionsCompany_company_jobs_items {
+  __typename: "Job";
+  name: string;
+}
+
+export interface GetSearchSuggestionsCompany_company_jobs {
+  __typename: "JobList";
+  items: GetSearchSuggestionsCompany_company_jobs_items[];
+}
+
+export interface GetSearchSuggestionsCompany_company {
+  __typename: "Company";
+  jobs: GetSearchSuggestionsCompany_company_jobs;
 }
 
 export interface GetSearchSuggestionsCompany {
-  companies: GetSearchSuggestionsCompany_companies;
+  company: GetSearchSuggestionsCompany_company | null;
+}
+
+export interface GetSearchSuggestionsCompanyVariables {
+  companyId: string;
 }

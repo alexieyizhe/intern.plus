@@ -4,7 +4,7 @@ import { GetSearchSuggestions } from "./types/GetSearchSuggestions";
 import { GetSearchSuggestionsCompany } from "./types/GetSearchSuggestionsCompany";
 
 export interface ISuggestionsVariables {
-  companySlug?: string; // will only grab suggestions for this company
+  companyId?: string; // will only grab suggestions for this company
   searchType?: SearchType;
 }
 
@@ -15,17 +15,17 @@ export const buildSearchSuggestions = (
   const suggestions: string[] = [];
 
   if (data) {
-    if (data.companiesList) {
-      data.companiesList.items.forEach((item) => {
+    if (data.companies) {
+      data.companies.items.forEach((item) => {
         if (item.name) suggestions.push(item.name);
       });
     }
 
     if (
-      data.jobsList &&
+      data.jobs &&
       (variables ? variables.searchType !== SearchType.COMPANIES : true)
     ) {
-      data.jobsList.items.forEach((item) => {
+      data.jobs.items.forEach((item) => {
         if (item.name) suggestions.push(item.name);
       });
     }

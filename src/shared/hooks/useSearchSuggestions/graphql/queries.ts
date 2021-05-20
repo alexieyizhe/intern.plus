@@ -17,9 +17,13 @@ export const GET_SEARCH_SUGGESTIONS = gql`
 `;
 
 export const GET_SEARCH_SUGGESTIONS_COMPANY = gql`
-  query GetSearchSuggestionsCompany {
-    companies {
-      count
+  query GetSearchSuggestionsCompany($companyId: ID!) {
+    company(id: $companyId) {
+      jobs {
+        items {
+          name
+        }
+      }
     }
   }
 `;

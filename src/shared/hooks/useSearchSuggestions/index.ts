@@ -22,12 +22,12 @@ export const useSearchSuggestions = (variables?: ISuggestionsVariables) => {
    * Determine the query type and variables we need for suggestions.
    */
   const { QUERY_DEF, queryVariables, suggestionsBuilder } = useMemo(() => {
-    if (variables && variables.companySlug) {
+    if (variables && variables.companyId) {
       return {
         QUERY_DEF: GET_SEARCH_SUGGESTIONS_COMPANY,
         suggestionsBuilder: buildSearchSuggestionsCompany,
         queryVariables: {
-          slug: variables.companySlug,
+          companyId: variables.companyId,
         },
       };
     } else {

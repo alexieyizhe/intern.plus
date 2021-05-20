@@ -48,13 +48,13 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
   if (isCompanyCardItem(card)) {
     return (
       <LandingCompanyCard
-        key={card.slug}
+        key={card.id}
         name={card.name}
         logoSrc={card.logoSrc}
         numRatings={card.numRatings}
         avgRating={card.avgRating}
         color={card.color}
-        linkTo={getCompanyCardRoute(card.slug)}
+        linkTo={getCompanyCardRoute(card.id)}
       />
     );
   } else if (isJobCardItem(card)) {
