@@ -23,8 +23,8 @@ import useDarkMode from "use-dark-mode";
 export interface IJobDetails {
   name: string;
   companyName: string;
-  companySlug: string;
-  location?: string;
+  companyId: string;
+  location: string | null;
   numRatings: number;
   avgRating: number;
   avgLearningMentorshipRating: number;
@@ -159,7 +159,7 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
         </Text>
         <Link
           className="subheading"
-          to={`${RouteName.COMPANIES}/${jobDetails?.companySlug}`}
+          to={`${RouteName.COMPANIES}/${jobDetails?.companyId}`}
           bare
         >
           <Text variant="heading3" color="textSecondary">

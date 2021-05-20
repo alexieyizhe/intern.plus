@@ -1,33 +1,42 @@
 import { IJobCardItem } from "src/shared/constants/card";
 import { ICompanyDetails } from "../components/CompanyDetailsCard";
-import { GetCompanyJobs } from "./types/GetCompanyJobs";
+import {
+  GetCompanyDetails_company,
+  GetCompanyDetails_company_jobs_items,
+} from "./types/GetCompanyDetails";
 
-export const buildCompanyDetails = (company: any): ICompanyDetails => ({
-  name: company.name || "",
-  desc: company.desc || undefined,
-  numRatings: company.reviews ? company.reviews.count : 0,
-  avgRating: company.avgRating || 0,
-  websiteUrl: company.websiteUrl || "",
-  logoSrc: (company.logoImg && company.logoImg.downloadUrl) || "",
-  color: company.logoColor || "",
-});
+export const buildCompanyDetails = (
+  company: GetCompanyDetails_company | null | undefined
+): ICompanyDetails | undefined =>
+  company
+    ? {
+        name: company.name,
+        desc: company.description,
+        numRatings: company.reviews.count,
+        avgRating: company.scoreAverages.overall,
+        websiteUrl: company.websiteUrl,
+        logoSrc: "",
+        color: "",
+      }
+    : undefined;
 
-export const buildCompanyJobCard = (item: any) => ({
-  id: item.id || "",
-  slug: item.slug || "",
+export const buildCompanyJobCard = (
+  item: GetCompanyDetails_company_jobs_items
+): IJobCardItem => ({
+  id: item.id,
+  slug: item.slug,
   companyName: "", // we don't need to display company name in job card since the company name is evident in the details card at top of page
-  companySlug: (item.company && item.company.slug) || "",
-  name: item.name || "",
-  location: item.location || "",
-  minHourlySalary: item.minHourlySalary || 0,
-  maxHourlySalary: item.maxHourlySalary || 0,
-  hourlySalaryCurrency: item.hourlySalaryCurrency || "CAD",
-  numRatings: item.reviews ? item.reviews.count : 0,
-  avgRating: item.avgRating || 0,
-  color: (item.company && item.company.logoColor) || "",
+  companySlug: "",
+  name: item.name,
+  location: item.location ?? "",
+  minHourlySalary: item.salaryMin.amount,
+  maxHourlySalary: item.salaryMax.amount,
+  hourlySalaryCurrency: item.salaryMin.currency,
+  numRatings: item.reviews.count,
+  avgRating: item.scoreAverages.overall,
+  color: "",
 });
 
-export const buildCompanyJobCardsList = (data?: any): IJobCardItem[] =>
-  data && data.company && data.company.jobs
-    ? data.company.jobs.items.map(buildCompanyJobCard)
-    : [];
+export const buildCompanyJobCardsList = (
+  data?: GetCompanyDetails_company_jobs_items[]
+): IJobCardItem[] => data?.map(buildCompanyJobCard) ?? [];

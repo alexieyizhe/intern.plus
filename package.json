@@ -17,7 +17,7 @@
     "test:e2e": "percy exec -- npm run test -- --spec \"./**/**.e2e.test.ts\"",
     "test:unit:ci": "npm run start:ci && npm run test:unit",
     "test:e2e:ci": "npm run start:ci && npm run test:e2e",
-    "api:generate-types": "npx apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint 'http://localhost:3000/api/graphql' --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'"
+    "api:generate-types": "npx apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint 'http://localhost:3000/api/graphql' --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusISODate ./src | xargs sed -i '' 's/InternPlusISODate/Date/g'"
   },
   "browserslist": {
     "production": [

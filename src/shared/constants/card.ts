@@ -29,7 +29,7 @@ export interface IReviewJobCardItem {
   companyName: string; // company name
   jobName: string; // role/position
   jobLocation: string;
-  date: string; // date string
+  date: Date; 
   overallRating: number; // score out of 5
   body: string | null;
   tags: string[] | null;
@@ -42,8 +42,8 @@ export interface IReviewUserCardItem {
   jobLocation: string;
   relativeDate: string; // relative date of the review
   overallRating: number;
-  body: string;
-  tags: string;
+  body: string | null;
+  tags: string[] | null;
   color: string;
 }
 

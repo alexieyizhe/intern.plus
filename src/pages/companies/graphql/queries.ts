@@ -12,26 +12,37 @@ export const GET_COMPANY_DETAILS = gql`
     company(id: $id) {
       name
       description
+      websiteUrl
+      scoreAverages {
+        overall
+      }
       reviews {
         count
       }
+      jobs {
+        items {
+          id
+          name
+          slug
+          location
+          salaryMin {
+            amount
+            currency
+          }
+          salaryMax {
+            amount
+            currency
+          }
+          scoreAverages {
+            overall
+          }
+          reviews {
+            count
+          }
+        }
+      }
     }
   }
-  # query GetCompanyDetails($slug: String) {
-  #   company(slug: $slug) {
-  #     name
-  #     desc
-  #     logoImg {
-  #       downloadUrl
-  #     }
-  #     logoColor
-  #     reviews {
-  #       count
-  #     }
-  #     avgRating
-  #     websiteUrl
-  #   }
-  # }
 `;
 
 /**
@@ -53,7 +64,7 @@ const getSort = (sort?: SearchSort) => {
 
 export const getCompanyJobsQueryBuilder: SearchQueryBuilder = ({ sort }) => gql`
   query GetCompanyJobs {
-    companies {
+    jobs(limit: 1) {
       items {
         id
       }

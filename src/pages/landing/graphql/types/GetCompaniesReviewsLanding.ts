@@ -51,7 +51,7 @@ export interface GetCompaniesReviewsLanding_reviews_items {
   id: string;
   body: string | null;
   isLegacy: boolean;
-  createdAt: InternPlusISODate;
+  createdAt: Date;
   company: GetCompaniesReviewsLanding_reviews_items_company;
   job: GetCompaniesReviewsLanding_reviews_items_job;
   score: GetCompaniesReviewsLanding_reviews_items_score;

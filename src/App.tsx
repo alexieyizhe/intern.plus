@@ -22,11 +22,11 @@ import { useCalculatedLocation } from "src/shared/hooks/useCalculatedLocation";
 import { PageHeader, PageFooter } from "src/components";
 
 import LandingPage from "src/pages/landing";
-// import SearchPage from "src/pages/search";
-// import DesignSystemPage from "src/pages/design-system";
-// import CompaniesRouteHandler from "src/pages/companies";
-// import JobsRouteHandler from "src/pages/jobs";
-// import ReviewsRouteHandler from "src/pages/reviews";
+import SearchPage from "src/pages/search";
+import DesignSystemPage from "src/pages/design-system";
+import CompaniesRouteHandler from "src/pages/companies";
+import JobsRouteHandler from "src/pages/jobs";
+import ReviewsRouteHandler from "src/pages/reviews";
 import DownForMaintenance from "src/pages/maintenance";
 import { NotFoundPage, CrashPage } from "src/pages/error";
 
@@ -46,7 +46,7 @@ export const AppRouteHandler: React.FC = () => {
         <LandingPage />
       </Route>
 
-      {/* <Route exact path={RouteName.SEARCH} location={calculatedLocation}>
+      <Route exact path={RouteName.SEARCH} location={calculatedLocation}>
         <SearchPage />
       </Route>
 
@@ -58,7 +58,7 @@ export const AppRouteHandler: React.FC = () => {
 
       <JobsRouteHandler />
 
-      <ReviewsRouteHandler /> */}
+      <ReviewsRouteHandler />
     </>
   );
 };

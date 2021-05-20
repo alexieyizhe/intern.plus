@@ -7,16 +7,16 @@
 // GraphQL query operation: GetCompanyJobs
 // ====================================================
 
-export interface GetCompanyJobs_companies_items {
-  __typename: "Company";
+export interface GetCompanyJobs_jobs_items {
+  __typename: "Job";
   id: string;
 }
 
-export interface GetCompanyJobs_companies {
-  __typename: "CompanyList";
-  items: GetCompanyJobs_companies_items[];
+export interface GetCompanyJobs_jobs {
+  __typename: "JobList";
+  items: GetCompanyJobs_jobs_items[];
 }
 
 export interface GetCompanyJobs {
-  companies: GetCompanyJobs_companies;
+  jobs: GetCompanyJobs_jobs;
 }

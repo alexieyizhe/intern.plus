@@ -28,7 +28,7 @@ export const buildReviewCard = (
   companyName: item.company.name,
   jobName: item.job.name,
   jobLocation: "",
-  date: item.isLegacy ? "" : item.createdAt,
+  date: item.createdAt,
   overallRating: item.score.overall,
   body: item.body,
   tags: item.tags,

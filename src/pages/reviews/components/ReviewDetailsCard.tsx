@@ -44,7 +44,7 @@ export interface IReviewDetails {
   color: string;
   date: string;
   relativeDate: string;
-  tags: string;
+  tags: string[] | null;
 }
 
 export interface IReviewDetailsCardProps extends IDetailsCardProps {
