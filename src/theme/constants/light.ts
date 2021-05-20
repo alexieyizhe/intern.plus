@@ -7,6 +7,7 @@ export const lightTheme: SiteTheme = {
     backgroundPrimary: "#ffffff",
     backgroundSecondary: "#f1f1f1",
 
+    textDark: "#222222",
     textPrimary: "#222222",
     textSecondary: "#787878",
     textTertiary: "#c6c6c6",

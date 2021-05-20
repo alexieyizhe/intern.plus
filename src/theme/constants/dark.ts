@@ -7,6 +7,7 @@ export const darkTheme: SiteTheme = {
     backgroundPrimary: "#333333",
     backgroundSecondary: "#565656",
 
+    textDark: "#222222",
     textPrimary: "#fdfdfd",
     textSecondary: "#c6c6c6",
     textTertiary: "#aaaaaa",

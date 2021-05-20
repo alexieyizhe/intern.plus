@@ -56,7 +56,7 @@ export const inputStyles = css<IInputStyleOptions>`
   width: 100%;
   padding: ${({ theme }) => theme.padding.input};
 
-  color: ${({ textColor = "textPrimary", theme }) =>
+  color: ${({ textColor = "textDark", theme }) =>
     theme.color[textColor] || textColor};
   ::placeholder {
     color: ${({ theme }) => theme.color.textSecondary};

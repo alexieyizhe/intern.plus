@@ -17,6 +17,7 @@ export interface SiteTheme {
     backgroundPrimary: string;
     backgroundSecondary: string;
 
+    textDark: string;
     textPrimary: string;
     textSecondary: string;
     textTertiary: string;

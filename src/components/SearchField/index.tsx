@@ -38,8 +38,8 @@ export interface ISearchFieldProps
 const ENTER_KEY_CODE = 13;
 
 const renderSuggestion = (suggestion: string) => (
-  <Suggestion color="backgroundSecondary">
-    <Text variant="subheading" color="textSecondary">
+  <Suggestion color="textTertiary">
+    <Text variant="subheading" color="textPrimary">
       {suggestion}
     </Text>
   </Suggestion>
@@ -113,7 +113,7 @@ const Container = styled.div`
 
   & .react-autosuggest__suggestion--highlighted span {
     transition: color 150ms ease-in;
-    color: ${({ theme }) => theme.color.textPrimary};
+    color: ${({ theme }) => theme.color.textSecondary};
   }
 `;
 
