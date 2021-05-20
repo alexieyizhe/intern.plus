@@ -109,7 +109,7 @@ const getResultCardMarkup = (result: IGenericCardItem, isDark: boolean) => {
   if (isCompanyCardItem(result)) {
     return (
       <ResultCompanyCard
-        key={result.slug}
+        key={result.id}
         name={result.name}
         logoSrc={result.logoSrc}
         desc={result.desc}
@@ -121,8 +121,8 @@ const getResultCardMarkup = (result: IGenericCardItem, isDark: boolean) => {
     );
   } else if (isJobCardItem(result)) {
     const subheading = result.companyName
-      ? `${result.companyName}  •  ${result.location}`
-      : result.location;
+      ? `${result.companyName}  •  ${result.location ?? ""}`
+      : result.location ?? "";
 
     return (
       <ResultJobCard

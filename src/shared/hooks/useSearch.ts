@@ -14,7 +14,7 @@ import { QueryHookOptions, useQuery } from "@apollo/react-hooks";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { LOCATION_MAP } from "src/shared/hooks/useSearchLocationFilter";
 
-import { RESULTS_PER_PAGE } from "src/shared/constants/search";
+import { RESULTS_PER_PAGE, SearchType } from "src/shared/constants/search";
 import {
   IGenericCardItem,
   isJobCardItem,
@@ -27,6 +27,13 @@ import { slugify } from "src/shared/utils/misc";
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
+interface ListableData {
+  [type: string]: {
+    count: number;
+    items: any[];
+    lastCursor: string;
+  };
+}
 
 export enum SearchState {
   INITIAL,
@@ -39,21 +46,129 @@ export enum SearchState {
 }
 
 /*******************************************************************
+ *                  **Utility functions/constants**                *
+ *******************************************************************/
+const searchTypeToDataName = {
+  [SearchType.COMPANIES]: "companies",
+  [SearchType.JOBS]: "jobs",
+  [SearchType.REVIEWS]: "reviews",
+};
+
+const useSearchInputVariables = () => {
+  const { searchSalaryFilter, searchRatingFilter, searchType } =
+    useSearchParams();
+
+  switch (searchType) {
+    case SearchType.COMPANIES:
+      return searchRatingFilter
+        ? {
+            filterOverallRatingGt: searchRatingFilter[0],
+            filterOverallRatingLt: searchRatingFilter[1],
+          }
+        : {};
+    case SearchType.JOBS:
+      return {
+        ...(searchRatingFilter
+          ? {
+              filterOverallRatingGt: searchRatingFilter[0],
+              filterOverallRatingLt: searchRatingFilter[1],
+            }
+          : {}),
+        ...(searchSalaryFilter
+          ? {
+              filterSalaryHourlyAmountGt: searchSalaryFilter[0],
+              filterSalaryHourlyAmountLt: searchSalaryFilter[1],
+            }
+          : {}),
+      };
+    case SearchType.REVIEWS:
+      return {
+        ...(searchRatingFilter
+          ? {
+              filterOverallRatingGt: searchRatingFilter[0],
+              filterOverallRatingLt: searchRatingFilter[1],
+            }
+          : {}),
+        ...(searchSalaryFilter
+          ? {
+              filterSalaryAmountGt: searchSalaryFilter[0],
+              filterSalaryAmountLt: searchSalaryFilter[1],
+            }
+          : {}),
+      };
+    default:
+      throw new Error("Type not specified for search");
+  }
+};
+
+/*******************************************************************
  *                              **Hook**                           *
  *******************************************************************/
-export const useSearch = <TData>(
+export const useSearch = <GetSearchData>(
   query: DocumentNode,
-  options: QueryHookOptions<TData>,
-  transformData: (data?: TData) => IGenericCardItem[]
+  options: QueryHookOptions<GetSearchData>,
+  transformData: (data?: GetSearchData) => IGenericCardItem[]
 ) => {
-  const {
-    searchQuery,
-    searchLocationFilter,
-    searchSalaryFilter,
-    searchRatingFilter,
-    setSearchQuery,
-  } = useSearchParams();
-  const [searchState, setSearchState] = useState(SearchState.INITIAL);
+  const { searchQuery, searchSort, searchType } = useSearchParams();
+  const searchInputVariables = useSearchInputVariables();
+  const [data, setData] = useState<any | undefined>(); // https://github.com/apollographql/react-apollo/issues/3634 :(((((
+
+  const { loading, error, fetchMore } = useQuery<GetSearchData>(query, {
+    ...options,
+    variables: {
+      search: {
+        query: searchQuery,
+        sort: searchSort,
+        ...searchInputVariables,
+      },
+    },
+    fetchPolicy: "no-cache",
+    onCompleted: (data) => setData(data),
+  });
+
+  const searchState = useMemo(() => {
+    if (error) {
+      return SearchState.ERROR;
+    }
+    // if (loading && !!data && data.count > 0) {
+    //   return SearchState.RESULTS_LOADING;
+    // }
+    if (loading) {
+      return SearchState.LOADING;
+    }
+    // if (!!data && data.count > 0) {
+    //   return SearchState.RESULTS_LOADING;
+    // }
+    return SearchState.RESULTS;
+  }, [data, loading, error]);
+
+  const searchTypeName = searchTypeToDataName[searchType];
+  const triggerSearchNextBatch = () =>
+    fetchMore({
+      variables: {
+        search: {
+          query: searchQuery,
+          sort: searchSort,
+          ...searchInputVariables,
+        },
+        after: (data as any)?.[searchTypeName].lastCursor,
+      },
+      updateQuery: (_, { fetchMoreResult }: { fetchMoreResult: any }) => {
+        console.log(`aaa`, fetchMoreResult);
+        if (fetchMoreResult) {
+          setData((prev: any) => ({
+            count:
+              prev[searchTypeName].count +
+              fetchMoreResult[searchTypeName].count,
+            items: [
+              ...prev[searchTypeName].items,
+              ...fetchMoreResult[searchTypeName].items,
+            ],
+            lastCursor: fetchMoreResult[searchTypeName].lastCursor,
+          }));
+        }
+      },
+    });
 
   // const [page, setPage] = useState(1); // most recent page fetched for query
   // const [isNewSearch, setIsNewSearch] = useState(false); // whether a search is completely new or just another page of the current search
@@ -69,23 +184,6 @@ export const useSearch = <TData>(
   //   () => searchState === SearchState.RESULTS || options.skip,
   //   [options.skip, searchState]
   // );
-  // const { loading, error, data } = useQuery<TData>(query, {
-  //   ...options,
-  //   variables: {
-  //     query: searchQuery || "",
-  //     locations:
-  //       searchLocationFilter &&
-  //       searchLocationFilter.map((val) => (LOCATION_MAP[val] || {}).label),
-  //     minSalary: searchSalaryFilter && searchSalaryFilter[0],
-  //     maxSalary: searchSalaryFilter && searchSalaryFilter[1],
-  //     minRating: searchRatingFilter && searchRatingFilter[0],
-  //     maxRating: searchRatingFilter && searchRatingFilter[1],
-  //     offset: (page - 1) * RESULTS_PER_PAGE,
-  //     limit: RESULTS_PER_PAGE,
-  //     ...(options.variables || {}),
-  //   },
-  //   skip: shouldSkipSearch,
-  // });
 
   // /**
   //  * After new data is fetched, *build list of new results*.
@@ -224,11 +322,10 @@ export const useSearch = <TData>(
   return {
     // search info
     searchState,
-    searchResults,
-    unfilteredResults,
+    searchResults: transformData(data),
 
     // callbacks
-    triggerSearchNew,
+    triggerSearchNew: () => {},
     triggerSearchNextBatch,
   };
 };

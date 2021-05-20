@@ -4,10 +4,12 @@ import { SearchType } from "src/shared/constants/search";
 import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
 
 const companiesQuery = gql`
-  query GetSearchCompanies($search: ReviewSearchInput, $after: ID) {
+  query GetSearchCompanies($search: CompanySearchInput, $after: ID) {
     companies(search: $search, after: $after) {
       count
+      lastCursor
       items {
+        id
         name
         description
         websiteUrl
@@ -18,26 +20,7 @@ const companiesQuery = gql`
           count
         }
         jobs {
-          items {
-            id
-            name
-            slug
-            location
-            salaryMin {
-              amount
-              currency
-            }
-            salaryMax {
-              amount
-              currency
-            }
-            scoreAverages {
-              overall
-            }
-            reviews {
-              count
-            }
-          }
+          count
         }
       }
     }
@@ -45,10 +28,12 @@ const companiesQuery = gql`
 `;
 
 const jobsQuery = gql`
-  query GetSearchJobs($search: ReviewSearchInput, $after: ID) {
+  query GetSearchJobs($search: JobSearchInput, $after: ID) {
     jobs(search: $search, after: $after) {
       count
+      lastCursor
       items {
+        id
         name
         location
         company {
@@ -71,19 +56,6 @@ const jobsQuery = gql`
         }
         reviews {
           count
-          items {
-            id
-            body
-            tags
-            score {
-              overall
-            }
-            author {
-              name
-            }
-            isLegacy
-            createdAt
-          }
         }
       }
     }
@@ -94,7 +66,9 @@ const reviewsQuery = gql`
   query GetSearchReviews($search: ReviewSearchInput, $after: ID) {
     reviews(search: $search, after: $after) {
       count
+      lastCursor
       items {
+        id
         body
         tags
         isLegacy

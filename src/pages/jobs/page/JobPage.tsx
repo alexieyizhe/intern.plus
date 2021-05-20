@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
-import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
@@ -14,7 +13,7 @@ import { availableSortOptions, SearchType } from "src/shared/constants/search";
 
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
 import { GetJobReviews } from "../graphql/types/GetJobReviews";
-import { GET_JOB_DETAILS, getJobReviewsQueryBuilder } from "../graphql/queries";
+import { GET_JOB_DETAILS } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
 import {

@@ -48,7 +48,7 @@ export interface ISearchOptionsMenuProps
     onChange: (value: (number | undefined)[]) => void;
   };
 
-  onOptionChange: () => void;
+  onOptionChange?: () => void;
 }
 
 /*******************************************************************
@@ -313,7 +313,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       setTimeout(() => salaryOption.onChange(internalSalaryFilterOptionVal), 0);
     }
 
-    if (optionsChanged) onOptionChange();
+    if (optionsChanged && onOptionChange) onOptionChange();
   };
 
   return (

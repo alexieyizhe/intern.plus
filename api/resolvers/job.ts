@@ -26,10 +26,12 @@ export const jobsQueryResolver = (parent, args, context, info) => {
 
   return db
     .collection("jobs")
+    .startAfter(after)
     .limit(limit)
     .get()
     .then((qSnap) => ({
       count: qSnap.size,
+      lastCursor: qSnap.docs[qSnap.docs.length - 1],
       items: qSnap.docs.map((doc) => transformJobData(doc)),
     }));
 };
@@ -39,6 +41,7 @@ export const jobsResolver = (parent, args, context, info) => {
 
   return {
     count: parent.jobCount,
+    lastCursor: parent.jobRefs[parent.jobRefs.length - 1],
     items: parent.jobRefs.map((ref) =>
       ref.get().then((dSnap) => transformJobData(dSnap))
     ),

@@ -10,7 +10,7 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 export const buildReviewDetails = (
-  item: GetReviewDetails_review
+item: GetReviewDetails_review
 ): IReviewDetails => ({
   jobName: item.job.name,
   jobId: item.job.id,

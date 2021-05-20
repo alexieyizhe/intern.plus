@@ -14,6 +14,31 @@ export enum SalaryPeriod {
   YEARLY = "YEARLY",
 }
 
+export interface CompanySearchInput {
+  query?: string | null;
+  sort?: string | null;
+  filterOverallRatingGt?: number | null;
+  filterOverallRatingLt?: number | null;
+}
+
+export interface JobSearchInput {
+  query?: string | null;
+  sort?: string | null;
+  filterOverallRatingGt?: number | null;
+  filterOverallRatingLt?: number | null;
+  filterSalaryHourlyAmountGt?: number | null;
+  filterSalaryHourlyAmountLt?: number | null;
+}
+
+export interface ReviewSearchInput {
+  query?: string | null;
+  sort?: string | null;
+  filterOverallRatingGt?: number | null;
+  filterOverallRatingLt?: number | null;
+  filterSalaryAmountGt?: number | null;
+  filterSalaryAmountLt?: number | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

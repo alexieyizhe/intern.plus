@@ -13,11 +13,9 @@ export interface ICompanyCardItem {
 
 export interface IJobCardItem {
   id: string;
-  slug: string; // unique slug when combined with company slug
   companyName: string; // company name
-  companySlug: string;
   name: string;
-  location: string;
+  location: string | null;
   minHourlySalary: number; // hourly
   maxHourlySalary: number; // hourly
   hourlySalaryCurrency: string; // hourly

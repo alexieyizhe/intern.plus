@@ -24,9 +24,7 @@ export const buildCompanyJobCard = (
   item: GetCompanyDetails_company_jobs_items
 ): IJobCardItem => ({
   id: item.id,
-  slug: item.slug,
   companyName: "", // we don't need to display company name in job card since the company name is evident in the details card at top of page
-  companySlug: "",
   name: item.name,
   location: item.location ?? "",
   minHourlySalary: item.salaryMin.amount,

@@ -22,15 +22,19 @@ export enum SearchSort {
   ALPHABETICAL = "alpha",
   NUM_REVIEWS = "reviewCount",
   RATING = "rating",
-  SALARY = "salary",
+  CREATION_DATE = "creationDate", // reviews only
 }
 
 export const availableSortOptions: { [key: string]: SearchSort[] } = {
-  [SearchType.REVIEWS]: [SearchSort.RATING, SearchSort.SALARY],
+  [SearchType.REVIEWS]: [SearchSort.RATING, SearchSort.CREATION_DATE],
   [SearchType.COMPANIES]: [
     SearchSort.ALPHABETICAL,
     SearchSort.NUM_REVIEWS,
     SearchSort.RATING,
-    SearchSort.SALARY,
+  ],
+  [SearchType.JOBS]: [
+    SearchSort.ALPHABETICAL,
+    SearchSort.NUM_REVIEWS,
+    SearchSort.RATING,
   ],
 };

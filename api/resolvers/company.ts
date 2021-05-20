@@ -24,14 +24,15 @@ const transformCompanyData = (doc) => {
 export const companiesQueryResolver = (parent, args, context, info) => {
   const { search, limit, after } = args;
 
-  return db
-    .collection("companies")
-    .limit(limit)
-    .get()
-    .then((qSnap) => ({
-      count: qSnap.size,
-      items: qSnap.docs.map((doc) => transformCompanyData(doc)),
-    }));
+  const query = after
+    ? db.collection("companies").orderBy("name").startAfter(after).limit(limit)
+    : db.collection("companies").orderBy("name").limit(limit);
+
+  return query.get().then((qSnap) => ({
+    count: qSnap.size,
+    lastCursor: qSnap.docs[qSnap.docs.length - 1].id,
+    items: qSnap.docs.map((doc) => transformCompanyData(doc)),
+  }));
 };
 
 export const companyResolver = (parent, args, context, info) => {

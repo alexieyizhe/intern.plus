@@ -157,7 +157,7 @@ const SearchPage: React.FC = () => {
           typeOption={typeOption}
           salaryOption={salaryOption}
           ratingOption={ratingOption}
-          onOptionChange={() => triggerSearchNew(searchQuery, true)}
+          // onOptionChange={() => triggerSearchNew(searchQuery, true)}
         />
 
         <SearchResultCardDisplay
