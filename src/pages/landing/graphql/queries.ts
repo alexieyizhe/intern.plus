@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 
 export const getCompaniesReviewsLandingQuery = gql`
   query GetCompaniesReviewsLanding {
-    companies(limit: 5) {
+    companies(limit: 5, search: { sort: "reviewCount" }) {
       items {
         id
         name

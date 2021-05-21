@@ -111,7 +111,6 @@ export const useSearch = <GetSearchData>(
   const { searchQuery, searchSort, searchType } = useSearchParams();
   const searchInputVariables = useSearchInputVariables();
   const searchTypeName = searchTypeToDataName[searchType];
-  // const [searchState, setSearchState] = useState(SearchState.INITIAL);
 
   const { loading, error, data, fetchMore, refetch } = useQuery<GetSearchData>(
     query,
@@ -125,16 +124,10 @@ export const useSearch = <GetSearchData>(
         },
       },
       notifyOnNetworkStatusChange: true,
-      onCompleted: () => {
-        console.log("FINISHED");
-        // setSearchState(SearchState.RESULTS);
-      },
     }
   );
 
   const triggerSearchNextBatch = () => {
-    console.log("TRIGGERED BACh", !!fetchMore);
-    // setSearchState(SearchState.LOADING);
     fetchMore({
       variables: {
         search: {
@@ -145,8 +138,6 @@ export const useSearch = <GetSearchData>(
         after: (data as any)?.[searchTypeName].lastCursor,
       },
       updateQuery: (prev: any, { fetchMoreResult }: { fetchMoreResult: any }) =>
-        // setSearchState(SearchState.RESULTS);
-
         ({
           [searchTypeName]: {
             count:
@@ -164,8 +155,6 @@ export const useSearch = <GetSearchData>(
   };
 
   const triggerSearchNew = () => {
-    console.log("TRIGGERED");
-    // setSearchState(SearchState.LOADING);
     refetch({
       variables: {
         search: {
@@ -191,7 +180,7 @@ export const useSearch = <GetSearchData>(
       return SearchState.NO_MORE_RESULTS;
     }
     return SearchState.RESULTS;
-  }, [data, error, loading]);
+  }, [data, error, loading, searchTypeName]);
 
   // const [page, setPage] = useState(1); // most recent page fetched for query
   // const [isNewSearch, setIsNewSearch] = useState(false); // whether a search is completely new or just another page of the current search
@@ -342,7 +331,6 @@ export const useSearch = <GetSearchData>(
   //   setSearchState,
   // ]);
 
-  console.log(data);
 
   return {
     searchState,

@@ -34,16 +34,13 @@ export const reviewsQueryResolver = (parent, args, context, info) => {
   }));
 };
 
-export const reviewsResolver = (parent, args, context, info) => {
-  console.log("reviewListResolver");
-  return {
-    count: parent.reviewCount,
-    lastCursor: parent.reviewRefs[parent.reviewRefs.length - 1].id,
-    items: parent.reviewRefs.map((ref) =>
-      ref.get().then((dSnap) => transformReviewData(dSnap))
-    ),
-  };
-};
+export const reviewsResolver = (parent, args, context, info) => ({
+  count: parent.reviewCount,
+  lastCursor: parent.reviewRefs[parent.reviewRefs.length - 1].id,
+  items: parent.reviewRefs.map((ref) =>
+    ref.get().then((dSnap) => transformReviewData(dSnap))
+  ),
+});
 
 export const reviewResolver = (parent, args, context, info) => {
   const { id } = args;

@@ -3,8 +3,8 @@ import { gql } from "@apollo/client";
 
 
 export const GET_SEARCH_SUGGESTIONS = gql`
-  query GetSearchSuggestions {
-    companies {
+  query GetSearchSuggestions($limit: Int) {
+    companies(limit: $limit) {
       items {
         name
       }

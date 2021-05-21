@@ -106,7 +106,7 @@ const SearchPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { searchQuery, searchType } = useSearchParams();
-  const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
+  // const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
 
   /**
    * For fetching results
@@ -125,8 +125,6 @@ const SearchPage: React.FC = () => {
     },
     buildSearchResultCardsList
   );
-
-  console.log({ searchResults });
 
   /**
    * For search options menu
@@ -149,18 +147,18 @@ const SearchPage: React.FC = () => {
           {getHeadingMarkup(searchQuery, searchType)}
         </Heading>
 
-        <SearchField
+        {/* <SearchField
           onTriggerSearch={triggerSearchNew}
           suggestions={searchSuggestions}
-        />
+        /> */}
 
-        <SearchOptionsMenu
+        {/* <SearchOptionsMenu
           sortOption={sortOption}
           typeOption={typeOption}
           salaryOption={salaryOption}
           ratingOption={ratingOption}
           onOptionChange={() => triggerSearchNew()}
-        />
+        /> */}
 
         <SearchResultCardDisplay
           searchState={searchState}

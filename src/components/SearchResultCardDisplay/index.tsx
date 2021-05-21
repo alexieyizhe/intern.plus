@@ -241,7 +241,6 @@ const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
     [searchState]
   );
 
-  console.log(searchState, SearchState.RESULTS);
   const shouldHidePlanet = useMemo(
     () =>
       searchResults.length > 0 ||

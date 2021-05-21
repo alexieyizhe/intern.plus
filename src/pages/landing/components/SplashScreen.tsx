@@ -107,6 +107,7 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
   const history = useHistory();
   const searchSuggestions = useSearchSuggestions({
     searchType: SearchType.COMPANIES,
+    limit: 500,
   });
   const { isMobile } = useWindowWidth(); // show only search button on mobile
 
@@ -134,7 +135,7 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
           ) : (
             <SearchField
               className="landing-search"
-              inputProps={{ placeholder: "Search for a company" }}
+              inputProps={{ placeholder: "Find a company" }}
               onTriggerSearch={onTriggerSearch}
               suggestions={searchSuggestions}
             />

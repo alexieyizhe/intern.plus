@@ -53,6 +53,7 @@
     "react-error-boundary": "^1.2.5",
     "react-ga": "^2.7.0",
     "react-helmet": "^5.2.1",
+    "react-hot-toast": "^1.0.2",
     "react-kawaii": "^0.14.4",
     "react-load-script": "0.0.6",
     "react-router-dom": "^5.1.2",

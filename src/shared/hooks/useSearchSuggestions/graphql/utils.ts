@@ -6,6 +6,7 @@ import { GetSearchSuggestionsCompany } from "./types/GetSearchSuggestionsCompany
 export interface ISuggestionsVariables {
   companyId?: string; // will only grab suggestions for this company
   searchType?: SearchType;
+  limit?: number;
 }
 
 export const buildSearchSuggestions = (

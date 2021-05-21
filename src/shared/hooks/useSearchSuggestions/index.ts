@@ -34,6 +34,9 @@ export const useSearchSuggestions = (variables?: ISuggestionsVariables) => {
       return {
         QUERY_DEF: GET_SEARCH_SUGGESTIONS,
         suggestionsBuilder: buildSearchSuggestions,
+        queryVariables: {
+          limit: variables?.limit,
+        }
       };
     }
   }, [variables]);

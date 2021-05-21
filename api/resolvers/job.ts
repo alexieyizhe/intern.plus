@@ -39,14 +39,14 @@ export const jobsQueryResolver = (parent, args, context, info) => {
 
   return query.get().then((qSnap) => ({
     count: qSnap.size,
-    lastCursor: qSnap.docs[qSnap.docs.length - 1],
+    lastCursor: qSnap.docs[qSnap.docs.length - 1].id,
     items: qSnap.docs.map((doc) => transformJobData(doc)),
   }));
 };
 
 export const jobsResolver = (parent, args, context, info) => ({
   count: parent.jobCount,
-  lastCursor: parent.jobRefs[parent.jobRefs.length - 1],
+  lastCursor: parent.jobRefs[parent.jobRefs.length - 1].id,
   items: parent.jobRefs.map((ref) =>
     ref.get().then((dSnap) => transformJobData(dSnap))
   ),

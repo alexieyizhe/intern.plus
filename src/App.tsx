@@ -3,6 +3,7 @@ import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
 import ErrorBoundary from "react-error-boundary";
+import { Toaster } from "react-hot-toast";
 
 import apolloClient from "src/api/client";
 import {
@@ -28,6 +29,7 @@ import JobsRouteHandler from "src/pages/jobs";
 import ReviewsRouteHandler from "src/pages/reviews";
 import DownForMaintenance from "src/pages/maintenance";
 import { NotFoundPage, CrashPage } from "src/pages/error";
+import { sharedConstants } from "./theme";
 
 export const IS_MAINTENANCE = false;
 
@@ -81,6 +83,16 @@ const App: React.FC = () => (
                         <DownForMaintenance />
                       ) : (
                         <>
+                          <Toaster
+                            position="bottom-center"
+                            toastOptions={{
+                              style: {
+                                width: "85vw",
+                                maxWidth: "1000px",
+                                fontFamily: sharedConstants.fontFamily.body,
+                              },
+                            }}
+                          />
                           <PageHeader />
                           <Switch>
                             <Route exact path={Object.values(RouteName)}>
