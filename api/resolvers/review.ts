@@ -2,7 +2,7 @@ import firebase from "firebase-admin";
 
 import { db } from "../db";
 
-const transformReviewData = (doc) => {
+const transformReviewData = (doc: any) => {
   const { createdAt, updatedAt, ...rest } = doc.data();
 
   return {
@@ -13,7 +13,7 @@ const transformReviewData = (doc) => {
   };
 };
 
-export const reviewsLandingQueryResolver = (parent, args, context, info) => {
+export const reviewsLandingQueryResolver = (parent: any, args: any, context: any, info: any) => {
   const { limit } = args;
   const query = db
     .collection("reviews")
@@ -28,7 +28,7 @@ export const reviewsLandingQueryResolver = (parent, args, context, info) => {
   }));
 };
 
-export const reviewsQueryResolver = (parent, args, context, info) => {
+export const reviewsQueryResolver = (parent: any, args: any, context: any, info: any) => {
   const { search, limit, after } = args;
 
   const query = after
@@ -49,15 +49,15 @@ export const reviewsQueryResolver = (parent, args, context, info) => {
   }));
 };
 
-export const reviewsResolver = (parent, args, context, info) => ({
+export const reviewsResolver = (parent: any, args: any, context: any, info: any) => ({
   count: parent.reviewCount,
   lastCursor: parent.reviewRefs[parent.reviewRefs.length - 1].id,
-  items: parent.reviewRefs.map((ref) =>
-    ref.get().then((dSnap) => transformReviewData(dSnap))
+  items: parent.reviewRefs.map((ref: any) =>
+    ref.get().then((dSnap: any) => transformReviewData(dSnap))
   ),
 });
 
-export const reviewResolver = (parent, args, context, info) => {
+export const reviewResolver = (parent: any, args: any, context: any, info: any) => {
   const { id } = args;
   if (id) {
     return db
@@ -66,7 +66,7 @@ export const reviewResolver = (parent, args, context, info) => {
       .get()
       .then((dSnap) => transformReviewData(dSnap));
   } else if (parent?.reviewRef) {
-    return parent.reviewRef.get().then((dSnap) => transformReviewData(dSnap));
+    return parent.reviewRef.get().then((dSnap: any) => transformReviewData(dSnap));
   } else {
     throw new Error("No identifier or reference provided for review field");
   }

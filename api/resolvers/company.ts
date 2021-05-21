@@ -2,11 +2,11 @@ import firebase from "firebase-admin";
 
 import { db } from "../db";
 
-const transformCompanyData = (doc) => {
+const transformCompanyData = (doc: any) => {
   const { scoreTotals, createdAt, updatedAt, reviewCount, ...rest } =
     doc.data();
   const scoreAverages = Object.entries(scoreTotals).reduce(
-    (acc, [scoreName, scoreValue]) => {
+    (acc: any, [scoreName, scoreValue]: any) => {
       acc[scoreName] = scoreValue / reviewCount;
       return acc;
     },
@@ -22,7 +22,12 @@ const transformCompanyData = (doc) => {
   };
 };
 
-export const companiesLandingQueryResolver = (parent, args, context, info) => {
+export const companiesLandingQueryResolver = (
+  parent: any,
+  args: any,
+  context: any,
+  info: any
+) => {
   const query = db
     .collection("companies")
     .orderBy("reviewCount", "desc")
@@ -36,7 +41,12 @@ export const companiesLandingQueryResolver = (parent, args, context, info) => {
   }));
 };
 
-export const companiesQueryResolver = (parent, args, context, info) => {
+export const companiesQueryResolver = (
+  parent: any,
+  args: any,
+  context: any,
+  info: any
+) => {
   const { search, limit, after } = args;
   const query = after
     ? db
@@ -57,7 +67,12 @@ export const companiesQueryResolver = (parent, args, context, info) => {
   }));
 };
 
-export const companyResolver = (parent, args, context, info) => {
+export const companyResolver = (
+  parent: any,
+  args: any,
+  context: any,
+  info: any
+) => {
   const { id } = args;
   if (id) {
     return db
@@ -66,7 +81,7 @@ export const companyResolver = (parent, args, context, info) => {
       .get()
       .then((dSnap) => transformCompanyData(dSnap));
   } else if (parent?.companyRef) {
-    return parent.companyRef.get().then((dSnap) => transformCompanyData(dSnap));
+    return parent.companyRef.get().then((dSnap: any) => transformCompanyData(dSnap));
   } else {
     throw new Error("No identifier or reference provided for company field");
   }

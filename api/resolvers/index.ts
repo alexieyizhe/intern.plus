@@ -46,7 +46,7 @@ const resolvers: IResolvers = {
     YEARLY: "yearly",
   },
   Listable: {
-    __resolveType(listable) {
+    __resolveType(listable: any) {
       return listable.__typename ?? null;
     },
   },
