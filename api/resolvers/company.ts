@@ -12,8 +12,6 @@ const transformCompanyData = (doc) => {
     },
     {}
   );
-  console.log(scoreAverages)
-
   return {
     id: doc.id,
     scoreAverages,
@@ -22,6 +20,20 @@ const transformCompanyData = (doc) => {
     updatedAt: updatedAt.toDate(),
     ...rest,
   };
+};
+
+export const companiesLandingQueryResolver = (parent, args, context, info) => {
+  const query = db
+    .collection("companies")
+    .orderBy("reviewCount", "desc")
+    .limit(5);
+
+  return query.get().then((qSnap) => ({
+    count: qSnap.size,
+    lastCursor: qSnap.docs[qSnap.docs.length - 1].id,
+    hasMore: false,
+    items: qSnap.docs.map((doc) => transformCompanyData(doc)),
+  }));
 };
 
 export const companiesQueryResolver = (parent, args, context, info) => {

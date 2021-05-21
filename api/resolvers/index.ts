@@ -1,11 +1,16 @@
 import { IResolvers } from "apollo-server-micro";
 
-import { companiesQueryResolver, companyResolver } from "./company";
+import {
+  companiesLandingQueryResolver,
+  companiesQueryResolver,
+  companyResolver,
+} from "./company";
 import { jobsResolver, jobResolver, jobsQueryResolver } from "./job";
 import {
   reviewsResolver,
   reviewResolver,
   reviewsQueryResolver,
+  reviewsLandingQueryResolver,
 } from "./review";
 
 const resolvers: IResolvers = {
@@ -18,6 +23,9 @@ const resolvers: IResolvers = {
 
     reviews: reviewsQueryResolver,
     review: reviewResolver,
+
+    companiesLanding: companiesLandingQueryResolver,
+    reviewsLanding: reviewsLandingQueryResolver,
   },
   Company: {
     jobs: jobsResolver,

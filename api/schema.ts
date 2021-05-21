@@ -144,5 +144,8 @@ export default gql`
 
     reviews(search: ReviewSearchInput, limit: Int = 20, after: ID): ReviewList!
     review(id: ID!): Review
+
+    companiesLanding(limit: Int = 5): CompanyList!
+    reviewsLanding(limit: Int = 5): ReviewList!
   }
 `;

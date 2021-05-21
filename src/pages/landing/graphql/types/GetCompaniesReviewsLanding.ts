@@ -7,63 +7,63 @@
 // GraphQL query operation: GetCompaniesReviewsLanding
 // ====================================================
 
-export interface GetCompaniesReviewsLanding_companies_items_scoreAverages {
+export interface GetCompaniesReviewsLanding_companiesLanding_items_scoreAverages {
   __typename: "Score";
   overall: number;
 }
 
-export interface GetCompaniesReviewsLanding_companies_items_reviews {
+export interface GetCompaniesReviewsLanding_companiesLanding_items_reviews {
   __typename: "ReviewList";
   count: number;
 }
 
-export interface GetCompaniesReviewsLanding_companies_items {
+export interface GetCompaniesReviewsLanding_companiesLanding_items {
   __typename: "Company";
   id: string;
   name: string;
   description: string | null;
-  scoreAverages: GetCompaniesReviewsLanding_companies_items_scoreAverages;
-  reviews: GetCompaniesReviewsLanding_companies_items_reviews;
+  scoreAverages: GetCompaniesReviewsLanding_companiesLanding_items_scoreAverages;
+  reviews: GetCompaniesReviewsLanding_companiesLanding_items_reviews;
 }
 
-export interface GetCompaniesReviewsLanding_companies {
+export interface GetCompaniesReviewsLanding_companiesLanding {
   __typename: "CompanyList";
-  items: GetCompaniesReviewsLanding_companies_items[];
+  items: GetCompaniesReviewsLanding_companiesLanding_items[];
 }
 
-export interface GetCompaniesReviewsLanding_reviews_items_company {
+export interface GetCompaniesReviewsLanding_reviewsLanding_items_company {
   __typename: "Company";
   name: string;
 }
 
-export interface GetCompaniesReviewsLanding_reviews_items_job {
+export interface GetCompaniesReviewsLanding_reviewsLanding_items_job {
   __typename: "Job";
   name: string;
 }
 
-export interface GetCompaniesReviewsLanding_reviews_items_score {
+export interface GetCompaniesReviewsLanding_reviewsLanding_items_score {
   __typename: "Score";
   overall: number;
 }
 
-export interface GetCompaniesReviewsLanding_reviews_items {
+export interface GetCompaniesReviewsLanding_reviewsLanding_items {
   __typename: "Review";
   id: string;
   body: string | null;
   isLegacy: boolean;
   createdAt: InternPlusISODate;
-  company: GetCompaniesReviewsLanding_reviews_items_company;
-  job: GetCompaniesReviewsLanding_reviews_items_job;
-  score: GetCompaniesReviewsLanding_reviews_items_score;
+  company: GetCompaniesReviewsLanding_reviewsLanding_items_company;
+  job: GetCompaniesReviewsLanding_reviewsLanding_items_job;
+  score: GetCompaniesReviewsLanding_reviewsLanding_items_score;
   tags: string[] | null;
 }
 
-export interface GetCompaniesReviewsLanding_reviews {
+export interface GetCompaniesReviewsLanding_reviewsLanding {
   __typename: "ReviewList";
-  items: GetCompaniesReviewsLanding_reviews_items[];
+  items: GetCompaniesReviewsLanding_reviewsLanding_items[];
 }
 
 export interface GetCompaniesReviewsLanding {
-  companies: GetCompaniesReviewsLanding_companies;
-  reviews: GetCompaniesReviewsLanding_reviews;
+  companiesLanding: GetCompaniesReviewsLanding_companiesLanding;
+  reviewsLanding: GetCompaniesReviewsLanding_reviewsLanding;
 }

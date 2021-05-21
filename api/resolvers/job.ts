@@ -3,8 +3,6 @@ import firebase from "firebase-admin";
 import { db } from "../db";
 
 const transformJobData = (doc) => {
-  console.log(doc.id, doc.data() === undefined);
-
   const { scoreTotals, createdAt, updatedAt, reviewCount, ...rest } =
     doc.data();
   const scoreAverages = Object.entries(scoreTotals).reduce(
@@ -42,6 +40,7 @@ export const jobsQueryResolver = (parent, args, context, info) => {
   return query.get().then((qSnap) => ({
     count: qSnap.size,
     lastCursor: qSnap.docs[qSnap.docs.length - 1].id,
+    hasMore: qSnap.size === limit,
     items: qSnap.docs.map((doc) => transformJobData(doc)),
   }));
 };

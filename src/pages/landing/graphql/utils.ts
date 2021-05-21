@@ -4,12 +4,12 @@ import {
 } from "src/shared/constants/card";
 import {
   GetCompaniesReviewsLanding,
-  GetCompaniesReviewsLanding_companies_items,
-  GetCompaniesReviewsLanding_reviews_items,
+  GetCompaniesReviewsLanding_companiesLanding_items,
+  GetCompaniesReviewsLanding_reviewsLanding_items,
 } from "./types/GetCompaniesReviewsLanding";
 
 export const buildCompanyCard = (
-  item: GetCompaniesReviewsLanding_companies_items
+  item: GetCompaniesReviewsLanding_companiesLanding_items
 ): ICompanyCardItem => ({
   id: item.id,
   slug: "",
@@ -24,7 +24,7 @@ export const buildCompanyCard = (
 });
 
 export const buildReviewCard = (
-  item: GetCompaniesReviewsLanding_reviews_items
+  item: GetCompaniesReviewsLanding_reviewsLanding_items
 ): IReviewJobCardItem => ({
   id: item.id,
   companyName: item.company.name,
@@ -39,9 +39,9 @@ export const buildReviewCard = (
 
 export const buildLandingCardsList = (data?: GetCompaniesReviewsLanding) => {
   const companyCards: ICompanyCardItem[] =
-    data?.companies.items.map(buildCompanyCard) ?? [];
+    data?.companiesLanding.items.map(buildCompanyCard) ?? [];
   const reviewCards: IReviewJobCardItem[] =
-    data?.reviews.items.map(buildReviewCard) ?? [];
+    data?.reviewsLanding.items.map(buildReviewCard) ?? [];
 
   return { companyCards, reviewCards };
 };

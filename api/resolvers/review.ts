@@ -13,6 +13,21 @@ const transformReviewData = (doc) => {
   };
 };
 
+export const reviewsLandingQueryResolver = (parent, args, context, info) => {
+  const { limit } = args;
+  const query = db
+    .collection("reviews")
+    .orderBy("createdAt", "desc")
+    .limit(limit);
+
+  return query.get().then((qSnap) => ({
+    count: qSnap.size,
+    lastCursor: qSnap.docs[qSnap.docs.length - 1]?.id ?? null,
+    hasMore: false,
+    items: qSnap.docs.map((doc) => transformReviewData(doc)),
+  }));
+};
+
 export const reviewsQueryResolver = (parent, args, context, info) => {
   const { search, limit, after } = args;
 
