@@ -39,6 +39,7 @@ export interface GetSearchCompanies_companies {
   __typename: "CompanyList";
   count: number;
   lastCursor: string;
+  hasMore: boolean | null;
   items: GetSearchCompanies_companies_items[];
 }
 

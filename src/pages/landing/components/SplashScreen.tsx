@@ -4,9 +4,10 @@ import { useHistory } from "react-router-dom";
 
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
-import { RouteName } from "src/shared/constants/routing";
-import { SearchField, Text, Button } from "src/components";
+import { RouteName, getCompanyCardRoute } from "src/shared/constants/routing";
+import { Text, Button } from "src/components";
 import { SearchType } from "src/shared/constants/search";
+import SelectField from "src/components/SelectField";
 
 import copy from "../copy";
 
@@ -133,10 +134,12 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
               </Text>
             </Button>
           ) : (
-            <SearchField
+            <SelectField
+              onSelectOption={({ value: companyId }) =>
+                history.push(getCompanyCardRoute(companyId))
+              }
               className="landing-search"
               inputProps={{ placeholder: "Find a company" }}
-              onTriggerSearch={onTriggerSearch}
               suggestions={searchSuggestions}
             />
           )}

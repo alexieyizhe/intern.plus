@@ -12,6 +12,7 @@ const transformCompanyData = (doc) => {
     },
     {}
   );
+  console.log(scoreAverages)
 
   return {
     id: doc.id,

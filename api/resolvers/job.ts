@@ -3,6 +3,8 @@ import firebase from "firebase-admin";
 import { db } from "../db";
 
 const transformJobData = (doc) => {
+  console.log(doc.id, doc.data() === undefined);
+
   const { scoreTotals, createdAt, updatedAt, reviewCount, ...rest } =
     doc.data();
   const scoreAverages = Object.entries(scoreTotals).reduce(

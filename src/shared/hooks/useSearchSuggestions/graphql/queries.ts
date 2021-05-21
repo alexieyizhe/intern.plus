@@ -7,12 +7,14 @@ export const GET_SEARCH_SUGGESTIONS = gql`
     companies(limit: $limit) {
       items {
         name
+        id
       }
     }
 
     jobs {
       items {
         name
+        id
       }
     }
   }
@@ -24,6 +26,7 @@ export const GET_SEARCH_SUGGESTIONS_COMPANY = gql`
       jobs {
         items {
           name
+          id
         }
       }
     }

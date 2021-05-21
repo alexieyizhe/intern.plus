@@ -103,8 +103,8 @@ const JobPage: React.FC = () => {
           loading={detailsLoading}
           error={detailsError !== undefined}
           jobDetails={jobDetails}
-          searchFieldProps={{
-            onTriggerSearch: () => {},
+          selectFieldProps={{
+            onSelectOption: () => {},
             inputProps: { placeholder: "Find a review" },
           }}
         />

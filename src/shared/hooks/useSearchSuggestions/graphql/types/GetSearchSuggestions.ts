@@ -10,6 +10,7 @@
 export interface GetSearchSuggestions_companies_items {
   __typename: "Company";
   name: string;
+  id: string;
 }
 
 export interface GetSearchSuggestions_companies {
@@ -20,6 +21,7 @@ export interface GetSearchSuggestions_companies {
 export interface GetSearchSuggestions_jobs_items {
   __typename: "Job";
   name: string;
+  id: string;
 }
 
 export interface GetSearchSuggestions_jobs {
@@ -30,4 +32,8 @@ export interface GetSearchSuggestions_jobs {
 export interface GetSearchSuggestions {
   companies: GetSearchSuggestions_companies;
   jobs: GetSearchSuggestions_jobs;
+}
+
+export interface GetSearchSuggestionsVariables {
+  limit?: number | null;
 }

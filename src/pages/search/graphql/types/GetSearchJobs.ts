@@ -56,6 +56,7 @@ export interface GetSearchJobs_jobs {
   __typename: "JobList";
   count: number;
   lastCursor: string;
+  hasMore: boolean | null;
   items: GetSearchJobs_jobs_items[];
 }
 

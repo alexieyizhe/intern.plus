@@ -106,7 +106,7 @@ const SearchPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { searchQuery, searchType } = useSearchParams();
-  // const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
+  // const searchSuggestions = useSearchSuggestions({ searchType });
 
   /**
    * For fetching results

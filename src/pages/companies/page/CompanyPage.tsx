@@ -58,7 +58,10 @@ const CompanyPage: React.FC = () => {
     detailsData?.company?.jobs.items
   );
   const searchSuggestions =
-    detailsData?.company?.jobs.items.map((item) => item.name) ?? [];
+    detailsData?.company?.jobs.items.map((item) => ({
+      label: item.name,
+      value: item.id,
+    })) ?? [];
 
   // /**
   //  * Fetch *jobs at the company*.
@@ -102,8 +105,8 @@ const CompanyPage: React.FC = () => {
           loading={detailsLoading}
           error={detailsError !== undefined}
           companyDetails={companyDetails}
-          searchFieldProps={{
-            onTriggerSearch: () => {},
+          selectFieldProps={{
+            onSelectOption: () => {},
             suggestions: searchSuggestions,
             inputProps: { placeholder: "Find a position" },
           }}

@@ -10,6 +10,7 @@
 export interface GetSearchSuggestionsCompany_company_jobs_items {
   __typename: "Job";
   name: string;
+  id: string;
 }
 
 export interface GetSearchSuggestionsCompany_company_jobs {

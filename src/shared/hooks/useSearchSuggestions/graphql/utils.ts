@@ -12,22 +12,19 @@ export interface ISuggestionsVariables {
 export const buildSearchSuggestions = (
   data?: GetSearchSuggestions,
   variables?: ISuggestionsVariables
-): string[] => {
-  const suggestions: string[] = [];
+): { label: string; value: string }[] => {
+  const suggestions: { label: string; value: string }[] = [];
 
   if (data) {
-    if (data.companies) {
+    if (data.companies && variables?.searchType === SearchType.COMPANIES) {
       data.companies.items.forEach((item) => {
-        if (item.name) suggestions.push(item.name);
+        if (item.name) suggestions.push({ label: item.name, value: item.id });
       });
     }
 
-    if (
-      data.jobs &&
-      (variables ? variables.searchType !== SearchType.COMPANIES : true)
-    ) {
+    if (data.jobs && variables?.searchType === SearchType.JOBS) {
       data.jobs.items.forEach((item) => {
-        if (item.name) suggestions.push(item.name);
+        if (item.name) suggestions.push({ label: item.name, value: item.id });
       });
     }
   }
@@ -38,10 +35,10 @@ export const buildSearchSuggestions = (
 export const buildSearchSuggestionsCompany = (
   data?: GetSearchSuggestionsCompany
 ) => {
-  const suggestions: string[] = [];
+  const suggestions: { label: string; value: string }[] = [];
   if (data && data.company && data.company.jobs) {
     data.company.jobs.items.forEach((item) => {
-      if (item.name) suggestions.push(item.name);
+      if (item.name) suggestions.push({ label: item.name, value: item.id });
     });
   }
 
