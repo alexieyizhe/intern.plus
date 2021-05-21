@@ -20,6 +20,7 @@ export default gql`
   interface Listable {
     count: Int!
     lastCursor: ID!
+    hasMore: Boolean
   }
 
   type Salary {
@@ -57,6 +58,7 @@ export default gql`
   type CompanyList implements Listable {
     count: Int!
     lastCursor: ID!
+    hasMore: Boolean
     items: [Company!]!
   }
 
@@ -84,6 +86,7 @@ export default gql`
   type JobList implements Listable {
     count: Int!
     lastCursor: ID!
+    hasMore: Boolean
     items: [Job!]!
   }
 
@@ -115,6 +118,7 @@ export default gql`
   type ReviewList implements Listable {
     count: Int!
     lastCursor: ID!
+    hasMore: Boolean
     items: [Review!]!
   }
 

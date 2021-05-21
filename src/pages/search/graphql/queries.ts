@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 import { SearchType } from "src/shared/constants/search";
 import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
@@ -8,6 +8,7 @@ const companiesQuery = gql`
     companies(search: $search, after: $after) {
       count
       lastCursor
+      hasMore
       items {
         id
         name
@@ -32,6 +33,7 @@ const jobsQuery = gql`
     jobs(search: $search, after: $after) {
       count
       lastCursor
+      hasMore
       items {
         id
         name

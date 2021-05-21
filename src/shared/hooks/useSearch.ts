@@ -9,7 +9,7 @@ import { isCompanyCardItem } from "./../constants/card";
  */
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { DocumentNode } from "graphql";
-import { QueryHookOptions, useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { QueryHookOptions, useLazyQuery, useQuery } from "@apollo/client";
 
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { LOCATION_MAP } from "src/shared/hooks/useSearchLocationFilter";
@@ -40,7 +40,6 @@ export enum SearchState {
   LOADING,
   ERROR,
   RESULTS,
-  RESULTS_LOADING, // prior results, but is currently loading
   NO_RESULTS,
   NO_MORE_RESULTS,
 }
@@ -111,9 +110,10 @@ export const useSearch = <GetSearchData>(
 ) => {
   const { searchQuery, searchSort, searchType } = useSearchParams();
   const searchInputVariables = useSearchInputVariables();
-  const [data, setData] = useState<any | undefined>(); // https://github.com/apollographql/react-apollo/issues/3634 dumb apollo-client v2 issue :(((((
+  const searchTypeName = searchTypeToDataName[searchType];
+  // const [searchState, setSearchState] = useState(SearchState.INITIAL);
 
-  const [fetch, { loading, error, fetchMore }] = useLazyQuery<GetSearchData>(
+  const { loading, error, data, fetchMore, refetch } = useQuery<GetSearchData>(
     query,
     {
       ...options,
@@ -124,29 +124,17 @@ export const useSearch = <GetSearchData>(
           ...searchInputVariables,
         },
       },
-      fetchPolicy: "no-cache",
-      onCompleted: (data) => setData(data),
+      notifyOnNetworkStatusChange: true,
+      onCompleted: () => {
+        console.log("FINISHED");
+        // setSearchState(SearchState.RESULTS);
+      },
     }
   );
 
-  const searchState = useMemo(() => {
-    if (error) {
-      return SearchState.ERROR;
-    }
-    // if (loading && !!data && data.count > 0) {
-    //   return SearchState.RESULTS_LOADING;
-    // }
-    if (loading) {
-      return SearchState.LOADING;
-    }
-    // if (!!data && data.count > 0) {
-    //   return SearchState.RESULTS_LOADING;
-    // }
-    return SearchState.RESULTS;
-  }, [data, loading, error]);
-
-  const searchTypeName = searchTypeToDataName[searchType];
-  const triggerSearchNextBatch = () =>
+  const triggerSearchNextBatch = () => {
+    console.log("TRIGGERED BACh", !!fetchMore);
+    // setSearchState(SearchState.LOADING);
     fetchMore({
       variables: {
         search: {
@@ -156,26 +144,29 @@ export const useSearch = <GetSearchData>(
         },
         after: (data as any)?.[searchTypeName].lastCursor,
       },
-      updateQuery: (_, { fetchMoreResult }: { fetchMoreResult: any }) => {
-        if (fetchMoreResult) {
-          setData((prev: any) => ({
-            [searchTypeName]: {
-              count:
-                prev[searchTypeName].count +
-                fetchMoreResult[searchTypeName].count,
-              items: [
-                ...prev[searchTypeName].items,
-                ...fetchMoreResult[searchTypeName].items,
-              ],
-              lastCursor: fetchMoreResult[searchTypeName].lastCursor,
-            },
-          }));
-        }
-      },
-    });
+      updateQuery: (prev: any, { fetchMoreResult }: { fetchMoreResult: any }) =>
+        // setSearchState(SearchState.RESULTS);
 
-  const triggerSearchNew = () =>
-    fetch({
+        ({
+          [searchTypeName]: {
+            count:
+              prev[searchTypeName].count +
+              fetchMoreResult[searchTypeName].count,
+            items: [
+              ...prev[searchTypeName].items,
+              ...fetchMoreResult[searchTypeName].items,
+            ],
+            lastCursor: fetchMoreResult[searchTypeName].lastCursor,
+            hasMore: fetchMoreResult[searchTypeName].hasMore,
+          },
+        }),
+    });
+  };
+
+  const triggerSearchNew = () => {
+    console.log("TRIGGERED");
+    // setSearchState(SearchState.LOADING);
+    refetch({
       variables: {
         search: {
           query: searchQuery,
@@ -184,6 +175,23 @@ export const useSearch = <GetSearchData>(
         },
       },
     });
+  };
+
+  const searchState = useMemo(() => {
+    if (error) {
+      return SearchState.ERROR;
+    }
+    if (loading) {
+      return SearchState.LOADING;
+    }
+    if (!data || !(data as any)[searchTypeName]?.items.length) {
+      return SearchState.NO_RESULTS;
+    }
+    if (!(data as any)[searchTypeName].hasMore) {
+      return SearchState.NO_MORE_RESULTS;
+    }
+    return SearchState.RESULTS;
+  }, [data, error, loading]);
 
   // const [page, setPage] = useState(1); // most recent page fetched for query
   // const [isNewSearch, setIsNewSearch] = useState(false); // whether a search is completely new or just another page of the current search
@@ -333,6 +341,8 @@ export const useSearch = <GetSearchData>(
   //   searchResults.length,
   //   setSearchState,
   // ]);
+
+  console.log(data);
 
   return {
     searchState,

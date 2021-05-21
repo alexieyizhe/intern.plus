@@ -1,4 +1,6 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
+
+
 
 import { jobResultFragment } from "src/api/fragments";
 import { SearchSort } from "src/shared/constants/search";

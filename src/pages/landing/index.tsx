@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { Redirect } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";

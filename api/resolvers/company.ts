@@ -1,3 +1,5 @@
+import firebase from "firebase-admin";
+
 import { db } from "../db";
 
 const transformCompanyData = (doc) => {
@@ -26,12 +28,20 @@ export const companiesQueryResolver = (parent, args, context, info) => {
 
   console.log({ after });
   const query = after
-    ? db.collection("companies").orderBy("name").startAfter(after).limit(limit)
-    : db.collection("companies").orderBy("name").limit(limit);
+    ? db
+        .collection("companies")
+        .orderBy(firebase.firestore.FieldPath.documentId())
+        .startAfter(after)
+        .limit(limit)
+    : db
+        .collection("companies")
+        .orderBy(firebase.firestore.FieldPath.documentId())
+        .limit(limit);
 
   return query.get().then((qSnap) => ({
     count: qSnap.size,
     lastCursor: qSnap.docs[qSnap.docs.length - 1].id,
+    hasMore: qSnap.size === limit,
     items: qSnap.docs.map((doc) => transformCompanyData(doc)),
   }));
 };

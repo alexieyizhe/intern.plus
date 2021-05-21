@@ -68,10 +68,7 @@ const getMiscContent = (
         {START_SEARCH_TEXT}
       </Text>
     );
-  } else if (
-    state === SearchState.LOADING ||
-    state === SearchState.RESULTS_LOADING
-  ) {
+  } else if (state === SearchState.LOADING) {
     mood = "excited";
     markup = <Spinner />;
   } else if (state === SearchState.ERROR) {
@@ -116,7 +113,7 @@ const getResultCardMarkup = (result: IGenericCardItem, isDark: boolean) => {
         numRatings={result.numRatings}
         avgRating={result.avgRating}
         color={result.color}
-        linkTo={getCompanyCardRoute(result.slug)}
+        linkTo={getCompanyCardRoute(result.id)}
       />
     );
   } else if (isJobCardItem(result)) {
@@ -244,27 +241,27 @@ const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
     [searchState]
   );
 
-  const shouldShowResults = useMemo(
+  console.log(searchState, SearchState.RESULTS);
+  const shouldHidePlanet = useMemo(
     () =>
       searchResults.length > 0 ||
       searchState === SearchState.RESULTS ||
-      searchState === SearchState.RESULTS_LOADING ||
       searchState === SearchState.NO_MORE_RESULTS,
     [searchResults.length, searchState]
   );
 
   return (
     <Container {...rest}>
-      <div hidden={shouldShowResults}>
+      {searchResults.map((result) => getResultCardMarkup(result, isDark))}
+
+      <div hidden={shouldHidePlanet}>
         <Planet size={200} mood={mood} color="#DDDDDD" />
       </div>
-
-      {searchResults.map((result) => getResultCardMarkup(result, isDark))}
 
       <MarkupContainer>{markup}</MarkupContainer>
 
       {searchResults.length > 0 &&
-        [SearchState.INITIAL, SearchState.RESULTS].includes(searchState) && (
+        [SearchState.RESULTS].includes(searchState) && (
           <Waypoint onEnter={onResultsEndReached} />
         )}
     </Container>

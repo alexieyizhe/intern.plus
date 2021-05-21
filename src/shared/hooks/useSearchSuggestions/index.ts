@@ -3,7 +3,7 @@
  * Currently, it will fetch all job titles and company names.
  */
 import { useMemo } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 
 import { GetSearchSuggestions } from "./graphql/types/GetSearchSuggestions";
 import { GetSearchSuggestionsCompany } from "./graphql/types/GetSearchSuggestionsCompany";

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ApolloProvider } from "@apollo/react-hooks";
-import DefaultClient from "apollo-boost";
+import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
 import ErrorBoundary from "react-error-boundary";

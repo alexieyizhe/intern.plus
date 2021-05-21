@@ -1,3 +1,5 @@
+import firebase from "firebase-admin";
+
 import { db } from "../db";
 
 const transformReviewData = (doc) => {
@@ -14,23 +16,29 @@ const transformReviewData = (doc) => {
 export const reviewsQueryResolver = (parent, args, context, info) => {
   const { search, limit, after } = args;
 
-  return db
-    .collection("reviews")
-    .startAfter(after)
-    .limit(limit)
-    .get()
-    .then((qSnap) => ({
-      count: qSnap.size,
-      lastCursor: qSnap.docs[qSnap.docs.length - 1],
-      items: qSnap.docs.map((doc) => transformReviewData(doc)),
-    }));
+  const query = after
+    ? db
+        .collection("reviews")
+        .orderBy(firebase.firestore.FieldPath.documentId())
+        .startAfter(after)
+        .limit(limit)
+    : db
+        .collection("reviews")
+        .orderBy(firebase.firestore.FieldPath.documentId())
+        .limit(limit);
+
+  return query.get().then((qSnap) => ({
+    count: qSnap.size,
+    lastCursor: qSnap.docs[qSnap.docs.length - 1].id,
+    items: qSnap.docs.map((doc) => transformReviewData(doc)),
+  }));
 };
 
 export const reviewsResolver = (parent, args, context, info) => {
   console.log("reviewListResolver");
   return {
     count: parent.reviewCount,
-    lastCursor: parent.reviewRefs[parent.reviewRefs.length - 1],
+    lastCursor: parent.reviewRefs[parent.reviewRefs.length - 1].id,
     items: parent.reviewRefs.map((ref) =>
       ref.get().then((dSnap) => transformReviewData(dSnap))
     ),
