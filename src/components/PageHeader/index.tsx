@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import classNames from "classnames";
+import toast from "react-hot-toast";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/shared/constants/routing";
@@ -20,6 +21,7 @@ import { UnstyledButton } from "src/components/Button";
 import Icon, { IconName } from "src/components/Icon";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
+import { useLocalStorage } from "src/shared/hooks/useLocalStorage";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -247,6 +249,29 @@ const Header: React.FC = () => {
   const headerRef = useRef<HTMLElement | null>(null);
   useOnClickOutside(headerRef, closeMobileMenu);
 
+  const [hasDismissedWarningToast, setHasDismissedWarningToast] =
+    useLocalStorage("intern-plus-construction-warning-dismissed", false);
+
+  useEffect(() => {
+    if (!hasDismissedWarningToast) {
+      const toastId = toast(
+        "intern+ is currently being migrated to a different backend since I can no longer afford the original hosting provider. Please note some features may be unavailable during this migration - sorry for the inconvenience!",
+        {
+          icon: "🚧",
+          duration: 10000,
+        }
+      );
+
+      const timer = setTimeout(() => {
+        toast.dismiss(toastId);
+        setHasDismissedWarningToast(true);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+    return () => {};
+  }, []);
+
   return (
     <Container
       className={classNames({
@@ -277,9 +302,6 @@ const Header: React.FC = () => {
           <Link to={RouteName.JOBS} bare>
             <Text>positions</Text>
           </Link>
-          <Link to={RouteName.REVIEWS} bare>
-            <Text>reviews</Text>
-          </Link>
           <Link to={RouteName.LANDING} bare className="homeLink">
             <Text>home</Text>
           </Link>
@@ -299,7 +321,7 @@ const Header: React.FC = () => {
               size={24}
             />
           </UnstyledButton>
-          <UnstyledButton
+          {/* <UnstyledButton
             onClick={toggleAddReviewModal}
             aria-label="Add review button"
           >
@@ -311,7 +333,7 @@ const Header: React.FC = () => {
               }
               size={24}
             />
-          </UnstyledButton>
+          </UnstyledButton> */}
         </HeaderActionContainer>
       </InnerContainer>
     </Container>

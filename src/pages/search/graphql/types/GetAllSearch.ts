@@ -33,6 +33,7 @@ export interface GetAllSearch_companiesList_items_reviews {
 
 export interface GetAllSearch_companiesList_items {
   __typename: "Company";
+  id: string;
   /**
    * Unique slug for a company.
    */

@@ -3,8 +3,7 @@
   "version": "0.8.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "start:backend": "python backend/manage.py runserver",
+    "start": "vercel dev",
     "build": "react-scripts build",
     "start:ci": "npm start & wait-on http://localhost:3000",
     "lint": "eslint src --ext ts,tsx",
@@ -17,7 +16,7 @@
     "test:e2e": "percy exec -- npm run test -- --spec \"./**/**.e2e.test.ts\"",
     "test:unit:ci": "npm run start:ci && npm run test:unit",
     "test:e2e:ci": "npm run start:ci && npm run test:e2e",
-    "api:generate-types": "apollo codegen:generate types --includes=\"src/**/*.{ts,tsx}\" --endpoint $(grep REACT_APP_DB_GRAPHQL_API_URL .env | cut -d '=' -f2) --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && rm -rf types/ && grep -rl InternPlusDateTime ./src | xargs sed -i '' 's/InternPlusDateTime/string/g'"
+    "api:generate-types": "npx apollo codegen:generate types --globalTypesFile=src/api/globalTypes.d.ts --includes=\"src/**/*.{ts,tsx}\" --endpoint 'http://localhost:3000/api/graphql' --target typescript --tagName gql --passthroughCustomScalars --customScalarsPrefix InternPlus && echo 'declare global { type InternPlusISODate = Date; }' >> ./src/api/globalTypes.d.ts"
   },
   "browserslist": {
     "production": [
@@ -32,6 +31,7 @@
     ]
   },
   "dependencies": {
+    "@apollo/client": "^3.3.19",
     "@apollo/react-hooks": "^3.1.2",
     "@sentry/browser": "^5.10.2",
     "apollo-boost": "^0.4.7",
@@ -53,6 +53,7 @@
     "react-error-boundary": "^1.2.5",
     "react-ga": "^2.7.0",
     "react-helmet": "^5.2.1",
+    "react-hot-toast": "^1.0.2",
     "react-kawaii": "^0.14.4",
     "react-load-script": "0.0.6",
     "react-router-dom": "^5.1.2",

@@ -19,11 +19,12 @@ import Card from "src/components/Card";
 /*******************************************************************
  *                             **Types**                           *
  *******************************************************************/
-export interface ISearchFieldProps
+export interface ISelectFieldProps
   extends React.ComponentPropsWithoutRef<"div"> {
-  onTriggerSearch: (value: string) => void;
-  suggestions?: string[];
-  fuseOptions?: Fuse.FuseOptions<string>;
+  onTriggerSearch?: (value: string) => void;
+  onSelectOption: (option: { label: string; value: string }) => void;
+  suggestions?: { label: string; value: string }[];
+  fuseOptions?: Fuse.FuseOptions<{ label: string; value: string }>;
 
   inputProps?: ITextInputProps &
     Omit<Omit<AutosuggestProps<string>, "onChange">, "value">;
@@ -37,10 +38,10 @@ export interface ISearchFieldProps
  *******************************************************************/
 const ENTER_KEY_CODE = 13;
 
-const renderSuggestion = (suggestion: string) => (
-  <Suggestion color="textTertiary">
+const renderSuggestion = (suggestion: { label: string; value: string }) => (
+  <Suggestion color="textTertiary" key={suggestion.value}>
     <Text variant="subheading" color="textPrimary">
-      {suggestion}
+      {suggestion.label}
     </Text>
   </Suggestion>
 );
@@ -126,9 +127,10 @@ const Suggestion = styled(Card)`
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
-const SearchField: React.FC<ISearchFieldProps> = ({
+const SelectField: React.FC<ISelectFieldProps> = ({
   className,
   onTriggerSearch,
+  onSelectOption,
   fuseOptions = {},
   suggestions,
   inputProps,
@@ -156,15 +158,6 @@ const SearchField: React.FC<ISearchFieldProps> = ({
    */
   const [inputVal, setInputVal] = useState(searchQuery);
 
-  const onInputKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.keyCode === ENTER_KEY_CODE) {
-        onTriggerSearch(inputVal || "");
-      }
-    },
-    [inputVal, onTriggerSearch]
-  );
-
   const onInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputVal(e.target.value);
@@ -174,26 +167,29 @@ const SearchField: React.FC<ISearchFieldProps> = ({
 
   const { onSuggestionSelected, getSuggestionValue, filteredSuggestions } =
     useMemo(() => {
-      const getSuggestionValue = (suggestedVal: string) => suggestedVal;
+      const getSuggestionValue = (suggestedVal: {
+        label: string;
+        value: string;
+      }) => suggestedVal.label;
 
       if (suggestions) {
-        const onSuggestionSelected: OnSuggestionSelected<string> = (
-          e,
-          { suggestion }
-        ) => setInputVal(suggestion);
+        const onSuggestionSelected: OnSuggestionSelected<{
+          label: string;
+          value: string;
+        }> = (e, { suggestion }) => onSelectOption(suggestion);
 
-        let filteredSuggestions: string[] = [];
+        let filteredSuggestions: { label: string; value: string }[] = [];
         if (inputVal) {
           const fuse = new Fuse(suggestions, {
             shouldSort: true,
             threshold: 0.4,
+            keys: ["label"],
             ...fuseOptions,
           });
-          const results = fuse.search(inputVal);
-
-          filteredSuggestions = (results as string[])
-            .map((result) => suggestions[result as unknown as number])
-            .slice(0, 5) as string[];
+          filteredSuggestions = fuse.search(inputVal) as {
+            label: string;
+            value: string;
+          }[];
         }
 
         return {
@@ -208,7 +204,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
           filteredSuggestions: [],
         };
       }
-    }, [fuseOptions, inputVal, suggestions]);
+    }, [fuseOptions, inputVal, onSelectOption, suggestions]);
 
   return (
     <Container
@@ -234,14 +230,13 @@ const SearchField: React.FC<ISearchFieldProps> = ({
           placeholder: "Find something",
           ...inputProps,
           value: inputVal || "",
-          onKeyUp: onInputKeyDown,
           onChange: onInputChange,
         }}
         {...rest}
       />
       <Button
         color={buttonProps.color}
-        onClick={() => onTriggerSearch(inputVal || "")}
+        onClick={() => onTriggerSearch?.(inputVal || "")}
       >
         {buttonProps.contents}
       </Button>
@@ -249,4 +244,4 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   );
 };
 
-export default SearchField;
+export default SelectField;

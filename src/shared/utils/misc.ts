@@ -22,19 +22,19 @@ export const slugify = (str: string): string => {
 const REVIEW_IS_NEW_THRESHOLD = 15_552_000_000; // 6 months in ms // 31536000000; // 1 year in ms
 
 export const getReviewCardTags = (
-  tags: string,
+  tags: string[] | null,
   isDark: boolean,
-  date?: string
+  date?: Date | null
 ) => [
-  ...(date &&
-  Number(new Date()) - Number(new Date(date)) < REVIEW_IS_NEW_THRESHOLD
+  ...(date && Number(new Date()) - Number(date) < REVIEW_IS_NEW_THRESHOLD
     ? [{ label: "new", bgColor: "goldSecondary" }]
     : []),
-  ...tags
-    .split(",")
-    .filter((t) => !!t)
-    .map((tagText) => ({
-      label: tagText,
-      bgColor: getSecondaryColor(isDark, strToHSL(tagText)),
-    })),
+  ...(tags
+    ? tags
+        .filter((t) => !!t)
+        .map((tagText) => ({
+          label: tagText,
+          bgColor: getSecondaryColor(isDark, strToHSL(tagText)),
+        }))
+    : []),
 ];

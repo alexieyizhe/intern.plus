@@ -1,44 +1,39 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
 // GraphQL query operation: GetSearchSuggestions
 // ====================================================
 
-export interface GetSearchSuggestions_companiesList_items {
+export interface GetSearchSuggestions_companies_items {
   __typename: "Company";
-  /**
-   * Name of a company.
-   */
-  name: string | null;
+  name: string;
+  id: string;
 }
 
-export interface GetSearchSuggestions_companiesList {
-  __typename: "CompanyListResponse";
-  /**
-   * List items
-   */
-  items: GetSearchSuggestions_companiesList_items[];
+export interface GetSearchSuggestions_companies {
+  __typename: "CompanyList";
+  items: GetSearchSuggestions_companies_items[];
 }
 
-export interface GetSearchSuggestions_jobsList_items {
+export interface GetSearchSuggestions_jobs_items {
   __typename: "Job";
-  /**
-   * Job title
-   */
-  name: string | null;
+  name: string;
+  id: string;
 }
 
-export interface GetSearchSuggestions_jobsList {
-  __typename: "JobListResponse";
-  /**
-   * List items
-   */
-  items: GetSearchSuggestions_jobsList_items[];
+export interface GetSearchSuggestions_jobs {
+  __typename: "JobList";
+  items: GetSearchSuggestions_jobs_items[];
 }
 
 export interface GetSearchSuggestions {
-  companiesList: GetSearchSuggestions_companiesList;
-  jobsList: GetSearchSuggestions_jobsList;
+  companies: GetSearchSuggestions_companies;
+  jobs: GetSearchSuggestions_jobs;
+}
+
+export interface GetSearchSuggestionsVariables {
+  limit?: number | null;
 }

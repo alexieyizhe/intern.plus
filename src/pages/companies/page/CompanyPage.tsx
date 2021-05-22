@@ -1,23 +1,18 @@
 import React, { useMemo } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
-import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
 import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
 import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
-import { useSearch } from "src/shared/hooks/useSearch";
+import { SearchState, useSearch } from "src/shared/hooks/useSearch";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
-import { GetCompanyJobs } from "../graphql/types/GetCompanyJobs";
-import {
-  GET_COMPANY_DETAILS,
-  getCompanyJobsQueryBuilder,
-} from "../graphql/queries";
+import { GET_COMPANY_DETAILS } from "../graphql/queries";
 import {
   buildCompanyDetails,
   buildCompanyJobCardsList,
@@ -45,8 +40,7 @@ const getTitleMarkup = (companyName?: string) =>
 const CompanyPage: React.FC = () => {
   useScrollTopOnMount();
 
-  const { companySlug } = useParams();
-  const searchSuggestions = useSearchSuggestions({ companySlug });
+  const { companyId } = useParams<{ companyId: string }>();
 
   /**
    * Fetch *details of the company* with the corresponding slug.
@@ -56,47 +50,49 @@ const CompanyPage: React.FC = () => {
     error: detailsError,
     data: detailsData,
   } = useQuery<GetCompanyDetails>(GET_COMPANY_DETAILS, {
-    variables: { slug: companySlug },
+    variables: { id: companyId },
   });
 
-  const companyDetails = useMemo(
-    () =>
-      detailsData && detailsData.company
-        ? buildCompanyDetails(detailsData.company)
-        : undefined,
-    [detailsData]
+  const companyDetails = buildCompanyDetails(detailsData?.company);
+  const companyJobsList = buildCompanyJobCardsList(
+    detailsData?.company?.jobs.items
   );
+  const searchSuggestions =
+    detailsData?.company?.jobs.items.map((item) => ({
+      label: item.name,
+      value: item.id,
+    })) ?? [];
 
-  /**
-   * Fetch *jobs at the company*.
-   */
-  const { QUERY_DEF } = useSearchQueryDef(getCompanyJobsQueryBuilder);
-  const {
-    // search info
-    searchState,
-    searchResults,
-    unfilteredResults,
+  // /**
+  //  * Fetch *jobs at the company*.
+  //  */
+  // const { QUERY_DEF } = useSearchQueryDef(getCompanyJobsQueryBuilder);
+  // const {
+  //   // search info
+  //   searchState,
+  //   searchResults,
+  //   unfilteredResults,
 
-    // callbacks
-    triggerSearchNew,
-    triggerSearchNextBatch,
-  } = useSearch<GetCompanyJobs>(
-    QUERY_DEF,
-    {
-      variables: {
-        slug: companySlug,
-      },
-    },
-    buildCompanyJobCardsList
-  );
+  //   // callbacks
+  //   triggerSearchNew,
+  //   triggerSearchNextBatch,
+  // } = useSearch<GetCompanyJobs>(
+  //   QUERY_DEF,
+  //   {
+  //     variables: {
+  //       id: companySlug,
+  //     },
+  //   },
+  //   buildCompanyJobCardsList
+  // );
 
   /**
    * For search options menu
    */
-  const sortOption = useSearchSort();
-  const salaryOption = useSearchSalaryFilter();
-  const locationOption = useSearchLocationFilter(unfilteredResults);
-  const ratingOption = useSearchRatingFilter();
+  // const sortOption = useSearchSort();
+  // const salaryOption = useSearchSalaryFilter();
+  // const locationOption = useSearchLocationFilter(unfilteredResults);
+  // const ratingOption = useSearchRatingFilter();
 
   return (
     <>
@@ -109,25 +105,25 @@ const CompanyPage: React.FC = () => {
           loading={detailsLoading}
           error={detailsError !== undefined}
           companyDetails={companyDetails}
-          searchFieldProps={{
-            onTriggerSearch: triggerSearchNew,
+          selectFieldProps={{
+            onSelectOption: () => {},
             suggestions: searchSuggestions,
             inputProps: { placeholder: "Find a position" },
           }}
         />
 
-        <SearchOptionsMenu
+        {/* <SearchOptionsMenu
           sortOption={sortOption}
           locationOption={locationOption}
           salaryOption={salaryOption}
           ratingOption={ratingOption}
           onOptionChange={() => triggerSearchNew(undefined, true)}
-        />
+        /> */}
 
         <SearchResultCardDisplay
-          searchState={searchState}
-          searchResults={searchResults}
-          onResultsEndReached={triggerSearchNextBatch}
+          searchState={SearchState.RESULTS}
+          searchResults={companyJobsList}
+          onResultsEndReached={() => {}}
         />
       </PageContainer>
     </>

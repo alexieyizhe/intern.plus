@@ -35,12 +35,12 @@ export const baseLinkStyles = css`
   }
 `;
 export const BaseLink = styled.a`
-  color: ${({ color = "textPrimary", theme }) => theme.color[color] || color};
+  color: ${({ color = "textPrimary", theme }) => theme.color[color] ?? color};
   ${baseLinkStyles}
 `;
 
 export const BaseRouterLink = styled(RouterLink)`
-  color: ${({ color = "textPrimary", theme }) => theme.color[color] || color};
+  color: ${({ color = "textPrimary", theme }) => theme.color[color] ?? color};
   ${baseLinkStyles}
 `;
 

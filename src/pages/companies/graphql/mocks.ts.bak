@@ -11,7 +11,7 @@ import { SearchSort } from "src/shared/constants/search";
 import { GetCompanyDetails } from "./types/GetCompanyDetails";
 import { GetCompanyJobs } from "./types/GetCompanyJobs";
 
-export const getMockCompanyDetails = (slug: string): GetCompanyDetails => ({
+export const getMockCompanyDetails = (slug: string): any => ({
   company: { __typename: "Company", ...MOCK_COMPANIES[slug] },
 });
 
@@ -28,7 +28,7 @@ export const getMockCompanyJobs = (
     limit,
   }: ISlugQueryParam & ISearchQueryParams,
   { sort }: ISearchQueryBuilderOptions
-): GetCompanyJobs => {
+): any => {
   let sortFn;
 
   switch (sort) {

@@ -4,10 +4,14 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: ReviewResultJob
+// GraphQL query operation: GetSearch
 // ====================================================
 
-export interface ReviewResultJob {
-  __typename: "Review";
-  id: string;
+export interface GetSearch_companies {
+  __typename: "CompanyList";
+  count: number;
+}
+
+export interface GetSearch {
+  companies: GetSearch_companies;
 }

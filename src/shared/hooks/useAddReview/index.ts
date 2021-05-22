@@ -4,7 +4,7 @@
  */
 import { useState, useMemo } from "react";
 import * as yup from "yup";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { ValueType } from "react-select/src/types";
 
 import { slugify } from "src/shared/utils/misc";

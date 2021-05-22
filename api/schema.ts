@@ -10,13 +10,17 @@ export default gql`
     YEARLY
   }
 
-  interface Listable {
-    count: Int
+  enum SortBy {
+    ALPHANUMERIC
+    CREATION_DATE
+    NUM_REVIEWS
+    OVERALL_RATING
   }
 
-  input PaginationInput {
-    limit: Int = 20
-    after: ID!
+  interface Listable {
+    count: Int!
+    lastCursor: ID!
+    hasMore: Boolean
   }
 
   type Salary {
@@ -31,10 +35,10 @@ export default gql`
   }
 
   type Score {
-    overall: Float
-    learningMentorship: Float
-    meaningfulWork: Float
-    workLifeBalance: Float
+    overall: Float!
+    learningMentorship: Float!
+    meaningfulWork: Float!
+    workLifeBalance: Float!
   }
 
   type Company {
@@ -43,7 +47,8 @@ export default gql`
     name: String!
     description: String
     logo: String
-    scoreTotals: Score!
+    websiteUrl: String
+    scoreAverages: Score!
     createdAt: ISODate!
     updatedAt: ISODate!
     jobs: JobList!
@@ -51,15 +56,17 @@ export default gql`
   }
 
   type CompanyList implements Listable {
-    count: Int
+    count: Int!
+    lastCursor: ID!
+    hasMore: Boolean
     items: [Company!]!
   }
 
   input CompanySearchInput {
-    sort: String # "name" | "createdAt" | "reviewCount" | "jobCount" | "overallRating"
-    sortDirection: String # "ASC" | "DESC"
-    filterOverallRatingLt: Float
+    query: String
+    sort: String
     filterOverallRatingGt: Float
+    filterOverallRatingLt: Float
   }
 
   type Job {
@@ -69,7 +76,7 @@ export default gql`
     location: String
     salaryMax: Salary!
     salaryMin: Salary!
-    scoreTotals: Score!
+    scoreAverages: Score!
     createdAt: ISODate!
     updatedAt: ISODate!
     reviews: ReviewList!
@@ -77,18 +84,19 @@ export default gql`
   }
 
   type JobList implements Listable {
-    count: Int
+    count: Int!
+    lastCursor: ID!
+    hasMore: Boolean
     items: [Job!]!
   }
 
   input JobSearchInput {
-    sort: String # "name" | "createdAt" | "reviewCount" | "overallRating"
-    sortDirection: String # "ASC" | "DESC"
-    filterOverallRatingLt: Float
+    query: String
+    sort: String
     filterOverallRatingGt: Float
-    filterSalaryHourlyAmountLt: Float
+    filterOverallRatingLt: Float
     filterSalaryHourlyAmountGt: Float
-    filterLocationContains: String
+    filterSalaryHourlyAmountLt: Float
   }
 
   type Review {
@@ -108,30 +116,36 @@ export default gql`
   }
 
   type ReviewList implements Listable {
-    count: Int
+    count: Int!
+    lastCursor: ID!
+    hasMore: Boolean
     items: [Review!]!
   }
 
   input ReviewSearchInput {
+    query: String
     sort: String # "body" | "createdAt" | "overallRating" | "salaryAmount"
-    sortDirection: String # "ASC" | "DESC"
-    filterOverallRatingLt: Float
     filterOverallRatingGt: Float
-    filterSalaryAmountLt: Float
+    filterOverallRatingLt: Float
     filterSalaryAmountGt: Float
+    filterSalaryAmountLt: Float
   }
 
   type Query {
     companies(
       search: CompanySearchInput
-      paginate: PaginationInput
-    ): CompanyList
+      limit: Int = 20
+      after: ID
+    ): CompanyList!
     company(id: ID!): Company
 
-    jobs(search: JobSearchInput, paginate: PaginationInput): [Job!]!
+    jobs(search: JobSearchInput, limit: Int = 20, after: ID): JobList!
     job(id: ID!): Job
 
-    reviews(search: ReviewSearchInput, paginate: PaginationInput): [Review!]!
+    reviews(search: ReviewSearchInput, limit: Int = 20, after: ID): ReviewList!
     review(id: ID!): Review
+
+    companiesLanding(limit: Int = 5): CompanyList!
+    reviewsLanding(limit: Int = 5): ReviewList!
   }
 `;

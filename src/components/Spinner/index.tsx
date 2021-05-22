@@ -30,10 +30,10 @@ const Ring = styled.div<SpinnerProps>`
   height: ${({ size = 23, theme }) => `${theme.fontSize[size] || size}px`};
 
   border: 2px solid
-    ${({ theme, color = "" }) => theme.color[color] || color || "textPrimary"};
+    ${({ theme, color = "textPrimary" }) => theme.color[color] ?? color};
   border-radius: 50%;
-  border-color: ${({ theme, color = "" }) =>
-      theme.color[color] || color || "textPrimary"}
+  border-color: ${({ theme, color = "textPrimary" }) =>
+      theme.color[color] ?? color}
     transparent transparent transparent;
 
   animation: ${spin} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;

@@ -4,10 +4,12 @@ import { useHistory } from "react-router-dom";
 
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
-import { RouteName } from "src/shared/constants/routing";
-import copy from "../copy";
+import { RouteName, getCompanyCardRoute } from "src/shared/constants/routing";
+import { Text, Button } from "src/components";
+import { SearchType } from "src/shared/constants/search";
+import SelectField from "src/components/SelectField";
 
-import { SearchField, Text, Button } from "src/components";
+import copy from "../copy";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -104,7 +106,10 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
   ...rest
 }) => {
   const history = useHistory();
-  const searchSuggestions = useSearchSuggestions(); // for SearchField
+  const searchSuggestions = useSearchSuggestions({
+    searchType: SearchType.COMPANIES,
+    limit: 500,
+  });
   const { isMobile } = useWindowWidth(); // show only search button on mobile
 
   return (
@@ -129,10 +134,12 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
               </Text>
             </Button>
           ) : (
-            <SearchField
+            <SelectField
+              onSelectOption={({ value: companyId }) =>
+                history.push(getCompanyCardRoute(companyId))
+              }
               className="landing-search"
-              placeholder="Find something"
-              onTriggerSearch={onTriggerSearch}
+              inputProps={{ placeholder: "Find a company" }}
               suggestions={searchSuggestions}
             />
           )}

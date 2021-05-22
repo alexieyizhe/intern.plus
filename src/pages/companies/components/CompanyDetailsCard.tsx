@@ -21,10 +21,10 @@ import useDarkMode from "use-dark-mode";
  *******************************************************************/
 export interface ICompanyDetails {
   name: string;
-  desc?: string;
+  desc: string | null;
   numRatings: number;
   avgRating: number;
-  websiteUrl: string;
+  websiteUrl: string | null;
   logoSrc: string;
   color: string;
 }

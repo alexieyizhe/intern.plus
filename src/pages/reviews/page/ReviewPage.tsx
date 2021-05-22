@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useLocation, useHistory, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { Helmet } from "react-helmet";
 import { Location } from "history";
 
@@ -95,11 +95,11 @@ const ReviewPage: React.FC = () => {
    * Fetch the data for the review with
    * a corresponding id.
    */
-  const { reviewId } = useParams();
+  const { reviewId } = useParams<{ reviewId: string }>();
   const { loading, error, data } = useQuery<GetReviewDetails>(
     GET_REVIEW_DETAILS,
     {
-      variables: { id: reviewId },
+      variables: { reviewId },
     }
   );
 

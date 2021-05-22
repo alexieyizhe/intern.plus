@@ -1,184 +1,110 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
-import {
-  companyResultFragment,
-  jobResultFragment,
-  reviewResultJobFragment,
-} from "src/api/fragments";
+import { SearchType } from "src/shared/constants/search";
+import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
 
-import { SearchType, SearchSort } from "src/shared/constants/search";
-import {
-  ISearchQueryBuilderOptions,
-  SearchQueryBuilder,
-} from "src/shared/hooks/useSearchQueryDef";
-
-const getCompaniesSort = (sort?: SearchSort) => {
-  switch (sort) {
-    case SearchSort.NUM_REVIEWS:
-      return `[{ numRatings: DESC }, { name: ASC }]`;
-    case SearchSort.RATING:
-      return `[{ avgRating: DESC }, { name: ASC }]`;
-    case SearchSort.SALARY:
-      return `[{ avgHourlySalary: DESC }, { name: ASC }]`;
-    default:
-      // same as ALPHABETICAL
-      return `{ name: ASC }`;
-  }
-};
-
-const companiesQuery = ({ sort }: ISearchQueryBuilderOptions) => `
-  companiesList(
-    filter: {
-      AND: [
-        {
-          OR: [
-            { name: { contains: $query } }, 
-            { desc: { contains: $query } }, 
-            { desc: { in: $locations } }
-          ]
-        },
-        { numRatings: { gt: 0 }},
-        {
-          AND: [
-            { minHourlySalary: { lte: $maxSalary } }
-            { maxHourlySalary: { gt: $minSalary } }
-          ]
-        },
-        {
-          AND: [
-            { avgRating: { lte: $maxRating } }
-            { avgRating: { gte: $minRating } }
-          ]
-        },
-      ]
-    }
-    sort: ${getCompaniesSort(sort)}
-    skip: $offset
-    first: $limit
-  ) {
-    items {
-      ...CompanyResult
+const companiesQuery = gql`
+  query GetSearchCompanies($search: CompanySearchInput, $after: ID) {
+    companies(search: $search, after: $after) {
+      count
+      lastCursor
+      hasMore
+      items {
+        id
+        name
+        description
+        websiteUrl
+        scoreAverages {
+          overall
+        }
+        reviews {
+          count
+        }
+        jobs {
+          count
+        }
+      }
     }
   }
 `;
 
-const getJobsSort = (sort?: SearchSort) => {
-  switch (sort) {
-    case SearchSort.NUM_REVIEWS:
-      return `[{ numRatings: DESC }, { name: ASC }]`;
-    case SearchSort.RATING:
-      return `[{ avgRating: DESC }, { name: ASC }]`;
-    case SearchSort.SALARY:
-      return `[{ avgHourlySalary: DESC }, { name: ASC }]`;
-    default:
-      // same as ALPHABETICAL
-      return `{ name: ASC }`;
-  }
-};
-const jobsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
-  jobsList(
-    filter: {
-      AND: [
-        {
-          OR: [
-            { name: { contains: $query } }
-            { company: { name: { contains: $query } } }
-            { location: { contains: $query } }
-          ]
-        },
-        { numRatings: { gt: 0 } },
-        { location: { in: $locations } }
-        {
-          AND: [
-            { minHourlySalary: { lte: $maxSalary } }
-            { maxHourlySalary: { gt: $minSalary } }
-          ]
-        },
-        {
-          AND: [
-            { avgRating: { lte: $maxRating } }
-            { avgRating: { gte: $minRating } }
-          ]
-        },
-      ]
-    }
-    sort: ${getJobsSort(sort)}
-    skip: $offset
-    first: $limit
-  ) {
-    items {
-      ...JobResult
+const jobsQuery = gql`
+  query GetSearchJobs($search: JobSearchInput, $after: ID) {
+    jobs(search: $search, after: $after) {
+      count
+      lastCursor
+      hasMore
+      items {
+        id
+        name
+        location
+        company {
+          id
+          name
+        }
+        scoreAverages {
+          overall
+          learningMentorship
+          meaningfulWork
+          workLifeBalance
+        }
+        salaryMin {
+          amount
+          currency
+        }
+        salaryMax {
+          amount
+          currency
+        }
+        reviews {
+          count
+        }
+      }
     }
   }
 `;
 
-const getReviewsSort = (sort?: SearchSort) => {
-  switch (sort) {
-    case SearchSort.RATING:
-      return `[{ overallRating: DESC }, { company: { name: ASC } }, { job: { name: ASC } }]`;
-    case SearchSort.SALARY:
-      return `[{ salary: DESC }, { company: { name: ASC } }, { job: { name: ASC } }]`;
-    default:
-      // same as ALPHABETICAL, DEFAULT (chronologically) and NUM_REVIEWS (not a valid sort option for reviews)
-      return `[{ createdAt: DESC }, { legacyUpdatedAt: DESC }]`;
-  }
-};
-const reviewsQuery = ({ sort }: ISearchQueryBuilderOptions) => `
-  reviewsList(
-    filter: {
-      AND: [
-        {
-          OR: [
-            { company: { name: { contains: $query } } }
-            { job: { name: { contains: $query } } }
-            { body: { contains: $query } }
-            { tags: { contains: $query } }
-          ]
-        },
-        { 
-          OR: [
-            {
-              AND: [         
-                { isVerified: { equals: true } },
-                { isSpam: { equals: false } }
-              ]
-            },
-            { isLegacy: { equals: true } }
-          ]
-        },
-        { job: { location: { in: $locations } } },
-        {
-          AND: [
-            { salary: { gte: $minSalary } }
-            { salary: { lte: $maxSalary } }
-          ]
-        },
-        {
-          AND: [
-            { overallRating: { lte: $maxRating } }
-            { overallRating: { gte: $minRating } }
-          ]
-        },
-      ]
-    }
-    sort: ${getReviewsSort(sort)}
-    skip: $offset
-    first: $limit
-  ) {
-    items {
-      ...ReviewResultJob
+const reviewsQuery = gql`
+  query GetSearchReviews($search: ReviewSearchInput, $after: ID) {
+    reviews(search: $search, after: $after) {
+      count
+      lastCursor
+      items {
+        id
+        body
+        tags
+        isLegacy
+        createdAt
+        author {
+          name
+        }
+        salary {
+          amount
+          currency
+          period
+        }
+        score {
+          overall
+          learningMentorship
+          meaningfulWork
+          workLifeBalance
+        }
+        job {
+          id
+          name
+          location
+        }
+        company {
+          id
+          name
+        }
+      }
     }
   }
 `;
 
-const allQuery = (options: ISearchQueryBuilderOptions) => `
-  ${companiesQuery(options)}
-  ${jobsQuery(options)}
-  ${reviewsQuery(options)}
-`;
-
-const getQueryForType = (type?: SearchType) => {
-  switch (type) {
+export const getSearchQuery: SearchQueryBuilder = (searchType) => {
+  switch (searchType) {
     case SearchType.COMPANIES:
       return companiesQuery;
     case SearchType.JOBS:
@@ -186,40 +112,6 @@ const getQueryForType = (type?: SearchType) => {
     case SearchType.REVIEWS:
       return reviewsQuery;
     default:
-      return allQuery;
+      throw new Error("Type not specified for search");
   }
-};
-
-export const getSearchBuilder: SearchQueryBuilder = (options) => {
-  const queryForType = getQueryForType(options.type);
-  const QUERY_DEF = gql`
-    query GetSearch(
-      $query: String, 
-      $locations: [String!], 
-      $minSalary: Int, $maxSalary: Int, 
-      $minRating: Float, $maxRating: Float, 
-      $offset: Int, 
-      $limit: Int
-    ) {
-      ${queryForType(options)}
-    }
-
-    ${
-      [undefined, SearchType.COMPANIES].includes(options.type)
-        ? companyResultFragment
-        : ""
-    }
-    ${
-      [undefined, SearchType.JOBS].includes(options.type)
-        ? jobResultFragment
-        : ""
-    }
-    ${
-      [undefined, SearchType.REVIEWS].includes(options.type)
-        ? reviewResultJobFragment
-        : ""
-    }
-  `;
-
-  return QUERY_DEF;
 };

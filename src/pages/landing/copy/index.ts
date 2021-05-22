@@ -4,7 +4,7 @@ import { StarCityImg } from "src/assets";
 const pageCopy = {
   splashCard: {
     heading: "Great internships are priceless.",
-    subheading: "Upgrade your search with intern+.", // i dont like this
+    subheading: "Upgrade your internship search experience.", // i dont like this
     searchButtonText: "Start searching",
     splashImg: {
       src: StarCityImg,
@@ -20,7 +20,7 @@ const pageCopy = {
       },
     },
     recentlyReviewed: {
-      heading: "Recently reviewed",
+      heading: "Recent reviews",
       subLink: {
         text: "See more reviews",
         to: `${RouteName.REVIEWS}`,

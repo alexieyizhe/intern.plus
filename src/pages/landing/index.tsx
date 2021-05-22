@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { Redirect } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
@@ -9,8 +9,8 @@ import { RouteName } from "src/shared/constants/routing";
 import { SearchParamKey } from "src/shared/constants/search";
 import copy from "./copy";
 
+import { getCompaniesReviewsLandingQuery } from "./graphql/queries";
 import { GetCompaniesReviewsLanding } from "./graphql/types/GetCompaniesReviewsLanding";
-import { GET_COMPANIES_REVIEWS_LANDING } from "./graphql/queries";
 import { buildLandingCardsList } from "./graphql/utils";
 
 import { PageContainer } from "src/components";
@@ -28,7 +28,7 @@ const LandingPage = () => {
    * landing page.
    */
   const { loading, error, data } = useQuery<GetCompaniesReviewsLanding>(
-    GET_COMPANIES_REVIEWS_LANDING
+    getCompaniesReviewsLandingQuery
   );
 
   const { companyCards, reviewCards } = useMemo(

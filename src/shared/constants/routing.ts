@@ -2,7 +2,7 @@ export enum RouteName {
   LANDING = "/",
   SEARCH = "/find",
   COMPANIES = "/companies",
-  COMPANY = "/companies/:companySlug",
+  COMPANY = "/companies/:companyId",
   JOBS = "/positions",
   JOB = "/positions/:jobId",
   REVIEWS = "/reviews",
@@ -13,8 +13,8 @@ export enum RouteName {
 /**
  * Gets the unique routes for each type of card for navigating to details of that card
  */
-export const getCompanyCardRoute = (companySlug: string) =>
-  `${RouteName.COMPANIES}/${companySlug}`;
+export const getCompanyCardRoute = (companyId: string) =>
+  `${RouteName.COMPANIES}/${companyId}`;
 
 export const getJobCardRoute = (jobId: string) => `${RouteName.JOBS}/${jobId}`;
 

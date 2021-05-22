@@ -1,11 +1,10 @@
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import { useQuery, gql } from "@apollo/client";
 
 import { GetCompanySuggestions } from "./graphql/types/GetCompanySuggestions";
 
 export const GET_COMPANY_SUGGESTIONS = gql`
   query GetCompanySuggestions {
-    companiesList {
+    companies {
       items {
         name
         slug

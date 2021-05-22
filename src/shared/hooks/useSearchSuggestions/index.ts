@@ -3,7 +3,7 @@
  * Currently, it will fetch all job titles and company names.
  */
 import { useMemo } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 
 import { GetSearchSuggestions } from "./graphql/types/GetSearchSuggestions";
 import { GetSearchSuggestionsCompany } from "./graphql/types/GetSearchSuggestionsCompany";
@@ -22,18 +22,21 @@ export const useSearchSuggestions = (variables?: ISuggestionsVariables) => {
    * Determine the query type and variables we need for suggestions.
    */
   const { QUERY_DEF, queryVariables, suggestionsBuilder } = useMemo(() => {
-    if (variables && variables.companySlug) {
+    if (variables && variables.companyId) {
       return {
         QUERY_DEF: GET_SEARCH_SUGGESTIONS_COMPANY,
         suggestionsBuilder: buildSearchSuggestionsCompany,
         queryVariables: {
-          slug: variables.companySlug,
+          companyId: variables.companyId,
         },
       };
     } else {
       return {
         QUERY_DEF: GET_SEARCH_SUGGESTIONS,
         suggestionsBuilder: buildSearchSuggestions,
+        queryVariables: {
+          limit: variables?.limit,
+        }
       };
     }
   }, [variables]);

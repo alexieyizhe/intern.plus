@@ -1,4 +1,5 @@
 export interface ICompanyCardItem {
+  id: string;
   slug: string; // unique slug for company
   name: string;
   desc: string;
@@ -7,15 +8,14 @@ export interface ICompanyCardItem {
   logoSrc: string;
   color: string;
   jobLocations: string[];
+  websiteUrl: string | null;
 }
 
 export interface IJobCardItem {
   id: string;
-  slug: string; // unique slug when combined with company slug
   companyName: string; // company name
-  companySlug: string;
   name: string;
-  location: string;
+  location: string | null;
   minHourlySalary: number; // hourly
   maxHourlySalary: number; // hourly
   hourlySalaryCurrency: string; // hourly
@@ -29,10 +29,10 @@ export interface IReviewJobCardItem {
   companyName: string; // company name
   jobName: string; // role/position
   jobLocation: string;
-  date: string; // date string
+  date: Date | null;
   overallRating: number; // score out of 5
-  body: string;
-  tags: string;
+  body: string | null;
+  tags: string[] | null;
   color: string;
 }
 
@@ -42,8 +42,8 @@ export interface IReviewUserCardItem {
   jobLocation: string;
   relativeDate: string; // relative date of the review
   overallRating: number;
-  body: string;
-  tags: string;
+  body: string | null;
+  tags: string[] | null;
   color: string;
 }
 
@@ -55,7 +55,7 @@ export type IGenericCardItem =
 
 export const isCompanyCardItem = (
   item: IGenericCardItem
-): item is ICompanyCardItem => "slug" in item && "logoSrc" in item;
+): item is ICompanyCardItem => "id" in item && "websiteUrl" in item;
 
 export const isJobCardItem = (item: IGenericCardItem): item is IJobCardItem =>
   "location" in item && "hourlySalaryCurrency" in item;

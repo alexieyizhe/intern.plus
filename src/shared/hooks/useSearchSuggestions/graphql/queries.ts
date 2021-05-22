@@ -1,28 +1,32 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
+
+
 
 export const GET_SEARCH_SUGGESTIONS = gql`
-  query GetSearchSuggestions {
-    companiesList(filter: { numRatings: { gt: 0 } }) {
+  query GetSearchSuggestions($limit: Int) {
+    companies(limit: $limit) {
       items {
         name
+        id
       }
     }
 
-    jobsList(filter: { numRatings: { gt: 0 } }) {
+    jobs {
       items {
         name
+        id
       }
     }
   }
 `;
 
 export const GET_SEARCH_SUGGESTIONS_COMPANY = gql`
-  query GetSearchSuggestionsCompany($slug: String) {
-    company(slug: $slug) {
-      name
+  query GetSearchSuggestionsCompany($companyId: ID!) {
+    company(id: $companyId) {
       jobs {
         items {
           name
+          id
         }
       }
     }

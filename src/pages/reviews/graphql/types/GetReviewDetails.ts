@@ -1,69 +1,58 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
+
+import { SalaryPeriod } from "./../../../../api/globalTypes.d";
 
 // ====================================================
 // GraphQL query operation: GetReviewDetails
 // ====================================================
 
-export interface GetReviewDetails_review_job {
-  __typename: "Job";
-  id: string | null;
-  /**
-   * Job title
-   */
+export interface GetReviewDetails_review_author {
+  __typename: "Author";
   name: string | null;
-  location: string | null;
 }
 
-export interface GetReviewDetails_review_company_logoImg {
-  __typename: "File";
-  downloadUrl: string | null;
+export interface GetReviewDetails_review_salary {
+  __typename: "Salary";
+  amount: number;
+  currency: string;
+  period: SalaryPeriod;
+}
+
+export interface GetReviewDetails_review_score {
+  __typename: "Score";
+  overall: number;
+  learningMentorship: number;
+  meaningfulWork: number;
+  workLifeBalance: number;
+}
+
+export interface GetReviewDetails_review_job {
+  __typename: "Job";
+  id: string;
+  name: string;
+  location: string | null;
 }
 
 export interface GetReviewDetails_review_company {
   __typename: "Company";
-  /**
-   * Name of a company.
-   */
-  name: string | null;
-  /**
-   * Unique slug for a company.
-   */
-  slug: string | null;
-  logoImg: GetReviewDetails_review_company_logoImg | null;
-  /**
-   * Average color of the company's logo, in HSL format.
-   */
-  logoColor: string | null;
+  id: string;
+  name: string;
 }
 
 export interface GetReviewDetails_review {
   __typename: "Review";
   body: string | null;
-  tags: string | null;
-  job: GetReviewDetails_review_job | null;
-  company: GetReviewDetails_review_company | null;
-  /**
-   * -1 indicates no salary was disclosed by review author.
-   */
-  salary: number | null;
-  salaryPeriod: string | null;
-  salaryCurrency: string | null;
-  overallRating: number | null;
-  learningMentorshipRating: number | null;
-  meaningfulWorkRating: number | null;
-  workLifeBalanceRating: number | null;
-  /**
-   * Whether or not this review was imported from old internCompass data. If true, use legacyUpdatedAt info.
-   */
-  isLegacy: boolean | null;
-  /**
-   * Date of original review
-   */
-  legacyUpdatedAt: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
+  tags: string[] | null;
+  isLegacy: boolean;
+  createdAt: InternPlusISODate;
+  author: GetReviewDetails_review_author;
+  salary: GetReviewDetails_review_salary;
+  score: GetReviewDetails_review_score;
+  job: GetReviewDetails_review_job;
+  company: GetReviewDetails_review_company;
 }
 
 export interface GetReviewDetails {
@@ -71,5 +60,5 @@ export interface GetReviewDetails {
 }
 
 export interface GetReviewDetailsVariables {
-  id?: string | null;
+  reviewId: string;
 }

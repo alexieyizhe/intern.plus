@@ -4,7 +4,7 @@ import {
   SearchType,
   SearchSort,
 } from "src/shared/constants/search";
-import { useQueryParam, StringParam, ArrayParam } from "use-query-params";
+import { useQueryParam, StringParam } from "use-query-params";
 
 export const useSearchParams = () => {
   /**
@@ -32,9 +32,7 @@ export const useSearchParams = () => {
   const { searchRatingFilter, setSearchRatingFilter } = useMemo(
     () => ({
       searchRatingFilter: ratingFilterStrArr
-        ? ratingFilterStrArr
-            .split(",")
-            .map((n) => (n ? parseInt(n) : undefined))
+        ? ratingFilterStrArr.split(",").map((n) => parseInt(n))
         : undefined,
       setSearchRatingFilter: (value?: (number | undefined)[]) =>
         setRatingFilterStrArr(
@@ -69,17 +67,17 @@ export const useSearchParams = () => {
 
   const [searchLocationFilter, setSearchLocationFilter] = useQueryParam(
     SearchParamKey.LOCATION_FILTER,
-    ArrayParam
+    StringParam
   );
 
   return {
     searchQuery,
     setSearchQuery,
 
-    searchType: searchType as SearchType | undefined,
+    searchType: (searchType as SearchType) ?? SearchType.COMPANIES,
     setSearchType,
 
-    searchSort: searchSort as SearchSort | undefined,
+    searchSort: searchSort as SearchSort,
     setSearchSort,
 
     searchRatingFilter,

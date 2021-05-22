@@ -5,7 +5,7 @@ import classNames from "classnames";
 import Card from "src/components/Card";
 import Spinner from "src/components/Spinner";
 import Text from "src/components/Text";
-import SearchField, { ISearchFieldProps } from "src/components/SearchField";
+import SelectField, { ISelectFieldProps } from "src/components/SelectField";
 import { MOBILE_MENU_MEDIA_QUERY } from "src/components/PageHeader";
 
 /*******************************************************************
@@ -16,7 +16,7 @@ export interface IDetailsCardProps
   loading: boolean;
   error: boolean;
 
-  searchFieldProps?: ISearchFieldProps;
+  selectFieldProps?: ISelectFieldProps;
 }
 
 /*******************************************************************
@@ -68,7 +68,7 @@ const DetailsCard: React.FC<IDetailsCardProps> = ({
   className,
   loading,
   error,
-  searchFieldProps,
+  selectFieldProps,
   children,
   ...rest
 }) => (
@@ -89,7 +89,7 @@ const DetailsCard: React.FC<IDetailsCardProps> = ({
       children
     )}
 
-    {searchFieldProps && <SearchField {...searchFieldProps} />}
+    {selectFieldProps && <SelectField {...selectFieldProps} />}
   </Container>
 );
 

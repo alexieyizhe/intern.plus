@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -8,44 +9,66 @@
 
 export interface GetJobDetails_job_company {
   __typename: "Company";
-  /**
-   * Name of a company.
-   */
+  id: string;
+  name: string;
+}
+
+export interface GetJobDetails_job_scoreAverages {
+  __typename: "Score";
+  overall: number;
+  learningMentorship: number;
+  meaningfulWork: number;
+  workLifeBalance: number;
+}
+
+export interface GetJobDetails_job_salaryMin {
+  __typename: "Salary";
+  amount: number;
+  currency: string;
+}
+
+export interface GetJobDetails_job_salaryMax {
+  __typename: "Salary";
+  amount: number;
+  currency: string;
+}
+
+export interface GetJobDetails_job_reviews_items_score {
+  __typename: "Score";
+  overall: number;
+}
+
+export interface GetJobDetails_job_reviews_items_author {
+  __typename: "Author";
   name: string | null;
-  /**
-   * Unique slug for a company.
-   */
-  slug: string | null;
-  /**
-   * Average color of the company's logo, in HSL format.
-   */
-  logoColor: string | null;
+}
+
+export interface GetJobDetails_job_reviews_items {
+  __typename: "Review";
+  id: string;
+  body: string | null;
+  tags: string[] | null;
+  score: GetJobDetails_job_reviews_items_score;
+  author: GetJobDetails_job_reviews_items_author;
+  isLegacy: boolean;
+  createdAt: InternPlusISODate;
 }
 
 export interface GetJobDetails_job_reviews {
-  __typename: "ReviewListResponse";
-  /**
-   * List items count
-   */
+  __typename: "ReviewList";
   count: number;
+  items: GetJobDetails_job_reviews_items[];
 }
 
 export interface GetJobDetails_job {
   __typename: "Job";
-  /**
-   * Job title
-   */
-  name: string | null;
+  name: string;
   location: string | null;
-  company: GetJobDetails_job_company | null;
-  minHourlySalary: number | null;
-  maxHourlySalary: number | null;
-  hourlySalaryCurrency: string | null;
-  reviews: GetJobDetails_job_reviews | null;
-  avgRating: number | null;
-  avgLearningMentorshipRating: number | null;
-  avgMeaningfulWorkRating: number | null;
-  avgWorkLifeBalanceRating: number | null;
+  company: GetJobDetails_job_company;
+  scoreAverages: GetJobDetails_job_scoreAverages;
+  salaryMin: GetJobDetails_job_salaryMin;
+  salaryMax: GetJobDetails_job_salaryMax;
+  reviews: GetJobDetails_job_reviews;
 }
 
 export interface GetJobDetails {
@@ -53,5 +76,5 @@ export interface GetJobDetails {
 }
 
 export interface GetJobDetailsVariables {
-  id?: string | null;
+  id: string;
 }
