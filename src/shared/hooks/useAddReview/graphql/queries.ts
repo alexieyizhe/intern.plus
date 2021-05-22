@@ -14,7 +14,7 @@ export const addReviewBuilder = (
   } else if (isNewJob) {
     companyQuery = `{ connect: { slug: $companySlug } }`;
     jobQuery = `{ create: { name: $jobName, slug: $jobSlug, location: $location, company: { connect: { slug: $companySlug } } } }`;
-  } else if (isNewJob) {
+  } else if (isNewCompany) {
     throw new Error("Cannot connect existing job to new company");
   } else {
     // both company and job exist already

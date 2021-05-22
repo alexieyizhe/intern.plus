@@ -1,10 +1,11 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { SearchState } from "src/shared/hooks/useSearch";
+import { getJobCardRoute } from "src/shared/constants/routing";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GET_COMPANY_DETAILS } from "../graphql/queries";
@@ -30,6 +31,7 @@ const getTitleMarkup = (companyName?: string) =>
  *******************************************************************/
 const CompanyPage: React.FC = () => {
   useScrollTopOnMount();
+  const history = useHistory();
 
   const { companyId } = useParams<{ companyId: string }>();
 
@@ -54,6 +56,12 @@ const CompanyPage: React.FC = () => {
       value: item.id,
     })) ?? [];
 
+  const searchState = detailsError
+    ? SearchState.ERROR
+    : detailsLoading
+    ? SearchState.LOADING
+    : SearchState.NO_MORE_RESULTS;
+
   return (
     <>
       <Helmet>
@@ -66,16 +74,16 @@ const CompanyPage: React.FC = () => {
           error={detailsError !== undefined}
           companyDetails={companyDetails}
           selectFieldProps={{
-            onSelectOption: () => {},
+            onSelectOption: ({ value: companyId }) =>
+              history.push(getJobCardRoute(companyId)),
             suggestions: searchSuggestions,
             inputProps: { placeholder: "Find a position" },
           }}
         />
 
         <SearchResultCardDisplay
-          searchState={SearchState.RESULTS}
+          searchState={searchState}
           searchResults={companyJobsList}
-          onResultsEndReached={() => {}}
         />
       </PageContainer>
     </>

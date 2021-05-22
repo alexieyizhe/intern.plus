@@ -30,7 +30,7 @@ export interface ISearchResultCardDisplayProps
   extends React.ComponentPropsWithoutRef<"section"> {
   searchState: SearchState;
   searchResults: IGenericCardItem[];
-  onResultsEndReached: () => void;
+  onResultsEndReached?: () => void;
 }
 
 /*******************************************************************
@@ -260,9 +260,10 @@ const SearchResultCardDisplay: React.FC<ISearchResultCardDisplayProps> = ({
       <MarkupContainer>{markup}</MarkupContainer>
 
       {searchResults.length > 0 &&
-        [SearchState.RESULTS].includes(searchState) && (
-          <Waypoint onEnter={onResultsEndReached} />
-        )}
+      onResultsEndReached &&
+      [SearchState.RESULTS].includes(searchState) ? (
+        <Waypoint onEnter={onResultsEndReached} />
+      ) : null}
     </Container>
   );
 };

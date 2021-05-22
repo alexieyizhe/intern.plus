@@ -107,8 +107,7 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
 }) => {
   const history = useHistory();
   const searchSuggestions = useSearchSuggestions({
-    searchType: SearchType.COMPANIES,
-    limit: 500,
+    type: SearchType.COMPANIES,
   });
   const { isMobile } = useWindowWidth(); // show only search button on mobile
 
@@ -139,7 +138,7 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
                 history.push(getCompanyCardRoute(companyId))
               }
               className="landing-search"
-              inputProps={{ placeholder: "Find a company" }}
+              inputProps={{ placeholder: "Find a company..." }}
               suggestions={searchSuggestions}
             />
           )}

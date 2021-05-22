@@ -11,7 +11,6 @@ import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
 import { useMobileMenuContext } from "src/contexts";
 
-import Button, { IButtonProps } from "src/components/Button";
 import Text from "src/components/Text";
 import TextInput, { ITextInputProps } from "src/components/TextInput";
 import Card from "src/components/Card";
@@ -28,9 +27,6 @@ export interface ISelectFieldProps
 
   inputProps?: ITextInputProps &
     Omit<Omit<AutosuggestProps<string>, "onChange">, "value">;
-  buttonProps?: IButtonProps & {
-    contents: React.ReactNode;
-  };
 }
 
 /*******************************************************************
@@ -81,12 +77,6 @@ const Container = styled.div`
     width: 100%;
   }
 
-  & input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none !important;
-  }
-
   & > button {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -132,14 +122,6 @@ const SelectField: React.FC<ISelectFieldProps> = ({
   fuseOptions = {},
   suggestions,
   inputProps,
-  buttonProps = {
-    color: "greenSecondary",
-    contents: (
-      <Text variant="body" color="textPrimary">
-        Search
-      </Text>
-    ),
-  },
   ...rest
 }) => {
   const { isMobileMenuOpen } = useMobileMenuContext();
@@ -232,12 +214,6 @@ const SelectField: React.FC<ISelectFieldProps> = ({
         }}
         {...rest}
       />
-      <Button
-        color={buttonProps.color}
-        onClick={() => onTriggerSearch?.(inputVal || "")}
-      >
-        {buttonProps.contents}
-      </Button>
     </Container>
   );
 };

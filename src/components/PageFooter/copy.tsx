@@ -1,6 +1,6 @@
 import React from "react";
 
-// import { RouteName } from "src/shared/constants/routing";
+import { RouteName } from "src/shared/constants/routing";
 
 const emojis = [
   { raw: "✨", label: "sparkles" },
@@ -95,11 +95,11 @@ const COPY = {
       label: "open source",
       newTab: true,
     },
-    // {
-    //   to: RouteName.DESIGN,
-    //   label: "design system",
-    //   newTab: false,
-    // },
+    {
+      to: RouteName.DESIGN,
+      label: "design system",
+      newTab: false,
+    },
   ],
 };
 

@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 import { SearchType } from "src/shared/constants/search";
 import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
 
-const companiesQuery = gql`
+const GET_SEARCH_COMPANIES = gql`
   query GetSearchCompanies($search: CompanySearchInput, $after: ID) {
     companies(search: $search, after: $after) {
       count
@@ -28,7 +28,7 @@ const companiesQuery = gql`
   }
 `;
 
-const jobsQuery = gql`
+const GET_SEARCH_JOBS = gql`
   query GetSearchJobs($search: JobSearchInput, $after: ID) {
     jobs(search: $search, after: $after) {
       count
@@ -64,7 +64,7 @@ const jobsQuery = gql`
   }
 `;
 
-const reviewsQuery = gql`
+const GET_SEARCH_REVIEWS = gql`
   query GetSearchReviews($search: ReviewSearchInput, $after: ID) {
     reviews(search: $search, after: $after) {
       count
@@ -106,11 +106,11 @@ const reviewsQuery = gql`
 export const getSearchQuery: SearchQueryBuilder = (searchType) => {
   switch (searchType) {
     case SearchType.COMPANIES:
-      return companiesQuery;
+      return GET_SEARCH_COMPANIES;
     case SearchType.JOBS:
-      return jobsQuery;
+      return GET_SEARCH_JOBS;
     case SearchType.REVIEWS:
-      return reviewsQuery;
+      return GET_SEARCH_REVIEWS;
     default:
       throw new Error("Type not specified for search");
   }

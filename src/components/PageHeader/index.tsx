@@ -113,7 +113,6 @@ const Logo = styled.div`
 
   ${({ theme }) => theme.mediaQueries.tablet`
     & .logo-img {
-      max-height: 30px;
       margin-right: 3px;
     }
   `}

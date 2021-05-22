@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const getCompaniesReviewsLandingQuery = gql`
+export const GET_COMPANIES_REVIEWS_LANDING = gql`
   query GetCompaniesReviewsLanding {
     companiesLanding(limit: 5) {
       items {
