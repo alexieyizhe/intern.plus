@@ -6,12 +6,6 @@ import {
 } from "src/shared/constants/card";
 
 import {
-  GetAllSearch,
-  GetAllSearch_companiesList_items,
-  GetAllSearch_jobsList_items,
-  GetAllSearch_reviewsList_items,
-} from "./types/GetAllSearch";
-import {
   GetSearchCompanies,
   GetSearchCompanies_companies_items,
 } from "./types/GetSearchCompanies";

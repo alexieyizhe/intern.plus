@@ -270,7 +270,7 @@ const Header: React.FC = () => {
       return () => clearTimeout(timer);
     }
     return () => {};
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container
@@ -321,7 +321,7 @@ const Header: React.FC = () => {
               size={24}
             />
           </UnstyledButton>
-          {/* <UnstyledButton
+          <UnstyledButton
             onClick={toggleAddReviewModal}
             aria-label="Add review button"
           >
@@ -333,7 +333,7 @@ const Header: React.FC = () => {
               }
               size={24}
             />
-          </UnstyledButton> */}
+          </UnstyledButton>
         </HeaderActionContainer>
       </InnerContainer>
     </Container>

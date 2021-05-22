@@ -36,8 +36,6 @@ export interface ISelectFieldProps
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-const ENTER_KEY_CODE = 13;
-
 const renderSuggestion = (suggestion: { label: string; value: string }) => (
   <Suggestion color="textTertiary" key={suggestion.value}>
     <Text variant="subheading" color="textPrimary">
@@ -227,7 +225,7 @@ const SelectField: React.FC<ISelectFieldProps> = ({
         )}
         renderSuggestion={renderSuggestion}
         inputProps={{
-          placeholder: "Find something",
+          placeholder: "Select an option",
           ...inputProps,
           value: inputVal || "",
           onChange: onInputChange,

@@ -1,7 +1,5 @@
 import { gql } from "@apollo/client";
 
-
-
 export const GET_SEARCH_SUGGESTIONS = gql`
   query GetSearchSuggestions($limit: Int) {
     companies(limit: $limit) {

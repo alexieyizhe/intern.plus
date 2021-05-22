@@ -1,15 +1,10 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
-import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import { useSearchSort } from "src/shared/hooks/useSearchSort";
-import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
-import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
-import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
-import { SearchState, useSearch } from "src/shared/hooks/useSearch";
+import { SearchState } from "src/shared/hooks/useSearch";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GET_COMPANY_DETAILS } from "../graphql/queries";
@@ -18,11 +13,7 @@ import {
   buildCompanyJobCardsList,
 } from "../graphql/utils";
 
-import {
-  PageContainer,
-  SearchOptionsMenu,
-  SearchResultCardDisplay,
-} from "src/components";
+import { PageContainer, SearchResultCardDisplay } from "src/components";
 import CompanyDetailsCard from "../components/CompanyDetailsCard";
 
 /*******************************************************************
@@ -63,37 +54,6 @@ const CompanyPage: React.FC = () => {
       value: item.id,
     })) ?? [];
 
-  // /**
-  //  * Fetch *jobs at the company*.
-  //  */
-  // const { QUERY_DEF } = useSearchQueryDef(getCompanyJobsQueryBuilder);
-  // const {
-  //   // search info
-  //   searchState,
-  //   searchResults,
-  //   unfilteredResults,
-
-  //   // callbacks
-  //   triggerSearchNew,
-  //   triggerSearchNextBatch,
-  // } = useSearch<GetCompanyJobs>(
-  //   QUERY_DEF,
-  //   {
-  //     variables: {
-  //       id: companySlug,
-  //     },
-  //   },
-  //   buildCompanyJobCardsList
-  // );
-
-  /**
-   * For search options menu
-   */
-  // const sortOption = useSearchSort();
-  // const salaryOption = useSearchSalaryFilter();
-  // const locationOption = useSearchLocationFilter(unfilteredResults);
-  // const ratingOption = useSearchRatingFilter();
-
   return (
     <>
       <Helmet>
@@ -111,14 +71,6 @@ const CompanyPage: React.FC = () => {
             inputProps: { placeholder: "Find a position" },
           }}
         />
-
-        {/* <SearchOptionsMenu
-          sortOption={sortOption}
-          locationOption={locationOption}
-          salaryOption={salaryOption}
-          ratingOption={ratingOption}
-          onOptionChange={() => triggerSearchNew(undefined, true)}
-        /> */}
 
         <SearchResultCardDisplay
           searchState={SearchState.RESULTS}

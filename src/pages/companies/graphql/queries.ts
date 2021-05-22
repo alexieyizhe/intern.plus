@@ -1,11 +1,5 @@
 import { gql } from "@apollo/client";
 
-
-
-import { jobResultFragment } from "src/api/fragments";
-import { SearchSort } from "src/shared/constants/search";
-import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
-
 /**
  * For *details of a company.*
  */
@@ -46,5 +40,3 @@ export const GET_COMPANY_DETAILS = gql`
     }
   }
 `;
-
-

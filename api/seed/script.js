@@ -3,18 +3,10 @@
  * This code is incredibly ugly and not even remotely close to optimized. Its purpose was to conduct one-time quick and dirty cleanup and transformation of the data dump from a prior backend database. Proceed with caution D:
  */
 
-const firebase = require("firebase");
-const admin = require("firebase-admin");
-const fs = require("fs");
+import firebase from "firebase";
+import fs from "fs";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD_qfQfNs-KrPLbEM_s5WOUJfu0fH_6CeY",
-  authDomain: "intern-plus.firebaseapp.com",
-  projectId: "intern-plus",
-  storageBucket: "intern-plus.appspot.com",
-  messagingSenderId: "215884011864",
-  appId: "1:215884011864:web:3368e2faecc4bdd96bed2d",
-};
+const firebaseConfig = {};
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -458,7 +450,7 @@ const jobsWriteData = Object.values(JOBS).map((job) => {
 
   const jobReviewsWithSalary = jobReviewIds
     .map((id) => REVIEWS[id]?.reviewSalaryAmtHourly)
-    .filter(hrlySalary => hrlySalary && hrlySalary >= 0);
+    .filter((hrlySalary) => hrlySalary && hrlySalary >= 0);
 
   return {
     id: job.jobId,
@@ -624,7 +616,6 @@ console.log("starting firebase sync...");
 //       console.error(`Error writing job ${id}: `, error);
 //     });
 // });
-
 
 // reviewsFirebaseWriteData.forEach(({ id, ...rest }) => {
 //   db.collection("reviews").doc(id).set(rest)
