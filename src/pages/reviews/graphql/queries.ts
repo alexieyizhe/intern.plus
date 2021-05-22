@@ -1,7 +1,5 @@
 import { gql } from "@apollo/client";
 
-
-
 // used in reviews/:reviewId page
 export const GET_REVIEW_DETAILS = gql`
   query GetReviewDetails($reviewId: ID!) {

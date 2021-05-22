@@ -4,26 +4,15 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
-import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
-import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
-import { useSearchSort } from "src/shared/hooks/useSearchSort";
-import { useSearchType } from "src/shared/hooks/useSearchType";
 import { useSearch } from "src/shared/hooks/useSearch";
 
-import { SearchType, availableSortOptions } from "src/shared/constants/search";
+import { SearchType } from "src/shared/constants/search";
 import pageCopy from "../copy";
 
 import { getSearchQuery } from "../graphql/queries";
 import { buildSearchResultCardsList } from "../graphql/utils";
 
-import {
-  SearchResultCardDisplay,
-  SearchField,
-  SearchOptionsMenu,
-  Text,
-  PageContainer,
-} from "src/components";
+import { SearchResultCardDisplay, Text, PageContainer } from "src/components";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -106,7 +95,6 @@ const SearchPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { searchQuery, searchType } = useSearchParams();
-  // const searchSuggestions = useSearchSuggestions({ searchType });
 
   /**
    * For fetching results
@@ -116,7 +104,6 @@ const SearchPage: React.FC = () => {
     searchState,
     searchResults,
 
-    triggerSearchNew,
     triggerSearchNextBatch,
   } = useSearch(
     searchQueryDef,
@@ -125,16 +112,6 @@ const SearchPage: React.FC = () => {
     },
     buildSearchResultCardsList
   );
-
-  /**
-   * For search options menu
-   */
-  const sortOption = useSearchSort(
-    searchType ? availableSortOptions[searchType] : undefined
-  );
-  const typeOption = useSearchType();
-  const salaryOption = useSearchSalaryFilter();
-  const ratingOption = useSearchRatingFilter();
 
   return (
     <>
@@ -146,19 +123,6 @@ const SearchPage: React.FC = () => {
         <Heading variant="heading1">
           {getHeadingMarkup(searchQuery, searchType)}
         </Heading>
-
-        {/* <SearchField
-          onTriggerSearch={triggerSearchNew}
-          suggestions={searchSuggestions}
-        /> */}
-
-        {/* <SearchOptionsMenu
-          sortOption={sortOption}
-          typeOption={typeOption}
-          salaryOption={salaryOption}
-          ratingOption={ratingOption}
-          onOptionChange={() => triggerSearchNew()}
-        /> */}
 
         <SearchResultCardDisplay
           searchState={searchState}

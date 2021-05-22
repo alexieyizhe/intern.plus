@@ -11,7 +11,6 @@ import { useSearchParams } from "src/shared/hooks/useSearchParams";
 import { useWindowScrollPos } from "src/shared/hooks/useWindowScrollPos";
 import { useMobileMenuContext } from "src/contexts";
 
-import Button, { IButtonProps } from "src/components/Button";
 import Text from "src/components/Text";
 import TextInput, { ITextInputProps } from "src/components/TextInput";
 import Card from "src/components/Card";
@@ -28,16 +27,11 @@ export interface ISelectFieldProps
 
   inputProps?: ITextInputProps &
     Omit<Omit<AutosuggestProps<string>, "onChange">, "value">;
-  buttonProps?: IButtonProps & {
-    contents: React.ReactNode;
-  };
 }
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
  *******************************************************************/
-const ENTER_KEY_CODE = 13;
-
 const renderSuggestion = (suggestion: { label: string; value: string }) => (
   <Suggestion color="textTertiary" key={suggestion.value}>
     <Text variant="subheading" color="textPrimary">
@@ -81,12 +75,6 @@ const Container = styled.div`
 
   & > div {
     width: 100%;
-  }
-
-  & input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none !important;
   }
 
   & > button {
@@ -134,14 +122,6 @@ const SelectField: React.FC<ISelectFieldProps> = ({
   fuseOptions = {},
   suggestions,
   inputProps,
-  buttonProps = {
-    color: "greenSecondary",
-    contents: (
-      <Text variant="body" color="textPrimary">
-        Search
-      </Text>
-    ),
-  },
   ...rest
 }) => {
   const { isMobileMenuOpen } = useMobileMenuContext();
@@ -227,19 +207,13 @@ const SelectField: React.FC<ISelectFieldProps> = ({
         )}
         renderSuggestion={renderSuggestion}
         inputProps={{
-          placeholder: "Find something",
+          placeholder: "Select an option",
           ...inputProps,
           value: inputVal || "",
           onChange: onInputChange,
         }}
         {...rest}
       />
-      <Button
-        color={buttonProps.color}
-        onClick={() => onTriggerSearch?.(inputVal || "")}
-      >
-        {buttonProps.contents}
-      </Button>
     </Container>
   );
 };

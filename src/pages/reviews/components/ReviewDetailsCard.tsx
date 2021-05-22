@@ -43,7 +43,7 @@ export interface IReviewDetails {
   salaryPeriod: SalaryPeriod;
   logoSrc: string;
   color: string;
-  date: Date | null;
+  date: InternPlusISODate | null;
   relativeDate: string;
   tags: string[] | null;
 }
@@ -281,10 +281,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
             <Text variant="subheading" color="textSecondary">
               mentioned the following{" "}
             </Text>
-            <Text
-              variant="subheading"
-              title={reviewDetails.date?.toDateString() ?? ""}
-            >
+            <Text variant="subheading" title={reviewDetails.date ?? ""}>
               {reviewDetails.relativeDate.toLowerCase()}...
             </Text>
           </ReviewPrefixContainer>

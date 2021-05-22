@@ -47,7 +47,7 @@ export const companiesQueryResolver = (
   context: any,
   info: any
 ) => {
-  const { search, limit, after } = args;
+  const { limit, after } = args;
   const query = after
     ? db
         .collection("companies")
@@ -81,7 +81,9 @@ export const companyResolver = (
       .get()
       .then((dSnap) => transformCompanyData(dSnap));
   } else if (parent?.companyRef) {
-    return parent.companyRef.get().then((dSnap: any) => transformCompanyData(dSnap));
+    return parent.companyRef
+      .get()
+      .then((dSnap: any) => transformCompanyData(dSnap));
   } else {
     throw new Error("No identifier or reference provided for company field");
   }

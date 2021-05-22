@@ -42,4 +42,4 @@ export interface ReviewSearchInput {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
-declare global { type InternPlusISODate = Date; }
+declare global { type InternPlusISODate = string; }

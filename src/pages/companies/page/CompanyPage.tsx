@@ -1,15 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
-import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import { useSearchSort } from "src/shared/hooks/useSearchSort";
-import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
-import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
-import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
-import { SearchState, useSearch } from "src/shared/hooks/useSearch";
+import { SearchState } from "src/shared/hooks/useSearch";
+import { getJobCardRoute } from "src/shared/constants/routing";
 
 import { GetCompanyDetails } from "../graphql/types/GetCompanyDetails";
 import { GET_COMPANY_DETAILS } from "../graphql/queries";
@@ -18,11 +14,7 @@ import {
   buildCompanyJobCardsList,
 } from "../graphql/utils";
 
-import {
-  PageContainer,
-  SearchOptionsMenu,
-  SearchResultCardDisplay,
-} from "src/components";
+import { PageContainer, SearchResultCardDisplay } from "src/components";
 import CompanyDetailsCard from "../components/CompanyDetailsCard";
 
 /*******************************************************************
@@ -39,6 +31,7 @@ const getTitleMarkup = (companyName?: string) =>
  *******************************************************************/
 const CompanyPage: React.FC = () => {
   useScrollTopOnMount();
+  const history = useHistory();
 
   const { companyId } = useParams<{ companyId: string }>();
 
@@ -63,36 +56,11 @@ const CompanyPage: React.FC = () => {
       value: item.id,
     })) ?? [];
 
-  // /**
-  //  * Fetch *jobs at the company*.
-  //  */
-  // const { QUERY_DEF } = useSearchQueryDef(getCompanyJobsQueryBuilder);
-  // const {
-  //   // search info
-  //   searchState,
-  //   searchResults,
-  //   unfilteredResults,
-
-  //   // callbacks
-  //   triggerSearchNew,
-  //   triggerSearchNextBatch,
-  // } = useSearch<GetCompanyJobs>(
-  //   QUERY_DEF,
-  //   {
-  //     variables: {
-  //       id: companySlug,
-  //     },
-  //   },
-  //   buildCompanyJobCardsList
-  // );
-
-  /**
-   * For search options menu
-   */
-  // const sortOption = useSearchSort();
-  // const salaryOption = useSearchSalaryFilter();
-  // const locationOption = useSearchLocationFilter(unfilteredResults);
-  // const ratingOption = useSearchRatingFilter();
+  const searchState = detailsError
+    ? SearchState.ERROR
+    : detailsLoading
+    ? SearchState.LOADING
+    : SearchState.NO_MORE_RESULTS;
 
   return (
     <>
@@ -106,24 +74,16 @@ const CompanyPage: React.FC = () => {
           error={detailsError !== undefined}
           companyDetails={companyDetails}
           selectFieldProps={{
-            onSelectOption: () => {},
+            onSelectOption: ({ value: companyId }) =>
+              history.push(getJobCardRoute(companyId)),
             suggestions: searchSuggestions,
             inputProps: { placeholder: "Find a position" },
           }}
         />
 
-        {/* <SearchOptionsMenu
-          sortOption={sortOption}
-          locationOption={locationOption}
-          salaryOption={salaryOption}
-          ratingOption={ratingOption}
-          onOptionChange={() => triggerSearchNew(undefined, true)}
-        /> */}
-
         <SearchResultCardDisplay
-          searchState={SearchState.RESULTS}
+          searchState={searchState}
           searchResults={companyJobsList}
-          onResultsEndReached={() => {}}
         />
       </PageContainer>
     </>

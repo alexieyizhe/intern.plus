@@ -1,9 +1,5 @@
 import { gql } from "@apollo/client";
 
-
-import { reviewResultUserFragment } from "src/api/fragments";
-import { SearchSort } from "src/shared/constants/search";
-import { SearchQueryBuilder } from "src/shared/hooks/useSearchQueryDef";
 /**
  * For *details of a job.*
  */

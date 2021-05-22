@@ -32,5 +32,7 @@ export const buildReviewDetails = (
   logoSrc: "",
   color: "",
   date: item.isLegacy ? null : item.createdAt,
-  relativeDate: item.isLegacy ? "A while ago" : timeAgo.format(item.createdAt),
+  relativeDate: item.isLegacy
+    ? "A while ago"
+    : timeAgo.format(new Date(item.createdAt)),
 });

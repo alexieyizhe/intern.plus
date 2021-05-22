@@ -271,7 +271,9 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
               <Text variant="heading2" as="div">
                 {jobDetails?.minHourlySalary === jobDetails?.maxHourlySalary
                   ? jobDetails?.minHourlySalary
-                  : `${jobDetails?.minHourlySalary} - ${jobDetails?.maxHourlySalary}`}
+                  : `${jobDetails?.minHourlySalary.toFixed(
+                      2
+                    )} - ${jobDetails?.maxHourlySalary.toFixed(2)}`}
               </Text>
             )}
             <Text variant="heading3" as="div">
