@@ -29,6 +29,7 @@ import { useLocalStorage } from "src/shared/hooks/useLocalStorage";
 export const HEADER_HEIGHT = 75;
 export const MOBILE_MENU_HEIGHT = 120;
 export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // width at which the mobile menu is activated
+const ALLOW_REVIEW_ADD = false;
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -321,19 +322,21 @@ const Header: React.FC = () => {
               size={24}
             />
           </UnstyledButton>
-          <UnstyledButton
-            onClick={toggleAddReviewModal}
-            aria-label="Add review button"
-          >
-            <Icon
-              name={
-                isAddReviewModalOpen
-                  ? copy.addReview.openIcon.name
-                  : copy.addReview.closedIcon.name
-              }
-              size={24}
-            />
-          </UnstyledButton>
+          {ALLOW_REVIEW_ADD && (
+            <UnstyledButton
+              onClick={toggleAddReviewModal}
+              aria-label="Add review button"
+            >
+              <Icon
+                name={
+                  isAddReviewModalOpen
+                    ? copy.addReview.openIcon.name
+                    : copy.addReview.closedIcon.name
+                }
+                size={24}
+              />
+            </UnstyledButton>
+          )}
         </HeaderActionContainer>
       </InnerContainer>
     </Container>
