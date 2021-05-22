@@ -3,17 +3,21 @@
  * This code is incredibly ugly and not even remotely close to optimized. Its purpose was to conduct one-time quick and dirty cleanup and transformation of the data dump from a prior backend database. Proceed with caution D:
  */
 
-const keys = require("../intern-plus-firebase-adminsdk-local.json");
 const firebase = require("firebase");
 const admin = require("firebase-admin");
 const fs = require("fs");
 
-const app = admin.initializeApp({
-  credential: admin.credential.cert(keys),
-  databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyD_qfQfNs-KrPLbEM_s5WOUJfu0fH_6CeY",
+  authDomain: "intern-plus.firebaseapp.com",
+  projectId: "intern-plus",
+  storageBucket: "intern-plus.appspot.com",
+  messagingSenderId: "215884011864",
+  appId: "1:215884011864:web:3368e2faecc4bdd96bed2d",
+};
 
-const db = admin.firestore();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 const noContents = (v) => v === "" || !v;
 
@@ -347,7 +351,8 @@ reviewsData.split("\n").forEach((v) => {
           .replaceAll('\\"', '"')
           .replaceAll("\\n", "\n"),
         reviewSalaryAmt: parseFloat(reviewSalaryAmt),
-        reviewSalaryAmtHourly: hourly,
+        reviewSalaryAmtHourly:
+          reviewSalaryAmt === -1 ? reviewSalaryAmt : hourly,
         reviewSalaryCurrency,
         reviewSalaryPeriod,
         overallScore: parseFloat(overallRating),
@@ -451,6 +456,10 @@ const jobsWriteData = Object.values(JOBS).map((job) => {
     console.error("no currency for", job.jobid, job.jobName);
   }
 
+  const jobReviewsWithSalary = jobReviewIds
+    .map((id) => REVIEWS[id]?.reviewSalaryAmtHourly)
+    .filter(hrlySalary => hrlySalary && hrlySalary >= 0);
+
   return {
     id: job.jobId,
     slug: job.jobSlug,
@@ -479,18 +488,24 @@ const jobsWriteData = Object.values(JOBS).map((job) => {
       ),
     },
     salaryMin: {
-      amount: jobReviewIds.reduce((acc, curReviewId) => {
-        const r = REVIEWS[curReviewId];
-        return Math.min(acc, r.reviewSalaryAmtHourly);
-      }, Number.POSITIVE_INFINITY),
+      amount:
+        jobReviewsWithSalary.length > 0
+          ? jobReviewsWithSalary.reduce(
+              (acc, curHourlySalary) => Math.min(acc, curHourlySalary),
+              Number.POSITIVE_INFINITY
+            )
+          : -1,
       currency: [...currencies][0],
       period: "hourly",
     },
     salaryMax: {
-      amount: jobReviewIds.reduce((acc, curReviewId) => {
-        const r = REVIEWS[curReviewId];
-        return Math.max(acc, r.reviewSalaryAmtHourly);
-      }, Number.NEGATIVE_INFINITY),
+      amount:
+        jobReviewsWithSalary.length > 0
+          ? jobReviewsWithSalary.reduce(
+              (acc, curHourlySalary) => Math.max(acc, curHourlySalary),
+              Number.NEGATIVE_INFINITY
+            )
+          : -1,
       currency: [...currencies][0],
       period: "hourly",
     },
@@ -533,8 +548,8 @@ const reviewsWriteData = Object.values(REVIEWS).map((review) => {
     },
     companyId: correspondingCompanyId,
     jobId: correspondingJobId,
-    createdAt: new Date(review.createdAt),
-    updatedAt: new Date(review.updatedAt),
+    createdAt: new Date(review.reviewCreatedAt),
+    updatedAt: new Date(review.reviewUpdatedAt),
     isLegacy: review.isLegacy ?? true,
     isApproved: true,
   };
@@ -545,8 +560,8 @@ const companiesFirebaseWriteData = companiesWriteData.map(
     logoRef: logo,
     jobRefs: jobIds.map((id) => db.collection("jobs").doc(id)),
     reviewRefs: reviewIds.map((id) => db.collection("reviews").doc(id)),
-    createdAt: admin.firestore.Timestamp.fromDate(createdAt),
-    updatedAt: admin.firestore.Timestamp.fromDate(updatedAt),
+    createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
+    updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
     ...rest,
   })
 );
@@ -555,8 +570,8 @@ const jobsFirebaseWriteData = jobsWriteData.map(
   ({ companyId, reviewIds, createdAt, updatedAt, ...rest }) => ({
     companyRef: db.collection("companies").doc(companyId),
     reviewRefs: reviewIds.map((id) => db.collection("reviews").doc(id)),
-    createdAt: admin.firestore.Timestamp.fromDate(createdAt),
-    updatedAt: admin.firestore.Timestamp.fromDate(updatedAt),
+    createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
+    updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
     ...rest,
   })
 );
@@ -565,8 +580,8 @@ const reviewsFirebaseWriteData = reviewsWriteData.map(
   ({ companyId, jobId, createdAt, updatedAt, ...rest }) => ({
     companyRef: db.collection("companies").doc(companyId),
     jobRef: db.collection("jobs").doc(jobId),
-    createdAt: admin.firestore.Timestamp.fromDate(createdAt),
-    updatedAt: admin.firestore.Timestamp.fromDate(updatedAt),
+    createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
+    updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
     ...rest,
   })
 );
@@ -598,17 +613,18 @@ console.log("starting firebase sync...");
 //   });
 // })
 
-jobsFirebaseWriteData.forEach(({ id, ...rest }) => {
-  db.collection("jobs")
-    .doc(id)
-    .set(rest)
-    .then(() => {
-      console.log(`✅ Successfully wrote job ${id}`);
-    })
-    .catch((error) => {
-      console.error(`Error writing job ${id}: `, error);
-    });
-});
+// jobsFirebaseWriteData.forEach(({ id, ...rest }) => {
+//   db.collection("jobs")
+//     .doc(id)
+//     .set(rest)
+//     .then(() => {
+//       console.log(`✅ Successfully wrote job ${id}`);
+//     })
+//     .catch((error) => {
+//       console.error(`Error writing job ${id}: `, error);
+//     });
+// });
+
 
 // reviewsFirebaseWriteData.forEach(({ id, ...rest }) => {
 //   db.collection("reviews").doc(id).set(rest)

@@ -40,7 +40,9 @@ export const buildJobReviewsCard = (
   id: item.id,
   author: item.isLegacy ? "An InternCompass user" : "An intern+ user",
   jobLocation: "",
-  relativeDate: item.isLegacy ? "A while ago" : timeAgo.format(item.createdAt),
+  relativeDate: item.isLegacy
+    ? "A while ago"
+    : timeAgo.format(new Date(item.createdAt)),
   overallRating: item.score.overall,
   body: item.body,
   tags: item.tags,

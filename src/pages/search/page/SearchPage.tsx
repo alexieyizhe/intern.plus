@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
-import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
 import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
 import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
 import { useSearchSort } from "src/shared/hooks/useSearchSort";
@@ -17,13 +16,7 @@ import pageCopy from "../copy";
 import { getSearchQuery } from "../graphql/queries";
 import { buildSearchResultCardsList } from "../graphql/utils";
 
-import {
-  SearchResultCardDisplay,
-  SearchField,
-  SearchOptionsMenu,
-  Text,
-  PageContainer,
-} from "src/components";
+import { SearchResultCardDisplay, Text, PageContainer } from "src/components";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -116,7 +109,6 @@ const SearchPage: React.FC = () => {
     searchState,
     searchResults,
 
-    triggerSearchNew,
     triggerSearchNextBatch,
   } = useSearch(
     searchQueryDef,
