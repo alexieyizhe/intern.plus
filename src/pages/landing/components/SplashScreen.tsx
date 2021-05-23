@@ -68,6 +68,10 @@ const LeftColumn = styled.div`
     & h3 {
       text-align: center;
     }
+
+    & > div {
+      width: 100%;
+    }
   `}
 
   ${({ theme }) => theme.mediaQueries.smallMobile`
@@ -123,25 +127,14 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
           </Text>
         </div>
         <div>
-          {isMobile ? (
-            <Button
-              onClick={() => history.push(RouteName.SEARCH)}
-              color="greenSecondary"
-            >
-              <Text variant="subheading" color="backgroundPrimary">
-                {copy.splashCard.searchButtonText}
-              </Text>
-            </Button>
-          ) : (
-            <SelectField
-              onSelectOption={({ value: companyId }) =>
-                history.push(getCompanyCardRoute(companyId))
-              }
-              className="landing-search"
-              inputProps={{ placeholder: "Find a company..." }}
-              suggestions={searchSuggestions}
-            />
-          )}
+          <SelectField
+            onSelectOption={({ value: companyId }) =>
+              history.push(getCompanyCardRoute(companyId))
+            }
+            className="landing-search"
+            inputProps={{ placeholder: "Find a company..." }}
+            suggestions={searchSuggestions}
+          />
         </div>
       </LeftColumn>
 

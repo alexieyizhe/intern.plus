@@ -30,6 +30,7 @@ export const GET_REVIEW_DETAILS = gql`
       company {
         id
         name
+        logo
       }
     }
   }

@@ -17,7 +17,7 @@ export const buildCompanyCard = (
   desc: item.description || "",
   numRatings: item.reviews.count,
   avgRating: item.scoreAverages.overall,
-  logoSrc: "",
+  logoSrc: item.logo ?? "",
   color: "",
   websiteUrl: null,
   jobLocations: [],

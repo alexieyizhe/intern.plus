@@ -29,7 +29,7 @@ export const buildReviewDetails = (
   salary: item.salary.amount,
   salaryCurrency: item.salary.currency,
   salaryPeriod: item.salary.period,
-  logoSrc: "",
+  logoSrc: item.company.logo ?? "",
   color: "",
   date: item.isLegacy ? null : item.createdAt,
   relativeDate: item.isLegacy

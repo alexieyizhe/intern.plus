@@ -2,8 +2,8 @@ import firebase from "firebase-admin";
 
 import { db } from "../db";
 
-const transformCompanyData = (doc: any) => {
-  const { scoreTotals, createdAt, updatedAt, reviewCount, ...rest } =
+const transformCompanyData = async (doc: any) => {
+  const { scoreTotals, logoRef, createdAt, updatedAt, reviewCount, ...rest } =
     doc.data();
   const scoreAverages = Object.entries(scoreTotals).reduce(
     (acc: any, [scoreName, scoreValue]: any) => {
@@ -12,9 +12,11 @@ const transformCompanyData = (doc: any) => {
     },
     {}
   );
+
   return {
     id: doc.id,
     scoreAverages,
+    logo: logoRef,
     reviewCount,
     createdAt: createdAt.toDate(),
     updatedAt: updatedAt.toDate(),
@@ -22,7 +24,7 @@ const transformCompanyData = (doc: any) => {
   };
 };
 
-export const companiesLandingQueryResolver = (
+export const companiesLandingQueryResolver = async (
   parent: any,
   args: any,
   context: any,
@@ -37,7 +39,7 @@ export const companiesLandingQueryResolver = (
     count: qSnap.size,
     lastCursor: qSnap.docs[qSnap.docs.length - 1].id,
     hasMore: false,
-    items: qSnap.docs.map((doc) => transformCompanyData(doc)),
+    items: Promise.all(qSnap.docs.map((doc) => transformCompanyData(doc))),
   }));
 };
 

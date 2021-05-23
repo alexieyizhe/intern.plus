@@ -3,12 +3,22 @@
  * This code is incredibly ugly and not even remotely close to optimized. Its purpose was to conduct one-time quick and dirty cleanup and transformation of the data dump from a prior backend database. Proceed with caution D:
  */
 
-import firebase from "firebase";
-import fs from "fs";
+const firebase = require("firebase");
+const fs = require("fs");
+const config = require("../../firebase-credentials--local.json") ;
 
-const firebaseConfig = {};
+let ARG_UPLOAD_TO_FIREBASE = false;
+let ARG_WRITE_TO_JSON = false;
 
-firebase.initializeApp(firebaseConfig);
+process.argv.forEach(function (val) {
+  if (val === "--firebase") {
+    ARG_UPLOAD_TO_FIREBASE = true;
+  } else if (val === "--json") {
+    ARG_WRITE_TO_JSON = true;
+  }
+});
+
+firebase.initializeApp(config);
 const db = firebase.firestore();
 
 const noContents = (v) => v === "" || !v;
@@ -547,82 +557,90 @@ const reviewsWriteData = Object.values(REVIEWS).map((review) => {
   };
 });
 
-const companiesFirebaseWriteData = companiesWriteData.map(
-  ({ logo, jobIds, reviewIds, createdAt, updatedAt, ...rest }) => ({
-    logoRef: logo,
-    jobRefs: jobIds.map((id) => db.collection("jobs").doc(id)),
-    reviewRefs: reviewIds.map((id) => db.collection("reviews").doc(id)),
-    createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
-    updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
-    ...rest,
-  })
-);
+if (ARG_WRITE_TO_JSON) {
+  console.log("dumping JSON...");
 
-const jobsFirebaseWriteData = jobsWriteData.map(
-  ({ companyId, reviewIds, createdAt, updatedAt, ...rest }) => ({
-    companyRef: db.collection("companies").doc(companyId),
-    reviewRefs: reviewIds.map((id) => db.collection("reviews").doc(id)),
-    createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
-    updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
-    ...rest,
-  })
-);
+  fs.writeFileSync(
+    "./data.json",
+    JSON.stringify({
+      companies: companiesWriteData,
+      jobs: jobsWriteData,
+      reviews: reviewsWriteData,
+    })
+  );
 
-const reviewsFirebaseWriteData = reviewsWriteData.map(
-  ({ companyId, jobId, createdAt, updatedAt, ...rest }) => ({
-    companyRef: db.collection("companies").doc(companyId),
-    jobRef: db.collection("jobs").doc(jobId),
-    createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
-    updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
-    ...rest,
-  })
-);
+  fs.writeFileSync("./orphaned-reviews.json", JSON.stringify(ORPHAN_REVIEWS));
 
-console.log("dumping JSON...");
+  console.log("done JSON dump.");
+}
 
-fs.writeFileSync(
-  "./data.json",
-  JSON.stringify({
-    companies: companiesWriteData,
-    jobs: jobsWriteData,
-    reviews: reviewsWriteData,
-  })
-);
+if (ARG_UPLOAD_TO_FIREBASE) {
+  const companiesFirebaseWriteData = companiesWriteData.map(
+    ({ logo, jobIds, reviewIds, createdAt, updatedAt, ...rest }) => ({
+      logoRef: logo,
+      jobRefs: jobIds.map((id) => db.collection("jobs").doc(id)),
+      reviewRefs: reviewIds.map((id) => db.collection("reviews").doc(id)),
+      createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
+      updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
+      ...rest,
+    })
+  );
 
-fs.writeFileSync("./orphaned-reviews.json", JSON.stringify(ORPHAN_REVIEWS));
+  const jobsFirebaseWriteData = jobsWriteData.map(
+    ({ companyId, reviewIds, createdAt, updatedAt, ...rest }) => ({
+      companyRef: db.collection("companies").doc(companyId),
+      reviewRefs: reviewIds.map((id) => db.collection("reviews").doc(id)),
+      createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
+      updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
+      ...rest,
+    })
+  );
 
-console.log("done JSON dump.");
+  const reviewsFirebaseWriteData = reviewsWriteData.map(
+    ({ companyId, jobId, createdAt, updatedAt, ...rest }) => ({
+      companyRef: db.collection("companies").doc(companyId),
+      jobRef: db.collection("jobs").doc(jobId),
+      createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
+      updatedAt: firebase.firestore.Timestamp.fromDate(updatedAt),
+      ...rest,
+    })
+  );
 
-console.log("starting firebase sync...");
+  console.log("starting firebase sync...");
 
-// companiesFirebaseWriteData.forEach(({ id, ...rest }) => {
-//   db.collection("companies").doc(id).set(rest)
-//   .then(() => {
-//       console.log(`✅ Successfully wrote company ${id}`);
-//   })
-//   .catch((error) => {
-//       console.error(`Error writing company ${id}: `, error);
-//   });
-// })
+  companiesFirebaseWriteData.forEach(({ id, ...rest }) => {
+    db.collection("companies")
+      .doc(id)
+      .set(rest)
+      .then(() => {
+        console.log(`✅ Successfully wrote company ${id}`);
+      })
+      .catch((error) => {
+        console.error(`Error writing company ${id}: `, error);
+      });
+  });
 
-// jobsFirebaseWriteData.forEach(({ id, ...rest }) => {
-//   db.collection("jobs")
-//     .doc(id)
-//     .set(rest)
-//     .then(() => {
-//       console.log(`✅ Successfully wrote job ${id}`);
-//     })
-//     .catch((error) => {
-//       console.error(`Error writing job ${id}: `, error);
-//     });
-// });
+  jobsFirebaseWriteData.forEach(({ id, ...rest }) => {
+    db.collection("jobs")
+      .doc(id)
+      .set(rest)
+      .then(() => {
+        console.log(`✅ Successfully wrote job ${id}`);
+      })
+      .catch((error) => {
+        console.error(`Error writing job ${id}: `, error);
+      });
+  });
 
-// reviewsFirebaseWriteData.forEach(({ id, ...rest }) => {
-//   db.collection("reviews").doc(id).set(rest)
-//   .then(() => {
-//       console.log(`✅ Successfully wrote review ${id}`);
-//   })
-//   .catch((error) => {
-//       console.error(`Error writing review ${id}: `, error);
-//   });
-// })
+  reviewsFirebaseWriteData.forEach(({ id, ...rest }) => {
+    db.collection("reviews")
+      .doc(id)
+      .set(rest)
+      .then(() => {
+        console.log(`✅ Successfully wrote review ${id}`);
+      })
+      .catch((error) => {
+        console.error(`Error writing review ${id}: `, error);
+      });
+  });
+}

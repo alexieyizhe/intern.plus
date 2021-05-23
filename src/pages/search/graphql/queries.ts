@@ -13,6 +13,7 @@ const GET_SEARCH_COMPANIES = gql`
         id
         name
         description
+        logo
         websiteUrl
         scoreAverages {
           overall

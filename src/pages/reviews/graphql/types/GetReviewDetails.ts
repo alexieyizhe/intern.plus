@@ -40,6 +40,7 @@ export interface GetReviewDetails_review_company {
   __typename: "Company";
   id: string;
   name: string;
+  logo: string | null;
 }
 
 export interface GetReviewDetails_review {
