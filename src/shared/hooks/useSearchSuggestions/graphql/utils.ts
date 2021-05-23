@@ -1,48 +1,43 @@
 import { SearchType } from "src/shared/constants/search";
 
-import { GetSearchSuggestions } from "./types/GetSearchSuggestions";
-import { GetSearchSuggestionsCompany } from "./types/GetSearchSuggestionsCompany";
+import { GetSearchSuggestionsCompanies } from "./types/GetSearchSuggestionsCompanies";
+import { GetSearchSuggestionsCompanyJobs } from "./types/GetSearchSuggestionsCompanyJobs";
+import { GetSearchSuggestionsJobs } from "./types/GetSearchSuggestionsJobs";
 
-export interface ISuggestionsVariables {
-  companySlug?: string; // will only grab suggestions for this company
-  searchType?: SearchType;
+export interface ISuggestionsOptions {
+  type: SearchType.COMPANIES | SearchType.JOBS;
+  /**
+   * Only applicable for jobs search type. Will grab jobs only from the company specified by companyId when present.
+   */
+  companyId?: string;
 }
 
 export const buildSearchSuggestions = (
-  data?: GetSearchSuggestions,
-  variables?: ISuggestionsVariables
-): string[] => {
-  const suggestions: string[] = [];
-
+  options: ISuggestionsOptions,
+  data?: any
+): { label: string; value: string }[] => {
   if (data) {
-    if (data.companiesList) {
-      data.companiesList.items.forEach((item) => {
-        if (item.name) suggestions.push(item.name);
-      });
+    if (data.companies && options.type === SearchType.COMPANIES) {
+      return (data as GetSearchSuggestionsCompanies).companies.items.map(
+        (company) => ({ label: company.name, value: company.id })
+      );
     }
 
-    if (
-      data.jobsList &&
-      (variables ? variables.searchType !== SearchType.COMPANIES : true)
-    ) {
-      data.jobsList.items.forEach((item) => {
-        if (item.name) suggestions.push(item.name);
-      });
+    if (data.jobs && options.type === SearchType.JOBS) {
+      if (options.companyId) {
+        return (
+          (data as GetSearchSuggestionsCompanyJobs).company?.jobs.items.map(
+            (job) => ({ label: job.name, value: job.id })
+          ) ?? []
+        );
+      } else {
+        return (data as GetSearchSuggestionsJobs).jobs.items.map((job) => ({
+          label: job.name,
+          value: job.id,
+        }));
+      }
     }
   }
 
-  return suggestions;
-};
-
-export const buildSearchSuggestionsCompany = (
-  data?: GetSearchSuggestionsCompany
-) => {
-  const suggestions: string[] = [];
-  if (data && data.company && data.company.jobs) {
-    data.company.jobs.items.forEach((item) => {
-      if (item.name) suggestions.push(item.name);
-    });
-  }
-
-  return suggestions;
+  return [];
 };

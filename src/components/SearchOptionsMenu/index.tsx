@@ -48,13 +48,7 @@ export interface ISearchOptionsMenuProps
     onChange: (value: (number | undefined)[]) => void;
   };
 
-  locationOption?: {
-    options: OptionTypeBase[];
-    value?: OptionTypeBase[];
-    onChange: (value: OptionTypeBase[]) => void;
-  };
-
-  onOptionChange: () => void;
+  onOptionChange?: () => void;
 }
 
 /*******************************************************************
@@ -225,7 +219,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   typeOption,
   ratingOption,
   salaryOption,
-  locationOption,
   onOptionChange,
 }) => {
   const { isMobileMenuOpen } = useMobileMenuContext();
@@ -270,18 +263,10 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
   const [internalTypeOptionVal, setInternalTypeOptionVal] = useState(
     typeOption && typeOption.value
   );
-  const [
-    internalRatingFilterOptionVal,
-    setInternalRatingFilterOptionVal,
-  ] = useState((ratingOption && ratingOption.value) || []);
-  const [
-    internalSalaryFilterOptionVal,
-    setInternalSalaryFilterOptionVal,
-  ] = useState((salaryOption && salaryOption.value) || []);
-  const [
-    internalLocationFilterOptionVal,
-    setInternalLocationFilterOptionVal,
-  ] = useState((locationOption && locationOption.value) || []);
+  const [internalRatingFilterOptionVal, setInternalRatingFilterOptionVal] =
+    useState((ratingOption && ratingOption.value) || []);
+  const [internalSalaryFilterOptionVal, setInternalSalaryFilterOptionVal] =
+    useState((salaryOption && salaryOption.value) || []);
 
   /**
    * Callback to reset all options to their empty state.
@@ -291,7 +276,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
     setInternalTypeOptionVal(undefined);
     setInternalRatingFilterOptionVal([]);
     setInternalSalaryFilterOptionVal([]);
-    setInternalLocationFilterOptionVal([]);
   };
 
   /**
@@ -328,25 +312,8 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       optionsChanged = true;
       setTimeout(() => salaryOption.onChange(internalSalaryFilterOptionVal), 0);
     }
-    if (
-      locationOption &&
-      ((internalLocationFilterOptionVal || []).length !==
-        (locationOption.value || []).length ||
-        (internalLocationFilterOptionVal || []).some(
-          (val) =>
-            !(locationOption.value || [])
-              .map((otherVal) => otherVal.value)
-              .includes(val.value)
-        ))
-    ) {
-      optionsChanged = true;
-      setTimeout(
-        () => locationOption.onChange(internalLocationFilterOptionVal),
-        0
-      );
-    }
 
-    if (optionsChanged) onOptionChange();
+    if (optionsChanged && onOptionChange) onOptionChange();
   };
 
   return (
@@ -354,7 +321,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       className={classNames("options-menu", className, {
         "mobile-menu-open": isMobileMenuOpen,
       })}
-      color="backgroundSecondary"
+      backgroundColor="backgroundSecondary"
       menuOpen={menuOpen}
       onFocus={() => setMenuOpen(true)}
       onClick={() => setMenuOpen(true)}
@@ -373,34 +340,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
           <Icon name={IconName.CHEVRON} size={16} />
         </CloseIndicator>
       </CenterContainer>
-
-      {sortOption && (
-        <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
-          <CenterContainer>
-            <Text variant="heading4">Sort</Text>
-            <Tooltip color="textTertiary">
-              <Text variant="body" as="div">
-                When sorting by salary: companies are sorted by their median,
-                whereas jobs are sorted by their average review salary.
-              </Text>
-              <br />
-              <Text variant="body" as="div">
-                By default, reviews are sorted chronologically.
-              </Text>
-            </Tooltip>
-          </CenterContainer>
-
-          <SortOptionSelect
-            className="sort select"
-            color="backgroundPrimary"
-            placeholder="by..."
-            options={sortOption.options}
-            value={internalSortOptionVal || ""}
-            onChange={setInternalSortOptionVal}
-            tabIndex={menuOpen ? 0 : -1}
-          />
-        </CenterContainer>
-      )}
 
       {typeOption && (
         <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
@@ -512,22 +451,6 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
         </div>
       )}
 
-      {locationOption && (
-        <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
-          <Text variant="heading4">Location</Text>
-          <SortOptionSelect
-            className="location select"
-            color="backgroundPrimary"
-            placeholder="California"
-            isMulti
-            value={internalLocationFilterOptionVal}
-            options={locationOption.options}
-            onChange={setInternalLocationFilterOptionVal}
-            tabIndex={menuOpen ? 0 : -1}
-          />
-        </CenterContainer>
-      )}
-
       {ratingOption && (
         <TopContainer aria-hidden={menuOpen ? "false" : "true"}>
           <Text variant="heading4">Rating</Text>
@@ -564,6 +487,34 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
             </StarRating>
           </VerticalAlignContainer>
         </TopContainer>
+      )}
+
+      {sortOption && (
+        <CenterContainer aria-hidden={menuOpen ? "false" : "true"}>
+          <CenterContainer>
+            <Text variant="heading4">Sort</Text>
+            <Tooltip color="textTertiary">
+              <Text variant="body" as="div">
+                When sorting by salary: companies are sorted by their median,
+                whereas jobs are sorted by their average review salary.
+              </Text>
+              <br />
+              <Text variant="body" as="div">
+                By default, reviews are sorted chronologically.
+              </Text>
+            </Tooltip>
+          </CenterContainer>
+
+          <SortOptionSelect
+            className="sort select"
+            color="backgroundPrimary"
+            placeholder="by..."
+            options={sortOption.options}
+            value={internalSortOptionVal || ""}
+            onChange={setInternalSortOptionVal}
+            tabIndex={menuOpen ? 0 : -1}
+          />
+        </CenterContainer>
       )}
 
       <ActionContainer>

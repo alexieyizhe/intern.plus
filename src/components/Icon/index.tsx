@@ -79,7 +79,7 @@ const Icon: React.FC<IconProps> = ({
           {...rest}
         />
       ),
-    [className, iconColor, iconSize, name, rest]
+    [className, IconSVG, iconColor, iconSize, name, rest]
   );
 
   return RenderedComponent;

@@ -13,7 +13,8 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "strict": false,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
@@ -21,6 +22,6 @@
     "jsx": "react",
     "noEmit": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "api/**/*", "src/api/globalTypes"],
   "exclude": ["node_modules", "src/**/*.unit.test.tsx", "src/theme/cypress/**"]
 }

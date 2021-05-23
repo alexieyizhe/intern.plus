@@ -38,8 +38,8 @@ export interface ISearchFieldProps
 const ENTER_KEY_CODE = 13;
 
 const renderSuggestion = (suggestion: string) => (
-  <Suggestion color="backgroundSecondary">
-    <Text variant="subheading" color="textSecondary">
+  <Suggestion color="textTertiary">
+    <Text variant="subheading" color="textPrimary">
       {suggestion}
     </Text>
   </Suggestion>
@@ -113,7 +113,7 @@ const Container = styled.div`
 
   & .react-autosuggest__suggestion--highlighted span {
     transition: color 150ms ease-in;
-    color: ${({ theme }) => theme.color.textPrimary};
+    color: ${({ theme }) => theme.color.textSecondary};
   }
 `;
 
@@ -131,7 +131,7 @@ const SearchField: React.FC<ISearchFieldProps> = ({
   onTriggerSearch,
   fuseOptions = {},
   suggestions,
-  inputProps = { color: "backgroundSecondary" },
+  inputProps,
   buttonProps = {
     color: "greenSecondary",
     contents: (
@@ -172,42 +172,43 @@ const SearchField: React.FC<ISearchFieldProps> = ({
     []
   );
 
-  const {
-    onSuggestionSelected,
-    getSuggestionValue,
-    filteredSuggestions,
-  } = useMemo(() => {
-    const getSuggestionValue = (suggestedVal: string) => suggestedVal;
+  const { onSuggestionSelected, getSuggestionValue, filteredSuggestions } =
+    useMemo(() => {
+      const getSuggestionValue = (suggestedVal: string) => suggestedVal;
 
-    if (suggestions) {
-      const onSuggestionSelected: OnSuggestionSelected<string> = (
-        e,
-        { suggestion }
-      ) => setInputVal(suggestion);
+      if (suggestions) {
+        const onSuggestionSelected: OnSuggestionSelected<string> = (
+          e,
+          { suggestion }
+        ) => setInputVal(suggestion);
 
-      let filteredSuggestions: string[] = [];
-      if (inputVal) {
-        const fuse = new Fuse(suggestions, {
-          shouldSort: true,
-          threshold: 0.4,
-          ...fuseOptions,
-        });
-        const results = fuse.search(inputVal);
+        let filteredSuggestions: string[] = [];
+        if (inputVal) {
+          const fuse = new Fuse(suggestions, {
+            shouldSort: true,
+            threshold: 0.4,
+            ...fuseOptions,
+          });
+          const results = fuse.search(inputVal);
 
-        filteredSuggestions = (results as string[])
-          .map((result) => suggestions[(result as unknown) as number])
-          .slice(0, 5) as string[];
+          filteredSuggestions = (results as string[])
+            .map((result) => suggestions[result as unknown as number])
+            .slice(0, 5) as string[];
+        }
+
+        return {
+          onSuggestionSelected,
+          getSuggestionValue,
+          filteredSuggestions,
+        };
+      } else {
+        return {
+          onSuggestionSelected: () => {},
+          getSuggestionValue,
+          filteredSuggestions: [],
+        };
       }
-
-      return { onSuggestionSelected, getSuggestionValue, filteredSuggestions };
-    } else {
-      return {
-        onSuggestionSelected: () => {},
-        getSuggestionValue,
-        filteredSuggestions: [],
-      };
-    }
-  }, [fuseOptions, inputVal, suggestions]);
+    }, [fuseOptions, inputVal, suggestions]);
 
   return (
     <Container
@@ -223,7 +224,10 @@ const SearchField: React.FC<ISearchFieldProps> = ({
         suggestions={filteredSuggestions}
         getSuggestionValue={getSuggestionValue}
         renderInputComponent={(innerInputProps) => (
-          <TextInput color={inputProps.color} {...(innerInputProps as any)} /> // eslint-disable-line @typescript-eslint/no-explicit-any
+          <TextInput
+            color={inputProps?.color ?? "backgroundSecondary"}
+            {...(innerInputProps as any)}
+          /> // eslint-disable-line @typescript-eslint/no-explicit-any
         )}
         renderSuggestion={renderSuggestion}
         inputProps={{

@@ -8,7 +8,7 @@ const defaultOptions: OptionTypeBase[] = [
   { label: "alphabetically", value: SearchSort.ALPHABETICAL },
   { label: "by review count", value: SearchSort.NUM_REVIEWS },
   { label: "by rating", value: SearchSort.RATING },
-  { label: "by salary", value: SearchSort.SALARY },
+  { label: "by review date", value: SearchSort.CREATION_DATE },
 ];
 
 const getOptionFromValue = (options: OptionTypeBase[], value: SearchSort) =>

@@ -24,7 +24,7 @@ const Indicator = styled.div<ITooltipProps>`
 
   text-align: center;
   background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
+    theme.color[color] ?? (color || "inherit")};
   border-radius: 50%;
   cursor: pointer;
 

@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import classNames from "classnames";
+import toast from "react-hot-toast";
 
 import { deviceBreakpoints } from "src/theme/mediaQueries";
 import { RouteName } from "src/shared/constants/routing";
@@ -20,6 +21,7 @@ import { UnstyledButton } from "src/components/Button";
 import Icon, { IconName } from "src/components/Icon";
 import Link from "src/components/Link";
 import Text from "src/components/Text";
+import { useLocalStorage } from "src/shared/hooks/useLocalStorage";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -27,6 +29,7 @@ import Text from "src/components/Text";
 export const HEADER_HEIGHT = 75;
 export const MOBILE_MENU_HEIGHT = 120;
 export const MOBILE_MENU_MEDIA_QUERY = "tablet"; // width at which the mobile menu is activated
+const ALLOW_REVIEW_ADD = false;
 
 /*******************************************************************
  *                            **Styles**                           *
@@ -110,7 +113,6 @@ const Logo = styled.div`
 
   ${({ theme }) => theme.mediaQueries.tablet`
     & .logo-img {
-      max-height: 30px;
       margin-right: 3px;
     }
   `}
@@ -212,22 +214,16 @@ const Header: React.FC = () => {
   /**
    * State and callbacks for mobile menu and add review modal.
    */
-  const {
-    isMobileMenuOpen,
-    toggleMobileMenu,
-    setMobileMenuOpen,
-  } = useMobileMenuContext();
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const {
-    toggleAddReviewModal,
-    isAddReviewModalOpen,
-  } = useAddReviewModalContext();
-  /* eslint-enable @typescript-eslint/no-unused-vars */
+  const { isMobileMenuOpen, toggleMobileMenu, setMobileMenuOpen } =
+    useMobileMenuContext();
+  const { toggleAddReviewModal, isAddReviewModalOpen } =
+    useAddReviewModalContext();
   const { toggleDarkMode, curMode } = useSiteThemeContext();
 
-  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), [
-    setMobileMenuOpen,
-  ]);
+  const closeMobileMenu = useCallback(
+    () => setMobileMenuOpen(false),
+    [setMobileMenuOpen]
+  );
 
   /**
    * If the add review button is clicked, set the background page to
@@ -252,6 +248,29 @@ const Header: React.FC = () => {
    */
   const headerRef = useRef<HTMLElement | null>(null);
   useOnClickOutside(headerRef, closeMobileMenu);
+
+  const [hasDismissedWarningToast, setHasDismissedWarningToast] =
+    useLocalStorage("intern-plus-construction-warning-dismissed", false);
+
+  useEffect(() => {
+    if (!hasDismissedWarningToast) {
+      const toastId = toast(
+        "intern+ is currently being migrated to a different backend since I can no longer afford the original hosting provider. Please note some features may be unavailable during this migration - sorry for the inconvenience!",
+        {
+          icon: "🚧",
+          duration: 10000,
+        }
+      );
+
+      const timer = setTimeout(() => {
+        toast.dismiss(toastId);
+        setHasDismissedWarningToast(true);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+    return () => {};
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container
@@ -283,9 +302,6 @@ const Header: React.FC = () => {
           <Link to={RouteName.JOBS} bare>
             <Text>positions</Text>
           </Link>
-          <Link to={RouteName.REVIEWS} bare>
-            <Text>reviews</Text>
-          </Link>
           <Link to={RouteName.LANDING} bare className="homeLink">
             <Text>home</Text>
           </Link>
@@ -305,19 +321,21 @@ const Header: React.FC = () => {
               size={24}
             />
           </UnstyledButton>
-          {/* <UnstyledButton
-            onClick={toggleAddReviewModal}
-            aria-label="Add review button"
-          >
-            <Icon
-              name={
-                isAddReviewModalOpen
-                  ? copy.addReview.openIcon.name
-                  : copy.addReview.closedIcon.name
-              }
-              size={24}
-            />
-          </UnstyledButton> */}
+          {ALLOW_REVIEW_ADD && (
+            <UnstyledButton
+              onClick={toggleAddReviewModal}
+              aria-label="Add review button"
+            >
+              <Icon
+                name={
+                  isAddReviewModalOpen
+                    ? copy.addReview.openIcon.name
+                    : copy.addReview.closedIcon.name
+                }
+                size={24}
+              />
+            </UnstyledButton>
+          )}
         </HeaderActionContainer>
       </InnerContainer>
     </Container>

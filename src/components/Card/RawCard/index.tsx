@@ -5,18 +5,19 @@ import styled from "styled-components";
  *                            **Types**                            *
  *******************************************************************/
 export interface ICardProps extends React.ComponentPropsWithRef<"div"> {
-  color?: string;
+  backgroundColor?: string;
 }
 
 /*******************************************************************
  *                            **Styles**                           *
  *******************************************************************/
-const BaseCard = styled.div`
+const BaseCard = styled.div<ICardProps>`
   display: inline-block;
 
   border-radius: ${({ theme }) => theme.borderRadius.large}px;
-  background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
+  background-color: ${({ backgroundColor = "inherit", theme }) =>
+    theme.color[backgroundColor] ?? backgroundColor};
+  transition: background-color 200ms ease;
 `;
 
 /*******************************************************************

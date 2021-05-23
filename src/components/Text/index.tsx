@@ -80,14 +80,13 @@ const BaseText = styled.span<ITextProps & { easterEgg: boolean }>`
   margin: 0;
   padding: 0;
 
-  color: ${({ color = "textPrimary", theme }) => theme.color[color] || color};
+  color: ${({ color = "textPrimary", theme }) => theme.color[color] ?? color};
   font-family: ${({ heading, easterEgg, theme }) =>
     easterEgg
       ? "Comic Sans MS"
       : theme.fontFamily[heading ? "heading" : "body"]};
   font-size: ${({ size, theme }) =>
     size ? `${theme.fontSize[size] || size}px` : "inherit"};
-
 
   ${({ underline }) => underline && `text-decoration-line: underline;`}
   ${({ bold }) =>

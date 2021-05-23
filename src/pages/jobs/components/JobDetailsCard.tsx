@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
+import useDarkMode from "use-dark-mode";
 
 import { RouteName } from "src/shared/constants/routing";
-import { getPrimaryColor } from "src/shared/utils/color";
-
+import { getPrimaryColor, getSecondaryColor } from "src/shared/utils/color";
+import { useImageColor } from "src/shared/hooks/useImageColor";
 import {
   IDetailsCardProps,
   DetailsCard,
@@ -12,7 +13,6 @@ import {
   Link,
   StarRating,
 } from "src/components";
-import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -23,8 +23,8 @@ import useDarkMode from "use-dark-mode";
 export interface IJobDetails {
   name: string;
   companyName: string;
-  companySlug: string;
-  location?: string;
+  companyId: string;
+  location: string | null;
   numRatings: number;
   avgRating: number;
   avgLearningMentorshipRating: number;
@@ -33,7 +33,7 @@ export interface IJobDetails {
   minHourlySalary: number;
   maxHourlySalary: number;
   hourlySalaryCurrency: string;
-  color: string;
+  companyLogoSrc: string;
 }
 
 export interface IJobDetailsCardProps extends IDetailsCardProps {
@@ -147,19 +147,25 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
   ...rest
 }) => {
   const { value: isDark } = useDarkMode();
+  const color = useImageColor(jobDetails?.companyLogoSrc);
+
   return (
-    <DetailsCard className={classNames("job", className)} {...rest}>
+    <DetailsCard
+      className={classNames("job", className)}
+      backgroundColor={getSecondaryColor(isDark, color)}
+      {...rest}
+    >
       <div>
         <Text
           variant="heading1"
           as="div"
-          color={getPrimaryColor(isDark, jobDetails?.color)}
+          color={getPrimaryColor(isDark, color)}
         >
           {jobDetails?.name}
         </Text>
         <Link
           className="subheading"
-          to={`${RouteName.COMPANIES}/${jobDetails?.companySlug}`}
+          to={`${RouteName.COMPANIES}/${jobDetails?.companyId}`}
           bare
         >
           <Text variant="heading3" color="textSecondary">
@@ -271,7 +277,9 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
               <Text variant="heading2" as="div">
                 {jobDetails?.minHourlySalary === jobDetails?.maxHourlySalary
                   ? jobDetails?.minHourlySalary
-                  : `${jobDetails?.minHourlySalary} - ${jobDetails?.maxHourlySalary}`}
+                  : `${jobDetails?.minHourlySalary.toFixed(
+                      2
+                    )} - ${jobDetails?.maxHourlySalary.toFixed(2)}`}
               </Text>
             )}
             <Text variant="heading3" as="div">

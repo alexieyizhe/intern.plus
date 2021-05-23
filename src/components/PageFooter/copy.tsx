@@ -1,16 +1,14 @@
 import React from "react";
 
-// import { RouteName } from "src/shared/constants/routing";
+import { RouteName } from "src/shared/constants/routing";
+import { Link } from "..";
 
 const emojis = [
   { raw: "✨", label: "sparkles" },
   { raw: "☕️", label: "coffee" },
   { raw: "💛", label: "yellow-heart" },
+  { raw: "🌻", label: "sunflower" },
 ];
-
-const RANKINGS_DAY1 = "11/5";
-const RANKINGS_DAY2 = "11/5";
-const RANKINGS_TEXT = "thank mr goose for rankings";
 
 /**
  * Gets the correct text underneath the footer logo.
@@ -47,12 +45,6 @@ const getSubtext = () => {
           </span>
         </>
       );
-
-    case RANKINGS_DAY1:
-      return <>{RANKINGS_TEXT}</>;
-
-    case RANKINGS_DAY2:
-      return <>{RANKINGS_TEXT}</>;
   }
 
   let randomEmoji = emojis[Math.floor(Math.random() * 3)];
@@ -68,7 +60,10 @@ const getSubtext = () => {
       <span role="img" aria-label={randomEmoji.label}>
         {randomEmoji.raw}
       </span>{" "}
-      by alex
+      by{" "}
+      <Link to="https://alex.xie.codes/" newTab>
+        alex
+      </Link>
     </>
   );
 };
@@ -77,7 +72,7 @@ export const EMAIL = "hello@intern.plus";
 export const FEEDBACK_LINK =
   "https://github.com/alexieyizhe/intern.plus/issues/new?title=Feedback%20for%20intern.plus&body=Explain%20your%20issue%20here";
 
-export default {
+const COPY = {
   getSubtext,
   sublinks: [
     {
@@ -90,16 +85,17 @@ export default {
       label: "submit feedback",
       newTab: true,
     },
-
     {
       to: "https://github.com/alexieyizhe/intern.plus",
       label: "open source",
       newTab: true,
     },
-    // {
-    //   to: RouteName.DESIGN,
-    //   label: "design system",
-    //   newTab: false,
-    // },
+    {
+      to: RouteName.DESIGN,
+      label: "design system",
+      newTab: false,
+    },
   ],
 };
+
+export default COPY;

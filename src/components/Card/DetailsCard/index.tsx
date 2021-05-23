@@ -5,18 +5,20 @@ import classNames from "classnames";
 import Card from "src/components/Card";
 import Spinner from "src/components/Spinner";
 import Text from "src/components/Text";
-import SearchField, { ISearchFieldProps } from "src/components/SearchField";
+import SelectField, { ISelectFieldProps } from "src/components/SelectField";
 import { MOBILE_MENU_MEDIA_QUERY } from "src/components/PageHeader";
+import { ICardProps } from "../RawCard";
 
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
 export interface IDetailsCardProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+  extends ICardProps,
+    React.ComponentPropsWithoutRef<"div"> {
   loading: boolean;
   error: boolean;
 
-  searchFieldProps?: ISearchFieldProps;
+  selectFieldProps?: ISelectFieldProps;
 }
 
 /*******************************************************************
@@ -32,9 +34,6 @@ const Container = styled(Card)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  background-color: ${({ theme, color }) =>
-    theme.color[color || "backgroundSecondary"]};
 
   & .loading {
     margin: auto;
@@ -68,7 +67,7 @@ const DetailsCard: React.FC<IDetailsCardProps> = ({
   className,
   loading,
   error,
-  searchFieldProps,
+  selectFieldProps,
   children,
   ...rest
 }) => (
@@ -89,7 +88,7 @@ const DetailsCard: React.FC<IDetailsCardProps> = ({
       children
     )}
 
-    {searchFieldProps && <SearchField {...searchFieldProps} />}
+    {selectFieldProps && <SelectField {...selectFieldProps} />}
   </Container>
 );
 

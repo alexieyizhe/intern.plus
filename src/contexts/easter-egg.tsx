@@ -12,9 +12,8 @@ const DEFAULT_STATE = {
   setEasterEggActive: (_: boolean) => {},
 };
 
-export const EasterEggContext: React.Context<IEasterEggState> = createContext(
-  DEFAULT_STATE
-);
+export const EasterEggContext: React.Context<IEasterEggState> =
+  createContext(DEFAULT_STATE);
 
 export const EasterEggContextProvider: React.FC = ({ children, ...rest }) => {
   const [isEasterEggActive, setEasterEggActive] = useState(false);

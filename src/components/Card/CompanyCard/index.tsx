@@ -2,14 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
+import useDarkMode from "use-dark-mode";
 
 import { hoverStyles, itemCardStyles } from "src/theme/snippets";
 import { getSecondaryColor, getPrimaryColor } from "src/shared/utils/color";
-
 import StarRating from "src/components/StarRating";
 import Text from "src/components/Text";
+import { useImageColor } from "src/shared/hooks/useImageColor";
+
 import Card, { ICardProps } from "../RawCard";
-import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -116,15 +117,17 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({
   numRatings,
   avgRating,
   linkTo,
-  color,
   ...rest
 }) => {
   const { value: isDark } = useDarkMode();
+  const color = useImageColor(logoSrc);
 
   return (
     <Container
       className={classNames("company-card", className)}
-      color={color ? getSecondaryColor(isDark, color) : FALLBACK_BG_COLOR}
+      backgroundColor={
+        color ? getSecondaryColor(isDark, color) : FALLBACK_BG_COLOR
+      }
       {...rest}
     >
       <Link to={linkTo} tabIndex={0}>

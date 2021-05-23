@@ -1,4 +1,20 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.enable": true
+  "editor.formatOnSave": true,
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "python.pythonPath": "/Users/alexxie/.pyenv/versions/3.9.0/bin/python"
 }

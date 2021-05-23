@@ -48,13 +48,12 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
   if (isCompanyCardItem(card)) {
     return (
       <LandingCompanyCard
-        key={card.slug}
+        key={card.id}
         name={card.name}
         logoSrc={card.logoSrc}
         numRatings={card.numRatings}
         avgRating={card.avgRating}
-        color={card.color}
-        linkTo={getCompanyCardRoute(card.slug)}
+        linkTo={getCompanyCardRoute(card.id)}
       />
     );
   } else if (isJobCardItem(card)) {
@@ -81,7 +80,6 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         heading={card.companyName}
         subheading={card.jobName}
         rating={card.overallRating}
-        color={card.color}
         linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
@@ -94,7 +92,6 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         heading={card.author}
         subheading={card.relativeDate}
         rating={card.overallRating}
-        color={card.color}
         linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
@@ -205,11 +202,10 @@ const LandingCardDisplay: React.FC<ILandingCardDisplayProps> = ({
   cards,
   ...rest
 }) => {
-  const showMisc = useMemo(() => loading || error || !cards.length, [
-    cards,
-    error,
-    loading,
-  ]);
+  const showMisc = useMemo(
+    () => loading || error || !cards.length,
+    [cards, error, loading]
+  );
 
   return (
     <Container {...rest}>

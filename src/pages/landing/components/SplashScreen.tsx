@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
-import { RouteName } from "src/shared/constants/routing";
-import copy from "../copy";
+import { getCompanyCardRoute } from "src/shared/constants/routing";
+import { Text } from "src/components";
+import { SearchType } from "src/shared/constants/search";
+import SelectField from "src/components/SelectField";
 
-import { SearchField, Text, Button } from "src/components";
+import copy from "../copy";
 
 /*******************************************************************
  *                             **Types**                           *
@@ -66,6 +67,10 @@ const LeftColumn = styled.div`
     & h3 {
       text-align: center;
     }
+
+    & > div {
+      width: 100%;
+    }
   `}
 
   ${({ theme }) => theme.mediaQueries.smallMobile`
@@ -104,8 +109,9 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
   ...rest
 }) => {
   const history = useHistory();
-  const searchSuggestions = useSearchSuggestions(); // for SearchField
-  const { isMobile } = useWindowWidth(); // show only search button on mobile
+  const searchSuggestions = useSearchSuggestions({
+    type: SearchType.COMPANIES,
+  });
 
   return (
     <Container {...rest}>
@@ -119,23 +125,14 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
           </Text>
         </div>
         <div>
-          {isMobile ? (
-            <Button
-              onClick={() => history.push(RouteName.SEARCH)}
-              color="greenSecondary"
-            >
-              <Text variant="subheading" color="backgroundPrimary">
-                {copy.splashCard.searchButtonText}
-              </Text>
-            </Button>
-          ) : (
-            <SearchField
-              className="landing-search"
-              placeholder="Find something"
-              onTriggerSearch={onTriggerSearch}
-              suggestions={searchSuggestions}
-            />
-          )}
+          <SelectField
+            onSelectOption={({ value: companyId }) =>
+              history.push(getCompanyCardRoute(companyId))
+            }
+            className="landing-search"
+            inputProps={{ placeholder: "Find a company..." }}
+            suggestions={searchSuggestions}
+          />
         </div>
       </LeftColumn>
 

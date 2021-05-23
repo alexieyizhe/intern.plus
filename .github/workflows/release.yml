@@ -1,19 +1,25 @@
-name: bump release version
-
+name: Release
 on:
-  push:
-    branches:
-      - release
+  release:
+    types: [published]
 
 jobs:
-  version_bump:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@master
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_OWNER: alexieyizhe
-          WITH_V: true
-          RELEASE_BRANCHES: release
+          VERSION_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          git config --global user.name "🤖 Beep boop bot"
+          git config --global user.email "alexieyizhe@gmail.com"
+
+          npm version $VERSION_TAG --git-tag-version=false
+          git commit -am "🤖: bump version to $VERSION_TAG"
+
+          git push origin -f HEAD:release
+          git push origin -f HEAD:master

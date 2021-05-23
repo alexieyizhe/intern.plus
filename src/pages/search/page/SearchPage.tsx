@@ -4,28 +4,15 @@ import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 import { useSearchParams } from "src/shared/hooks/useSearchParams";
-import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
-import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import { useSearchLocationFilter } from "src/shared/hooks/useSearchLocationFilter";
-import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
-import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
-import { useSearchSort } from "src/shared/hooks/useSearchSort";
-import { useSearchType } from "src/shared/hooks/useSearchType";
 import { useSearch } from "src/shared/hooks/useSearch";
 
-import { SearchType, availableSortOptions } from "src/shared/constants/search";
+import { SearchType } from "src/shared/constants/search";
 import pageCopy from "../copy";
 
-import { getSearchBuilder } from "../graphql/queries";
+import { getSearchQuery } from "../graphql/queries";
 import { buildSearchResultCardsList } from "../graphql/utils";
 
-import {
-  SearchResultCardDisplay,
-  SearchField,
-  SearchOptionsMenu,
-  Text,
-  PageContainer,
-} from "src/components";
+import { SearchResultCardDisplay, Text, PageContainer } from "src/components";
 
 /*******************************************************************
  *                  **Utility functions/constants**                *
@@ -108,39 +95,23 @@ const SearchPage: React.FC = () => {
   useScrollTopOnMount();
 
   const { searchQuery, searchType } = useSearchParams();
-  const searchSuggestions = useSearchSuggestions({ searchType }); // for SearchField
 
   /**
    * For fetching results
    */
-  const { QUERY_DEF } = useSearchQueryDef(getSearchBuilder);
+  const searchQueryDef = getSearchQuery(searchType);
   const {
-    // search info
     searchState,
     searchResults,
-    unfilteredResults,
 
-    // callbacks
-    triggerSearchNew,
     triggerSearchNextBatch,
   } = useSearch(
-    QUERY_DEF,
+    searchQueryDef,
     {
       skip: searchQuery === undefined && !searchType, // if searching for a type, show all of that type instead of empty state prompting them to search
     },
     buildSearchResultCardsList
   );
-
-  /**
-   * For search options menu
-   */
-  const sortOption = useSearchSort(
-    searchType ? availableSortOptions[searchType] : undefined
-  );
-  const typeOption = useSearchType();
-  const salaryOption = useSearchSalaryFilter();
-  const locationOption = useSearchLocationFilter(unfilteredResults);
-  const ratingOption = useSearchRatingFilter();
 
   return (
     <>
@@ -152,20 +123,6 @@ const SearchPage: React.FC = () => {
         <Heading variant="heading1">
           {getHeadingMarkup(searchQuery, searchType)}
         </Heading>
-
-        <SearchField
-          onTriggerSearch={triggerSearchNew}
-          suggestions={searchSuggestions}
-        />
-
-        <SearchOptionsMenu
-          sortOption={sortOption}
-          typeOption={typeOption}
-          salaryOption={salaryOption}
-          locationOption={locationOption}
-          ratingOption={ratingOption}
-          onOptionChange={() => triggerSearchNew(searchQuery, true)}
-        />
 
         <SearchResultCardDisplay
           searchState={searchState}

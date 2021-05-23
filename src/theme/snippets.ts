@@ -56,11 +56,11 @@ export const inputStyles = css<IInputStyleOptions>`
   width: 100%;
   padding: ${({ theme }) => theme.padding.input};
 
-  color: ${({ textColor = "textPrimary", theme }) =>
+  color: ${({ textColor = "textDark", theme }) =>
     theme.color[textColor] || textColor};
   ::placeholder {
     color: ${({ theme }) => theme.color.textSecondary};
-    opacity: 1; 
+    opacity: 1;
   }
   font-family: ${({ heading, theme }) =>
     theme.fontFamily[heading ? "heading" : "body"]};
@@ -72,8 +72,8 @@ export const inputStyles = css<IInputStyleOptions>`
     bold && `font-weight: ${typeof bold === "number" ? bold : "bold"};`}
   ${({ italic }) => italic && `font-style: italic;`}
 
-  background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
+  background-color: ${({ color = "inherit", theme }) =>
+    theme.color[color] ?? color};
   cursor: ${({ disabled, readOnly }) =>
     disabled || readOnly ? "not-allowed" : "text"};
 
@@ -84,7 +84,7 @@ export const inputStyles = css<IInputStyleOptions>`
   &:hover:not(:read-only):not(:disabled) {
     border: 2px solid ${({ theme }) => theme.color.textTertiary};
   }
-  
+
   &:focus:not(:read-only):not(:disabled) {
     outline: none;
     border: 2px solid ${({ theme }) => theme.color.textPrimary};

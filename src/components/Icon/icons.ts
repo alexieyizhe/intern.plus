@@ -26,7 +26,7 @@ export enum IconName {
   LOGO_TEXT = "logo-text",
 }
 
-export default {
+const ICONS = {
   [IconName.EDIT]: EditIcon,
   [IconName.CHEVRON]: ChevronIcon,
   [IconName.X]: XIcon,
@@ -39,3 +39,5 @@ export default {
   [IconName.LOGO]: LogoIcon,
   [IconName.LOGO_TEXT]: LogoText,
 };
+
+export default ICONS;

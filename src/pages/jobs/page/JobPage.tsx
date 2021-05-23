@@ -1,27 +1,17 @@
-import React, { useMemo } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { useParams } from "react-router-dom";
+import React from "react";
+import { useQuery } from "@apollo/client";
+import { useHistory, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
-import { useSearchQueryDef } from "src/shared/hooks/useSearchQueryDef";
-import { useSearchSort } from "src/shared/hooks/useSearchSort";
-import { useSearchSalaryFilter } from "src/shared/hooks/useSearchSalaryFilter";
-import { useSearchRatingFilter } from "src/shared/hooks/useSearchRatingFilter";
-import { useSearch } from "src/shared/hooks/useSearch";
-
-import { availableSortOptions, SearchType } from "src/shared/constants/search";
+import { SearchState } from "src/shared/hooks/useSearch";
+import { getReviewCardRoute } from "src/shared/constants/routing";
 
 import { GetJobDetails } from "../graphql/types/GetJobDetails";
-import { GetJobReviews } from "../graphql/types/GetJobReviews";
-import { GET_JOB_DETAILS, getJobReviewsQueryBuilder } from "../graphql/queries";
+import { GET_JOB_DETAILS } from "../graphql/queries";
 import { buildJobDetails, buildJobReviewsCardList } from "../graphql/utils";
 
-import {
-  PageContainer,
-  SearchOptionsMenu,
-  SearchResultCardDisplay,
-} from "src/components";
+import { PageContainer, SearchResultCardDisplay } from "src/components";
 import JobDetailsCard from "../components/JobDetailsCard";
 
 /*******************************************************************
@@ -40,8 +30,9 @@ const getTitleMarkup = (jobName?: string, companyName?: string) =>
  *******************************************************************/
 const JobPage: React.FC = () => {
   useScrollTopOnMount();
+  const history = useHistory();
 
-  const { jobId } = useParams();
+  const { jobId } = useParams<{ jobId: string }>();
 
   /**
    * Fetch the *details of the job* with corresponding id.
@@ -54,42 +45,16 @@ const JobPage: React.FC = () => {
     variables: { id: jobId },
   });
 
-  const jobDetails = useMemo(
-    () =>
-      detailsData && detailsData.job
-        ? buildJobDetails(detailsData.job)
-        : undefined,
-    [detailsData]
+  const jobDetails = buildJobDetails(detailsData?.job);
+  const jobReviewsList = buildJobReviewsCardList(
+    detailsData?.job?.reviews.items
   );
 
-  /**
-   * Fetch *reviews of the job*.
-   */
-  const { QUERY_DEF } = useSearchQueryDef(getJobReviewsQueryBuilder);
-  const {
-    // search info
-    searchState,
-    searchResults,
-
-    // callbacks
-    triggerSearchNew,
-    triggerSearchNextBatch,
-  } = useSearch<GetJobReviews>(
-    QUERY_DEF,
-    {
-      variables: {
-        id: jobId,
-      },
-    },
-    buildJobReviewsCardList
-  );
-
-  /**
-   * For search options menu
-   */
-  const sortOption = useSearchSort(availableSortOptions[SearchType.REVIEWS]);
-  const salaryOption = useSearchSalaryFilter();
-  const ratingOption = useSearchRatingFilter();
+  const searchState = detailsError
+    ? SearchState.ERROR
+    : detailsLoading
+    ? SearchState.LOADING
+    : SearchState.NO_MORE_RESULTS;
 
   return (
     <>
@@ -107,23 +72,16 @@ const JobPage: React.FC = () => {
           loading={detailsLoading}
           error={detailsError !== undefined}
           jobDetails={jobDetails}
-          searchFieldProps={{
-            onTriggerSearch: triggerSearchNew,
+          selectFieldProps={{
+            onSelectOption: ({ value: reviewId }) =>
+              history.push(getReviewCardRoute(reviewId)),
             inputProps: { placeholder: "Find a review" },
           }}
         />
 
-        <SearchOptionsMenu
-          sortOption={sortOption}
-          salaryOption={salaryOption}
-          ratingOption={ratingOption}
-          onOptionChange={() => triggerSearchNew(undefined, true)}
-        />
-
         <SearchResultCardDisplay
           searchState={searchState}
-          searchResults={searchResults}
-          onResultsEndReached={triggerSearchNextBatch}
+          searchResults={jobReviewsList}
         />
       </PageContainer>
     </>

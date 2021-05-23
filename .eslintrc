@@ -9,22 +9,12 @@
     "plugin:cypress/recommended"
   ],
   "plugins": ["react", "@typescript-eslint", "prettier", "react-hooks"],
-  "parserOptions": {
-    "ecmaVersion": 2018,
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "sourceType": "module"
-  },
-  "env": {
-    "browser": true,
-    "node": true
-  },
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": 1,
     "cypress/no-unnecessary-waiting": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-empty-function": [
       "error",
       { "allow": ["arrowFunctions"] }

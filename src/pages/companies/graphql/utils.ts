@@ -1,44 +1,40 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { IJobCardItem } from "src/shared/constants/card";
 import { ICompanyDetails } from "../components/CompanyDetailsCard";
-import { GetCompanyDetails_company } from "./types/GetCompanyDetails";
 import {
-  GetCompanyJobs,
-  GetCompanyJobs_company_jobs_items,
-} from "./types/GetCompanyJobs";
+  GetCompanyDetails_company,
+  GetCompanyDetails_company_jobs_items,
+} from "./types/GetCompanyDetails";
 
 export const buildCompanyDetails = (
-  company: GetCompanyDetails_company
-): ICompanyDetails => ({
-  name: company.name || "",
-  desc: company.desc || undefined,
-  numRatings: company.reviews ? company.reviews.count : 0,
-  avgRating: company.avgRating || 0,
-  websiteUrl: company.websiteUrl || "",
-  logoSrc: (company.logoImg && company.logoImg.downloadUrl) || "",
-  color: company.logoColor || "",
-});
+  company: GetCompanyDetails_company | null | undefined
+): ICompanyDetails | undefined =>
+  company
+    ? {
+        name: company.name,
+        desc: company.description,
+        numRatings: company.reviews.count,
+        avgRating: company.scoreAverages.overall,
+        websiteUrl: company.websiteUrl,
+        logoSrc: company.logo ?? "",
+        color: "",
+      }
+    : undefined;
 
 export const buildCompanyJobCard = (
-  item: GetCompanyJobs_company_jobs_items
-) => ({
-  id: item.id || "",
-  slug: item.slug || "",
+  item: GetCompanyDetails_company_jobs_items
+): IJobCardItem => ({
+  id: item.id,
   companyName: "", // we don't need to display company name in job card since the company name is evident in the details card at top of page
-  companySlug: (item.company && item.company.slug) || "",
-  name: item.name || "",
-  location: item.location || "",
-  minHourlySalary: item.minHourlySalary || 0,
-  maxHourlySalary: item.maxHourlySalary || 0,
-  hourlySalaryCurrency: item.hourlySalaryCurrency || "CAD",
-  numRatings: item.reviews ? item.reviews.count : 0,
-  avgRating: item.avgRating || 0,
-  color: (item.company && item.company.logoColor) || "",
+  name: item.name,
+  location: item.location ?? "",
+  minHourlySalary: item.salaryMin.amount,
+  maxHourlySalary: item.salaryMax.amount,
+  hourlySalaryCurrency: item.salaryMin.currency,
+  numRatings: item.reviews.count,
+  avgRating: item.scoreAverages.overall,
+  color: "",
 });
 
 export const buildCompanyJobCardsList = (
-  data?: GetCompanyJobs
-): IJobCardItem[] =>
-  data && data.company && data.company.jobs
-    ? data.company.jobs.items.map(buildCompanyJobCard)
-    : [];
+  data?: GetCompanyDetails_company_jobs_items[]
+): IJobCardItem[] => data?.map(buildCompanyJobCard) ?? [];

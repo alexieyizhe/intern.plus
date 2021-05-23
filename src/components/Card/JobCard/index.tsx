@@ -142,7 +142,7 @@ const JobCard: React.FC<IJobCardProps> = ({
   return (
     <Container
       className={classNames("job-card", className)}
-      color="backgroundSecondary"
+      backgroundColor="backgroundSecondary"
       {...rest}
     >
       <Link to={linkTo} tabIndex={0}>
@@ -177,8 +177,8 @@ const JobCard: React.FC<IJobCardProps> = ({
         {minHourlySalary && minHourlySalary >= 0 && (
           <Text className="salaryAmt" variant="heading2" align="right">
             {minHourlySalary === maxHourlySalary
-              ? minHourlySalary
-              : `${minHourlySalary} - ${maxHourlySalary}`}
+              ? minHourlySalary.toFixed(2)
+              : `${minHourlySalary.toFixed(2)} - ${maxHourlySalary.toFixed(2)}`}
           </Text>
         )}
 

@@ -21,7 +21,7 @@ const Container = styled.div`
   opacity: 0.7;
   border-radius: 3px;
   background-color: ${({ color = "", theme }) =>
-    theme.color[color] || color || "inherit"};
+    theme.color[color] ?? (color || "inherit")};
 `;
 
 /*******************************************************************

@@ -1,41 +1,39 @@
-import { gql } from "apollo-boost";
-
-import {
-  companyResultFragment,
-  reviewResultJobFragment,
-} from "src/api/fragments";
-
-export const MAX_LANDING_CARDS = 5;
+import { gql } from "@apollo/client";
 
 export const GET_COMPANIES_REVIEWS_LANDING = gql`
   query GetCompaniesReviewsLanding {
-    companiesList(filter: { numRatings: { gt: 0 }}, sort: { numRatings: DESC }, first: ${MAX_LANDING_CARDS}) {
+    companiesLanding(limit: 5) {
       items {
-        ...CompanyResult
+        id
+        name
+        logo
+        description
+        scoreAverages {
+          overall
+        }
+        reviews {
+          count
+        }
       }
     }
 
-    reviewsList(
-      filter: { 
-        OR: [
-          {
-            AND: [         
-              { isVerified: { equals: true } },
-              { isSpam: { equals: false } }
-            ]
-          },
-          { isLegacy: { equals: true } }
-        ]
-      }, 
-      sort: { createdAt: DESC }, 
-      first: ${MAX_LANDING_CARDS}
-    ) {
+    reviewsLanding(limit: 5) {
       items {
-        ...ReviewResultJob
+        id
+        body
+        isLegacy
+        createdAt
+        company {
+          name
+        }
+        job {
+          name
+        }
+        score {
+          overall
+        }
+        tags
       }
     }
   }
-
-  ${companyResultFragment}
-  ${reviewResultJobFragment}
 `;
