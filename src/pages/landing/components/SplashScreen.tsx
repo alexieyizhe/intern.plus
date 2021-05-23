@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
-import { RouteName, getCompanyCardRoute } from "src/shared/constants/routing";
-import { Text, Button } from "src/components";
+import { getCompanyCardRoute } from "src/shared/constants/routing";
+import { Text } from "src/components";
 import { SearchType } from "src/shared/constants/search";
 import SelectField from "src/components/SelectField";
 
@@ -68,6 +67,10 @@ const LeftColumn = styled.div`
     & h3 {
       text-align: center;
     }
+
+    & > div {
+      width: 100%;
+    }
   `}
 
   ${({ theme }) => theme.mediaQueries.smallMobile`
@@ -109,7 +112,6 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
   const searchSuggestions = useSearchSuggestions({
     type: SearchType.COMPANIES,
   });
-  const { isMobile } = useWindowWidth(); // show only search button on mobile
 
   return (
     <Container {...rest}>
@@ -123,25 +125,14 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
           </Text>
         </div>
         <div>
-          {isMobile ? (
-            <Button
-              onClick={() => history.push(RouteName.SEARCH)}
-              color="greenSecondary"
-            >
-              <Text variant="subheading" color="backgroundPrimary">
-                {copy.splashCard.searchButtonText}
-              </Text>
-            </Button>
-          ) : (
-            <SelectField
-              onSelectOption={({ value: companyId }) =>
-                history.push(getCompanyCardRoute(companyId))
-              }
-              className="landing-search"
-              inputProps={{ placeholder: "Find a company..." }}
-              suggestions={searchSuggestions}
-            />
-          )}
+          <SelectField
+            onSelectOption={({ value: companyId }) =>
+              history.push(getCompanyCardRoute(companyId))
+            }
+            className="landing-search"
+            inputProps={{ placeholder: "Find a company..." }}
+            suggestions={searchSuggestions}
+          />
         </div>
       </LeftColumn>
 

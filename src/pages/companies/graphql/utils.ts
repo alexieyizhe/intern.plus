@@ -15,7 +15,7 @@ export const buildCompanyDetails = (
         numRatings: company.reviews.count,
         avgRating: company.scoreAverages.overall,
         websiteUrl: company.websiteUrl,
-        logoSrc: "",
+        logoSrc: company.logo ?? "",
         color: "",
       }
     : undefined;

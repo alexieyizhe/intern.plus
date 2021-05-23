@@ -61,6 +61,7 @@ export interface GetCompanyDetails_company {
   name: string;
   description: string | null;
   websiteUrl: string | null;
+  logo: string | null;
   scoreAverages: GetCompanyDetails_company_scoreAverages;
   reviews: GetCompanyDetails_company_reviews;
   jobs: GetCompanyDetails_company_jobs;

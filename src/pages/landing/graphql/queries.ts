@@ -6,6 +6,7 @@ export const GET_COMPANIES_REVIEWS_LANDING = gql`
       items {
         id
         name
+        logo
         description
         scoreAverages {
           overall

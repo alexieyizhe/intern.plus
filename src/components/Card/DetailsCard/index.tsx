@@ -7,12 +7,14 @@ import Spinner from "src/components/Spinner";
 import Text from "src/components/Text";
 import SelectField, { ISelectFieldProps } from "src/components/SelectField";
 import { MOBILE_MENU_MEDIA_QUERY } from "src/components/PageHeader";
+import { ICardProps } from "../RawCard";
 
 /*******************************************************************
  *                            **Types**                           *
  *******************************************************************/
 export interface IDetailsCardProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+  extends ICardProps,
+    React.ComponentPropsWithoutRef<"div"> {
   loading: boolean;
   error: boolean;
 
@@ -32,9 +34,6 @@ const Container = styled(Card)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  background-color: ${({ theme, color }) =>
-    theme.color[color || "backgroundSecondary"]};
 
   & .loading {
     margin: auto;

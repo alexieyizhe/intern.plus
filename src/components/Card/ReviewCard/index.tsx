@@ -124,7 +124,7 @@ const ReviewCard: React.FC<IReviewCardProps> = ({
   return (
     <Container
       className={classNames("review-card", className)}
-      color="backgroundSecondary"
+      backgroundColor="backgroundSecondary"
       {...rest}
     >
       <Link to={linkToWithState} tabIndex={0}>

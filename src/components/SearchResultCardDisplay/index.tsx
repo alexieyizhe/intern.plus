@@ -112,7 +112,6 @@ const getResultCardMarkup = (result: IGenericCardItem, isDark: boolean) => {
         desc={result.desc}
         numRatings={result.numRatings}
         avgRating={result.avgRating}
-        color={result.color}
         linkTo={getCompanyCardRoute(result.id)}
       />
     );
@@ -131,7 +130,6 @@ const getResultCardMarkup = (result: IGenericCardItem, isDark: boolean) => {
         minHourlySalary={result.minHourlySalary}
         maxHourlySalary={result.maxHourlySalary}
         hourlySalaryCurrency={result.hourlySalaryCurrency}
-        color={result.color}
         linkTo={getJobCardRoute(result.id)}
       />
     );
@@ -155,7 +153,6 @@ const getResultCardMarkup = (result: IGenericCardItem, isDark: boolean) => {
         heading={heading}
         subheading={subheading}
         rating={result.overallRating}
-        color={result.color}
         linkTo={getReviewCardRoute(result.id)}
         tags={tags}
       >

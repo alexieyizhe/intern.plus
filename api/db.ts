@@ -7,8 +7,10 @@ const app = admin.initializeApp({
     privateKey: process.env.FIREBASE_ADMIN_SERVICE_KEY,
   }),
   databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
+  storageBucket: "intern-plus.appspot.com",
 });
 
 const db = admin.firestore();
+const storage = admin.storage().bucket();
 
-export { db };
+export { db, storage };

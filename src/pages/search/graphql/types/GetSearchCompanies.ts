@@ -29,6 +29,7 @@ export interface GetSearchCompanies_companies_items {
   id: string;
   name: string;
   description: string | null;
+  logo: string | null;
   websiteUrl: string | null;
   scoreAverages: GetSearchCompanies_companies_items_scoreAverages;
   reviews: GetSearchCompanies_companies_items_reviews;

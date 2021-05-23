@@ -9,6 +9,7 @@ export const GET_COMPANY_DETAILS = gql`
       name
       description
       websiteUrl
+      logo
       scoreAverages {
         overall
       }

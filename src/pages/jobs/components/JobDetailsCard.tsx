@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
+import useDarkMode from "use-dark-mode";
 
 import { RouteName } from "src/shared/constants/routing";
-import { getPrimaryColor } from "src/shared/utils/color";
-
+import { getPrimaryColor, getSecondaryColor } from "src/shared/utils/color";
+import { useImageColor } from "src/shared/hooks/useImageColor";
 import {
   IDetailsCardProps,
   DetailsCard,
@@ -12,7 +13,6 @@ import {
   Link,
   StarRating,
 } from "src/components";
-import useDarkMode from "use-dark-mode";
 
 /*******************************************************************
  *                            **Types**                            *
@@ -33,7 +33,7 @@ export interface IJobDetails {
   minHourlySalary: number;
   maxHourlySalary: number;
   hourlySalaryCurrency: string;
-  color: string;
+  companyLogoSrc: string;
 }
 
 export interface IJobDetailsCardProps extends IDetailsCardProps {
@@ -147,13 +147,19 @@ const JobDetailsCard: React.FC<IJobDetailsCardProps> = ({
   ...rest
 }) => {
   const { value: isDark } = useDarkMode();
+  const color = useImageColor(jobDetails?.companyLogoSrc);
+
   return (
-    <DetailsCard className={classNames("job", className)} {...rest}>
+    <DetailsCard
+      className={classNames("job", className)}
+      backgroundColor={getSecondaryColor(isDark, color)}
+      {...rest}
+    >
       <div>
         <Text
           variant="heading1"
           as="div"
-          color={getPrimaryColor(isDark, jobDetails?.color)}
+          color={getPrimaryColor(isDark, color)}
         >
           {jobDetails?.name}
         </Text>

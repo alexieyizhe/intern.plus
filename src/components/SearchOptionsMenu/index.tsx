@@ -321,7 +321,7 @@ const SearchOptionsMenu: React.FC<ISearchOptionsMenuProps> = ({
       className={classNames("options-menu", className, {
         "mobile-menu-open": isMobileMenuOpen,
       })}
-      color="backgroundSecondary"
+      backgroundColor="backgroundSecondary"
       menuOpen={menuOpen}
       onFocus={() => setMenuOpen(true)}
       onClick={() => setMenuOpen(true)}

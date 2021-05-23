@@ -21,6 +21,7 @@ export interface GetCompaniesReviewsLanding_companiesLanding_items {
   __typename: "Company";
   id: string;
   name: string;
+  logo: string | null;
   description: string | null;
   scoreAverages: GetCompaniesReviewsLanding_companiesLanding_items_scoreAverages;
   reviews: GetCompaniesReviewsLanding_companiesLanding_items_reviews;
