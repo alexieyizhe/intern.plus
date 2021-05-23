@@ -142,7 +142,7 @@ const JobCard: React.FC<IJobCardProps> = ({
   return (
     <Container
       className={classNames("job-card", className)}
-      color="backgroundSecondary"
+      backgroundColor="backgroundSecondary"
       {...rest}
     >
       <Link to={linkTo} tabIndex={0}>

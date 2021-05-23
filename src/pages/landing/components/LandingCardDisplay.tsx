@@ -53,7 +53,6 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         logoSrc={card.logoSrc}
         numRatings={card.numRatings}
         avgRating={card.avgRating}
-        color={card.color}
         linkTo={getCompanyCardRoute(card.id)}
       />
     );
@@ -81,7 +80,6 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         heading={card.companyName}
         subheading={card.jobName}
         rating={card.overallRating}
-        color={card.color}
         linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>
@@ -94,7 +92,6 @@ const getLandingCardMarkup = (card: IGenericCardItem) => {
         heading={card.author}
         subheading={card.relativeDate}
         rating={card.overallRating}
-        color={card.color}
         linkTo={getReviewCardRoute(card.id)}
       >
         <Text variant="body">{card.body}</Text>

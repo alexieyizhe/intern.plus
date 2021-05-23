@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
-
-import { getSecondaryColor } from "src/shared/utils/color";
+import useDarkMode from "use-dark-mode";
 
 import {
   IDetailsCardProps,
@@ -12,9 +11,9 @@ import {
   Icon,
   Link,
 } from "src/components";
-
 import { IconName } from "src/components/Icon";
-import useDarkMode from "use-dark-mode";
+import { useImageColor } from "src/shared/hooks/useImageColor";
+import { getSecondaryColor } from "src/shared/utils/color";
 
 /*******************************************************************
  *                            **Types**                           *
@@ -26,7 +25,6 @@ export interface ICompanyDetails {
   avgRating: number;
   websiteUrl: string | null;
   logoSrc: string;
-  color: string;
 }
 
 export interface ICompanyDetailsCardProps extends IDetailsCardProps {
@@ -102,11 +100,12 @@ const CompanyDetailsCard: React.FC<ICompanyDetailsCardProps> = ({
   ...rest
 }) => {
   const { value: isDark } = useDarkMode();
+  const color = useImageColor(companyDetails?.logoSrc);
 
   return (
     <DetailsCard
       className={classNames("company", className)}
-      color={getSecondaryColor(isDark, companyDetails?.color)}
+      backgroundColor={getSecondaryColor(isDark, color)}
       {...rest}
     >
       <Container>

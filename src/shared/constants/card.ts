@@ -6,7 +6,6 @@ export interface ICompanyCardItem {
   numRatings: number;
   avgRating: number; // score out of 5
   logoSrc: string;
-  color: string;
   jobLocations: string[];
   websiteUrl: string | null;
 }
@@ -21,7 +20,6 @@ export interface IJobCardItem {
   hourlySalaryCurrency: string; // hourly
   numRatings: number;
   avgRating: number; // score out of 5
-  color: string;
 }
 
 export interface IReviewJobCardItem {
@@ -33,7 +31,6 @@ export interface IReviewJobCardItem {
   overallRating: number; // score out of 5
   body: string | null;
   tags: string[] | null;
-  color: string;
 }
 
 export interface IReviewUserCardItem {
@@ -44,7 +41,6 @@ export interface IReviewUserCardItem {
   overallRating: number;
   body: string | null;
   tags: string[] | null;
-  color: string;
 }
 
 export type IGenericCardItem =

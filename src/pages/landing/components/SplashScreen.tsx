@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { useSearchSuggestions } from "src/shared/hooks/useSearchSuggestions";
-import { useWindowWidth } from "src/shared/hooks/useWindowWidth";
-import { RouteName, getCompanyCardRoute } from "src/shared/constants/routing";
-import { Text, Button } from "src/components";
+import { getCompanyCardRoute } from "src/shared/constants/routing";
+import { Text } from "src/components";
 import { SearchType } from "src/shared/constants/search";
 import SelectField from "src/components/SelectField";
 
@@ -113,7 +112,6 @@ const SplashScreen: React.FC<ISplashScreenProps> = ({
   const searchSuggestions = useSearchSuggestions({
     type: SearchType.COMPANIES,
   });
-  const { isMobile } = useWindowWidth(); // show only search button on mobile
 
   return (
     <Container {...rest}>

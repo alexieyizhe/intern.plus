@@ -2,7 +2,7 @@ import firebase from "firebase-admin";
 
 import { db } from "../db";
 
-const transformCompanyData = async (doc: any) => {
+const transformCompanyData = (doc: any) => {
   const { scoreTotals, logoRef, createdAt, updatedAt, reviewCount, ...rest } =
     doc.data();
   const scoreAverages = Object.entries(scoreTotals).reduce(

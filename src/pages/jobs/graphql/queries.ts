@@ -11,6 +11,7 @@ export const GET_JOB_DETAILS = gql`
       company {
         id
         name
+        logo
       }
       scoreAverages {
         overall

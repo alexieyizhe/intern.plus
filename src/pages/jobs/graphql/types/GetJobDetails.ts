@@ -11,6 +11,7 @@ export interface GetJobDetails_job_company {
   __typename: "Company";
   id: string;
   name: string;
+  logo: string | null;
 }
 
 export interface GetJobDetails_job_scoreAverages {

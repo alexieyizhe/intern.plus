@@ -285,7 +285,7 @@ const DesignSystemPage = () => {
 
         <Section heading="Card">
           <Card
-            color="backgroundSecondary"
+            backgroundColor="backgroundSecondary"
             onClick={() => alert("clicked card")}
           >
             <Text variant="heading3" as="div">
@@ -306,7 +306,7 @@ const DesignSystemPage = () => {
             minHourlySalary={32}
             maxHourlySalary={48}
             hourlySalaryCurrency="USD"
-            color="#11BBBD"
+            backgroundColor="#11BBBD"
             linkTo="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           />
           <LandingReviewCard
@@ -314,7 +314,7 @@ const DesignSystemPage = () => {
             subheading="Feb 29, 2019"
             rating={4}
             linkTo="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            color="#FFE0FC"
+            backgroundColor="#FFE0FC"
           >
             <Text variant="body">
               A quickly changing company going through a lot of growth. When I

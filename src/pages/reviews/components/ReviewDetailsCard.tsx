@@ -235,7 +235,7 @@ const ReviewDetailsCard: React.FC<IReviewDetailsCardProps> = ({
   return (
     <DetailsCard
       className={classNames("company", className)}
-      color="backgroundSecondary"
+      backgroundColor="backgroundSecondary"
       {...rest}
     >
       {reviewDetails && (

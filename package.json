@@ -39,6 +39,7 @@
     "apollo-server-micro": "^2.24.0",
     "array-flat-polyfill": "^1.0.1",
     "classnames": "^2.2.6",
+    "color.js": "^1.2.0",
     "debounce": "^1.2.0",
     "firebase": "^8.6.1",
     "firebase-admin": "^9.8.0",

@@ -21,6 +21,7 @@ export const buildJobDetails = (
         name: job.name,
         companyName: job.company.name,
         companyId: job.company.id,
+        companyLogoSrc: job.company.logo ?? "",
         location: job.location ?? null,
         numRatings: job.reviews.count,
         avgRating: job.scoreAverages.overall,
@@ -30,7 +31,6 @@ export const buildJobDetails = (
         minHourlySalary: job.salaryMin.amount,
         maxHourlySalary: job.salaryMax.amount,
         hourlySalaryCurrency: job.salaryMin.currency,
-        color: "",
       }
     : undefined;
 
@@ -46,7 +46,6 @@ export const buildJobReviewsCard = (
   overallRating: item.score.overall,
   body: item.body,
   tags: item.tags,
-  color: "",
 });
 
 export const buildJobReviewsCardList = (
