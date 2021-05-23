@@ -163,7 +163,7 @@ const NavLinks = styled.nav`
     }
 
     & > * {
-      margin: 0 0 10px 0;
+      margin: 0 0 10px 4px;
       color: ${theme.color.textSecondary};
       font-size: 14px;
       font-weight: 500;
