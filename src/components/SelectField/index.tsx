@@ -33,7 +33,7 @@ export interface ISelectFieldProps
  *                  **Utility functions/constants**                *
  *******************************************************************/
 const renderSuggestion = (suggestion: { label: string; value: string }) => (
-  <Suggestion color="textTertiary" key={suggestion.value}>
+  <Suggestion backgroundColor="textTertiary" key={suggestion.value}>
     <Text variant="subheading" color="textPrimary">
       {suggestion.label}
     </Text>
