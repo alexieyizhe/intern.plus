@@ -3,8 +3,12 @@ import styled from "styled-components";
 import classNames from "classnames";
 
 import Card from "src/components/Card";
-import Spinner from "src/components/Spinner";
 import Text from "src/components/Text";
+import {
+  HeadingShimmer,
+  ParagraphShimmer,
+  SubheadingShimmer,
+} from "src/components/Shimmer";
 import SelectField, { ISelectFieldProps } from "src/components/SelectField";
 import { MOBILE_MENU_MEDIA_QUERY } from "src/components/PageHeader";
 import { ICardProps } from "../RawCard";
@@ -60,6 +64,27 @@ const Container = styled(Card)`
   `}
 `;
 
+const LoadingContainer = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  & > .loadingHeading {
+    margin-bottom: 24px;
+  }
+`;
+const DetailsCardLoadingShimmer = () => (
+  <LoadingContainer>
+    <div className="loadingHeading">
+      <HeadingShimmer />
+      <SubheadingShimmer />
+    </div>
+    <ParagraphShimmer />
+  </LoadingContainer>
+);
+
 /*******************************************************************
  *                           **Component**                         *
  *******************************************************************/
@@ -83,7 +108,7 @@ const DetailsCard: React.FC<IDetailsCardProps> = ({
         {ERROR_OCCURRED_TEXT}
       </Text>
     ) : loading ? (
-      <Spinner className="loading" />
+      <DetailsCardLoadingShimmer />
     ) : (
       children
     )}

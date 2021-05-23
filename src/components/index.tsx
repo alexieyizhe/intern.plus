@@ -37,6 +37,8 @@ export * from "./SearchResultCardDisplay";
 export { default as Select } from "./Select";
 export * from "./Select";
 
+export * from "./Shimmer";
+
 export { default as Spinner } from "./Spinner";
 export * from "./Spinner";
 
