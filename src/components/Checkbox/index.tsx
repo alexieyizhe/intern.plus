@@ -47,6 +47,7 @@ const sharedStyles = css`
 
 const disabledStyles = css`
   &:disabled {
+    background-color: ${({ theme }) => theme.color.backgroundSecondary};
     cursor: not-allowed;
   }
 

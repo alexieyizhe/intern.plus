@@ -7,9 +7,9 @@ export interface ISectionProps {
   heading?: string;
 }
 
-const Container = styled.div`
+const Container = styled.section`
   min-width: 40%;
-  margin: 10px 10% 50px 0;
+  margin: 10px 5% 50px 0;
 
   display: inline-flex;
   flex-direction: column;

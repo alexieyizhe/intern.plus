@@ -76,14 +76,9 @@ const COPY = {
   getSubtext,
   sublinks: [
     {
-      to: `mailto:${EMAIL}`,
-      label: "get in touch",
+      to: RouteName.DESIGN,
+      label: "design system",
       newTab: false,
-    },
-    {
-      to: FEEDBACK_LINK,
-      label: "submit feedback",
-      newTab: true,
     },
     {
       to: "https://github.com/alexieyizhe/intern.plus",
@@ -91,8 +86,13 @@ const COPY = {
       newTab: true,
     },
     {
-      to: RouteName.DESIGN,
-      label: "design system",
+      to: FEEDBACK_LINK,
+      label: "submit feedback",
+      newTab: true,
+    },
+    {
+      to: `mailto:${EMAIL}`,
+      label: "get in touch",
       newTab: false,
     },
   ],

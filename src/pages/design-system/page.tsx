@@ -23,6 +23,9 @@ import {
   TextInput,
   Icon,
   IconName,
+  Spinner,
+  HeadingShimmer,
+  ParagraphShimmer,
 } from "src/components";
 import { useScrollTopOnMount } from "src/shared/hooks/useScrollTopOnMount";
 
@@ -71,6 +74,12 @@ const SectionSpacer = styled.div`
   }
 `;
 
+const DesignPageContainer = styled(PageContainer)`
+  & > section {
+    max-width: 45%;
+  }
+`;
+
 const PaletteSquare = styled(Card)`
   width: 100px;
   height: 100px;
@@ -80,8 +89,8 @@ const PaletteSquare = styled(Card)`
   justify-content: center;
   align-items: center;
 
-  ${({ theme, color }) =>
-    color === theme.color.backgroundPrimary &&
+  ${({ theme, backgroundColor }) =>
+    backgroundColor === theme.color.backgroundPrimary &&
     `border: 2px solid ${theme.color.textPrimary}`};
 `;
 
@@ -102,7 +111,7 @@ const DesignSystemPage = () => {
         <title>Design system • intern+</title>
       </Helmet>
 
-      <PageContainer id="design-system-page">
+      <DesignPageContainer id="design-system-page">
         <Text variant="heading1" as="h1">
           Design System
         </Text>
@@ -110,7 +119,7 @@ const DesignSystemPage = () => {
         <Section heading="Colors">
           <SectionSpacer>
             {(Object.values(theme.color) as string[]).map((color: string) => (
-              <PaletteSquare color={color} key={color}>
+              <PaletteSquare backgroundColor={color} key={color}>
                 <Text
                   variant="subheading"
                   color={
@@ -326,7 +335,13 @@ const DesignSystemPage = () => {
             </Text>
           </LandingReviewCard>
         </Section>
-      </PageContainer>
+
+        <Section heading="Loading States">
+          <HeadingShimmer />
+          <ParagraphShimmer />
+          <Spinner />
+        </Section>
+      </DesignPageContainer>
     </>
   );
 };
