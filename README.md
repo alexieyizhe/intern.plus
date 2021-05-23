@@ -6,13 +6,13 @@
 <p align="center">
     <img src="https://github.com/alexieyizhe/intern.plus/workflows/ci/badge.svg">
     <img src="https://img.shields.io/github/v/tag/alexieyizhe/intern.plus?label=version">
+    <p align="center">
+        ✨ intern+ aggregates information about the quality of a company's internship program, sourced directly through reviews from your peers – all designed to help you make an informed decision when it comes to choosing your next internship.</p>
 </p>
-
-##### ✨ intern+ aggregates information about the quality of a company's internship program, sourced directly through reviews from your peers – all designed to help you make an informed decision when it comes to choosing your next internship. Interested in how it was built? Check out a [timelapse of the design process](https://youtu.be/0Ioruq2xIXw) on YouTube. You can also watch a .
 
 ## 🎨 Design
 
-See [the finished mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/intern?node-id=0%3A1) on Figma!
+Interested in how it was built? Check out a [timelapse of the design process](https://youtu.be/0Ioruq2xIXw) on YouTube. See [the finished mocks](https://www.figma.com/file/FyfrbCpoSGAeY3eTROqPx5/intern?node-id=0%3A1) on Figma!
 
 ## 🥞 Tech Stack
 
