@@ -1,5 +1,5 @@
 /// <reference types="../support" />
-describe("Add review modal", () => {
+describe.skip("Add review modal", () => {
   beforeEach(() => {
     cy.visit("/");
   });

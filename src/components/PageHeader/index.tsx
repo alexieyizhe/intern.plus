@@ -218,6 +218,7 @@ const Header: React.FC = () => {
     useMobileMenuContext();
   const { toggleAddReviewModal, isAddReviewModalOpen } =
     useAddReviewModalContext();
+
   const { toggleDarkMode, curMode } = useSiteThemeContext();
 
   const closeMobileMenu = useCallback(
