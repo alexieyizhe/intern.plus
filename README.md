@@ -93,4 +93,4 @@ When code is ready to be reflected on production, cut a Github release with an a
 
 Any new changes on the `release` branch is automatically built by Vercel and made live.
 
-###### Wanna get in touch? [Shoot Alex an email](mailto:hi@alexxie.ca).
+###### Wanna get in touch? [Shoot Alex an email](mailto:hey@alexxie.com).
