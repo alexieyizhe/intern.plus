@@ -94,7 +94,7 @@
     "@vercel/node": "^1.10.0",
     "babel-eslint": "^10.1.0",
     "chalk": "^2.4.2",
-    "cross-fetch": "^3.0.4",
+    "cross-fetch": "^3.1.5",
     "cypress": "^4.12.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.26.0",
